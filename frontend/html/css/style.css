@@ -189,6 +189,10 @@ img {
     border: none !important;
 }
 
+.navbar-nav {
+    margin: 0 auto;
+}
+
 .badge {
     font-weight: 500;
 }
