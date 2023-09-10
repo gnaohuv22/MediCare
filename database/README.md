@@ -2,6 +2,12 @@ MEDICAL SERVICE PROJECT DATABASE NOTE:
 
 =================================================================
 
+v2.1.1:
+
+- Add table PlanSpecialist (planId, specialistId)
+
+=================================================================
+
 v2.1:
 
 - Table 'Employee' >> 'HealthcareSpecialist'
