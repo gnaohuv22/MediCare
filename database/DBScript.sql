@@ -23,7 +23,7 @@ create table [User] (
     createdAt datetime
 );
 
-create table Role (
+create table AdminRole (
 	id int primary key,
 	role nvarchar(255)
 );
@@ -38,12 +38,14 @@ create table Admin (
 
 create table [Certificate] (
 	id int primary key,
-	name nvarchar(255)
+	name nvarchar(255),
+	wage float
 );
 
 create table AcademicRank (
 	id int primary key,
-	name nvarchar(255)
+	name nvarchar(255),
+	wage float
 );
 
 create table CurriculumVitae (
@@ -96,6 +98,14 @@ create table Specialist (
 	foreign key (specialityId) references Speciality(id)
 );
 
+create table CertificateSpecialist (
+	certId int,
+	specialistId varchar(255),
+	primary key (certId, specialistId),
+	foreign key (certId) references Certificate(id),
+	foreign key (specialistId) references Specialist(id)
+);
+
 create table [Plan] (
 	planId int primary key,
 	name nvarchar(255),
@@ -146,14 +156,6 @@ create table billingHistory (
 	foreign key (userId) references [User](id),
 	foreign key (specialistId) references Specialist(id)
 )
-
-create table SalaryCert (
-	certId int primary key,
-	name nvarchar(255),
-	associateSalary float
-	foreign key (certId) references Certificate(id)
-)
-
 /*
 create table BonusSalary (
 	
