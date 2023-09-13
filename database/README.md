@@ -1,8 +1,21 @@
-MEDICAL SERVICE PROJECT DATABASE NOTE:
+<# >MEDICAL SERVICE PROJECT DATABASE NOTE:
 
 =================================================================
 
-v3:
+<### >v3.1:
+
+- Add 'phone' attribute to Specialist (thanks to Thu)
+- Remove 'address' attribute from Specialist
+- 'description' in Plan and SpecialistSchedule now TEXT instead of VARCHAR(255)
+- All -email attributes now become -Id (thanks to Jack97)
+- Table 'SalaryCert' removed (thanks to Thai Trinh)
+- Add 'wage' attribute into Certificate and AcademicRank table (thanks to Thai Trinh)
+- Table CertificateSpecialist (certId, specialistId) added to database (thanks to Thai Trinh)
+- Table 'Role' now become 'AdminRole' for easier understanding
+
+=================================================================
+
+<### >v3:
 
 - Analyze and rearrange the database tables
 - Remove HealthcareSpecialist
@@ -21,13 +34,13 @@ v3:
 
 =================================================================
 
-v2.1.1:
+<### >v2.1.1:
 
 - Add table PlanSpecialist (planId, specialistId)
 
 =================================================================
 
-v2.1:
+<### >v2.1:
 
 - Table 'Employee' >> 'HealthcareSpecialist'
 - doctorId or employeeId >> specialistId
@@ -42,14 +55,14 @@ v2.1:
 
 =================================================================
 
-v2.0.1:
+<### >v2.0.1:
 
 - Add 'password' attribute to 'Employee' table.
 
 
 =================================================================
 
-v2:
+<### >v2:
 
 - A whole new database is created. Which contain:
 + User (username, password, firstName, lastName, birthDate, gender, email, phone, profilePicture, createdAt)
@@ -67,6 +80,6 @@ v2:
 
 =================================================================
 
-v1:
+<### >v1:
 
 - The first database originated.

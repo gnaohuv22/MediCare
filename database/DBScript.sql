@@ -8,7 +8,8 @@ use hehe1;
 */
 
 create table [User] (
-	email varchar(255) primary key,
+	id varchar(255) primary key,
+	email varchar(255) unique,
 	password varchar(255),
 	name nvarchar(255),
     birthDate date,
@@ -80,7 +81,7 @@ create table Specialist (
 	email varchar(255) unique,
 	displayName nvarchar(255),
 	specialityId int,
-	address nvarchar(255),
+	phone varchar(10),
 	certId int,
 	ARId int,
 	CVId int,
@@ -98,52 +99,52 @@ create table Specialist (
 create table [Plan] (
 	planId int primary key,
 	name nvarchar(255),
-	description nvarchar(750),
+	description text,
 	price float
 );
 
 create table PlanSpecialist (
 	planId int,
-	specialistEmail varchar(255),
-	primary key (planId, specialistEmail),
+	specialistId varchar(255),
+	primary key (planId, specialistId),
 	foreign key (planId) references [Plan](planId),
-	foreign key (specialistEmail) references Specialist(email)
+	foreign key (specialistId) references Specialist(id)
 );
 
 create table Appointments (
 	appointmentId int primary key,
-	userEmail varchar(255),
-	specialistEmail varchar(255),
+	userId varchar(255),
+	specialistId varchar(255),
 	planId int,
 	plannedAt time,
 	accepted bit,
 	completed bit,
 	foreign key (planId) references [plan](planId),
-	foreign key (userEmail) references [User](email),
-	foreign key (specialistEmail) references Specialist (email)
+	foreign key (userId) references [User](id),
+	foreign key (specialistId) references Specialist (id)
 );
 
 create table Reviews (
 	reviewId int primary key,
-	userEmail varchar(255),
-	specialistEmail varchar(255),
+	userId varchar(255),
+	specialistId varchar(255),
 	rating float check(rating <= 5),
 	reviewContent nvarchar(1500),
 	createdAt datetime,
-	foreign key (userEmail) references [User](email),
-	foreign key (specialistEmail) references Specialist(email)
+	foreign key (userId) references [User](id),
+	foreign key (specialistId) references Specialist(id)
 );
 
 create table billingHistory (
 	billingId int primary key,
 	appointmentId int, 
 	totalCash float,
-	userEmail varchar(255),
-	specialistEmail varchar(255),
+	userId varchar(255),
+	specialistId varchar(255),
 	createdAt time,
 	foreign key (appointmentId) references appointments(appointmentId),
-	foreign key (userEmail) references [User](email),
-	foreign key (specialistEmail) references Specialist(email)
+	foreign key (userId) references [User](id),
+	foreign key (specialistId) references Specialist(id)
 )
 
 create table SalaryCert (
@@ -163,18 +164,18 @@ create table CancelledRequest (
 	cancelId int primary key,
 	appointmentId int, 
 	totalRefund float,
-	userEmail varchar(255),
-	specialistEmail varchar(255),
+	userId varchar(255),
+	specialistId varchar(255),
 	cancelledAt time,
 	foreign key (appointmentId) references appointments(appointmentId),
-	foreign key (userEmail) references [User](email),
-	foreign key (specialistEmail) references Specialist(email)
+	foreign key (userId) references [User](id),
+	foreign key (specialistId) references Specialist(id)
 )
 
 create table SpecialistSchedule (
 	scheduleId int primary key,
-	specialistEmail varchar(255),
+	specialistId varchar(255),
 	busyDate date,
-	description nvarchar(1500),
-	foreign key (specialistEmail) references Specialist(email)
+	description text,
+	foreign key (specialistId) references Specialist(id)
 )
