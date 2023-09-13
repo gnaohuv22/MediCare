@@ -8,49 +8,91 @@ use hehe1;
 */
 
 create table [User] (
-	username varchar(255) primary key,
+	email varchar(255) primary key,
 	password varchar(255),
-	firstName nvarchar(255),
-    lastName nvarchar(255),
+	name nvarchar(255),
     birthDate date,
     gender int,
     address nvarchar(255),
-    email nvarchar(255),
+	[identity] varchar(15),
+	medicalId varchar(15),
+	ethnic nvarchar(255),
     phone varchar(10),
 	profilePicture varchar(255),
     createdAt datetime
 );
 
+create table Role (
+	id int primary key,
+	role nvarchar(255)
+);
+
 create table Admin (
-	username varchar(255) primary key,
-	password varchar(255)
+	email varchar(255) primary key,
+	password varchar(255),
+	roleId int,
+	displayName nvarchar(255),
+	foreign key (roleId) references [Role] (id)
 );
 
 create table [Certificate] (
-	certId int primary key,
+	id int primary key,
 	name nvarchar(255)
 );
 
 create table AcademicRank (
-	ARId int primary key,
+	id int primary key,
 	name nvarchar(255)
 );
 
-create table HealthcareSpecialist (
-	specialistId int primary key,
-	username varchar(255) unique,
-	password varchar(255),
-	firstName nvarchar(255),
-	lastName nvarchar(255),
-	email varchar(255),
-	phone varchar(10),
+create table CurriculumVitae (
+	id int primary key,
+	introduce text,
+	education text,
+	workHistory text,
+	startYear int
+);
+
+create table Category (
+	id int primary key,
+	name nvarchar(255)
+);
+
+create table News (
+	id int primary key,
+	title nvarchar(1500),
+	content text,
+	author varchar(255),
+	categoryId int,
+	createdAt time,
+	lastModified time
+	foreign key (categoryId) references Category (id),
+	foreign key (author) references Admin(email)
+);
+
+create table Speciality (
+	id int primary key,
+	speciality varchar(255)
+);
+
+create table Specialist (
+	id varchar(255) primary key,
+	email varchar(255) unique,
+	displayName nvarchar(255),
+	specialityId int,
+	address nvarchar(255),
 	certId int,
 	ARId int,
-	speciality nvarchar(255),
+	CVId int,
 	salary float,
-	profilePicture nvarchar(255)
-	foreign key (certId) references Certificate(certId),
-	foreign key (ARId) references AcademicRank(ARId)
+	workplace nvarchar(255),
+	profilePicture nvarchar(255),
+	duty nvarchar(255)
+	foreign key (email) references [Admin](email),
+	foreign key (certId) references [Certificate] (id),
+	foreign key (ARId) references AcademicRank(id),
+	foreign key (CVId) references CurriculumVitae(id),
+	foreign key (specialityId) references Speciality(id)
 );
 
 create table [Plan] (
@@ -60,67 +102,79 @@ create table [Plan] (
 	price float
 );
 
+create table PlanSpecialist (
+	planId int,
+	specialistEmail varchar(255),
+	primary key (planId, specialistEmail),
+	foreign key (planId) references [Plan](planId),
+	foreign key (specialistEmail) references Specialist(email)
+);
+
 create table Appointments (
 	appointmentId int primary key,
-	userId varchar(255),
-	specialistId varchar(255),
+	userEmail varchar(255),
+	specialistEmail varchar(255),
 	planId int,
 	plannedAt time,
 	accepted bit,
 	completed bit,
 	foreign key (planId) references [plan](planId),
-	foreign key (userId) references [User](username),
-	foreign key (specialistId) references HealthcareSpecialist (username)
+	foreign key (userEmail) references [User](email),
+	foreign key (specialistEmail) references Specialist (email)
 );
 
 create table Reviews (
 	reviewId int primary key,
-	userId varchar(255),
-	specialistId varchar(255),
+	userEmail varchar(255),
+	specialistEmail varchar(255),
 	rating float check(rating <= 5),
 	reviewContent nvarchar(1500),
 	createdAt datetime,
-	foreign key (userId) references [User](username),
-	foreign key (specialistId) references HealthcareSpecialist(username)
+	foreign key (userEmail) references [User](email),
+	foreign key (specialistEmail) references Specialist(email)
 );
 
 create table billingHistory (
 	billingId int primary key,
 	appointmentId int, 
 	totalCash float,
-	userId varchar(255),
-	specialistId varchar(255),
+	userEmail varchar(255),
+	specialistEmail varchar(255),
 	createdAt time,
 	foreign key (appointmentId) references appointments(appointmentId),
-	foreign key (userId) references [User](username),
-	foreign key (specialistId) references HealthcareSpecialist(username)
+	foreign key (userEmail) references [User](email),
+	foreign key (specialistEmail) references Specialist(email)
 )
 
-create table SalaryBaseOnCert (
+create table SalaryCert (
 	certId int primary key,
 	name nvarchar(255),
 	associateSalary float
-	foreign key (certId) references Certificate(certId)
+	foreign key (certId) references Certificate(id)
 )
 
---salary base on kinh nghiem
+/*
+create table BonusSalary (
+	
+);
+*/
 
 create table CancelledRequest (
 	cancelId int primary key,
 	appointmentId int, 
 	totalRefund float,
-	userId varchar(255),
-	specialistId varchar(255),
+	userEmail varchar(255),
+	specialistEmail varchar(255),
 	cancelledAt time,
 	foreign key (appointmentId) references appointments(appointmentId),
-	foreign key (userId) references [User](username),
-	foreign key (specialistId) references HealthcareSpecialist(username)
+	foreign key (userEmail) references [User](email),
+	foreign key (specialistEmail) references Specialist(email)
 )
 
 create table SpecialistSchedule (
 	scheduleId int primary key,
-	specialistId varchar(255),
+	specialistEmail varchar(255),
 	busyDate date,
 	description nvarchar(1500),
-	foreign key (specialistId) references HealthcareSpecialist(username)
+	foreign key (specialistEmail) references Specialist(email)
 )

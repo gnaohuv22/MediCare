@@ -2,6 +2,31 @@ MEDICAL SERVICE PROJECT DATABASE NOTE:
 
 =================================================================
 
+v3:
+
+- Analyze and rearrange the database tables
+- Remove HealthcareSpecialist
+- Replace Admin (username, password) with another Admin with more attributes (email, password, roleId, displayName)
+- Replace primary key of human object tables from 'username' to 'email'
+- Change every attributes related with ID with type int to 'id'
+- Adjust User table's attributes. Now contains (email, password, name, birthDate, gender, address, identity, medicalId, ethnic, phone, profilePicture, createAt)
+- 'HealthcareSpecialist' now is 'Specialist' (id, email, displayName, specialityId, address, certId, ARId, CVId, salary, workplace, profilePicture, duty)
+- 'specialistId' change to 'specialistEmail'
+- 'userId' change to 'userEmail'
+- Table 'Plan change to 'TreatmentPlan'
+- Add table Category (id, name)
+- Add table News (id, title, content, author, categoryId, createAt, lastModified)
+- Add table CurriculumVitae (id, introduce, education, workHistory, startYear) work as specialist's CV in basic form.
+- Add table Role (id, role) which decides the role of Admin side
+
+=================================================================
+
+v2.1.1:
+
+- Add table PlanSpecialist (planId, specialistId)
+
+=================================================================
+
 v2.1:
 
 - Table 'Employee' >> 'HealthcareSpecialist'
