@@ -36,8 +36,8 @@ create table AcademicRank (
 	name nvarchar(255)
 );
 
-create table Employee (
-	employeeId int primary key,
+create table HealthcareSpecialist (
+	specialistId int primary key,
 	username varchar(255) unique,
 	password varchar(255),
 	firstName nvarchar(255),
@@ -53,35 +53,43 @@ create table Employee (
 	foreign key (ARId) references AcademicRank(ARId)
 );
 
-create table [plan] (
+create table [Plan] (
 	planId int primary key,
 	name nvarchar(255),
 	description nvarchar(750),
 	price float
 );
 
-create table appointments (
+create table PlanSpecialist (
+	planId int,
+	specialistId varchar(255),
+	primary key (planId, specialistId),
+	foreign key (planId) references [Plan](planId),
+	foreign key (specialistId) references HealthcareSpecialist(username)
+);
+
+create table Appointments (
 	appointmentId int primary key,
 	userId varchar(255),
-	doctorId varchar(255),
+	specialistId varchar(255),
 	planId int,
 	plannedAt time,
 	accepted bit,
 	completed bit,
 	foreign key (planId) references [plan](planId),
 	foreign key (userId) references [User](username),
-	foreign key (doctorId) references Employee (username)
+	foreign key (specialistId) references HealthcareSpecialist (username)
 );
 
-create table reviews (
+create table Reviews (
 	reviewId int primary key,
 	userId varchar(255),
-	doctorId varchar(255),
+	specialistId varchar(255),
 	rating float check(rating <= 5),
 	reviewContent nvarchar(1500),
 	createdAt datetime,
 	foreign key (userId) references [User](username),
-	foreign key (doctorId) references Employee(username)
+	foreign key (specialistId) references HealthcareSpecialist(username)
 );
 
 create table billingHistory (
@@ -89,14 +97,14 @@ create table billingHistory (
 	appointmentId int, 
 	totalCash float,
 	userId varchar(255),
-	doctorId varchar(255),
+	specialistId varchar(255),
 	createdAt time,
 	foreign key (appointmentId) references appointments(appointmentId),
 	foreign key (userId) references [User](username),
-	foreign key (doctorId) references Employee(username)
+	foreign key (specialistId) references HealthcareSpecialist(username)
 )
 
-create table salaryBaseOnCert (
+create table SalaryBaseOnCert (
 	certId int primary key,
 	name nvarchar(255),
 	associateSalary float
@@ -105,14 +113,22 @@ create table salaryBaseOnCert (
 
 --salary base on kinh nghiem
 
-create table cancelledRequest (
+create table CancelledRequest (
 	cancelId int primary key,
 	appointmentId int, 
 	totalRefund float,
 	userId varchar(255),
-	doctorId varchar(255),
+	specialistId varchar(255),
 	cancelledAt time,
 	foreign key (appointmentId) references appointments(appointmentId),
 	foreign key (userId) references [User](username),
-	foreign key (doctorId) references Employee(username)
+	foreign key (specialistId) references HealthcareSpecialist(username)
+)
+
+create table SpecialistSchedule (
+	scheduleId int primary key,
+	specialistId varchar(255),
+	busyDate date,
+	description nvarchar(1500),
+	foreign key (specialistId) references HealthcareSpecialist(username)
 )
