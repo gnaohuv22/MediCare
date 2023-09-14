@@ -2,6 +2,7 @@
 
 =================================================================
 
+<<<<<<< HEAD
 ### v3.1.1: ###
 
 - Change the rest of '-Id' to 'id' for higher synchronization 
@@ -10,6 +11,8 @@
 =================================================================
 
 
+=======
+>>>>>>> origin/database
 ### v3.1: ###
 
 - Add 'phone' attribute to Specialist (thanks to Thu)
