@@ -1,9 +1,15 @@
 /*
 
-use master;
-drop database hehe1;
-create database hehe1;
-use hehe1;
+USE master;
+GO
+ALTER DATABASE hehe1 SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+GO
+DROP DATABASE hehe1;
+GO
+CREATE DATABASE hehe1;
+GO
+USE hehe1;
+GO
 
 */
 
@@ -33,7 +39,7 @@ create table Admin (
 	password varchar(255),
 	roleId int,
 	displayName nvarchar(255),
-	foreign key (roleId) references [Role] (id)
+	foreign key (roleId) references AdminRole (id)
 );
 
 create table [Certificate] (
@@ -107,7 +113,7 @@ create table CertificateSpecialist (
 );
 
 create table [Plan] (
-	planId int primary key,
+	id int primary key,
 	name nvarchar(255),
 	description text,
 	price float
@@ -117,25 +123,25 @@ create table PlanSpecialist (
 	planId int,
 	specialistId varchar(255),
 	primary key (planId, specialistId),
-	foreign key (planId) references [Plan](planId),
+	foreign key (planId) references [Plan](id),
 	foreign key (specialistId) references Specialist(id)
 );
 
 create table Appointments (
-	appointmentId int primary key,
+	id int primary key,
 	userId varchar(255),
 	specialistId varchar(255),
 	planId int,
 	plannedAt time,
 	accepted bit,
 	completed bit,
-	foreign key (planId) references [plan](planId),
+	foreign key (planId) references [plan](id),
 	foreign key (userId) references [User](id),
 	foreign key (specialistId) references Specialist (id)
 );
 
 create table Reviews (
-	reviewId int primary key,
+	id int primary key,
 	userId varchar(255),
 	specialistId varchar(255),
 	rating float check(rating <= 5),
@@ -146,13 +152,13 @@ create table Reviews (
 );
 
 create table billingHistory (
-	billingId int primary key,
+	id int primary key,
 	appointmentId int, 
 	totalCash float,
 	userId varchar(255),
 	specialistId varchar(255),
 	createdAt time,
-	foreign key (appointmentId) references appointments(appointmentId),
+	foreign key (appointmentId) references appointments(id),
 	foreign key (userId) references [User](id),
 	foreign key (specialistId) references Specialist(id)
 )
@@ -163,19 +169,19 @@ create table BonusSalary (
 */
 
 create table CancelledRequest (
-	cancelId int primary key,
+	id int primary key,
 	appointmentId int, 
 	totalRefund float,
 	userId varchar(255),
 	specialistId varchar(255),
 	cancelledAt time,
-	foreign key (appointmentId) references appointments(appointmentId),
+	foreign key (appointmentId) references appointments(id),
 	foreign key (userId) references [User](id),
 	foreign key (specialistId) references Specialist(id)
 )
 
 create table SpecialistSchedule (
-	scheduleId int primary key,
+	id int primary key,
 	specialistId varchar(255),
 	busyDate date,
 	description text,
