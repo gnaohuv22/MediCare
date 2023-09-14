@@ -90,7 +90,6 @@ create table Specialist (
 	displayName nvarchar(255),
 	specialityId int,
 	phone varchar(10),
-	certId int,
 	ARId int,
 	CVId int,
 	salary float,
@@ -98,7 +97,6 @@ create table Specialist (
 	profilePicture nvarchar(255),
 	duty nvarchar(255)
 	foreign key (email) references [Admin](email),
-	foreign key (certId) references [Certificate] (id),
 	foreign key (ARId) references AcademicRank(id),
 	foreign key (CVId) references CurriculumVitae(id),
 	foreign key (specialityId) references Speciality(id)
