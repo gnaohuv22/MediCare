@@ -29,17 +29,25 @@ create table [User] (
     createdAt datetime
 );
 
-create table AdminRole (
+create table EmployeeRole (
 	id int primary key,
 	role nvarchar(255)
 );
 
-create table Admin (
-	email varchar(255) primary key,
+create table Employee (
+	id int primary key,
+	email varchar(255) unique,
 	password varchar(255),
+	name nvarchar(255),
+	birthDate date,
+	gender int,
+	address nvarchar(255),
+	workplace nvarchar(255),
+	phone varchar(10),
+	ethnic nvarchar(255),
 	roleId int,
-	displayName nvarchar(255),
-	foreign key (roleId) references AdminRole (id)
+	createAt datetime
+	foreign key (roleId) references EmployeeRole(id)
 );
 
 create table [Certificate] (
@@ -62,7 +70,7 @@ create table CurriculumVitae (
 	startYear int
 );
 
-create table Category (
+create table NewsCategory (
 	id int primary key,
 	name nvarchar(255)
 );
@@ -95,11 +103,42 @@ create table Specialist (
 	salary float,
 	workplace nvarchar(255),
 	profilePicture nvarchar(255),
-	duty nvarchar(255)
+	status bit,
+	workingStart time,
+	workingEnd time,
 	foreign key (email) references [Admin](email),
 	foreign key (ARId) references AcademicRank(id),
 	foreign key (CVId) references CurriculumVitae(id),
 	foreign key (specialityId) references Speciality(id)
+);
+
+create table SpecialistWorkingDay (
+	dayOfWeek int,
+	specialistId int,
+	primary key (dayOfWeek, specialistId)
+	foreign key (specialistId) references Specialist(id)
+);
+
+create table Department ( --day la khoa
+	id int primary key,
+	name nvarchar(255),
+	description text
+);
+
+create table ServiceTag ( --day la chuyen khoa
+	id int primary key,
+	nametag nvarchar(255),
+	description text,
+	departmentId int,
+	foreign key (departmentId) references Department(id)
+);
+
+create table SpecialistService (
+	specialistId int,
+	serviceId int,
+	primary key (specialistId, serviceId),
+	foreign key (specialistId) references Specialist(id),
+	foreign key (serviceId) references ServiceTag(id)
 );
 
 create table CertificateSpecialist (
@@ -110,7 +149,7 @@ create table CertificateSpecialist (
 	foreign key (specialistId) references Specialist(id)
 );
 
-create table [Plan] (
+create table ServicePlan (
 	id int primary key,
 	name nvarchar(255),
 	description text,

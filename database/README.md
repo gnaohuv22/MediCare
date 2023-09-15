@@ -2,7 +2,22 @@
 
 =================================================================
 
+### v3.2 Major update: ###
+
+- Add table Employee (id, email, password, name, birthDate, gender, address, workplace, phone, ethnic, roleId, createAt)
+- Add table ServiceTag (id, name, description, departmentId) which stands for services that specialist can do treatment.
+- Add table SpecialistService(specialistId, serviceId) that represents all the services that specialist can do treatment.
+- Add table Department that represents the departments provided in the medical system.
+- Add an attribute named status for Specialist table, which will decide this Specialist is temporary working or official employee for the organization.
+- Table AdminRole now changes to EmployeeRole, now represents the Role of Employee in the system (which may include CEO, Content Creator, Manager, or Administrator...)
+- Table Category now changes to NewsCategory
+- Table Plan now changes to ServicePlan
+
+
+=================================================================
+
 ### v3.1.2: ###
+
 - Remove 'certId' from Specialist
 
 =================================================================
