@@ -12,6 +12,10 @@
 - Table AdminRole now changes to EmployeeRole, now represents the Role of Employee in the system (which may include CEO, Content Creator, Manager, or Administrator...)
 - Table Category now changes to NewsCategory
 - Table Plan now changes to ServicePlan
+- Remove 'accepted' and 'completed' in Appointments table. 'status' will now replace them.
+- CancelledRequest now has 'status' attribute.
+- Add 'appointmentId' attribute to the Reviews table, a complete Appointment should left a Review.
+- Add AccessLog table to tracking the accesses of web users.
 
 
 =================================================================

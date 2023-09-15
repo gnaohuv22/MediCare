@@ -225,3 +225,10 @@ create table SpecialistSchedule (
 	description text,
 	foreign key (specialistId) references Specialist(id)
 )
+
+create table AccessLog (
+	id int primary key,
+	ipAddress varchar(15),
+	accessTime timestamp,
+	accessCount int
+);
