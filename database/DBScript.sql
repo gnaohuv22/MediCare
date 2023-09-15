@@ -13,10 +13,18 @@ GO
 
 */
 
+create table Province (
+	id int primary key,
+	name nvarchar(255)
+);
+
 create table Branch ( --chi nhanh benh vien
 	id int primary key,
 	name nvarchar(255),
-	description text
+	description text,
+	locateId int,
+	foreign key (locateId) references Province (id)
+
 );
 
 create table [User] (
@@ -27,12 +35,14 @@ create table [User] (
     birthDate date,
     gender int,
     address nvarchar(255),
+	provinceId int,
 	[identity] varchar(15),
 	medicalId varchar(15),
 	ethnic nvarchar(255),
     phone varchar(10),
 	profilePicture varchar(255),
-    createdAt datetime
+    createdAt datetime,
+	foreign key (provinceId) references Province(id)
 );
 
 create table EmployeeRole (
@@ -50,12 +60,14 @@ create table Employee (
 	gender int,
 	address nvarchar(255),
 	workplace nvarchar(255),
+	provinceId int,
 	phone varchar(10),
 	ethnic nvarchar(255),
 	roleId int,
 	createAt datetime
 	foreign key (roleId) references EmployeeRole(id),
-	foreign key (branchId) references Branch(id)
+	foreign key (branchId) references Branch(id),
+	foreign key (provinceId) references Province(id)
 );
 
 create table [Certificate] (
@@ -95,16 +107,10 @@ create table News (
 	foreign key (author) references Employee(email)
 );
 
-create table Speciality (
-	id int primary key,
-	speciality varchar(255)
-);
-
-create table Specialist (
+create table Doctor (
 	id varchar(255) primary key,
 	email varchar(255) unique,
 	displayName nvarchar(255),
-	specialityId int,
 	branchId int,
 	phone varchar(10),
 	ARId int,
@@ -113,19 +119,30 @@ create table Specialist (
 	workplace nvarchar(255),
 	profilePicture nvarchar(255),
 	status bit,
-	workingStart time,
-	workingEnd time,
 	foreign key (ARId) references AcademicRank(id),
 	foreign key (CVId) references CurriculumVitae(id),
-	foreign key (specialityId) references Speciality(id),
 	foreign key (branchId) references Branch(id)
 );
 
-create table SpecialistWorkingDay (
+create table WorkingSlot ( --du kien 15 phut moi period
+	id int primary key,
+	startTime time,
+	endTime time
+);
+
+create table DoctorWorkingSlot (
+	slotId int,
+	doctorId varchar(255),
+	primary key (slotId, doctorId),
+	foreign key (slotId) references WorkingSlot(id),
+	foreign key (doctorId) references Doctor(id)
+);
+
+create table DoctorWorkingDay (
 	dayOfWeek int,
-	specialistId varchar(255),
-	primary key (dayOfWeek, specialistId),
-	foreign key (specialistId) references Specialist(id)
+	doctorId varchar(255),
+	primary key (dayOfWeek, doctorId),
+	foreign key (doctorId) references Doctor(id)
 );
 
 create table Department ( --day la khoa
@@ -142,59 +159,70 @@ create table ServiceTag ( --day la chuyen khoa
 	foreign key (departmentId) references Department(id)
 );
 
-create table SpecialistService (
-	specialistId varchar(255),
+create table DoctorService (
+	doctorId varchar(255),
 	serviceId int,
-	primary key (specialistId, serviceId),
-	foreign key (specialistId) references Specialist(id),
+	price float
+	primary key (doctorId, serviceId),
+	foreign key (doctorId) references Doctor(id),
 	foreign key (serviceId) references ServiceTag(id)
 );
 
-create table CertificateSpecialist (
+create table CertificateDoctor (
 	certId int,
-	specialistId varchar(255),
-	primary key (certId, specialistId),
+	doctorId varchar(255),
+	primary key (certId, doctorId),
 	foreign key (certId) references Certificate(id),
-	foreign key (specialistId) references Specialist(id)
+	foreign key (doctorId) references Doctor(id)
 );
 
-create table ServicePlan (
+create table Relationship (
 	id int primary key,
-	name nvarchar(255),
-	description text,
-	price float
+	relation nvarchar(255)
 );
 
-create table PlanSpecialist (
-	planId int,
-	specialistId varchar(255),
-	primary key (planId, specialistId),
-	foreign key (planId) references ServicePlan(id),
-	foreign key (specialistId) references Specialist(id)
+create table FamilyProfile ( 
+	profileId int primary key,
+	email varchar(255) unique,
+	password varchar(255),
+	name nvarchar(255),
+    birthDate date,
+    gender int,
+    address nvarchar(255),
+	provinceId int,
+	[identity] varchar(15),
+	medicalId varchar(15),
+	ethnic nvarchar(255),
+    phone varchar(10),
+	profilePicture varchar(255),
+    createdAt datetime,
+	relationId int,
+	foreign key (provinceId) references Province(id),
+	foreign key (relationId) references Relationship(id)
 );
 
 create table Appointments (
 	id int primary key,
 	userId varchar(255),
-	specialistId varchar(255),
-	planId int,
+	doctorId varchar(255),
+	serviceId int,
 	plannedAt time,
 	status int, --0: requested, 1: accepted, 2: completed, 3: rejected/cancelled
-	foreign key (planId) references ServicePlan(id),
+	foreign key (serviceId) references ServiceTag(id),
 	foreign key (userId) references [User](id),
-	foreign key (specialistId) references Specialist (id)
+	foreign key (doctorId) references Doctor (id)
 );
 
 create table Reviews (
 	id int primary key,
 	userId varchar(255),
-	specialistId varchar(255),
+	doctorId varchar(255),
 	appointmentId int,
 	rating float check(rating <= 5),
 	reviewContent nvarchar(1500),
 	createdAt datetime,
 	foreign key (userId) references [User](id),
-	foreign key (specialistId) references Specialist(id),
+	foreign key (doctorId) references Doctor(id),
 	foreign key (appointmentId) references Appointments(id)
 );
 
@@ -203,11 +231,11 @@ create table BillingHistory (
 	appointmentId int, 
 	totalCash float,
 	userId varchar(255),
-	specialistId varchar(255),
+	doctorId varchar(255),
 	createdAt time,
 	foreign key (appointmentId) references appointments(id),
 	foreign key (userId) references [User](id),
-	foreign key (specialistId) references Specialist(id)
+	foreign key (doctorId) references Doctor(id)
 )
 /*
 create table BonusSalary (
@@ -220,21 +248,14 @@ create table CancelledRequest (
 	appointmentId int, 
 	totalRefund float,
 	userId varchar(255),
-	specialistId varchar(255),
+	doctorId varchar(255),
 	cancelledAt time,
 	status int, --0: requested, 1: accepted, 2: completed, 3: rejected/cancelled
 	foreign key (appointmentId) references appointments(id),
 	foreign key (userId) references [User](id),
-	foreign key (specialistId) references Specialist(id)
+	foreign key (doctorId) references Doctor(id)
 )
 
-create table SpecialistSchedule (
-	id int primary key,
-	specialistId varchar(255),
-	busyDate date,
-	description text,
-	foreign key (specialistId) references Specialist(id)
-)
 
 create table AccessLog (
 	id int primary key,

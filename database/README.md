@@ -2,22 +2,35 @@
 
 =================================================================
 
-### v3.2 Major update: ###
+### v3.2 MAJOR UPDATE!!! ###
 
+#### ADDED: ####
 - Add table Employee (id, email, password, name, birthDate, gender, address, workplace, phone, ethnic, roleId, createAt)
-- Add table ServiceTag (id, name, description, departmentId) which stands for services that specialist can do treatment.
-- Add table SpecialistService(specialistId, serviceId) that represents all the services that specialist can do treatment.
+- Add table ServiceTag (id, name, description, departmentId) which stands for services that doctor can do treatment.
+- Add table DoctorService(doctorId, serviceId) that represents all the services that doctor can do treatment.
 - Add table Department that represents the departments provided in the medical system.
-- Add an attribute named status for Specialist table, which will decide this Specialist is temporary working or official employee for the organization.
+- Add an attribute named 'status' for Doctor table, which will decide this Specialist is temporary working or official employee for the organization.
 - Add table 'Branch' for the hospitals branch.
-- Table AdminRole now changes to EmployeeRole, now represents the Role of Employee in the system (which may include CEO, Content Creator, Manager, or Administrator...)
-- Table Category now changes to NewsCategory
-- Table Plan now changes to ServicePlan
-- Remove 'accepted' and 'completed' in Appointments table. 'status' will now replace them.
-- CancelledRequest now has 'status' attribute.
+- Add table 'Province' representing the provinces in Vietnam.
+- Add attribute 'provinceId' for the table 'Employee', 'User'.
 - Add 'appointmentId' attribute to the Reviews table, a complete Appointment should left a Review.
 - Add AccessLog table to tracking the accesses of web users.
 
+#### CHANGE LOGS: ####
+- Table AdminRole now changes to EmployeeRole, now represents the Role of Employee in the system (which may include CEO, Content Creator, Manager, or Administrator...)
+- Table Category now changes to NewsCategory
+- Table Plan now changes to ServicePlan
+- CancelledRequest now has 'status' attribute.
+- Table 'Specialist' now becomes 'Doctor'
+- All 'Specialist'-related now become 'Doctor'-related 
+
+#### REMOVED: ####
+- Remove 'Speciality' table, because 'ServiceTag' is overwritten its job. Also remove its associated attributes from other tables.
+- Remove 'accepted' and 'completed' in Appointments table. 'status' will now replace them.
+- Remove 'ServicePlan and PlanSpecialist' tables from the database.
+- Remove 'SpecialistSchedule' tables from the database, replace them with 'DoctorWorkingDay'
+
+###### Special thanks to binhntt, thaitn and ynt4 for contributions to this update. #######
 
 =================================================================
 
