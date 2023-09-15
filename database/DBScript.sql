@@ -83,8 +83,8 @@ create table News (
 	categoryId int,
 	createdAt time,
 	lastModified time
-	foreign key (categoryId) references Category (id),
-	foreign key (author) references Admin(email)
+	foreign key (categoryId) references NewsCategory (id),
+	foreign key (author) references Employee(email)
 );
 
 create table Speciality (
@@ -106,7 +106,6 @@ create table Specialist (
 	status bit,
 	workingStart time,
 	workingEnd time,
-	foreign key (email) references [Admin](email),
 	foreign key (ARId) references AcademicRank(id),
 	foreign key (CVId) references CurriculumVitae(id),
 	foreign key (specialityId) references Speciality(id)
@@ -114,8 +113,8 @@ create table Specialist (
 
 create table SpecialistWorkingDay (
 	dayOfWeek int,
-	specialistId int,
-	primary key (dayOfWeek, specialistId)
+	specialistId varchar(255),
+	primary key (dayOfWeek, specialistId),
 	foreign key (specialistId) references Specialist(id)
 );
 
@@ -134,7 +133,7 @@ create table ServiceTag ( --day la chuyen khoa
 );
 
 create table SpecialistService (
-	specialistId int,
+	specialistId varchar(255),
 	serviceId int,
 	primary key (specialistId, serviceId),
 	foreign key (specialistId) references Specialist(id),
@@ -160,7 +159,7 @@ create table PlanSpecialist (
 	planId int,
 	specialistId varchar(255),
 	primary key (planId, specialistId),
-	foreign key (planId) references [Plan](id),
+	foreign key (planId) references ServicePlan(id),
 	foreign key (specialistId) references Specialist(id)
 );
 
@@ -170,9 +169,8 @@ create table Appointments (
 	specialistId varchar(255),
 	planId int,
 	plannedAt time,
-	accepted bit,
-	completed bit,
-	foreign key (planId) references [plan](id),
+	status int, --0: requested, 1: accepted, 2: completed, 3: rejected/cancelled
+	foreign key (planId) references ServicePlan(id),
 	foreign key (userId) references [User](id),
 	foreign key (specialistId) references Specialist (id)
 );
@@ -181,14 +179,16 @@ create table Reviews (
 	id int primary key,
 	userId varchar(255),
 	specialistId varchar(255),
+	appointmentId int,
 	rating float check(rating <= 5),
 	reviewContent nvarchar(1500),
 	createdAt datetime,
 	foreign key (userId) references [User](id),
-	foreign key (specialistId) references Specialist(id)
+	foreign key (specialistId) references Specialist(id),
+	foreign key (appointmentId) references Appointments(id)
 );
 
-create table billingHistory (
+create table BillingHistory (
 	id int primary key,
 	appointmentId int, 
 	totalCash float,
@@ -212,6 +212,7 @@ create table CancelledRequest (
 	userId varchar(255),
 	specialistId varchar(255),
 	cancelledAt time,
+	status int, --0: requested, 1: accepted, 2: completed, 3: rejected/cancelled
 	foreign key (appointmentId) references appointments(id),
 	foreign key (userId) references [User](id),
 	foreign key (specialistId) references Specialist(id)
