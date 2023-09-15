@@ -13,6 +13,12 @@ GO
 
 */
 
+create table Branch ( --chi nhanh benh vien
+	id int primary key,
+	name nvarchar(255),
+	description text
+);
+
 create table [User] (
 	id varchar(255) primary key,
 	email varchar(255) unique,
@@ -38,6 +44,7 @@ create table Employee (
 	id int primary key,
 	email varchar(255) unique,
 	password varchar(255),
+	branchId int,
 	name nvarchar(255),
 	birthDate date,
 	gender int,
@@ -47,7 +54,8 @@ create table Employee (
 	ethnic nvarchar(255),
 	roleId int,
 	createAt datetime
-	foreign key (roleId) references EmployeeRole(id)
+	foreign key (roleId) references EmployeeRole(id),
+	foreign key (branchId) references Branch(id)
 );
 
 create table [Certificate] (
@@ -97,6 +105,7 @@ create table Specialist (
 	email varchar(255) unique,
 	displayName nvarchar(255),
 	specialityId int,
+	branchId int,
 	phone varchar(10),
 	ARId int,
 	CVId int,
@@ -108,7 +117,8 @@ create table Specialist (
 	workingEnd time,
 	foreign key (ARId) references AcademicRank(id),
 	foreign key (CVId) references CurriculumVitae(id),
-	foreign key (specialityId) references Speciality(id)
+	foreign key (specialityId) references Speciality(id),
+	foreign key (branchId) references Branch(id)
 );
 
 create table SpecialistWorkingDay (
