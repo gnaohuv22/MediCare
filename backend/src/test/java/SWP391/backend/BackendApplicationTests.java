@@ -1,10 +1,10 @@
-package SWP391.medicalserviceproject;
+package SWP391.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MedicalserviceprojectApplicationTests {
+class BackendApplicationTests {
 
 	@Test
 	void contextLoads() {
