@@ -50,33 +50,11 @@ create table EmployeeRole (
 	role nvarchar(255)
 );
 
-<<<<<<< HEAD
 create table Employee (
 	id int primary key,
 	email varchar(255) unique,
 	password varchar(255),
 	branchId int,
-=======
-create table HealthcareSpecialist (
-	specialistId int primary key,
-	username varchar(255) unique,
-	password varchar(255),
-	firstName nvarchar(255),
-	lastName nvarchar(255),
-	email varchar(255),
-	phone varchar(10),
-	certId int,
-	ARId int,
-	speciality nvarchar(255),
-	salary float,
-	profilePicture nvarchar(255)
-	foreign key (certId) references Certificate(certId),
-	foreign key (ARId) references AcademicRank(ARId)
-);
-
-create table [Plan] (
-	planId int primary key,
->>>>>>> origin/demo
 	name nvarchar(255),
 	birthDate date,
 	gender int,
@@ -133,6 +111,7 @@ create table Doctor (
 	id varchar(255) primary key,
 	email varchar(255) unique,
 	displayName nvarchar(255),
+	password varchar(255),
 	branchId int,
 	phone varchar(10),
 	ARId int,
@@ -190,7 +169,6 @@ create table DoctorService (
 	foreign key (serviceId) references ServiceTag(id)
 );
 
-<<<<<<< HEAD
 create table CertificateDoctor (
 	certId int,
 	doctorId varchar(255),
@@ -247,38 +225,6 @@ create table Reviews (
 	foreign key (userId) references [User](id),
 	foreign key (doctorId) references Doctor(id),
 	foreign key (appointmentId) references Appointments(id)
-=======
-create table PlanSpecialist (
-	planId int,
-	specialistId varchar(255),
-	primary key (planId, specialistId),
-	foreign key (planId) references [Plan](planId),
-	foreign key (specialistId) references HealthcareSpecialist(username)
-);
-
-create table Appointments (
-	appointmentId int primary key,
-	userId varchar(255),
-	specialistId varchar(255),
-	planId int,
-	plannedAt time,
-	accepted bit,
-	completed bit,
-	foreign key (planId) references [plan](planId),
-	foreign key (userId) references [User](username),
-	foreign key (specialistId) references HealthcareSpecialist (username)
-);
-
-create table Reviews (
-	reviewId int primary key,
-	userId varchar(255),
-	specialistId varchar(255),
-	rating float check(rating <= 5),
-	reviewContent nvarchar(1500),
-	createdAt datetime,
-	foreign key (userId) references [User](username),
-	foreign key (specialistId) references HealthcareSpecialist(username)
->>>>>>> origin/demo
 );
 
 create table BillingHistory (
@@ -286,17 +232,11 @@ create table BillingHistory (
 	appointmentId int, 
 	totalCash float,
 	userId varchar(255),
-	specialistId varchar(255),
+	doctorId varchar(255),
 	createdAt time,
-<<<<<<< HEAD
 	foreign key (appointmentId) references appointments(id),
 	foreign key (userId) references [User](id),
 	foreign key (doctorId) references Doctor(id)
-=======
-	foreign key (appointmentId) references appointments(appointmentId),
-	foreign key (userId) references [User](username),
-	foreign key (specialistId) references HealthcareSpecialist(username)
->>>>>>> origin/demo
 )
 /*
 create table BonusSalary (
@@ -304,45 +244,17 @@ create table BonusSalary (
 );
 */
 
-<<<<<<< HEAD
 create table CancelledRequest (
 	id int primary key,
-=======
-create table SalaryBaseOnCert (
-	certId int primary key,
-	name nvarchar(255),
-	associateSalary float
-	foreign key (certId) references Certificate(certId)
-)
-
---salary base on kinh nghiem
-
-create table CancelledRequest (
-	cancelId int primary key,
->>>>>>> origin/demo
 	appointmentId int, 
 	totalRefund float,
 	userId varchar(255),
-	specialistId varchar(255),
+	doctorId varchar(255),
 	cancelledAt time,
-<<<<<<< HEAD
 	status int, --0: requested, 1: accepted, 2: completed, 3: rejected/cancelled
 	foreign key (appointmentId) references appointments(id),
 	foreign key (userId) references [User](id),
 	foreign key (doctorId) references Doctor(id)
-=======
-	foreign key (appointmentId) references appointments(appointmentId),
-	foreign key (userId) references [User](username),
-	foreign key (specialistId) references HealthcareSpecialist(username)
-)
-
-create table SpecialistSchedule (
-	scheduleId int primary key,
-	specialistId varchar(255),
-	busyDate date,
-	description nvarchar(1500),
-	foreign key (specialistId) references HealthcareSpecialist(username)
->>>>>>> origin/demo
 )
 
 
