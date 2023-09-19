@@ -1,18 +1,5 @@
+<<<<<<< HEAD
 # MEDICAL SERVICE PROJECT DATABASE NOTE: #
-
-=================================================================
-
-### v3.2.2 ###
-
-- Remove 'password' from FamilyProfile (why it appears that????)
-- Change database type globally from TEXT to NVARCHAR(MAX) for Vietnamese characters processing.
-- Scripts now contains some data that usable for testing purposes.
-
-=================================================================
-
-### v3.2.1 ###
-
-- Added "password" in Doctor table
 
 =================================================================
 
@@ -96,13 +83,23 @@
 =================================================================
 
 ### v2.1.1: ###
+=======
+MEDICAL SERVICE PROJECT DATABASE NOTE:
+
+=================================================================
+
+v2.1.1:
+>>>>>>> origin/demo
 
 - Add table PlanSpecialist (planId, specialistId)
 
 =================================================================
 
+<<<<<<< HEAD
 ### v2.1: ###
+=======
 v2.1:
+>>>>>>> origin/demo
 
 - Table 'Employee' >> 'HealthcareSpecialist'
 - doctorId or employeeId >> specialistId
@@ -117,14 +114,22 @@ v2.1:
 
 =================================================================
 
+<<<<<<< HEAD
 ### v2.0.1: ###
+=======
+v2.0.1:
+>>>>>>> origin/demo
 
 - Add 'password' attribute to 'Employee' table.
 
 
 =================================================================
 
+<<<<<<< HEAD
 ### v2: ###
+=======
+v2:
+>>>>>>> origin/demo
 
 - A whole new database is created. Which contain:
 + User (username, password, firstName, lastName, birthDate, gender, email, phone, profilePicture, createdAt)
@@ -142,6 +147,12 @@ v2.1:
 
 =================================================================
 
+<<<<<<< HEAD
 ### v1: ###
 
 - The first database originated.
+=======
+v1:
+
+- The first database originated.
+>>>>>>> origin/demo
