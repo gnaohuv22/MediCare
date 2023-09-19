@@ -111,7 +111,6 @@ create table Doctor (
 	id varchar(255) primary key,
 	email varchar(255) unique,
 	displayName nvarchar(255),
-	password varchar(255),
 	branchId int,
 	phone varchar(10),
 	ARId int,
