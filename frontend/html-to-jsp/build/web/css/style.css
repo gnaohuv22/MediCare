@@ -983,3 +983,48 @@ input.Enter_text::placeholder {
 .margin_90 {
     margin: 90px 0px;
 }
+
+/* CSS for login.jsp */
+.main-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    box-shadow: 4px 4px 2px 2px;
+}
+
+.account-wrapper {
+    max-width: 400px;
+    width: 100%;
+}
+
+.account-box {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: .25rem;
+}
+
+.account-logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.account-logo img {
+    max-width: 100px;
+}
+
+.form-group label {
+    font-weight: bold; /* Make the label text bold */
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.register-link {
+    margin-top: 20px;
+}
