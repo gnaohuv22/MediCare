@@ -4,6 +4,14 @@
 
 =================================================================
 
+### v3.2.2: ###
+
+- Added "name" in AccessLog table
+- Remove "accessTime" in AccessLog table
+- Remove "ipAccess" in AccessLog table
+
+=================================================================
+
 ### v3.2.1: ###
 
 - Added "password" in Doctor table
