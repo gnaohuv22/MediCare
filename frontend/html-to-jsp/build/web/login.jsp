@@ -52,17 +52,21 @@
             <div class="account-page">
                 <div class="account-center">
                     <div class="account-box">
+                        <h1 style="font-weight: bold">Login</h1>
                         <form action="login" method="POST" class="form-signin">
                             <div class="account-logo">
                                 <a href="login"><img src="img/logo.png" alt=""></a>
                             </div>
                             <div class="form-group">
-                                <label>Username or Email</label>
-                                <input type="text" autofocus="" name="email" maxlength="32" placeholder="example@example.com" class="form-control">
+                                <label>Email</label>
+                                <input type="text" autofocus="" value="${email}" name="email" maxlength="32" placeholder="example@example.com" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label>Password</label>
                                 <input type="password" name="password" maxlength="32" placeholder="Password" class="form-control">
+                            </div>
+                            <div class="form-group text-center">
+                                <p style="color: red">${msg}</p>
                             </div>
                             <div class="form-group text-right">
                                 <a href="forgot">Forgot your password?</a>
@@ -76,6 +80,9 @@
                         </form>
                     </div>
                 </div>
+            </div>
+            <div class="account-image">
+                <img src="images/banner-account.jpg" alt="Medicare Login Banner"/>
             </div>
         </div>
 
@@ -93,29 +100,5 @@
         <!-- javascript -->
         <script src="js/owl.carousel.js"></script>
         <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $("#signin-btn").hover(
-                        function () {
-                            $(this).css("background-color", "white");
-                            $(this).css("color", "green");
-                        },
-                        function () {
-                            $(this).css("background-color", "green");
-                            $(this).css("color", "white");
-                        }
-                );
-                $("#register-btn").hover(
-                        function () {
-                            $(this).css("background-color", "#007bff");
-                            $(this).css("color", "white");
-                        },
-                        function () {
-                            $(this).css("background-color", "white");
-                            $(this).css("color", "#007bff");
-                        }
-                );
-            });
-        </script>
     </body>
 </html>

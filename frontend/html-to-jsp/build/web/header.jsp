@@ -48,7 +48,7 @@
     <div class="header_section">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="logo">
-                <a href="index.html"><img src="images/logo.png" /></a>
+                <a href="home.jsp"><img src="images/logo.png" /></a>
             </div>
             <button
                 class="navbar-toggler"
@@ -64,7 +64,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="mx-auto">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="home.jsp">Home</a>
                         </li>
                         <li class="nav-item">
@@ -92,9 +92,9 @@
                             href="login" 
                             id="signin-btn"
                             style="
-                            background-color: green;
+                            background-color: #68b2a0;
                             color: white;
-                            border-radius: 6px;
+                            border-radius: 10px;
                             margin-right: 5px;
                             "
                             >Sign-in</a
@@ -108,8 +108,8 @@
                             -btn
                             style="
                             background-color: white;
-                            color: #007bff;
-                            border-radius: 6px;
+                            color: #2c6975;
+                            border-radius: 10px;
                             margin-left: 5px;
                             "
                             >Register</a
@@ -137,21 +137,21 @@
                 $("#signin-btn").hover(
                         function () {
                             $(this).css("background-color", "white");
-                            $(this).css("color", "green");
+                            $(this).css("color", "#68b2a0");
                         },
                         function () {
-                            $(this).css("background-color", "green");
+                            $(this).css("background-color", "#68b2a0");
                             $(this).css("color", "white");
                         }
                 );
                 $("#register-btn").hover(
                         function () {
-                            $(this).css("background-color", "#007bff");
+                            $(this).css("background-color", "#2c6975");
                             $(this).css("color", "white");
                         },
                         function () {
                             $(this).css("background-color", "white");
-                            $(this).css("color", "#007bff");
+                            $(this).css("color", "#2c6975");
                         }
                 );
             });

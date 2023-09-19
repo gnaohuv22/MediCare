@@ -273,7 +273,7 @@ button {
     width: 100%;
     float: left;
     font-size: 60px;
-    color: #15e4d0;
+    color: #68B2A0;
     font-weight: bold;
     line-height: 60px;
     padding-top: 120px;
@@ -303,9 +303,13 @@ button {
     float: left;
     font-size: 18px;
     color: #f6f8f8;
-    background-color: #4bc5b8;
+    background-color: #68B2A0;
     text-align: center;
     padding: 10px 0px;
+}
+
+.more_bt a:hover {
+    background-color: #68B2A0;
 }
 
 .contact_bt {
@@ -326,7 +330,11 @@ button {
 
 .contact_bt a:hover {
     color: #f6f8f8;
-    background-color: #4bc5b8;
+    background-color: #68B2A0;
+}
+
+.image_1 img {
+    margin-top: 25px;
 }
 
 #main_slider .carousel-control-prev:hover,
@@ -334,7 +342,7 @@ button {
 #main_slider .carousel-control-prev:focus,
 #main_slider .carousel-control-next:focus {
     border: 4px solid #4bc5b8;
-    color: #4bc5b8;
+    color: #68B2A0;
 }
 
 #main_slider a.carousel-control-next {
@@ -987,23 +995,23 @@ input.Enter_text::placeholder {
 /* CSS for login.jsp */
 .main-wrapper {
     display: flex;
-    justify-content: center;
+    justify-content: space-between; /* Space out the child elements */
     align-items: center;
     height: 100vh;
-    background-color: #f8f9fa;
-    border-radius: 6px;
-    box-shadow: 4px 4px 2px 2px;
+    background-color: #ffffff;
+    margin: auto; /* Center the element */
+    max-width: 1600px; /* You can adjust this value as needed */
+    border-radius: 20px;
+    margin-top: 30px;
 }
 
 .account-wrapper {
-    max-width: 400px;
-    width: 100%;
+    width: 100%; /* Set width to 15% */
 }
 
 .account-box {
-    background-color: #fff;
+    margin-left: 20px;
     padding: 20px;
-    margin-bottom: 20px;
     border-radius: .25rem;
 }
 
@@ -1014,6 +1022,16 @@ input.Enter_text::placeholder {
 
 .account-logo img {
     max-width: 100px;
+}
+
+.account-image{
+    width: 80%; /* Set width to take up the rest of the space */
+    height: 100%; /* Adjusts the height automatically to maintain aspect ratio */
+}
+
+.account-image img {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 
 .form-group label {

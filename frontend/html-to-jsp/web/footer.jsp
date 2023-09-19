@@ -119,8 +119,7 @@
     <div class="copyright_section">
         <div class="container">
             <p class="copyright_text">
-                2019 All Rights Reserved. Design by
-                <a href="https://html.design">Free html Templates</a>
+                2023 by Thaitrinh & CO
             </p>
         </div>
     </div>
@@ -137,29 +136,5 @@
     <!-- javascript -->
     <script src="js/owl.carousel.js"></script>
     <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("#signin-btn").hover(
-                    function () {
-                        $(this).css("background-color", "white");
-                        $(this).css("color", "green");
-                    },
-                    function () {
-                        $(this).css("background-color", "green");
-                        $(this).css("color", "white");
-                    }
-            );
-            $("#register-btn").hover(
-                    function () {
-                        $(this).css("background-color", "#007bff");
-                        $(this).css("color", "white");
-                    },
-                    function () {
-                        $(this).css("background-color", "white");
-                        $(this).css("color", "#007bff");
-                    }
-            );
-        });
-    </script>
 
 </html>
