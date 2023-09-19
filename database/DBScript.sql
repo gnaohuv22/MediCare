@@ -259,7 +259,6 @@ create table CancelledRequest (
 
 create table AccessLog (
 	id int primary key,
-	ipAddress varchar(15),
-	accessTime timestamp,
+	name varchar(15),
 	accessCount int
 );
