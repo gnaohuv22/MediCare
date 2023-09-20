@@ -8,6 +8,8 @@
 - Change database type globally from TEXT to NVARCHAR(MAX) for Vietnamese characters processing.
 - Scripts now contains some data that usable for testing purposes.
 
+#### HOT FIX 20-09: 'password' now added for real in `Doctor` table ####
+
 =================================================================
 
 ### v3.2.1 ###

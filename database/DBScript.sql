@@ -264,6 +264,7 @@ GO
 CREATE TABLE [dbo].[Doctor](
 	[id] [varchar](255) NOT NULL,
 	[email] [varchar](255) NULL,
+	[password] [nvarchar](255) NOT NULL,
 	[displayName] [nvarchar](255) NULL,
 	[branchId] [int] NULL,
 	[phone] [varchar](10) NULL,
@@ -596,16 +597,16 @@ INSERT [dbo].[Department] ([id], [name], [description]) VALUES (2, N'Ngoại', N
 INSERT [dbo].[Department] ([id], [name], [description]) VALUES (3, N'Nhi', N'Khoa tập trung vào sức khỏe của trẻ em và thiếu niên, bao gồm cả chăm sóc cho trẻ từ lúc mới sinh đến tuổi vị thành niên. Điều này bao gồm kiểm tra sức khỏe định kỳ, điều trị các bệnh lý trẻ em, và tư vấn về chăm sóc sức khỏe cho gia đình.')
 INSERT [dbo].[Department] ([id], [name], [description]) VALUES (4, N'Sản', N'Khoa quản lý và chăm sóc cho sức khỏe của phụ nữ trong quá trình mang thai, sanh, và sau sinh. Các chuyên gia trong khoa này cung cấp chăm sóc cho bà bầu và bé mới sinh, và điều trị các vấn đề phụ khoa của phụ nữ.')
 GO
-INSERT [dbo].[Doctor] ([id], [email], [displayName], [branchId], [phone], [ARId], [CVId], [salary], [workplace], [profilePicture], [status]) VALUES (N'1', N'doctor@gmail.com', N'Nguyễn Thanh Liêm', 1, N'0123456789', 1, 1, 3000, N'Hà Nội', NULL, 0)
-INSERT [dbo].[Doctor] ([id], [email], [displayName], [branchId], [phone], [ARId], [CVId], [salary], [workplace], [profilePicture], [status]) VALUES (N'10', N'doctor9@gmail.com', N'Lê Thị My', 1, N'0123456789', NULL, 5, NULL, N'Hà Nội', NULL, NULL)
-INSERT [dbo].[Doctor] ([id], [email], [displayName], [branchId], [phone], [ARId], [CVId], [salary], [workplace], [profilePicture], [status]) VALUES (N'2', N'doctor1@gmail.com', N'Phạm Nhật An', 1, N'0123456789', 1, 2, NULL, N'Hà Nội', NULL, NULL)
-INSERT [dbo].[Doctor] ([id], [email], [displayName], [branchId], [phone], [ARId], [CVId], [salary], [workplace], [profilePicture], [status]) VALUES (N'3', N'doctor2@gmail.com', N'Phan Quỳnh Lan', 1, N'0123456789', NULL, 8, NULL, N'Hà Nội', NULL, NULL)
-INSERT [dbo].[Doctor] ([id], [email], [displayName], [branchId], [phone], [ARId], [CVId], [salary], [workplace], [profilePicture], [status]) VALUES (N'4', N'doctor3@gmail.com', N'Võ Thành Nhân', 2, N'0123456789', 1, 3, NULL, N'TP Hồ Chí Minh', NULL, NULL)
-INSERT [dbo].[Doctor] ([id], [email], [displayName], [branchId], [phone], [ARId], [CVId], [salary], [workplace], [profilePicture], [status]) VALUES (N'5', N'doctor4@gmail.com', N'Nguyễn Thanh Hưng', 3, N'0123456789', NULL, 4, NULL, N'Nha Trang', NULL, NULL)
-INSERT [dbo].[Doctor] ([id], [email], [displayName], [branchId], [phone], [ARId], [CVId], [salary], [workplace], [profilePicture], [status]) VALUES (N'6', N'doctor5@gmail.com', N'Thái Bằng', 3, N'0123456789', NULL, 7, NULL, N'Nha Trang', NULL, NULL)
-INSERT [dbo].[Doctor] ([id], [email], [displayName], [branchId], [phone], [ARId], [CVId], [salary], [workplace], [profilePicture], [status]) VALUES (N'7', N'doctor6@gmail.com', N'Nguyễn Thị Tuyết Minh', 1, N'0123456789', NULL, 6, NULL, N'Hà Nội', NULL, NULL)
-INSERT [dbo].[Doctor] ([id], [email], [displayName], [branchId], [phone], [ARId], [CVId], [salary], [workplace], [profilePicture], [status]) VALUES (N'8', N'doctor7@gmail.com', N'Đặng Thị Linh', 1, N'0123456789', NULL, 9, NULL, N'Hà Nội', NULL, NULL)
-INSERT [dbo].[Doctor] ([id], [email], [displayName], [branchId], [phone], [ARId], [CVId], [salary], [workplace], [profilePicture], [status]) VALUES (N'9', N'doctor8@gmail.com', N'Phạm Vũ Hiệp', 1, N'0123456789', NULL, 10, NULL, N'Hà Nội', NULL, NULL)
+INSERT [dbo].[Doctor] ([id], [email], [password], [displayName], [branchId], [phone], [ARId], [CVId], [salary], [workplace], [profilePicture], [status]) VALUES (N'1', N'doctor@gmail.com', '123456', N'Nguyễn Thanh Liêm', 1, N'0123456789', 1, 1, 3000, N'Hà Nội', NULL, 0)
+INSERT [dbo].[Doctor] ([id], [email], [password], [displayName], [branchId], [phone], [ARId], [CVId], [salary], [workplace], [profilePicture], [status]) VALUES (N'10', N'doctor9@gmail.com', '123456', N'Lê Thị My', 1, N'0123456789', NULL, 5, NULL, N'Hà Nội', NULL, NULL)
+INSERT [dbo].[Doctor] ([id], [email], [password], [displayName], [branchId], [phone], [ARId], [CVId], [salary], [workplace], [profilePicture], [status]) VALUES (N'2', N'doctor1@gmail.com', '123456', N'Phạm Nhật An', 1, N'0123456789', 1, 2, NULL, N'Hà Nội', NULL, NULL)
+INSERT [dbo].[Doctor] ([id], [email], [password], [displayName], [branchId], [phone], [ARId], [CVId], [salary], [workplace], [profilePicture], [status]) VALUES (N'3', N'doctor2@gmail.com', '123456', N'Phan Quỳnh Lan', 1, N'0123456789', NULL, 8, NULL, N'Hà Nội', NULL, NULL)
+INSERT [dbo].[Doctor] ([id], [email], [password], [displayName], [branchId], [phone], [ARId], [CVId], [salary], [workplace], [profilePicture], [status]) VALUES (N'4', N'doctor3@gmail.com', '123456', N'Võ Thành Nhân', 2, N'0123456789', 1, 3, NULL, N'TP Hồ Chí Minh', NULL, NULL)
+INSERT [dbo].[Doctor] ([id], [email], [password], [displayName], [branchId], [phone], [ARId], [CVId], [salary], [workplace], [profilePicture], [status]) VALUES (N'5', N'doctor4@gmail.com', '123456', N'Nguyễn Thanh Hưng', 3, N'0123456789', NULL, 4, NULL, N'Nha Trang', NULL, NULL)
+INSERT [dbo].[Doctor] ([id], [email], [password], [displayName], [branchId], [phone], [ARId], [CVId], [salary], [workplace], [profilePicture], [status]) VALUES (N'6', N'doctor5@gmail.com', '123456', N'Thái Bằng', 3, N'0123456789', NULL, 7, NULL, N'Nha Trang', NULL, NULL)
+INSERT [dbo].[Doctor] ([id], [email], [password], [displayName], [branchId], [phone], [ARId], [CVId], [salary], [workplace], [profilePicture], [status]) VALUES (N'7', N'doctor6@gmail.com', '123456', N'Nguyễn Thị Tuyết Minh', 1, N'0123456789', NULL, 6, NULL, N'Hà Nội', NULL, NULL)
+INSERT [dbo].[Doctor] ([id], [email], [password], [displayName], [branchId], [phone], [ARId], [CVId], [salary], [workplace], [profilePicture], [status]) VALUES (N'8', N'doctor7@gmail.com', '123456', N'Đặng Thị Linh', 1, N'0123456789', NULL, 9, NULL, N'Hà Nội', NULL, NULL)
+INSERT [dbo].[Doctor] ([id], [email], [password], [displayName], [branchId], [phone], [ARId], [CVId], [salary], [workplace], [profilePicture], [status]) VALUES (N'9', N'doctor8@gmail.com', '123456', N'Phạm Vũ Hiệp', 1, N'0123456789', NULL, 10, NULL, N'Hà Nội', NULL, NULL)
 GO
 INSERT [dbo].[DoctorCertificates] ([DoctorId], [Certificates]) VALUES (1, NULL)
 INSERT [dbo].[DoctorCertificates] ([DoctorId], [Certificates]) VALUES (2, NULL)
