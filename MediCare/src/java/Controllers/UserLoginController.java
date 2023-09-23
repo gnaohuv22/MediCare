@@ -5,19 +5,20 @@
 package Controllers;
 
 import DAL.UserDAO;
+import Models.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author hoang
  */
-@WebServlet(name = "UserLoginController", urlPatterns = {"/user-login"})
+
 public class UserLoginController extends HttpServlet {
 
     @Override
@@ -29,22 +30,42 @@ public class UserLoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-
+        String email, password, error;
+        email = request.getParameter("email");
+        password = request.getParameter("password");
+        System.out.println("Email: " + email);
+        System.out.println("Password: " + password);
         UserDAO ud = new UserDAO();
-        if (ud.login(email, password)) {
-            try (PrintWriter out = response.getWriter()) {
-                out.println("<html><body>");
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Login successful');");
-                out.println("window.location.href = 'user-home.jsp';");
-                out.println("</script>");
-                out.println("</body></html>");
+
+        HttpSession session = request.getSession();
+//        String loginValue = "";
+        session.setAttribute("email", email);
+//        session.setAttribute("password", password);
+        // Case 1: Both inputs email and password is valid:
+        if (email != null && password != null && !email.equals("") && !password.equals("")) {
+            // Check if the User exists in DB:
+            // return null -> login fail -> (return to the login page):
+            User u = ud.login(email, password);
+            if (u == null) {
+                System.out.println("Login fail!");
+                error = "Email or password is wrong!";
+                request.setAttribute("error", error);
+                session.setAttribute("loginValue", "false");
+                request.getRequestDispatcher("user-login.jsp").forward(request, response);
+                // return a valid object -> login success -> (forward to home page):
+            } else {
+                session.setAttribute("email", email);
+                session.setAttribute("name", u.getName());
+                System.out.println("Login successfully!");
+                session.setAttribute("loginValue", "true");
+                response.sendRedirect("user-home");
             }
+            // Case 2: Login with Google Account:
+            // Case 3: One or both of inputs are invalid -> (return to the login page): 
         } else {
-            request.setAttribute("email", email);
-            request.setAttribute("msg", "Email or password is incorrect");
+            error = "Email and password must be valid!";
+            request.setAttribute("error", error);
+            session.setAttribute("loginValue", "false");
             request.getRequestDispatcher("user-login.jsp").forward(request, response);
         }
     }

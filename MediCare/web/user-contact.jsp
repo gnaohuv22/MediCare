@@ -38,7 +38,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
     </head>
     <body>
-        <%@include file="user-header.jsp" %>
+        <%@include file="header.jsp" %>
         <!-- contact section start -->
         <div class="contact_section layout_padding margin_90">
             <div class="container">
@@ -73,7 +73,7 @@
             </div>
         </div>
         <!-- contact section end -->
-        <%@include file="user-footer.jsp" %>
+        <%@include file="footer.jsp" %>
         <!-- Javascript files-->
         <script src="js/jquery.min.js"></script>
         <script src="js/popper.min.js"></script>

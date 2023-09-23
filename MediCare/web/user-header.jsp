@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -48,7 +49,7 @@
     <div class="header_section">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="logo">
-                <a href="user-home.jsp"><img src="images/logo.png" /></a>
+                <a href="user-home"><img src="images/logo.png" /></a>
             </div>
             <button
                 class="navbar-toggler"
@@ -65,57 +66,107 @@
                 <div class="mx-auto">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="user-home.jsp">Home</a>
+                            <a class="nav-link" href="user-home">Home</a>
+                        </li>
+                        <li class="nav-item list-parent">
+                            <a class="nav-link" href="#">Branches</a>
+                            <ul class="list-child">
+                                <c:forEach items="${sessionScope.branches}" var="branch">
+                                    <li>
+                                        <a href="user-branch-detail?branchId=${branch.getId()}">${branch.getName()}</a>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </li>
+                        <li class="nav-item list-parent">
+                            <a class="nav-link" href="#">Services</a>
+                            <ul class="list-child">
+                                <c:forEach items="${sessionScope.servicesTop10}" var="service">
+                                    <li>
+                                        <a href="user-service-detail?serviceId=${service.getId()}">${service.getNametag()}</a>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="user-list-all-doctor">Doctors</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="user-health.jsp">Health</a>
+                            <a class="nav-link" href="#">Booking</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="user-medicine.jsp">Medicine</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="user-news.jsp">News</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="user-client.jsp">Client</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="user-contact.jsp">Contact Us</a>
+                            <a class="nav-link" href="#">News</a>
                         </li>
                     </ul>
                 </div>
 
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a
-                            class="nav-link"
-                            href="user-login" 
-                            id="signin-btn"
-                            style="
-                            background-color: #68b2a0;
-                            color: white;
-                            border-radius: 10px;
-                            margin-right: 5px;
-                            "
-                            >Sign-in</a
-                        >
-                    </li>
-                    <li class="nav-item">
-                        <a
-                            class="nav-link"
-                            href="user-register"
-                            id="register-btn"
-                            -btn
-                            style="
-                            background-color: white;
-                            color: #2c6975;
-                            border-radius: 10px;
-                            margin-left: 5px;
-                            "
-                            >Register</a
-                        >
-                    </li>
-                </ul>
+                <c:if test="${sessionScope.loginValue.equals('false') || sessionScope.loginValue==null}">
+
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                href="user-login" 
+                                id="signin-btn"
+                                style="
+                                background-color: #68b2a0;
+                                color: white;
+                                border-radius: 10px;
+                                margin-right: 5px;
+                                "
+                                >Login</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                href="user-register"
+                                id="register-btn"
+                                -btn
+                                style="
+                                background-color: white;
+                                color: #2c6975;
+                                border-radius: 10px;
+                                margin-left: 5px;
+                                "
+                                >Register</a
+                            >
+                        </li>
+                    </ul>
+                </c:if>
+<c:if test="${sessionScope.loginValue.equals('true')}">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                href="#" 
+                                id="signin-btn"
+                                style="
+                                background-color: green;
+                                color: white;
+                                border-radius: 6px;
+                                margin-right: 5px;
+                                "
+                                >Hello ${sessionScope.name}</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                href="user-home?value=1"
+                                id="register-btn"
+                                -btn
+                                style="
+                                background-color: white;
+                                color: #007bff;
+                                border-radius: 6px;
+                                margin-left: 5px;
+                                "
+                                >Logout</a
+                            >
+                        </li>
+                    </ul>
+                </c:if>
             </div>
         </nav>
         <!-- header section end -->

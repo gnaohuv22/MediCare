@@ -1046,3 +1046,215 @@ input.Enter_text::placeholder {
 .register-link {
     margin-top: 20px;
 }
+
+/*Css for the list box:*/
+.list-parent {
+    position: relative;
+}
+
+.list-child {
+    display: none;
+    width: max-content;
+    
+}
+
+.list-parent:hover .list-child {
+    margin-left: 10%;
+    display: block;
+    position: absolute; /* Để list-child hiển thị dưới list-parent */
+    background-color: #fff; /* Màu nền của list-child */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Hiệu ứng bóng đổ */
+    z-index: 5; /* Để đảm bảo list-child hiển thị trên các phần tử khác */
+    padding: 10px; /* Khoảng cách giữa các mục trong list-child */
+    top: 100%; /* Đặt vị trí bên dưới list-parent */
+    left: 0; /* Đặt vị trí bắt đầu từ bên trái của list-parent */
+}
+/*Css for the user register:*/
+
+.main-wrapper-register {
+    display: flex;
+    flex-direction: column; /* Xếp các phần tử theo cột dọc */
+    position: relative;
+    height: fit-content;
+
+}
+
+.account-image-register {
+    width: 100%; /* Bao phủ toàn bộ chiều rộng của main-wrapper */
+    position: absolute;
+}
+
+.account-image-register img {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    width: 100vw;
+    height: 100vh;
+}
+
+.account-page-register {
+    background-color: #fff;
+    /*overflow: hidden;*/
+    box-sizing: border-box;
+    position: relative;
+    top: 0; /* Đặt vị trí ở đầu trên của main-wrapper */
+    left: 0; /* Đặt vị trí ở bên trái của main-wrapper */
+    width: 50%; /* Chiếm toàn bộ chiều rộng của main-wrapper */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    /*text-align: center;*/
+    z-index: 1;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+/*Css for the doctor information in a list of doctors:*/
+.doctors-container {
+    /* Sử dụng flexbox để căn giữa các doctor-card theo chiều ngang */
+    display: flex;
+    flex-wrap: wrap; /* Cho phép các doctor-card xuống dòng khi không đủ chỗ */
+    justify-content: flex-start; /* Canh giữa giữa các doctor-card */
+    margin-left: 10vw;
+}
+
+.doctor-card {
+    display: flex;
+    margin-bottom: 20px;
+    margin-right: 10px;
+    background: #fff;
+    margin: 1%;
+    width: 27%; /* Độ rộng của mỗi doctor-card, để hiển thị 3 trên cùng một dòng */
+    box-sizing: border-box; /* Đảm bảo kích thước tính bao gồm cả padding và border */
+    float: left; /* Đặt căn lề bên trái */
+    padding: 10px;
+    border-radius: 20px;
+    box-shadow: 1px 2px 2px 1px;
+    /*border: 1px solid gray;*/
+    transition: border 0.3s;
+}
+.doctor-card:hover {
+    border: 1px solid #888;
+}
+.doctor-card img {
+    max-width: 100%;
+    height: fit-content;
+    margin: 5%;
+}
+
+.doctor-image {
+    /* Định dạng cho ảnh bác sĩ */
+    width: 100px; /* Chiều rộng cố định */
+    height: 100px; /* Chiều cao cố định */
+    margin-right: 20px; /* Khoảng cách giữa ảnh và thông tin cá nhân */
+}
+
+.doctor-info {
+    /* Định dạng cho thông tin cá nhân */
+    text-align: left;
+    margin-left: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.doctor-name {
+    font-size: 1.2em; /* Kích thước tên bác sĩ lớn hơn */
+    font-weight: bold; /* In đậm */
+}
+
+.button-container {
+    margin-top: auto;
+}
+.book-appointment {
+    background-color: #0876bf;
+    color: white;
+    border-radius: 5px;
+    margin-right: 5px;
+    padding: 5px;
+
+}
+.book-appointment:hover {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: rgb(104, 178, 160);
+}
+.book-appointment-url {
+    color: #fff;
+    padding: 10px;
+}
+
+.book-appointment-url:hover{
+    color: rgb(104, 178, 160);
+}
+
+/*Css for the branch-profile-header:*/
+.branch-profile-header {
+    background-image: url('../images/medical-background-green.png');
+    background-size: cover; /* Hiển thị ảnh nền với kích thước tối ưu */
+    background-position: center; /* Căn giữa ảnh nền */
+    background-repeat: no-repeat; /* Không lặp lại ảnh nền */
+    padding: 20px; /* Khoảng cách giữa nội dung và viền */
+    display: flex; /* Sử dụng flexbox để căn giữa phần bên trái và bên phải */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding-left: 70px;
+    margin-bottom: 50px;
+}
+
+.branch-image {
+    width: 100px; /* Độ rộng của hình ảnh branch */
+    height: 100px; /* Chiều cao của hình ảnh branch */
+    border-radius: 5%; /* Để làm tròn hình ảnh */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    transform: scale(1.3);
+    margin-left: 10vw;
+}
+
+.branch-name {
+    font-size: 32px; /* Kích thước font cho tên branch */
+    font-weight: bold; /* In đậm cho tên branch */
+    color: #fff; /* Màu chữ */
+    display: block;
+    flex: 1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+    padding-left: 50px;
+}
+
+/*Css for the branch information:*/
+.branch-info {
+    border: 1px solid #ccc; /* Border màu xám nhạt */
+    padding: 10px;
+    margin: 10px;
+    background-color: #fff;
+}
+
+.intro-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd; /* Underline nhạt dưới tiêu đề */
+}
+
+.intro-header h3 {
+    margin: 0;
+}
+
+.toggle-icon {
+    font-size: 16px;
+    transition: transform 0.3s;
+}
+
+.intro-content {
+    display: none;
+    padding-top: 10px;
+}
+
+.branch-info.open .toggle-icon {
+    transform: rotate(180deg); /* Hiệu ứng xoay mũi tên khi mở */
+}
+
+.branch-info.open .intro-content {
+    display: block; /* Hiện phần thông tin khi mở */
+}
+

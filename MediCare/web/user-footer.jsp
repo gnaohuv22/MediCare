@@ -119,7 +119,7 @@
     <div class="copyright_section">
         <div class="container">
             <p class="copyright_text">
-                2023 by Medicare
+                2023 by Thaitrinh & CO
             </p>
         </div>
     </div>

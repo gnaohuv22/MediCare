@@ -39,7 +39,7 @@
     </head>
 
     <body>
-        <%@include file="user-header.jsp" %>
+        <%@include file="header.jsp" %>
         <!-- client section start -->
         <div class="client_section layout_padding">
             <div id="my_slider" class="carousel slide" data-ride="carousel">
@@ -101,7 +101,7 @@
                 </a>
             </div>
         </div>
-        <%@include file="user-footer.jsp" %>
+        <%@include file="footer.jsp" %>
         <!-- client section end -->
         <!-- Javascript files-->
         <script src="js/jquery.min.js"></script>

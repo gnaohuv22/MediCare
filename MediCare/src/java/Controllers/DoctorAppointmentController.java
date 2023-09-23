@@ -4,7 +4,7 @@
  */
 package Controllers;
 
-import Models.User;
+import Models.Doctor;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -34,7 +34,7 @@ public class DoctorAppointmentController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        User a = (User) session.getAttribute("account");
+        Doctor a = (Doctor) session.getAttribute("account");
         if(a==null){
             response.sendRedirect("doctor-login");
         }else

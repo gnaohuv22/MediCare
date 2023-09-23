@@ -1,9 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-	 version="3.1">
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>UserLoginServlet</servlet-name>
+        <servlet-class>Controllers.UserLoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserDoctorDetailServlet</servlet-name>
+        <servlet-class>Controllers.UserDoctorDetailServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserLoginServlet</servlet-name>
+        <url-pattern>/user-login</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UserHomeServlet</servlet-name>
+        <servlet-class>Controllers.UserHomeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserHomeServlet</servlet-name>
+        <url-pattern>/user-home</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UserLoginGoogleHandler</servlet-name>
+        <servlet-class>Controllers.UserLoginGoogleHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserLoginGoogleHandler</servlet-name>
+        <url-pattern>/user-login-google-handler</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UserRegisterServlet</servlet-name>
+        <servlet-class>Controllers.UserRegisterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserRegisterServlet</servlet-name>
+        <url-pattern>/user-register</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UserBranchDetailServlet</servlet-name>
+        <servlet-class>Controllers.UserBranchDetailServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserBranchDetailServlet</servlet-name>
+        <url-pattern>/user-branch-detail</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UserServiceDetailServlet</servlet-name>
+        <servlet-class>Controllers.UserServiceDetailServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserServiceDetailServlet</servlet-name>
+        <url-pattern>/user-service-detail</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UserListAllDoctorServlet</servlet-name>
+        <servlet-class>Controllers.UserListAllDoctorServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserListAllDoctorServlet</servlet-name>
+        <url-pattern>/user-list-all-doctor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserDoctorDetailServlet</servlet-name>
+        <url-pattern>/user-doctor-detail</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
