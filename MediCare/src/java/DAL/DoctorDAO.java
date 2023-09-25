@@ -17,11 +17,12 @@ import java.util.List;
  * @author hoang
  */
 public class DoctorDAO extends DBContext {
+
     public ArrayList<Doctor> getListDoctor() {
         ArrayList<Doctor> list = new ArrayList<>();
         String SQL = "SELECT * FROM [Doctor]";
-        
-        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Doctor d = new Doctor(String.valueOf(rs.getInt(1)),
@@ -36,38 +37,39 @@ public class DoctorDAO extends DBContext {
                         rs.getString(9),
                         rs.getString(10),
                         String.valueOf(rs.getBoolean(11))
-                    );
+                );
                 list.add(d);
             }
             return list;
         } catch (SQLException e) {
             System.out.println("getListDoctor: " + e.getMessage());
-        } 
+        }
         return null;
     }
-    
-    public boolean login(String email, String password)  {
+
+    public boolean login(String email, String password) {
         String SQL = "SELECT * FROM [Doctor] WHERE email = ? AND password = ?";
-        try (PreparedStatement pstm=connection.prepareStatement(SQL)){
+        try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
             pstm.setString(1, email);
             pstm.setString(2, password);
             ResultSet rs = pstm.executeQuery();
-            if(rs.next())
+            if (rs.next()) {
                 return true;
-            else 
+            } else {
                 return false;
+            }
         } catch (SQLException e) {
-            System.out.println("dal.UserDAO.Login(): "+e);
+            System.out.println("dal.UserDAO.Login(): " + e);
         }
         return false;
-    } 
-    
+    }
+
     public Doctor getDoctorByEmail(String email) {
         String SQL = "SELECT * FROM [Doctor] WHERE email = ?";
-        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 Doctor d = new Doctor(String.valueOf(rs.getInt(1)),
                         rs.getString(2),
@@ -81,7 +83,7 @@ public class DoctorDAO extends DBContext {
                         rs.getString(10),
                         rs.getString(11),
                         String.valueOf(rs.getBoolean(12))
-                    );
+                );
                 return d;
             }
         } catch (SQLException e) {
@@ -89,7 +91,7 @@ public class DoctorDAO extends DBContext {
         }
         return null;
     }
-    
+
     public ArrayList<Doctor> getAllDoctors() {
         ArrayList<Doctor> list = new ArrayList<>();
         String sql = "/****** Script for SelectTopNRows command from SSMS  ******/\n"
@@ -129,12 +131,12 @@ public class DoctorDAO extends DBContext {
                 + "\n"
                 + "CurriculumVitae AS CV\n"
                 + "On CV.id = d.CVId\n"
-                + "\n"                
+                + "\n"
                 + "WHERE d.id IS NOT NULL";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
-            
+
             while (rs.next()) {
                 Doctor d = new Doctor(rs.getString(1),
                         rs.getString(2),
@@ -242,7 +244,7 @@ public class DoctorDAO extends DBContext {
     }
 
     public static String concatenateNames(String jsonString) {
-            // Bỏ đi ký tự '[' và ']' ở đầu và cuối chuỗi
+        // Bỏ đi ký tự '[' và ']' ở đầu và cuối chuỗi
         jsonString = jsonString.substring(1, jsonString.length() - 1);
 
         // Tách chuỗi thành các phần con dựa trên ký tự '},'
@@ -274,12 +276,66 @@ public class DoctorDAO extends DBContext {
         String concatenatedNames = String.join(", ", names);
 
         return concatenatedNames.substring(0, concatenatedNames.length() - 1);
-        
+
+    }
+
+    public ArrayList<Doctor> getTrendingDoctors() {
+        ArrayList<Doctor> list = new ArrayList<>();
+        String sql = "SELECT TOP(5) d.id, d.email, d.password, d.displayName, b.[name] AS branchName, d.phone, a.[name] AS ARName, "
+                + "COUNT(r.id) AS ReviewCount, DC.Certificates AS Certificates, Department.id as DepartmentId, "
+                + "Department.[name] AS departmentName, CV.education, CV.introduce, CV.workHistory, CV.startYear, "
+                + "d.salary, d.workplace, d.profilePicture, d.status "
+                + "FROM Doctor AS d "
+                + "FULL JOIN Branch AS b On b.id = d.branchId "
+                + "FULL JOIN AcademicRank AS a On a.id = d.ARId "
+                + "FULL JOIN DoctorCertificates DC ON d.id = DC.DoctorId "
+                + "FULL JOIN DoctorService AS DS ON DS.doctorId = d.id "
+                + "FULL JOIN ServiceTag AS ST ON ST.id = DS.serviceId "
+                + "FULL JOIN Department ON Department.id = ST.departmentId "
+                + "FULL JOIN CurriculumVitae AS CV On CV.id = d.CVId "
+                + "LEFT JOIN Reviews AS r ON r.doctorId = d.id "
+                + "WHERE d.id IS NOT NULL "
+                + "GROUP BY d.id, d.email, d.password, d.displayName, b.[name], d.phone, a.[name], DC.Certificates,"
+                + "Department.id, Department.[name], CV.education, CV.introduce, CV.workHistory,"
+                + "CV.startYear, d.salary, d.workplace, d.profilePicture, d.status "
+                + "ORDER BY COUNT(r.id) DESC;";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                Doctor d = new Doctor(
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(9),
+                        String.valueOf(rs.getInt(10)),
+                        rs.getString(11),
+                        rs.getString(12),
+                        rs.getString(13),
+                        rs.getString(14),
+                        String.valueOf(rs.getInt(15)),
+                        String.valueOf(rs.getFloat(16)),
+                        rs.getString(17),
+                        rs.getString(18),
+                        String.valueOf(rs.getInt(19))
+                );
+
+                list.add(d);
+            }
+        } catch (SQLException e) {
+            System.out.println("getTrendingDoctors: " + e);
+        }
+        return list;
     }
 
     public static void main(String[] args) {
-        DoctorDAO dd = new  DoctorDAO();
-        ArrayList<Doctor> list = dd.getAllDoctors();
+        DoctorDAO dd = new DoctorDAO();
+        ArrayList<Doctor> list = dd.getTrendingDoctors();
         for (Doctor doctor : list) {
             System.out.println(doctor);
         }

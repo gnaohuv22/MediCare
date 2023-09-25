@@ -156,7 +156,7 @@ img {
     height: auto;
 }
 
- :focus {
+:focus {
     outline: 0;
 }
 
@@ -241,13 +241,13 @@ button {
 .navbar-expand-lg .navbar-nav .nav-link {
     padding-right: 20px;
     padding-left: 20px;
-    color: #272a2a;
+    color: #2C6975; /* Dark blue color from the palette */
     font-size: 18px;
     margin-top: 10px;
     margin-bottom: 10px;
 }
 .navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover {
-    color: #15e4d0;
+    color: #68B2A0; /* Light green color from the palette */
 }
 
 .navbar {
@@ -370,143 +370,84 @@ button {
     border-radius: 100%;
 }
 
-.health_section {
-    width: 98%;
-    float: left;
-    padding-bottom: 60px;
+.trend-container {
+    margin-top: 300px;
+    margin-bottom: 300px;
 }
 
-.health_taital {
-    width: 100%;
-    float: left;
-    font-size: 40px;
-    color: #252525;
-    font-weight: bold;
+.trend-doctor-title {
+    text-align: center; /* Căn giữa tiêu đề */
+    margin-top: 20px; /* Khoảng cách từ trên xuống */
+    font-size: 36px; /* Kích thước tiêu đề */
+    font-weight: bold; /* In đậm */
+    color: #2C6975; /* Màu chữ tiêu đề */
 }
 
-.health_text {
-    width: 100%;
-    float: left;
-    font-size: 16px;
-    color: #252525;
-    margin: 0px;
+/* Style cho phần danh sách bác sĩ */
+#doctor-list {
+    width: 100%; /* Đảm bảo danh sách có một chiều rộng cố định */
+    overflow-x: auto; /* Hiển thị thanh cuộn ngang khi danh sách vượt quá chiều rộng */
+    
 }
 
-.health_section_2 {
-    width: 100%;
-    float: left;
+/* Style cho danh sách bác sĩ theo chiều ngang */
+.horizontal-doctor-list {
+    display: flex; /* Hiển thị các phần tử con theo chiều ngang */
+    flex-wrap: nowrap; /* Ngăn các phần tử con tràn xuống hàng dưới khi không đủ không gian */
+    overflow-x: auto; /* Hiển thị thanh cuộn ngang nếu danh sách quá rộng */
+    
 }
 
-.image_main {
-    width: 100%;
+/* Style cho mỗi phần tử bác sĩ trong danh sách */
+.doctor-block {
+    min-width: 32%; /* Kích thước của mỗi phần tử bác sĩ */
+    min-height: 350px;
+    margin-right: 20px; /* Khoảng cách giữa các phần tử bác sĩ */
+    display: flex; /* Hiển thị các phần tử con bên trong theo chiều ngang */
+    flex-direction: column; /* Sắp xếp các phần tử con bên trong theo chiều dọc */
+    border: 1px solid #2C6975;
+    border-radius: 20px;
+    padding: 20px;
+    overflow-x: auto;
+    white-space: nowrap;
+    line-height: 1.2;
     position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
-.image_main:after {
-    content: '';
+/* Style cho hình ảnh đại diện */
+.doctor-img img {
+    width: 100px;
+    margin-right: 20px; /* Giảm khoảng cách giữa hình ảnh và thông tin bác sĩ */
+}
+
+/* Style cho thông tin bác sĩ */
+.doctor-information {
+    flex-grow: 1; /* Để phần thông tin bác sĩ mở rộng để lấp đầy khoảng trống còn lại */
+}
+
+/* Style cho phần giới thiệu */
+.doctor-intro {
+    font-size: 12px;
+    color: black;
+    max-height: 100px; /* Điều này giới hạn chiều cao của phần giới thiệu */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Thay thế văn bản bị tràn bằng dấu ba chấm */
+    white-space: nowrap;
+}
+
+/* Style cho nút 'Tìm hiểu thêm' */
+.find-more {
     position: absolute;
-    background-color: #cfedf0;
-    height: 450px;
-    width: 300px;
-    left: 0px;
-    right: initial;
-    z-index: -1;
-    margin: 0 auto;
-    top: -40px;
-}
-
-.main {
-    width: 100%;
-    margin: 40px 0px 0px 40px;
-    box-shadow: 0px 0px 14px 2px #f3f3f3;
-    position: relative;
-}
-
-.main::after {
-    content: '';
-    position: absolute;
-    background-color: rgba(27, 236, 222, 0.5);
-    margin: 0 auto;
-    left: 0px;
-    right: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-    display: none;
-}
-
-.main:hover::after {
-    background-color: rgba(27, 236, 222, 0.5);
-    display: block;
-}
-
-.image {
-    opacity: 1;
-    display: block;
-    width: 100%;
-    height: auto;
-    transition: .5s ease;
-    backface-visibility: hidden;
-}
-
-.middle {
-    transition: .5s ease;
-    opacity: 0;
-    position: absolute;
-    top: 50%;
-    left: 57%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    text-align: center;
-}
-
-.image_main:hover .image {
-    background-color: rgba(27, 236, 222, 0.5);
-}
-
-.image_main:hover .middle {
-    opacity: 1;
-}
-
-.text {
-    background-color: #252525;
-    color: white;
-    font-size: 16px;
-    padding: 32px 32px;
-    border-radius: 100px;
-}
-
-.image_main_1 {
-    width: 100%;
-    position: relative;
-}
-
-.image_main_1:hover .image {
-    background-color: rgba(27, 236, 222, 0.5);
-}
-
-.image_main_1:hover .middle {
-    opacity: 1;
-}
-
-.getquote_bt_1 {
-    width: 180px;
-    float: left;
-    margin-top: 100px;
-}
-
-.getquote_bt_1 a {
-    width: 100%;
-    float: left;
-    font-size: 18px;
-    color: #ffffff;
-    background-color: #1becde;
-    padding: 7px 0px;
-    text-align: center;
-}
-
-.getquote_bt_1 a:hover {
-    background-color: #252525;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #2C6975;
+    color: #E0ECDE;
+    border-radius: 5px;
+    margin-right: 5px;
+    padding: 5px;
 }
 
 .knowledge_section {
@@ -810,6 +751,13 @@ button {
     display: block;
 }
 
+.carousel-indicators li {
+    background-color: #E0ECDE !important;
+}
+.carousel-indicators .active {
+    background-color: #2C6975 !important;
+}
+
 .distracted_text {
     width: 100%;
     float: left;
@@ -1055,19 +1003,27 @@ input.Enter_text::placeholder {
 .list-child {
     display: none;
     width: max-content;
-    
 }
 
 .list-parent:hover .list-child {
-    margin-left: 10%;
     display: block;
-    position: absolute; /* Để list-child hiển thị dưới list-parent */
-    background-color: #fff; /* Màu nền của list-child */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Hiệu ứng bóng đổ */
-    z-index: 5; /* Để đảm bảo list-child hiển thị trên các phần tử khác */
-    padding: 10px; /* Khoảng cách giữa các mục trong list-child */
-    top: 100%; /* Đặt vị trí bên dưới list-parent */
-    left: 0; /* Đặt vị trí bắt đầu từ bên trái của list-parent */
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 5;
+    padding: 10px;
+    top: 100%;
+    left: 50%; /* Adjust the left position to be 50% of the parent's width */
+    transform: translateX(-50%); /* Shift the submenu back by half of its own width */
+}
+
+.list-child li {
+    border-bottom: 1px solid #ccc; /* Change color as needed */
+    padding: 5px 0; /* Add some vertical padding to space out the items */
+}
+
+.list-child li:last-child {
+    border-bottom: none; /* Remove border from the last item */
 }
 /*Css for the user register:*/
 
@@ -1164,26 +1120,27 @@ input.Enter_text::placeholder {
 .button-container {
     margin-top: auto;
 }
+
 .book-appointment {
-    background-color: #0876bf;
-    color: white;
+    background-color: #2C6975;
+    color: #E0ECDE;
     border-radius: 5px;
     margin-right: 5px;
     padding: 5px;
 
 }
 .book-appointment:hover {
-    background-color: #fff;
+    background-color: #E0ECDE;
     border: 1px solid #ccc;
-    color: rgb(104, 178, 160);
+    color: #2C6975;
 }
 .book-appointment-url {
-    color: #fff;
+    color: #E0ECDE;
     padding: 10px;
 }
 
 .book-appointment-url:hover{
-    color: rgb(104, 178, 160);
+    color: #2C6975;
 }
 
 /*Css for the branch-profile-header:*/

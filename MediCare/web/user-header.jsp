@@ -49,7 +49,7 @@
     <div class="header_section">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="logo">
-                <a href="user-home"><img src="images/logo.png" /></a>
+                <a href="user-home"><img width="100px" height="100px" src="images/logo.png" /></a>
             </div>
             <button
                 class="navbar-toggler"
@@ -65,38 +65,43 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="mx-auto">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="user-home">Home</a>
-                        </li>
-                        <li class="nav-item list-parent">
-                            <a class="nav-link" href="#">Branches</a>
-                            <ul class="list-child">
-                                <c:forEach items="${sessionScope.branches}" var="branch">
-                                    <li>
-                                        <a href="user-branch-detail?branchId=${branch.getId()}">${branch.getName()}</a>
+                        <c:forEach items="${sessionScope.listNavigationItem}" var="item">
+                            <c:choose>
+                                <c:when test="${item.getName() == 'Branches'}">
+                                    <li class="nav-item list-parent">
+                                        <a class="nav-link" href="${item.getLink()}">${item.getName()}</a>
+                                        <ul class="list-child">
+                                            <c:forEach items="${sessionScope.branches}" var="branch">
+                                                <li>
+                                                    <a href="user-branch-detail?branchId=${branch.getId()}">${branch.getName()}</a>
+                                                </li>
+                                            </c:forEach>
+                                        </ul>
                                     </li>
-                                </c:forEach>
-                            </ul>
-                        </li>
-                        <li class="nav-item list-parent">
-                            <a class="nav-link" href="#">Services</a>
-                            <ul class="list-child">
-                                <c:forEach items="${sessionScope.servicesTop10}" var="service">
-                                    <li>
-                                        <a href="user-service-detail?serviceId=${service.getId()}">${service.getNametag()}</a>
-                                    </li>
-                                </c:forEach>
-                            </ul>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link" href="user-list-all-doctor">Doctors</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Booking</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">News</a>
-                        </li>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:choose>
+                                        <c:when test="${item.getName() == 'Services'}">
+                                            <li class="nav-item list-parent">
+                                                <a class="nav-link" href="${item.getLink()}">${item.getName()}</a>
+                                                <ul class="list-child">
+                                                    <c:forEach items="${sessionScope.servicesTop10}" var="service">
+                                                        <li>
+                                                            <a href="user-branch-detail?branchId=${service.getId()}">${service.getNametag()}</a>
+                                                        </li>
+                                                    </c:forEach>
+                                                </ul>
+                                            </li>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="${item.getLink()}">${item.getName()}</a>
+                                            </li>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
                     </ul>
                 </div>
 
@@ -134,7 +139,7 @@
                         </li>
                     </ul>
                 </c:if>
-<c:if test="${sessionScope.loginValue.equals('true')}">
+                <c:if test="${sessionScope.loginValue.equals('true')}">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a

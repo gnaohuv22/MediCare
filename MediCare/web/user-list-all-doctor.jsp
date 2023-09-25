@@ -51,9 +51,8 @@
         <!--list all doctors start-->
         <div class="doctors-container">
             <c:forEach items="${requestScope.doctors}" var="doctor">
-
                 <div class="doctor-card">
-                    <img src="images/doctor-img.png" width="30%" height="height" alt="doctor-image"/>
+                    <img src="images/doctor-img.png" width="100" height="100" alt="doctor-image"/>
                     <div class="doctor-info">
                         <h2 class="doctor-name">${doctor.getDisplayName()}</h2>
                         <p class="academic-degree">
