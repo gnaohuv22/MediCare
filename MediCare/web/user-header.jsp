@@ -147,9 +147,9 @@
                                 href="#" 
                                 id="signin-btn"
                                 style="
-                                background-color: green;
+                                background-color: #68b2a0;
                                 color: white;
-                                border-radius: 6px;
+                                border-radius: 10px;
                                 margin-right: 5px;
                                 "
                                 >Hello ${sessionScope.name}</a
@@ -163,8 +163,8 @@
                                 -btn
                                 style="
                                 background-color: white;
-                                color: #007bff;
-                                border-radius: 6px;
+                                color: #2c6975;
+                                border-radius: 10px;
                                 margin-left: 5px;
                                 "
                                 >Logout</a

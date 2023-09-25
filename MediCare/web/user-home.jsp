@@ -79,7 +79,7 @@
         <!-- health section start -->
         <div id="doctor-carousel" class="carousel slide" data-ride="carousel">
             <div class="trend-container container">
-                        <h1 class="trend-doctor-title">Bác sĩ nổi bật</h1>
+                <h1 class="trend-doctor-title">Bác sĩ nổi bật</h1>
                 <div class="row">
                     <div class="horizontal-doctor-list">
                         <c:forEach var="doctor" items="${trendDoctors}">
@@ -132,6 +132,24 @@
                 </div>
             </div>
         </div>
+
+<!--        <div class="knowledge_section layout_padding">
+            <div class="container">
+                <div class="knowledge_main">
+                    <div class="left_main">
+                        <h1 class="knowledge_taital">Vingroup</h1>
+                        <p class="knowledge_text">
+                            Vingroup là công ty Việt Nam đầu tiên phát triển hệ thống bệnh viện tiêu chuẩn JCI toàn cầu, với mục tiêu "Phục vụ nhân dân Việt Nam, mang lại niềm vui và hạnh phúc".
+                        </p>
+                        <ul class="banner_bullet_points">
+                            <li>- 10 năm kinh nghiệm</li>
+                            <li>- 12 bệnh viện đạt tiêu chuẩn JCI</li>
+                            <li>- Hơn 400 bác sĩ và y tá được đào tạo trong hệ thống đào tạo quốc tế của Vingroup</li>
+                        </ul>
+                    </div>>
+                </div>
+            </div>
+        </div>-->
         <!-- knowledge section end -->
         <!-- news section start -->
         <div class="news_section layout_padding">
