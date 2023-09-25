@@ -13,15 +13,15 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-        <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+        <link rel="shortcut icon" type="image/x-icon" href="assets/admin/images/favicon.png">
         <title>Dashboard</title>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="css/style1.css">
+        <link rel="stylesheet" type="text/css" href="assets/admin/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="assets/admin/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="assets/admin/css/style.css">
         <!--[if lt IE 9]>
-                    <script src="js/html5shiv.min.js"></script>
-                    <script src="js/respond.min.js"></script>
+                    <script src="assets/admin/js/html5shiv.min.js"></script>
+                    <script src="assets/admin/js/respond.min.js"></script>
             <![endif]-->
     </head>
 
@@ -30,7 +30,7 @@
             <div class="header">
                 <div class="header-left">
                     <a href="index-2" class="logo">
-                        <img src="images/logo.png" width="35" height="35" alt=""> <span>MediCare</span>
+                        <img src="assets/admin/images/logo.png" width="35" height="35" alt=""> <span>MediCare</span>
                     </a>
                 </div>
                 <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
@@ -48,7 +48,7 @@
                                         <a href="activities">
                                             <div class="media">
                                                 <span class="avatar">
-                                                    <img alt="John Doe" src="images/user.jpg" class="img-fluid">
+                                                    <img alt="John Doe" src="assets/admin/images/user.jpg" class="img-fluid">
                                                 </span>
                                                 <div class="media-body">
                                                     <p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
@@ -114,7 +114,7 @@
                     <li class="nav-item dropdown has-arrow">
                         <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
                             <span class="user-img">
-                                <img class="rounded-circle" src="images/user.jpg" width="24" alt="Admin">
+                                <img class="rounded-circle" src="assets/admin/images/user.jpg" width="24" alt="Admin">
                                 <span class="status online"></span>
                             </span>
                             <span>Admin</span>
@@ -326,7 +326,7 @@
                                         <li>
                                             <div class="contact-cont">
                                                 <div class="float-left user-img m-r-10">
-                                                    <a href="profile" title="John Doe"><img src="images/user.jpg" alt="" class="w-40 rounded-circle"><span class="status online"></span></a>
+                                                    <a href="profile" title="John Doe"><img src="assets/admin/images/user.jpg" alt="" class="w-40 rounded-circle"><span class="status online"></span></a>
                                                 </div>
                                                 <div class="contact-info">
                                                     <span class="contact-name text-ellipsis">John Doe</span>
@@ -337,7 +337,7 @@
                                         <li>
                                             <div class="contact-cont">
                                                 <div class="float-left user-img m-r-10">
-                                                    <a href="profile" title="Richard Miles"><img src="images/user.jpg" alt="" class="w-40 rounded-circle"><span class="status offline"></span></a>
+                                                    <a href="profile" title="Richard Miles"><img src="assets/admin/images/user.jpg" alt="" class="w-40 rounded-circle"><span class="status offline"></span></a>
                                                 </div>
                                                 <div class="contact-info">
                                                     <span class="contact-name text-ellipsis">Richard Miles</span>
@@ -348,7 +348,7 @@
                                         <li>
                                             <div class="contact-cont">
                                                 <div class="float-left user-img m-r-10">
-                                                    <a href="profile" title="John Doe"><img src="images/user.jpg" alt="" class="w-40 rounded-circle"><span class="status away"></span></a>
+                                                    <a href="profile" title="John Doe"><img src="assets/admin/images/user.jpg" alt="" class="w-40 rounded-circle"><span class="status away"></span></a>
                                                 </div>
                                                 <div class="contact-info">
                                                     <span class="contact-name text-ellipsis">John Doe</span>
@@ -359,7 +359,7 @@
                                         <li>
                                             <div class="contact-cont">
                                                 <div class="float-left user-img m-r-10">
-                                                    <a href="profile" title="Richard Miles"><img src="images/user.jpg" alt="" class="w-40 rounded-circle"><span class="status online"></span></a>
+                                                    <a href="profile" title="Richard Miles"><img src="assets/admin/images/user.jpg" alt="" class="w-40 rounded-circle"><span class="status online"></span></a>
                                                 </div>
                                                 <div class="contact-info">
                                                     <span class="contact-name text-ellipsis">Richard Miles</span>
@@ -370,7 +370,7 @@
                                         <li>
                                             <div class="contact-cont">
                                                 <div class="float-left user-img m-r-10">
-                                                    <a href="profile" title="John Doe"><img src="images/user.jpg" alt="" class="w-40 rounded-circle"><span class="status offline"></span></a>
+                                                    <a href="profile" title="John Doe"><img src="assets/admin/images/user.jpg" alt="" class="w-40 rounded-circle"><span class="status offline"></span></a>
                                                 </div>
                                                 <div class="contact-info">
                                                     <span class="contact-name text-ellipsis">John Doe</span>
@@ -381,7 +381,7 @@
                                         <li>
                                             <div class="contact-cont">
                                                 <div class="float-left user-img m-r-10">
-                                                    <a href="profile" title="Richard Miles"><img src="images/user.jpg" alt="" class="w-40 rounded-circle"><span class="status away"></span></a>
+                                                    <a href="profile" title="Richard Miles"><img src="assets/admin/images/user.jpg" alt="" class="w-40 rounded-circle"><span class="status away"></span></a>
                                                 </div>
                                                 <div class="contact-info">
                                                     <span class="contact-name text-ellipsis">Richard Miles</span>
@@ -409,7 +409,7 @@
                                             <tbody>
                                                 <tr>
                                                     <td>
-                                                        <img width="28" height="28" class="rounded-circle" src="images/user.jpg" alt=""> 
+                                                        <img width="28" height="28" class="rounded-circle" src="assets/admin/images/user.jpg" alt=""> 
                                                         <h2>John Doe</h2>
                                                     </td>
                                                     <td>Johndoe21@gmail.com</td>
@@ -418,7 +418,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <img width="28" height="28" class="rounded-circle" src="images/user.jpg" alt=""> 
+                                                        <img width="28" height="28" class="rounded-circle" src="assets/admin/images/user.jpg" alt=""> 
                                                         <h2>Richard</h2>
                                                     </td>
                                                     <td>Richard123@yahoo.com</td>
@@ -427,7 +427,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <img width="28" height="28" class="rounded-circle" src="images/user.jpg" alt=""> 
+                                                        <img width="28" height="28" class="rounded-circle" src="assets/admin/images/user.jpg" alt=""> 
                                                         <h2>Villiam</h2>
                                                     </td>
                                                     <td>Richard123@yahoo.com</td>
@@ -436,7 +436,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <img width="28" height="28" class="rounded-circle" src="images/user.jpg" alt=""> 
+                                                        <img width="28" height="28" class="rounded-circle" src="assets/admin/images/user.jpg" alt=""> 
                                                         <h2>Martin</h2>
                                                     </td>
                                                     <td>Richard123@yahoo.com</td>
@@ -727,13 +727,13 @@
             </div>
         </div>
         <div class="sidebar-overlay" data-reff=""></div>
-        <script src="js/jquery-3.2.1.min.js"></script>
-        <script src="js/popper.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery.slimscroll.js"></script>
-        <script src="js/Chart.bundle.js"></script>
-        <script src="js/chart.js"></script>
-        <script src="js/app.js"></script>
+        <script src="assets/admin/js/jquery-3.2.1.min.js"></script>
+        <script src="assets/admin/js/popper.min.js"></script>
+        <script src="assets/admin/js/bootstrap.min.js"></script>
+        <script src="assets/admin/js/jquery.slimscroll.js"></script>
+        <script src="assets/admin/js/Chart.bundle.js"></script>
+        <script src="assets/admin/js/chart.js"></script>
+        <script src="assets/admin/js/app.js"></script>
 
     </body>
 

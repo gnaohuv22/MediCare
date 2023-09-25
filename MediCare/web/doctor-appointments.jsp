@@ -15,13 +15,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
         <link rel="shortcut icon" type="image/x-icon" href="image/favicon.ico">
         <title>Preclinic - Medical & Hospital - Bootstrap 4 Admin Template</title>
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="css/select2.min.css">
-        <link rel="stylesheet" type="text/css" href="css/style1.css">
+        <link rel="stylesheet" type="text/css" href="assets/admin/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="assets/admin/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="assets/admin/css/select2.min.css">
+        <link rel="stylesheet" type="text/css" href="assets/admin/css/style.css">
         <!--[if lt IE 9]>
-                    <script src="js/html5shiv.min.js"></script>
-                    <script src="js/respond.min.js"></script>
+                    <script src="assets/admin/js/html5shiv.min.js"></script>
+                    <script src="assets/admin/js/respond.min.js"></script>
             <![endif]-->
     </head>
 
@@ -326,12 +326,12 @@
             </div>
         </div>
         <div class="sidebar-overlay" data-reff=""></div>
-        <script src="js/jquery-3.2.1.min.js"></script>
-        <script src="js/popper.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery.slimscroll.js"></script>
-        <script src="js/select2.min.js"></script>
-        <script src="js/app.js"></script>
+        <script src="assets/admin/js/jquery-3.2.1.min.js"></script>
+        <script src="assets/admin/js/popper.min.js"></script>
+        <script src="assets/admin/js/bootstrap.min.js"></script>
+        <script src="assets/admin/js/jquery.slimscroll.js"></script>
+        <script src="assets/admin/js/select2.min.js"></script>
+        <script src="assets/admin/js/app.js"></script>
         <script>
             $(function () {
                 $('#datetimepicker3').datetimepicker({

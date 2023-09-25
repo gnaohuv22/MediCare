@@ -269,7 +269,7 @@ button {
     padding-top: 50px;
 }
 
-.banner_taital {
+.banner-taital {
     width: 100%;
     float: left;
     font-size: 60px;
@@ -279,12 +279,12 @@ button {
     padding-top: 120px;
 }
 
-.banner_text {
+.banner-text {
     width: 100%;
     float: left;
     font-size: 16px;
     margin: 0px;
-    color: #252525;
+    color: #2C6975;
 }
 
 .btn_main {
@@ -372,7 +372,7 @@ button {
 
 .trend-container {
     margin-top: 300px;
-    margin-bottom: 300px;
+    margin-bottom: 100px;
 }
 
 .trend-doctor-title {
@@ -450,18 +450,21 @@ button {
     padding: 5px;
 }
 
-.knowledge_section {
-    width: 100%;
+.banner_section {
+/*    width: 100%;
     float: left;
     background-image: url(../images/knowledge-bg.png);
     background-size: 100%;
     height: auto;
     background-repeat: no-repeat;
     padding-top: 180px;
-    padding-bottom: 240px;
+    padding-bottom: 240px;*/
+    color: #E0ECDE;
+    padding: 20px;
 }
 
-.knowledge_main {
+
+.banner_main {
     width: 100%;
     float: left;
 }
@@ -476,20 +479,40 @@ button {
     float: left;
 }
 
-.knowledge_taital {
-    width: 100%;
-    float: left;
+.banner_title {
+/*    width: 100%;
+    float: left;*/
     font-size: 40px;
-    color: #ffffff;
+    color: #E0ECDE;
     font-weight: bold;
 }
 
-.knowledge_text {
-    width: 100%;
-    float: left;
+.banner_text {
+/*    width: 100%;
+    float: left;*/
+    font-size: 20px;
+    color: #E0ECDE;
+    /*margin: 0px;*/
+}
+
+.banner_bullet_points .col {
+    display: flex; /* Sử dụng flexbox để căn giữa nội dung theo cả hai hướng */
+    flex-direction: column; /* Sắp xếp nội dung theo hàng dọc */
+    justify-content: center; /* Căn giữa nội dung theo hướng dọc */
+    align-items: center; /* Căn giữa nội dung theo hướng ngang */
+    padding: 10px; /* Thêm khoảng cách giữa các bộ (number-description) */
+}
+
+.banner-number {
+    font-size: 64px;
+    font-weight: bold;
+    margin-top: 60px;
+}
+
+.number-description {
     font-size: 16px;
-    color: #ffffff;
-    margin: 0px;
+    margin-bottom: 60px;
+    text-align: center;
 }
 
 .play_icon {
@@ -745,10 +768,12 @@ button {
 }
 
 .client_img {
-    width: 80%;
+    width: 300px;
+    height: 300px;
     margin: 0 auto;
     text-align: center;
     display: block;
+    object-fit: cover;
 }
 
 .carousel-indicators li {
@@ -767,12 +792,17 @@ button {
     text-transform: uppercase;
 }
 
+.review-content {
+    min-height: 300px;
+}
+
 .lorem_text {
     width: 100%;
     float: left;
     font-size: 16px;
     color: #444443;
     margin: 0px;
+    overflow: auto; /* Thêm thanh cuộn nếu nội dung vượt quá chiều cao tối đa */
 }
 
 .quote_icon {

@@ -22,20 +22,20 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <!-- bootstrap css -->
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/user/css/bootstrap.min.css">
         <!-- style css -->
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="assets/user/css/style.css">
         <!-- Responsive-->
-        <link rel="stylesheet" href="css/responsive.css">
+        <link rel="stylesheet" href="assets/user/css/responsive.css">
         <!-- fevicon -->
-        <link rel="icon" href="images/fevicon.png" type="image/gif" />
+        <link rel="icon" href="assets/user/images/fevicon.png" type="image/gif" />
         <!-- Scrollbar Custom CSS -->
-        <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+        <link rel="stylesheet" href="assets/user/css/jquery.mCustomScrollbar.min.css">
         <!-- Tweaks for older IEs-->
-        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/assets/user/css/font-awesome.css">
         <!-- owl stylesheets --> 
-        <link rel="stylesheet" href="css/owl.carousel.min.css">
-        <link rel="stylesheet" href="css/owl.theme.default.min.css">
+        <link rel="stylesheet" href="assets/user/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="assets/user/css/owl.theme.default.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
     </head>
 
@@ -43,7 +43,7 @@
         <%@include file="user-header.jsp" %>
         <!--profile header of a branch start-->
         <div class="branch-profile-header">
-            <img src="images/branch-img.jpg" alt="branch-img" class="branch-image" />
+            <img src="assets/user/images/branch-img.jpg" alt="branch-img" class="branch-image" />
             <p class="branch-name">MediCare - Service ${requestScope.serviceTag.getNametag()}</p>
         </div>
         <!--profile header of a branch end-->
@@ -54,7 +54,7 @@
             <c:forEach items="${requestScope.doctorsOfService}" var="doctor">
 
                 <div class="doctor-card">
-                    <img src="images/doctor-img.png" width="30%" height="height" alt="doctor-image"/>
+                    <img src="assets/user/images/doctor-img.png" width="30%" height="height" alt="doctor-image"/>
                     <div class="doctor-info">
                         <h2 class="doctor-name">${doctor.getDisplayName()}</h2>
                         <p class="academic-degree">
@@ -91,23 +91,23 @@
                         <p class="knowledge_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
                     </div>
                     <div class="right_main">
-                        <div class="play_icon"><a href="#"><img src="images/play-icon.png"></a></div>
+                        <div class="play_icon"><a href="#"><img src="assets/user/images/play-icon.png"></a></div>
                     </div>
                 </div>
             </div>
         </div>
         <!-- knowledge section end -->
         <%@include file="user-footer.jsp" %>
-        <script src="js/jquery.min.js"></script>
-        <script src="js/popper.min.js"></script>
-        <script src="js/bootstrap.bundle.min.js"></script>
-        <script src="js/jquery-3.0.0.min.js"></script>
-        <script src="js/plugin.js"></script>
+        <script src="assets/user/js/jquery.min.js"></script>
+        <script src="assets/user/js/popper.min.js"></script>
+        <script src="assets/user/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/user/js/jquery-3.0.0.min.js"></script>
+        <script src="assets/user/js/plugin.js"></script>
         <!-- sidebar -->
-        <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="js/custom.js"></script>
+        <script src="assets/user/js/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="assets/user/js/custom.js"></script>
         <!-- javascript --> 
-        <script src="js/owl.carousel.js"></script>
+        <script src="assets/user/js/owl.carousel.js"></script>
         <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
     </body>
 </html>

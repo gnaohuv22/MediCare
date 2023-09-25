@@ -10,17 +10,17 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-        <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="css/select2.min.css">
-        <link rel="stylesheet" type="text/css" href="css/style1.css">
+        <link rel="shortcut icon" type="image/x-icon" href="assets/admin/images/favicon.ico">
+        <link rel="stylesheet" type="text/css" href="assets/admin/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="assets/admin/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="assets/admin/css/select2.min.css">
+        <link rel="stylesheet" type="text/css" href="assets/admin/css/style.css">
     </head>
     <body>
         <div class="header">
             <div class="header-left">
                 <a href="dashboard" class="logo">
-                    <img src="images/logo.png" width="35" height="35" alt=""> <span>Preclinic</span>
+                    <img src="assets/admin/images/logo.png" width="35" height="35" alt=""> <span>Preclinic</span>
                 </a>
             </div>
             <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
@@ -38,7 +38,7 @@
                                     <a href="activities">
                                         <div class="media">
                                             <span class="avatar">
-                                                <img alt="John Doe" src="images/user.jpg" class="img-fluid">
+                                                <img alt="John Doe" src="assets/admin/images/user.jpg" class="img-fluid">
                                             </span>
                                             <div class="media-body">
                                                 <p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
@@ -103,7 +103,7 @@
                 </li>
                 <li class="nav-item dropdown has-arrow">
                     <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
-                        <span class="user-img"><img class="rounded-circle" src="images/user.jpg" width="40" alt="Admin">
+                        <span class="user-img"><img class="rounded-circle" src="assets/admin/images/user.jpg" width="40" alt="Admin">
                             <span class="status online"></span></span>
                         <span>Admin</span>
                     </a>
@@ -125,11 +125,11 @@
                 </div>
             </div>
         </div>
-        <script src="js/jquery-3.2.1.min.js"></script>
-        <script src="js/popper.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery.slimscroll.js"></script>
-        <script src="js/select2.min.js"></script>
-        <script src="js/app.js"></script>
+        <script src="assets/admin/js/jquery-3.2.1.min.js"></script>
+        <script src="assets/admin/js/popper.min.js"></script>
+        <script src="assets/admin/js/bootstrap.min.js"></script>
+        <script src="assets/admin/js/jquery.slimscroll.js"></script>
+        <script src="assets/admin/js/select2.min.js"></script>
+        <script src="assets/admin/js/app.js"></script>
     </body>
 </html>

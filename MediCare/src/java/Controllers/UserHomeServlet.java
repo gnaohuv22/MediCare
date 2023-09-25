@@ -4,26 +4,15 @@
  */
 package Controllers;
 
-import DAL.BranchDAO;
-import DAL.DoctorDAO;
-import DAL.NavigationItemDAO;
-import DAL.ReviewsDAO;
-import DAL.ServiceTagDAO;
-import DAL.UserDAO;
+import DAL.*;
+import Models.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
-import Models.Branch;
-import Models.Doctor;
-import Models.NavigationItem;
-import Models.Reviews;
-import Models.ServiceTag;
-import Models.User;
 
 /**
  *
@@ -61,6 +50,14 @@ public class UserHomeServlet extends HttpServlet {
         DoctorDAO dd = new DoctorDAO();
         ArrayList<Doctor> trendDoctors = dd.getTrendingDoctors();
         
+        BannerDAO bnd = new BannerDAO();
+        ArrayList<Banner> bannerList = bnd.getAllBanner();
+        
+        BannerDetailsDAO bdd = new BannerDetailsDAO();
+        ArrayList<BannerDetails> bannerDetailsList = bdd.getAllBannerDetails();
+        
+        session.setAttribute("bannerList", bannerList);
+        session.setAttribute("bannerDetailsList", bannerDetailsList);
         session.setAttribute("trendDoctors", trendDoctors);
         session.setAttribute("listUser", listUser);
         session.setAttribute("topReviewList", topReviewList);

@@ -21,20 +21,20 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <!-- bootstrap css -->
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/user/css/bootstrap.min.css">
         <!-- style css -->
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="assets/user/css/style.css">
         <!-- Responsive-->
-        <link rel="stylesheet" href="css/responsive.css">
+        <link rel="stylesheet" href="assets/user/css/responsive.css">
         <!-- fevicon -->
-        <link rel="icon" href="images/fevicon.png" type="image/gif" />
+        <link rel="icon" href="assets/user/images/fevicon.png" type="image/gif" />
         <!-- Scrollbar Custom CSS -->
-        <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+        <link rel="stylesheet" href="assets/user/css/jquery.mCustomScrollbar.min.css">
         <!-- Tweaks for older IEs-->
-        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/assets/user/css/font-awesome.css">
         <!-- owl stylesheets --> 
-        <link rel="stylesheet" href="css/owl.carousel.min.css">
-        <link rel="stylesheet" href="css/owl.theme.default.min.css">
+        <link rel="stylesheet" href="assets/user/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="assets/user/css/owl.theme.default.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
     </head>
 
@@ -43,7 +43,7 @@
 
         <!--profile header of a branch start-->
         <div class="branch-profile-header">
-            <img src="images/branch-img.jpg" alt="branch-img" class="branch-image" />
+            <img src="assets/user/images/branch-img.jpg" alt="branch-img" class="branch-image" />
             <p class="branch-name">MediCare - List of doctors nationwide</p>
         </div>
         <!--profile header of a branch end-->
@@ -52,7 +52,7 @@
         <div class="doctors-container">
 
                 <div class="doctor-card">
-                    <img src="images/doctor-img.png" width="30%" height="height" alt="doctor-image"/>
+                    <img src="assets/user/images/doctor-img.png" width="30%" height="height" alt="doctor-image"/>
                     <div class="doctor-info">
                         <h2 class="doctor-name">${doctor.getDisplayName()}</h2>
                         <p class="academic-degree">
@@ -88,40 +88,40 @@
                     <div class="row">
                         <div class="col-lg-4 col-sm-6">
                             <div class="box_main">
-                                <div class="icon_1"><img src="images/icon-2.png"></div>
+                                <div class="icon_1"><img src="assets/user/images/icon-2.png"></div>
                                 <h4 class="daily_text">Daily care experts</h4>
                             </div>
                         </div>
                         <div class="col-lg-4 col-sm-6">
                             <div class="box_main active">
-                                <div class="icon_1"><img src="images/icon-3.png"></div>
+                                <div class="icon_1"><img src="assets/user/images/icon-3.png"></div>
                                 <h4 class="daily_text_1">Available 24/7</h4>
                             </div>
                         </div>
                         <div class="col-lg-4 col-sm-6">
                             <div class="box_main">
-                                <div class="icon_1"><img src="images/icon-4.png"></div>
+                                <div class="icon_1"><img src="assets/user/images/icon-4.png"></div>
                                 <h4 class="daily_text_1">Balanced care</h4>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="getquote_bt"><a href="#">Get A Quote <span><img src="images/right-arrow.png"></span></a></div>
+                <div class="getquote_bt"><a href="#">Get A Quote <span><img src="assets/user/images/right-arrow.png"></span></a></div>
             </div>
         </div>
         <!-- news section end -->
         <%@include file="user-footer.jsp" %>
         <!-- Javascript files-->
-        <script src="js/jquery.min.js"></script>
-        <script src="js/popper.min.js"></script>
-        <script src="js/bootstrap.bundle.min.js"></script>
-        <script src="js/jquery-3.0.0.min.js"></script>
-        <script src="js/plugin.js"></script>
+        <script src="assets/user/js/jquery.min.js"></script>
+        <script src="assets/user/js/popper.min.js"></script>
+        <script src="assets/user/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/user/js/jquery-3.0.0.min.js"></script>
+        <script src="assets/user/js/plugin.js"></script>
         <!-- sidebar -->
-        <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="js/custom.js"></script>
+        <script src="assets/user/js/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="assets/user/js/custom.js"></script>
         <!-- javascript --> 
-        <script src="js/owl.carousel.js"></script>
+        <script src="assets/user/js/owl.carousel.js"></script>
         <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
     </body>
 </html>

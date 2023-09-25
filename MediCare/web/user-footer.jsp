@@ -21,23 +21,23 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <!-- bootstrap css -->
-        <link rel="stylesheet" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" href="assets/user/css/bootstrap.min.css" />
         <!-- style css -->
-        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="assets/user/css/style.css" />
         <!-- Responsive-->
-        <link rel="stylesheet" href="css/responsive.css" />
+        <link rel="stylesheet" href="assets/user/css/responsive.css" />
         <!-- fevicon -->
-        <link rel="icon" href="images/fevicon.png" type="image/gif" />
+        <link rel="icon" href="assets/user/images/favicon.png" type="image/gif" />
         <!-- Scrollbar Custom CSS -->
-        <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css" />
+        <link rel="stylesheet" href="assets/user/css/jquery.mCustomScrollbar.min.css" />
         <!-- Tweaks for older IEs-->
         <link
             rel="stylesheet"
-            href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css"
+            href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/assets/user/css/font-awesome.css"
             />
         <!-- owl stylesheets -->
-        <link rel="stylesheet" href="css/owl.carousel.min.css" />
-        <link rel="stylesheet" href="css/owl.theme.default.min.css" />
+        <link rel="stylesheet" href="assets/user/css/owl.carousel.min.css" />
+        <link rel="stylesheet" href="assets/user/css/owl.theme.default.min.css" />
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
@@ -51,21 +51,21 @@
             <div class="row">
                 <div class="col-lg-3 col-sm-6">
                     <div class="footer_logo">
-                        <a href="index.html"><img src="images/footer-logo.png" /></a>
+                        <a href="index.html"><img src="assets/user/images/footer-logo.png" /></a>
                     </div>
                     <h1 class="adderss_text">Contact Us</h1>
                     <div class="map_icon">
-                        <img src="images/map-icon.png" /><span class="paddlin_left_0"
+                        <img src="assets/user/images/map-icon.png" /><span class="paddlin_left_0"
                                                                >Page when looking at its</span
                         >
                     </div>
                     <div class="map_icon">
-                        <img src="images/call-icon.png" /><span class="paddlin_left_0"
+                        <img src="assets/user/images/call-icon.png" /><span class="paddlin_left_0"
                                                                 >+7586656566</span
                         >
                     </div>
                     <div class="map_icon">
-                        <img src="images/mail-icon.png" /><span class="paddlin_left_0"
+                        <img src="assets/user/images/mail-icon.png" /><span class="paddlin_left_0"
                                                                 >volim@gmail.com</span
                         >
                     </div>
@@ -97,16 +97,16 @@
                     <div class="social_icon">
                         <ul>
                             <li>
-                                <a href="#"><img src="images/fb-icon.png" /></a>
+                                <a href="#"><img src="assets/user/images/fb-icon.png" /></a>
                             </li>
                             <li>
-                                <a href="#"><img src="images/twitter-icon.png" /></a>
+                                <a href="#"><img src="assets/user/images/twitter-icon.png" /></a>
                             </li>
                             <li>
-                                <a href="#"><img src="images/linkedin-icon.png" /></a>
+                                <a href="#"><img src="assets/user/images/linkedin-icon.png" /></a>
                             </li>
                             <li>
-                                <a href="#"><img src="images/instagram-icon.png" /></a>
+                                <a href="#"><img src="assets/user/images/instagram-icon.png" /></a>
                             </li>
                         </ul>
                     </div>
@@ -119,22 +119,22 @@
     <div class="copyright_section">
         <div class="container">
             <p class="copyright_text">
-                2023 by Thaitrinh & CO
+                2023 by gnaohuv & SWP391_SE1733_NET_G6
             </p>
         </div>
     </div>
     <!-- copyright section end -->
     <!-- Javascript files-->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/jquery-3.0.0.min.js"></script>
-    <script src="js/plugin.js"></script>
+    <script src="assets/user/js/jquery.min.js"></script>
+    <script src="assets/user/js/popper.min.js"></script>
+    <script src="assets/user/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/user/js/jquery-3.0.0.min.js"></script>
+    <script src="assets/user/js/plugin.js"></script>
     <!-- sidebar -->
-    <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script src="js/custom.js"></script>
+    <script src="assets/user/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="assets/user/js/custom.js"></script>
     <!-- javascript -->
-    <script src="js/owl.carousel.js"></script>
+    <script src="assets/user/js/owl.carousel.js"></script>
     <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
 
 </html>
