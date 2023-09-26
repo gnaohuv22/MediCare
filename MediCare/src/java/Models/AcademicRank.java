@@ -6,10 +6,13 @@ package Models;
 
 /**
  *
- * @author hoang
+ * @author tubinh
  */
 public class AcademicRank {
-    private String id, name, wage;
+
+    private String id;
+    private String name;
+    private String wage;
 
     public AcademicRank() {
     }
@@ -17,6 +20,14 @@ public class AcademicRank {
     public AcademicRank(String id, String name, String wage) {
         this.id = id;
         this.name = name;
+        this.wage = wage;
+    }
+
+    public String getWage() {
+        return wage;
+    }
+
+    public void setWage(String wage) {
         this.wage = wage;
     }
 
@@ -36,13 +47,9 @@ public class AcademicRank {
         this.name = name;
     }
 
-    public String getWage() {
-        return wage;
+    @Override
+    public String toString() {
+        return "AcademicRank{" + "id=" + id + ", name=" + name + ", wage=" + wage + '}';
     }
 
-    public void setWage(String wage) {
-        this.wage = wage;
-    }
-    
-    
 }

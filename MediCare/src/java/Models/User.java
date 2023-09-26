@@ -6,9 +6,10 @@ package Models;
 
 /**
  *
- * @author hoang
+ * @author tubinh
  */
 public class User {
+
     private String id;
     private String email;
     private String password;
@@ -26,13 +27,7 @@ public class User {
     public User() {
     }
 
-    public User(String email, String name) {
-        this.email = email;
-        this.name = name;
-    }
-    
-
-    public User(String id, String email, String password, String name, String birthDate, String gender, String address, String provinceId, String identity, String medicalId, String ethinic, String phone, String profilePicture, String createdAt) {
+    public User(String id, String email, String password, String name, String birthDate, String gender, String address, String identity, String medicalId, String ethinic, String phone, String profilePicture, String createdAt) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -40,7 +35,6 @@ public class User {
         this.birthDate = birthDate;
         this.gender = gender;
         this.address = address;
-        this.provinceId = provinceId;
         this.identity = identity;
         this.medicalId = medicalId;
         this.ethinic = ethinic;
@@ -60,6 +54,28 @@ public class User {
         this.createdAt = createdAt;
     }
 
+    public User(String id, String email, String password, String name, String birthDate, String gender, String address, String provinceId, String identity, String medicalId, String ethinic, String phone, String profilePicture, String createdAt) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.address = address;
+        this.provinceId = provinceId;
+        this.identity = identity;
+        this.medicalId = medicalId;
+        this.ethinic = ethinic;
+        this.phone = phone;
+        this.profilePicture = profilePicture;
+        this.createdAt = createdAt;
+    }
+
+    public User(String email, String name) {
+        this.email = email;
+        this.name = name;
+    }
+    
     public String getId() {
         return id;
     }
@@ -163,11 +179,10 @@ public class User {
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
-    
-    
 
     @Override
     public String toString() {
         return "User{" + "id=" + id + ", email=" + email + ", password=" + password + ", name=" + name + ", birthDate=" + birthDate + ", gender=" + gender + ", address=" + address + ", identity=" + identity + ", medicalId=" + medicalId + ", ethinic=" + ethinic + ", phone=" + phone + ", profilePicture=" + profilePicture + ", createdAt=" + createdAt + '}';
     }
+
 }

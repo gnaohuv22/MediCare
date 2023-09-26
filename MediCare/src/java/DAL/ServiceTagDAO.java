@@ -4,40 +4,39 @@
  */
 package DAL;
 
-import Models.Doctor;
+import static DAL.DoctorDAO.concatenateNames;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import Models.Doctor;
 import Models.ServiceTag;
 
 /**
  *
- * @author hoang
+ * @author tubinh
  */
 public class ServiceTagDAO extends DBContext {
-    public ArrayList<ServiceTag> getServiceTagList() {
-        String SQL = "SELECT * FROM [ServiceTag]";
+
+    public ArrayList<ServiceTag> getAllServiceTags() {
         ArrayList<ServiceTag> list = new ArrayList<>();
-        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
-            ResultSet rs = ps.executeQuery();
-            
+        String sql = "SELECT * FROM ServiceTag";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                ServiceTag r = new ServiceTag(
-                        String.valueOf(rs.getInt(1)), 
+                ServiceTag s = new ServiceTag(String.valueOf(rs.getInt(1)),
                         rs.getString(2),
                         rs.getString(3),
-                        String.valueOf(rs.getInt(4))
-                );
-                list.add(r);
+                        String.valueOf(rs.getString(4)));
+                list.add(s);
             }
-            return list;
         } catch (SQLException e) {
-            System.out.println("getServiceTagList: " + e.getMessage());
+            System.out.println("getAllServiceTags: " + e);
         }
         return list;
     }
-    
+
     public ArrayList<ServiceTag> getTop10ServiceTags() {
         ArrayList<ServiceTag> list = new ArrayList<>();
         String sql = "SELECT TOP 10 * FROM ServiceTag";
@@ -120,8 +119,7 @@ public class ServiceTagDAO extends DBContext {
                         rs.getString("password"),
                         rs.getString("branchName"),
                         rs.getString("ARName"),
-//                        concatenateNames(rs.getString(15)),
-                        rs.getString("Certificates"),
+                        DoctorDAO.concatenateNames(rs.getString("Certificates")),
                         String.valueOf(rs.getInt("DepartmentId")),
                         rs.getString("departmentName"),
                         rs.getString("education"),
@@ -154,6 +152,35 @@ public class ServiceTagDAO extends DBContext {
         }
         return null;
     }
-    
-    
+
+    public ArrayList<ServiceTag> getServiceTagsByDoctorId(String doctorId) {
+        ArrayList<ServiceTag> list = new ArrayList<>();
+        String sql = "SELECT d.*, s.nametag as serviceName FROM [DoctorService] AS d\n"
+                + "JOIN \n"
+                + "ServiceTag AS s\n"
+                + "ON s.id = d.serviceId\n"
+                + "WHERE d.doctorId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, doctorId);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                ServiceTag s = new ServiceTag(String.valueOf(rs.getInt("serviceId")),
+                        rs.getString("serviceName"));
+                list.add(s);
+            }
+        } catch (SQLException e) {
+            System.out.println("getServiceTagsByDoctorId: " + e);
+        }
+        return list;
+    }
+
+    public static void main(String[] args) {
+        ServiceTagDAO sd = new ServiceTagDAO();
+        ArrayList<ServiceTag> list = sd.getServiceTagsByDoctorId("1");
+        for (ServiceTag serviceTag : list) {
+            System.out.println(serviceTag);
+        }
+    }
+
 }

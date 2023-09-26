@@ -22,20 +22,20 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <!-- bootstrap css -->
-        <link rel="stylesheet" href="assets/user/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/client/css/bootstrap.min.css">
         <!-- style css -->
-        <link rel="stylesheet" href="assets/user/css/style.css">
+        <link rel="stylesheet" href="assets/client/css/style.css">
         <!-- Responsive-->
-        <link rel="stylesheet" href="assets/user/css/responsive.css">
+        <link rel="stylesheet" href="assets/client/css/responsive.css">
         <!-- fevicon -->
-        <link rel="icon" href="assets/user/images/fevicon.png" type="image/gif" />
+        <link rel="icon" href="assets/client/images/fevicon.png" type="image/gif" />
         <!-- Scrollbar Custom CSS -->
-        <link rel="stylesheet" href="assets/user/css/jquery.mCustomScrollbar.min.css">
+        <link rel="stylesheet" href="assets/client/css/jquery.mCustomScrollbar.min.css">
         <!-- Tweaks for older IEs-->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
         <!-- owl stylesheets --> 
-        <link rel="stylesheet" href="assets/user/css/owl.carousel.min.css">
-        <link rel="stylesheet" href="assets/user/css/owl.theme.default.min.css">
+        <link rel="stylesheet" href="assets/client/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="assets/client/css/owl.theme.default.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
     </head>
 
@@ -51,41 +51,41 @@
                         <div class="col-sm-7">
                             <div class="image_main">
                                 <div class="main">
-                                    <img src="assets/user/images/img-2.png" alt="Avatar" class="image" style="width:100%">
+                                    <img src="assets/client/images/img-2.png" alt="Avatar" class="image" style="width:100%">
                                 </div>
                                 <div class="middle">
-                                    <div class="text"><img src="assets/user/images/icon-1.png" style="width: 40px;"></div>
+                                    <div class="text"><img src="assets/client/images/icon-1.png" style="width: 40px;"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-5">
                             <div class="image_main_1">
                                 <div class="main">
-                                    <img src="assets/user/images/img-3.png" alt="Avatar" class="image" style="width:100%">
+                                    <img src="assets/client/images/img-3.png" alt="Avatar" class="image" style="width:100%">
                                 </div>
                                 <div class="middle">
-                                    <div class="text"><img src="assets/user/images/icon-1.png" style="width: 40px;"></div>
+                                    <div class="text"><img src="assets/client/images/icon-1.png" style="width: 40px;"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="getquote_bt_1"><a href="#">Read More <span><img src="assets/user/images/right-arrow.png"></span></a></div>
+                    <div class="getquote_bt_1"><a href="#">Read More <span><img src="assets/client/images/right-arrow.png"></span></a></div>
                 </div>
             </div>
         </div>
         <!-- health section end -->
         <%@include file="user-footer.jsp" %>
         <!-- Javascript files-->
-        <script src="assets/user/js/jquery.min.js"></script>
-        <script src="assets/user/js/popper.min.js"></script>
-        <script src="assets/user/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/user/js/jquery-3.0.0.min.js"></script>
-        <script src="assets/user/js/plugin.js"></script>
+        <script src="assets/client/js/jquery.min.js"></script>
+        <script src="assets/client/js/popper.min.js"></script>
+        <script src="assets/client/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/client/js/jquery-3.0.0.min.js"></script>
+        <script src="assets/client/js/plugin.js"></script>
         <!-- sidebar -->
-        <script src="assets/user/js/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="assets/user/js/custom.js"></script>
+        <script src="assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="assets/client/js/custom.js"></script>
         <!-- javascript --> 
-        <script src="assets/user/js/owl.carousel.js"></script>
+        <script src="assets/client/js/owl.carousel.js"></script>
         <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
     </body>
 </html>

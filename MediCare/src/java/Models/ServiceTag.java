@@ -2,11 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package Models;
 
 /**
  *
- * @author hoang
+ * @author tubinh
  */
 public class ServiceTag {
     private String id, nametag, description, departmentId;
@@ -19,6 +20,10 @@ public class ServiceTag {
         this.nametag = nametag;
         this.description = description;
         this.departmentId = departmentId;
+    }
+    public ServiceTag(String id, String nametag) {
+        this.id = id;
+        this.nametag = nametag;
     }
 
     public String getId() {
@@ -52,6 +57,10 @@ public class ServiceTag {
     public void setDepartmentId(String departmentId) {
         this.departmentId = departmentId;
     }
-    
+
+    @Override
+    public String toString() {
+        return "ServiceTag{" + "id=" + id + ", nametag=" + nametag + ", description=" + description + ", departmentId=" + departmentId + '}';
+    }
     
 }

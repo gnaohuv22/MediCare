@@ -1223,6 +1223,41 @@ input.Enter_text::placeholder {
 }
 
 /*Css for the branch-profile-header:*/
+.doctor-profile-header,
+.branch-profile-header {
+    background-image: url('../images/medical-background-green.png');
+    background-size: cover; /* Hiển thị ảnh nền với kích thước tối ưu */
+    background-position: center; /* Căn giữa ảnh nền */
+    background-repeat: no-repeat; /* Không lặp lại ảnh nền */
+    padding: 20px; /* Khoảng cách giữa nội dung và viền */
+    display: flex; /* Sử dụng flexbox để căn giữa phần bên trái và bên phải */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding-left: 10%;
+    margin-bottom: 50px;
+}
+
+.branch-image {
+    width: 100px; /* Độ rộng của hình ảnh branch */
+    height: 100px; /* Chiều cao của hình ảnh branch */
+    border-radius: 5%; /* Để làm tròn hình ảnh */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    transform: scale(1.3);
+    margin-left: 10vw;
+}
+
+.branch-name {
+    font-size: 32px; /* Kích thước font cho tên branch */
+    font-weight: bold; /* In đậm cho tên branch */
+    color: #fff; /* Màu chữ */
+    display: block;
+    flex: 1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+    padding-left: 50px;
+}
+
+/*Css for the branch-profile-header:*/
 .branch-profile-header {
     background-image: url('../images/medical-background-green.png');
     background-size: cover; /* Hiển thị ảnh nền với kích thước tối ưu */
@@ -1293,4 +1328,291 @@ input.Enter_text::placeholder {
 .branch-info.open .intro-content {
     display: block; /* Hiện phần thông tin khi mở */
 }
+
+/*Css for the doctor detail page:*/
+.doctor-profile-bottom {
+    background-color: #fff;
+    width: 100%;
+    height: 50px;
+    margin-top: -50px;
+    border-top: 3px solid #ccc;
+    padding-right: 10%;
+}
+
+.tab-components {
+    display: block;
+    height: 100%;
+    float: right;
+    text-align: center;
+    border: none;
+}
+
+ul .tab-component {
+    display: inline-block;
+    font-size: 20px;
+    text-transform: uppercase;
+    height: 100%;
+    align-items: center;
+
+}
+
+ul .tab-component a {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+ul .tab-component a:hover {
+    color: #fff;
+}
+.tab-content>.active  {
+    display: inline-block;
+}
+
+/* CSS */
+.doctor-container > div {
+    display: none;
+}
+
+#detail-info {
+    display: block;
+}
+
+
+.tab-component.active {
+    background-color: #1ead5b;
+    color: #fff;
+}
+
+.tab-component:not(.active):hover {
+    background-color: #1ead5b;
+    color: #fff;
+}
+
+.tab-component:not(.active):hover a{
+    color: #fff;
+}
+
+.booking-tab a{
+    color: #289a5a;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+/*Css for the doctor-container:*/
+.doctor-container {
+    background-color: #ffffffad;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 30px;
+}
+
+.detail-field {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    /*padding: 20px;*/
+    margin-bottom: 10px;
+}
+
+.detail-field-header {
+    border-bottom: 1px solid #ccc;
+}
+
+/*Css for class collapse-trigger:*/
+
+.detail-field-header {
+    display: flex;
+    padding-left: 10px;
+    padding-right: 10px;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd; /* Underline nhạt dưới tiêu đề */
+}
+.detail-field-header h2 {
+    padding: 0;
+}
+.detail-field-header h2 {
+    margin: 0;
+}
+
+/*Css for the doctor images:*/
+#images-doctor-content img{
+    width: 150px;
+    height: fit-content;
+    border: 1px solid #ccc;
+}
+/*Css for the rating - review of a doctor:*/
+
+.rating-and-time {
+    align-items: center;
+}
+
+.each-review-detail {
+    padding: 16px;
+    border-bottom: 1px solid #ccc;
+}
+.each-review-detail:last-child {
+    border-bottom: none;
+}
+
+.each-review-detail p {
+    margin: 0;
+    margin-left: 10px;
+    color: #333;    
+    font-weight: 500;
+}
+.rating-and-time p {
+    color: #ccc;
+}
+
+.star-rating {
+    display: inline-flex;
+}
+
+.fa-star {
+    color: #f2ae1c;
+}
+.fa-star-grey {
+    color: #ccc;
+}
+
+.time-rating {
+    padding-left: 36px;
+}
+
+.each-star-rating {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+}
+.each-star-rating:last-child {
+    border-bottom: none;
+}
+
+.detail-field-header-overview-rating {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.detail-field-header-overview-rating span {
+    flex: 1;
+    text-align: right;
+}
+
+.detail-field-header a{
+    z-index: 9;
+}
+
+/*Css for experience content:*/
+.overview-rating-content-each,
+.education-content-each,
+.service-content-each,
+.awards-content-each,
+.experience-content-each {
+    border-bottom: 1px solid #ccc;
+}
+
+#introduce-content {
+    padding: 20px;
+}
+
+#introduce-content p {
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#service-content p,
+#workplace-content p,
+.experience-content-each  p {
+    font-weight: 600;
+}
+
+.overview-rating-content-each:last-child,
+.education-content-each:last-child,
+.service-content-each:last-child,
+.awards-content-each:last-child,
+.experience-content-each:last-child {
+    border-bottom: none;
+}
+
+.papers-content-each ul{
+    margin: 20px;
+}
+
+.papers-content-each ul,
+.papers-content-each li {
+    list-style: inside;
+}
+
+/*Css the rating-bar:*/
+.rating-bar {
+  width: 200px; /* Chiều rộng tổng của thanh dài */
+  height: 10px; /* Chiều cao của thanh dài */
+  background-color: #ccc; /* Màu nền của thanh dài */
+  position: relative; /* Để có thể sử dụng position absolute cho .filler */
+  flex: 7;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.rating-bar-filler {
+  height: 100%; /* Chiều cao của phần filler */
+  background-color: #4CAF50; /* Màu của phần filler */
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: width 0.5s; /* Hiệu ứng thay đổi chiều rộng */
+  white-space: nowrap; /* Đảm bảo văn bản không bị tràn ra khỏi thanh dài */
+  color: #fff; /* Màu văn bản trên thanh dài */
+  text-align: center; /* Canh giữa văn bản */
+  line-height: 10px; /* Canh giữa theo chiều dọc */
+}
+
+.star-rating-index {
+    flex: 1;
+    margin-right: 5px;
+    text-align: right;
+}
+
+.star-rating-icon {
+    flex: 1;
+    margin-left: 5px;
+    text-align: left;
+}
+
+.star-rating-text {
+    flex: 2;
+}
+
+.doctor-container h2 {
+    font-size: 24px;
+}
+
+.detail-field-header-overview-rating .star-rating i .fa-star{
+    background-color: #ccc;
+}
+
+.overview-rating-content-each span {
+    display: block;
+}
+
+.overview-rating-content-each {
+    display: flex;  
+    padding: 10px;
+}
+
+.rating-field {
+    flex: 1;
+}
+
+.rating-value {
+    font-weight: 600;
+}
+
+
 

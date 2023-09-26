@@ -2,11 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package Models;
 
 /**
  *
- * @author hoang
+ * @author tubinh
  */
 public class Reviews {
     private String id, userId, doctorId, appointmentId, rating, reviewContent, createdAt;
@@ -79,6 +80,10 @@ public class Reviews {
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Reviews{" + "id=" + id + ", userId=" + userId + ", doctorId=" + doctorId + ", appointmentId=" + appointmentId + ", rating=" + rating + ", reviewContent=" + reviewContent + ", createdAt=" + createdAt + '}';
+    }
     
 }

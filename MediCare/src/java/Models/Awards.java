@@ -9,15 +9,19 @@ package Models;
  *
  * @author tubinh
  */
-public class Department {
-    private String id, name, description;
+public class Awards {
+    private String id, doctorId, description;
 
-    public Department() {
+    public Awards() {
     }
 
-    public Department(String id, String name, String description) {
+    public Awards(String description) {
+        this.description = description;
+    }
+
+    public Awards(String id, String doctorId, String description) {
         this.id = id;
-        this.name = name;
+        this.doctorId = doctorId;
         this.description = description;
     }
 
@@ -29,12 +33,12 @@ public class Department {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getDoctorId() {
+        return doctorId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
     }
 
     public String getDescription() {
@@ -47,7 +51,7 @@ public class Department {
 
     @Override
     public String toString() {
-        return "Department{" + "id=" + id + ", name=" + name + ", description=" + description + '}';
+        return "Awards{" + "id=" + id + ", doctorId=" + doctorId + ", description=" + description + '}';
     }
     
 }

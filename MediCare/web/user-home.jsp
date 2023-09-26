@@ -20,23 +20,23 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <!-- bootstrap css -->
-        <link rel="stylesheet" href="assets/user/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="assets/client/css/bootstrap.min.css" />
         <!-- style css -->
-        <link rel="stylesheet" href="assets/user/css/style.css" />
+        <link rel="stylesheet" href="assets/client/css/style.css" />
         <!-- Responsive-->
-        <link rel="stylesheet" href="assets/user/css/responsive.css" />
+        <link rel="stylesheet" href="assets/client/css/responsive.css" />
         <!-- fevicon -->
-        <link rel="icon" href="assets/user/images/favicon.png" type="image/gif" />
+        <link rel="icon" href="assets/client/images/favicon.png" type="image/gif" />
         <!-- Scrollbar Custom CSS -->
-        <link rel="stylesheet" href="assets/user/css/jquery.mCustomScrollbar.min.css" />
+        <link rel="stylesheet" href="assets/client/css/jquery.mCustomScrollbar.min.css" />
         <!-- Tweaks for older IEs-->
         <link
             rel="stylesheet"
             href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
             />
         <!-- owl stylesheets -->
-        <link rel="stylesheet" href="assets/user/css/owl.carousel.min.css" />
-        <link rel="stylesheet" href="assets/user/css/owl.theme.default.min.css" />
+        <link rel="stylesheet" href="assets/client/css/owl.carousel.min.css" />
+        <link rel="stylesheet" href="assets/client/css/owl.theme.default.min.css" />
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
@@ -67,7 +67,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="image_1"><img src="assets/user/images/img-1.png" /></div>
+                                    <div class="image_1"><img src="assets/client/images/img-1.png" /></div>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                         <c:forEach var="doctor" items="${trendDoctors}">
                             <div class="doctor-block">
                                 <div class="doctor-img">
-                                    <img src="assets/user/images/doctor-img.png" width="100" alt="${doctor.getDisplayName()}">
+                                    <img src="assets/client/images/doctor-img.png" width="100" alt="${doctor.getDisplayName()}">
                                 </div>
                                 <div class="doctor-information">
                                     <span class="doctor-name">${doctor.getDisplayName()}</span><br>
@@ -185,15 +185,15 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="icon_main">
-                            <div class="icon_7"><img src="assets/user/images/icon-7.png" /></div>
+                            <div class="icon_7"><img src="assets/client/images/icon-7.png" /></div>
                             <h4 class="diabetes_text">Đội ngũ y bác sĩ nhiệt tình</h4>
                         </div>
                         <div class="icon_main">
-                            <div class="icon_7"><img src="assets/user/images/icon-5.png" /></div>
+                            <div class="icon_7"><img src="assets/client/images/icon-5.png" /></div>
                             <h4 class="diabetes_text">Năng lực chuyên môn cao</h4>
                         </div>
                         <div class="icon_main">
-                            <div class="icon_7"><img src="assets/user/images/icon-6.png" /></div>
+                            <div class="icon_7"><img src="assets/client/images/icon-6.png" /></div>
                             <h4 class="diabetes_text">Tiếp nhận bệnh nhân nhanh như chớp</h4>
                         </div>
                     </div>
@@ -259,7 +259,7 @@
                                     <div class="review-content">
                                         <p class="lorem_text">${review.getReviewContent()}</p>
                                         <div class="quote_icon">
-                                            <img src="assets/user/images/quote-icon.png" />
+                                            <img src="assets/client/images/quote-icon.png" />
                                         </div>
                                     </div>
                                 </div>
@@ -273,16 +273,16 @@
     <!-- client section end -->
     <%@include file="user-footer.jsp" %>
     <!-- Javascript files-->
-    <script src="assets/user/js/jquery.min.js"></script>
-    <script src="assets/user/js/popper.min.js"></script>
-    <script src="assets/user/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/user/js/jquery-3.0.0.min.js"></script>
-    <script src="assets/user/js/plugin.js"></script>
+    <script src="assets/client/js/jquery.min.js"></script>
+    <script src="assets/client/js/popper.min.js"></script>
+    <script src="assets/client/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/client/js/jquery-3.0.0.min.js"></script>
+    <script src="assets/client/js/plugin.js"></script>
     <!-- sidebar -->
-    <script src="assets/user/js/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script src="assets/user/js/custom.js"></script>
+    <script src="assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="assets/client/js/custom.js"></script>
     <!-- javascript -->
-    <script src="assets/user/js/owl.carousel.js"></script>
+    <script src="assets/client/js/owl.carousel.js"></script>
     <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
     <script>
         $(document).ready(function () {

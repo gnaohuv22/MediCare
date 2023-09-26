@@ -13,9 +13,10 @@ import Models.Doctor;
 
 /**
  *
- * @author hoang
+ * @author tubinh
  */
 public class BranchDAO extends DBContext {
+
     public ArrayList<Branch> getAllBranches() {
         ArrayList<Branch> list = new ArrayList<>();
         String sql = "SELECT * FROM Branch";
@@ -34,6 +35,7 @@ public class BranchDAO extends DBContext {
         }
         return list;
     }
+
     public Branch getBranchByBranchId(String id) {
         String sql = "SELECT * FROM Branch WHERE id = ?";
         try {
@@ -115,8 +117,7 @@ public class BranchDAO extends DBContext {
                         rs.getString("password"),
                         rs.getString("branchName"),
                         rs.getString("ARName"),
-//                        concatenateNames(rs.getString(15)),
-                        rs.getString("Certificates"),
+                        DoctorDAO.concatenateNames(rs.getString("Certificates")),
                         String.valueOf(rs.getInt("DepartmentId")),
                         rs.getString("departmentName"),
                         rs.getString("education"),
@@ -131,12 +132,13 @@ public class BranchDAO extends DBContext {
         }
         return list;
     }
-    
+
     public static void main(String[] args) {
         BranchDAO bd = new BranchDAO();
         ArrayList<Doctor> list = bd.getAllDoctorsByBranchId("1");
-        for (Doctor doctor : list) {
-            System.out.println(doctor);
+        for (Doctor branch : list) {
+            System.out.println(branch);
         }
     }
+
 }
