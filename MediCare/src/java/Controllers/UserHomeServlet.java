@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -56,6 +57,18 @@ public class UserHomeServlet extends HttpServlet {
         BannerDetailsDAO bdd = new BannerDetailsDAO();
         ArrayList<BannerDetails> bannerDetailsList = bdd.getAllBannerDetails();
         
+        NewsDAO nd = new NewsDAO();
+        ArrayList<News> topNews = nd.getTopNews();
+        
+        NewsCategoryDAO ncd = new NewsCategoryDAO();
+        ArrayList<NewsCategory> categories = ncd.getNewsCategoryList();
+        
+        EmployeeDAO ed = new EmployeeDAO();
+        ArrayList<Employee> employees = ed.getEmployeeList();
+        
+        session.setAttribute("topNews", topNews);
+        session.setAttribute("categories", categories);
+        session.setAttribute("employees", employees);
         session.setAttribute("bannerList", bannerList);
         session.setAttribute("bannerDetailsList", bannerDetailsList);
         session.setAttribute("trendDoctors", trendDoctors);
@@ -71,5 +84,9 @@ public class UserHomeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        try (PrintWriter out = response.getWriter()) {
+            out.print("<h1>This page should not be found!!</h1>");
+            out.print("<p>+1 easter egg</p>");
+        }
     }
 }

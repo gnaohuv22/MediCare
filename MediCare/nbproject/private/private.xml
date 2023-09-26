@@ -3,25 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/src/java/Models/User.java</file>
-            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/src/java/DAL/BranchDAO.java</file>
-            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/src/java/Controllers/UserDoctorDetailServlet.java</file>
-            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/user-doctor-detail.jsp</file>
-            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/css/style.css</file>
-            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/user-home.jsp</file>
-            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/src/java/Controllers/DoctorDetailServlet.java</file>
-            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/src/java/DAL/DoctorDAO.java</file>
-            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/src/java/DAL/ServiceTagDAO.java</file>
-            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/user-header.jsp</file>
-            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/src/java/DAL/UserDAO.java</file>
-            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/src/java/Controllers/DoctorAppointmentController.java</file>
             <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/src/java/Controllers/DoctorLoginController.java</file>
-            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/src/java/Controllers/UserHomeServlet.java</file>
+            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/doctor-footer.jsp</file>
+            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/doctor-dashboard.jsp</file>
+            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/doctor-sidebar.jsp</file>
+            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/user-login.jsp</file>
+            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/user-medicine.jsp</file>
+            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/doctor-login.jsp</file>
             <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/doctor-appointments.jsp</file>
             <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/user-list-all-doctor.jsp</file>
-            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/WEB-INF/web.xml</file>
-            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/user-register.jsp</file>
-            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/src/java/Controllers/UserLoginServlet.java</file>
+            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/user-home.jsp</file>
+            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/doctor-header.jsp</file>
         </group>
     </open-files>
 </project-private>

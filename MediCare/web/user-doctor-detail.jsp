@@ -31,7 +31,7 @@
         <!-- Scrollbar Custom CSS -->
         <link rel="stylesheet" href="assets/user/css/jquery.mCustomScrollbar.min.css">
         <!-- Tweaks for older IEs-->
-        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/assets/user/css/font-awesome.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
         <!-- owl stylesheets --> 
         <link rel="stylesheet" href="assets/user/css/owl.carousel.min.css">
         <link rel="stylesheet" href="assets/user/css/owl.theme.default.min.css">

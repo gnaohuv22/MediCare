@@ -2,6 +2,20 @@
 
 =================================================================
 
+### v3.4
+
+- Add some table (Navigation Bar, Banner, etc) to display information from DB.
+- Add viewCount and coverImage for News table for easier display.
+- Add sample data for testing purposes only.
+
+=================================================================
+
+### v3.3
+
+- Add some fucking shit that the author forgot to take note
+
+=================================================================
+
 ### v3.2.2 ###
 
 - Remove 'password' from FamilyProfile (why it appears that????)

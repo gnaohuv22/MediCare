@@ -9,12 +9,12 @@ package Models;
  * @author hoang
  */
 public class News {
-    private String id, title, content, author, categoryId, createdAt, lastModified;
+    private String id, title, content, author, categoryId, createdAt, lastModified, viewCount, coverImage;
 
     public News() {
     }
 
-    public News(String id, String title, String content, String author, String categoryId, String createdAt, String lastModified) {
+    public News(String id, String title, String content, String author, String categoryId, String createdAt, String lastModified, String viewCount, String coverImage) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -22,6 +22,8 @@ public class News {
         this.categoryId = categoryId;
         this.createdAt = createdAt;
         this.lastModified = lastModified;
+        this.viewCount = viewCount;
+        this.coverImage = coverImage;
     }
 
     public String getId() {
@@ -79,6 +81,20 @@ public class News {
     public void setLastModified(String lastModified) {
         this.lastModified = lastModified;
     }
-    
-    
+
+    public String getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(String viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    public String getCoverImage() {
+        return coverImage;
+    }
+
+    public void setCoverImage(String coverImage) {
+        this.coverImage = coverImage;
+    }
 }

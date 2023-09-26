@@ -32,7 +32,7 @@
         <!-- Tweaks for older IEs-->
         <link
             rel="stylesheet"
-            href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/assets/user/css/font-awesome.css"
+            href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
             />
         <!-- owl stylesheets -->
         <link rel="stylesheet" href="assets/user/css/owl.carousel.min.css" />
@@ -76,7 +76,7 @@
             </div>
         </div>
         <!-- banner section end -->
-        <!-- health section start -->
+        <!-- hot doctor section start -->
         <div id="doctor-carousel" class="carousel slide" data-ride="carousel">
             <div class="trend-container container">
                 <h1 class="trend-doctor-title">Bác sĩ nổi bật</h1>
@@ -111,8 +111,8 @@
             </div>
         </div>
 
-        <!-- health section end -->
-        <!-- knowledge section end -->
+        <!-- hot doctor section end -->
+        <!-- banner section start -->
         <c:forEach items="${sessionScope.bannerList}" var="banner">
             <div class="banner_section layout_padding" style="background-image: url('${banner.getImage()}')">
                 <div class="container">
@@ -140,40 +140,39 @@
             </div>
         </div>
     </c:forEach>
-    <!-- knowledge section end -->
+    <!-- banner section end -->
     <!-- news section start -->
     <div class="news_section layout_padding">
         <div class="container">
-            <h1 class="health_taital">Why choose 24hr home care</h1>
+            <h1 class="health_taital">Bài viết nổi bật từ các Chuyên gia</h1>
             <p class="health_text">
-                labore et dolore magna aliqua. Ut enim ad minim veniam
+                “Đi sâu vào các bài viết sâu sắc từ các chuyên gia chăm sóc sức khỏe hàng đầu, đưa ra những quan điểm mới mẻ về sức khỏe và thể chất.”
             </p>
-            <div class="news_section_2 layout_padding">
-                <div class="row">
-                    <div class="col-lg-4 col-sm-6">
-                        <div class="box_main">
-                            <div class="icon_1"><img src="assets/user/images/icon-2.png" /></div>
-                            <h4 class="daily_text">Daily care experts</h4>
+            <div class="news_section_3 layout_padding">
+                <c:forEach items="${topNews}" var="news">
+                    <a class="news-block" href="user-news/id=${news.getId()}">
+                        <div class="news-cover">
+                            <img src="${news.getCoverImage()}" alt="Cover image of ${news.getTitle()}"/>
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-6">
-                        <div class="box_main active">
-                            <div class="icon_1"><img src="assets/user/images/icon-3.png" /></div>
-                            <h4 class="daily_text_1">Available 24/7</h4>
+                        <div class="news-title">
+                            ${news.getTitle()}
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-6">
-                        <div class="box_main">
-                            <div class="icon_1"><img src="assets/user/images/icon-4.png" /></div>
-                            <h4 class="daily_text_1">Balanced care</h4>
+                        <c:forEach items="${employees}" var="e">
+                            <c:if test="${e.getEmail() eq news.getAuthor()}">
+                                <div class="news-author">
+                                    Author: ${e.getName()}
+                                </div>
+                            </c:if>
+                        </c:forEach>
+                        
+                        <div class="news-create-time">
+                            <i class="fas fa-calendar"> ${news.getCreatedAt()}</i>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="getquote_bt">
-                <a href="#"
-                   >Get A Quote <span><img src="assets/user/images/right-arrow.png" /></span
-                    ></a>
+                        <div class="news-view-count">
+                            <i class="fas fa-eye"> ${news.getViewCount()}</i>
+                        </div>
+                    </a>
+                </c:forEach>
             </div>
         </div>
     </div>
