@@ -150,7 +150,7 @@
             </p>
             <div class="news_section_3 layout_padding">
                 <c:forEach items="${topNews}" var="news">
-                    <a class="news-block" href="user-news/id=${news.getId()}">
+                    <a class="news-block" href="user-news?id=${news.getId()}">
                         <div class="news-cover">
                             <img src="${news.getCoverImage()}" alt="Cover image of ${news.getTitle()}"/>
                         </div>

@@ -12,6 +12,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>!!UNDER CONSTRUCTION!!</h1>
+        <h1>ĐANG PHÁT TRIỂN SCREEN NÀY</h1>
     </body>
 </html>
