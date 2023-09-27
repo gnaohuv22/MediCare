@@ -421,7 +421,7 @@ button {
     width: 32%; /* Kích thước của mỗi phần tử bác sĩ */
     min-width: 360px;
     height: fit-content;
-    min-height: 400px;
+    min-height: 420px;
     margin-right: 20px; /* Khoảng cách giữa các phần tử bác sĩ */
     display: flex; /* Hiển thị các phần tử con bên trong theo chiều ngang */
     flex-direction: column; /* Sắp xếp các phần tử con bên trong theo chiều dọc */
