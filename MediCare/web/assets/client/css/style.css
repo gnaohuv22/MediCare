@@ -257,6 +257,16 @@ button {
     color: #15e4d0;
 }
 
+.form-inline .form-control {
+    transition: all 0.5s ease-in-out; /* Thêm hiệu ứng chuyển đổi */
+    width: 200px;
+}
+
+ .form-inline .form-control:focus {
+    transition: all 0.5s ease-in-out; /* Thêm hiệu ứng chuyển đổi */
+    width: 500px; /* Thay đổi kích thước khi thanh tìm kiếm được focus */
+}
+
 .form-control {
     border-radius: 10px;
     height: 45px;
@@ -357,37 +367,32 @@ button {
     margin-top: 25px;
 }
 
-#main_slider .carousel-control-prev:hover,
-#main_slider .carousel-control-next:hover,
-#main_slider .carousel-control-prev:focus,
-#main_slider .carousel-control-next:focus {
-    border: 4px solid #4bc5b8;
-    color: #68B2A0;
+#doctor-carousel .carousel-control-prev:hover,
+#doctor-carousel .carousel-control-next:hover {
+    background-color: #E0ECDE;
+    color: #2C6975;
 }
 
-#main_slider a.carousel-control-next {
+#doctor-carousel .carousel-control-prev,
+#doctor-carousel .carousel-control-next {
     position: absolute;
-    left: 200px;
-    top: 85%;
-}
-
-#main_slider a.carousel-control-prev {
-    position: absolute;
-    left: 120px;
-    top: 85%;
-    border: 4px solid #4bc5b8;
-    color: #4bc5b8;
-}
-
-#main_slider .carousel-control-prev,
-#main_slider .carousel-control-next {
-    width: 65px;
-    height: 65px;
-    border: 4px solid #000;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #2C6975;
     opacity: 1;
     font-size: 30px;
-    color: #000;
+    color: #E0ECDE;
     border-radius: 100%;
+    width: 65px;
+    height: 65px;
+}
+
+#doctor-carousel .carousel-control-prev {
+    left: 10%;
+}
+
+#doctor-carousel .carousel-control-next {
+    right: 10%;
 }
 
 .trend-container {
@@ -413,49 +418,63 @@ button {
 
 /* Style cho mỗi phần tử bác sĩ trong danh sách */
 .doctor-block {
-    min-width: 32%; /* Kích thước của mỗi phần tử bác sĩ */
-    min-height: 350px;
+    width: 32%; /* Kích thước của mỗi phần tử bác sĩ */
+    min-width: 360px;
+    height: fit-content;
+    min-height: 400px;
     margin-right: 20px; /* Khoảng cách giữa các phần tử bác sĩ */
     display: flex; /* Hiển thị các phần tử con bên trong theo chiều ngang */
     flex-direction: column; /* Sắp xếp các phần tử con bên trong theo chiều dọc */
-    border: 1px solid #2C6975;
+    box-shadow: 0px 0px 6px #2C6975;
     border-radius: 20px;
     padding: 20px;
-    overflow-x: auto;
-    white-space: nowrap;
     line-height: 1.2;
     position: relative;
     margin-top: 10px;
     margin-bottom: 10px;
+    background-color: #FFFFFF;
 }
 
 /* Style cho hình ảnh đại diện */
 .doctor-img img {
-    min-width: 100px;
-    min-height: 100px;
     margin-right: 20px; /* Giảm khoảng cách giữa hình ảnh và thông tin bác sĩ */
+}
+
+.doctor-img {
+    min-height: 125px;
+    min-width: 125px;
+    padding-right: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Style cho thông tin bác sĩ */
 .doctor-information {
     flex-grow: 1; /* Để phần thông tin bác sĩ mở rộng để lấp đầy khoảng trống còn lại */
+    display: flex;
+    flex-direction: column;
 }
 
 /* Style cho phần giới thiệu */
 .doctor-intro {
-    font-size: 12px;
-    color: black;
+    color: gray;
     max-height: 100px; /* Điều này giới hạn chiều cao của phần giới thiệu */
-    overflow: hidden;
-    text-overflow: ellipsis; /* Thay thế văn bản bị tràn bằng dấu ba chấm */
-    white-space: nowrap;
+}
+
+.doctor-introduce {
+    padding-right: 20px;
+    flex-grow: 1;
+}
+
+.find-more {
+    align-items: center;
+    padding-top: 40px;
+    background-color: white;
 }
 
 /* Style cho nút 'Tìm hiểu thêm' */
 .find-more a {
-    position: absolute;
-    bottom: 15px;
-    left: 50%;
+    position: static;
     transform: translateX(-50%);
     background-color: #2C6975;
     color: #E0ECDE;
@@ -1429,7 +1448,7 @@ ul .tab-component a:hover {
 
 /*Css for the doctor-container:*/
 .doctor-container {
-    background-color: #ffffffad;
+    background-color: #ffffff;
     padding-left: 10%;
     padding-right: 10%;
     padding-top: 30px;
@@ -1663,19 +1682,22 @@ ul .tab-component a:hover {
     display: block; /* Hiển thị các phần tử con theo chiều ngang */
 }
 
+.doctor-img {
+    display: flex;
+    flex-direction: column;
+}
+
 /* Style cho mỗi phần tử bác sĩ trong danh sách */
 .search-doctor-block {
     min-width: 100%; /* Kích thước của mỗi phần tử bác sĩ */
-    min-height: 350px;
+    min-height: fit-content;
     margin-right: 20px; /* Khoảng cách giữa các phần tử bác sĩ */
     display: flex; /* Hiển thị các phần tử con bên trong theo chiều ngang */
     flex-direction: row; /* Sắp xếp các phần tử con bên trong theo chiều dọc */
+    justify-content: space-between;
     box-shadow: 0px 0px 6px #2C6975;
     border-radius: 20px;
     padding: 20px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
     line-height: 1.2;
     position: relative;
     margin-top: 10px;
@@ -1698,26 +1720,24 @@ ul .tab-component a:hover {
 .search-doctor-introduce {
     padding-right: 20px;
     flex-grow: 1;
-    overflow: hidden;
-    text-overflow: ellipsis; /* Thay thế văn bản bị tràn bằng dấu ba chấm */
-    white-space: nowrap;
 }
 
 /* Style cho phần giới thiệu */
 .search-doctor-intro {
-    font-size: 12px;
-    color: black;
+    color: gray;
     max-height: 100px; /* Điều này giới hạn chiều cao của phần giới thiệu */
-    overflow: hidden;
-    text-overflow: ellipsis; /* Thay thế văn bản bị tràn bằng dấu ba chấm */
-    white-space: nowrap;
+}
+
+.search-find-more {
+    align-items: center;
+    margin-right: 100px;
+    padding-top: 40px;
+    background-color: white;
 }
 
 /* Style cho nút 'Tìm hiểu thêm' */
 .search-find-more a {
-    position: absolute;
-    bottom: 15px;
-    left: 50%;
+    position: static;
     transform: translateX(-50%);
     background-color: #2C6975;
     color: #E0ECDE;

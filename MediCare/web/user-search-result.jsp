@@ -54,14 +54,23 @@
                     <c:forEach var="doctor" items="${doctors}">
                         <div class="search-doctor-block">
                             <div class="doctor-img">
-                                <img src="assets/client/images/doctor-img.png" width="100" alt="${doctor.getDisplayName()}">
+                                <img src="assets/client/images/doctor-img.png" width="100" height="100" alt="${doctor.getDisplayName()}">
+                                <div class="doctor-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i><br>
+                                    demo ver
+                                </div>
+
                             </div>
                             <div class="search-doctor-information">
                                 <span class="search-doctor-name">${doctor.getDisplayName()}</span><br>
                                 <span class="search-doctor-branch-name">${doctor.getBranchName()}</span><br>
                                 <span class="search-doctor-intro">${doctor.getCertificates()}</span><br>
                                 <span class="search-doctor-intro">${doctor.getARName()}</span><br>
-                                <span class="search-doctor-introduce">${doctor.getIntroduce()}</span>
+                                <span class="search-doctor-introduce" data-doctor-id="${doctor.getId()}">${doctor.getIntroduce()}</span>
                                 <button class="search-find-more">
                                     <a href="user-doctor-detail?doctorId=${doctor.getId()}">Tìm hiểu thêm</a>
                                 </button>
@@ -85,5 +94,25 @@
         <!-- javascript -->
         <script src="assets/client/js/owl.carousel.js"></script>
         <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('.search-doctor-introduce').each(function () {
+                    var maxLength = 365; // Đặt độ dài tối đa cho nội dung
+                    if ($(this).text().length > maxLength) {
+                        var shortText = $(this).text().substr(0, maxLength) + '...'; // Cắt nội dung
+                        var longText = $(this).text().substr(maxLength);
+
+                        var doctorId = $(this).data('doctor-id');
+
+                        // Tạo nút "Xem thêm"
+                        var btn = $('<a href="user-doctor-detail?doctorId=' + doctorId + '" style="color: #68B2A0; text-decoration: underline;"> Xem thêm>></a>');
+
+                        // Thay thế nội dung bằng nội dung đã được cắt và nút "Xem thêm"
+                        $(this).html(shortText);
+                        $(this).append(btn);
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
