@@ -341,14 +341,74 @@ public class DoctorDAO extends DBContext {
         }
         return list;
     }
+    
+    public ArrayList<Doctor> getDoctorsByPattern(String pattern) {
+        ArrayList<Doctor> list = new ArrayList<>();
+        String searchValue = "%" + pattern + "%";
+        String SQL = "SELECT d.id, d.email, d.password, d.displayName, b.[name] AS branchName, d.phone, a.[name] AS ARName, "
+                + "COUNT(r.id) AS ReviewCount, DC.Certificates AS Certificates, Department.id as DepartmentId, "
+                + "Department.[name] AS departmentName, CV.education, CV.introduce, CV.workHistory, CV.startYear, "
+                + "d.salary, d.workplace, d.profilePicture, d.status "
+                + "FROM Doctor AS d "
+                + "FULL JOIN Branch AS b On b.id = d.branchId "
+                + "FULL JOIN AcademicRank AS a On a.id = d.ARId "
+                + "FULL JOIN DoctorCertificates DC ON d.id = DC.DoctorId "
+                + "FULL JOIN DoctorService AS DS ON DS.doctorId = d.id "
+                + "FULL JOIN ServiceTag AS ST ON ST.id = DS.serviceId "
+                + "FULL JOIN Department ON Department.id = ST.departmentId "
+                + "FULL JOIN CurriculumVitae AS CV On CV.id = d.CVId "
+                + "LEFT JOIN Reviews AS r ON r.doctorId = d.id "
+                + "WHERE d.displayName LIKE ? "
+                + "GROUP BY d.id, d.email, d.password, d.displayName, b.[name], d.phone, a.[name], DC.Certificates,"
+                + "Department.id, Department.[name], CV.education, CV.introduce, CV.workHistory,"
+                + "CV.startYear, d.salary, d.workplace, d.profilePicture, d.status "
+                + "ORDER BY COUNT(r.id) DESC;";
+        
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setString(1, searchValue);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                Doctor d = new Doctor(
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(9),
+                        String.valueOf(rs.getInt(10)),
+                        rs.getString(11),
+                        rs.getString(12),
+                        rs.getString(13),
+                        rs.getString(14),
+                        String.valueOf(rs.getInt(15)),
+                        String.valueOf(rs.getFloat(16)),
+                        rs.getString(17),
+                        rs.getString(18),
+                        String.valueOf(rs.getInt(19))
+                );
+
+                list.add(d);
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("getDoctorsByPattern: " + e.getMessage());
+        }
+        return list;
+    }
 
     public static void main(String[] args) {
         DoctorDAO dd = new DoctorDAO();
-        ArrayList<Doctor> list = dd.getTrendingDoctors();
+        ArrayList<Doctor> list = dd.getDoctorsByPattern("a");
         for (Doctor doctor : list) {
             System.out.println(doctor);
         }
 
 //        System.out.println("concat: " + concatenateNames(""));
     }
+
+    
 }

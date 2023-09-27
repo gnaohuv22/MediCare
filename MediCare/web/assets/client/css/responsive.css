@@ -9,6 +9,20 @@
     }
 }
 
+/* Khi chiều rộng của cửa sổ trình duyệt lớn hơn 1560px */
+@media (min-width: 1614px) {
+    .form-inline .form-control {
+        width: 500px; /* Thay đổi giá trị này để điều chỉnh chiều rộng */
+    }
+}
+
+/* Khi chiều rộng của cửa sổ trình duyệt nhỏ hơn hoặc bằng 1560px */
+@media (max-width: 1614px) {
+    .form-inline .form-control {
+        width: 65%; /* Thay đổi giá trị này để điều chỉnh chiều rộng */
+    }
+}
+
 
 /*------------------------------------------------------------------- 767px x 599px ---------------------------------------------------------------------*/
 
@@ -193,7 +207,7 @@
     }
     .navbar-light .navbar-nav .nav-link:focus,
     .navbar-light .navbar-nav .nav-link:hover {
-        color: #15e4d0;
+        color: #2C6975;
     }
     .nav-link {
         display: none;

@@ -63,8 +63,15 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <div class="mx-auto">
+                <div class="mx-auto d-flex">
                     <ul class="navbar-nav mr-auto">
+                        <form class="form-inline my-2 my-lg-0 mr-3" action="search-doctor" method="GET">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Nhập tên bác sĩ..." aria-label="Search" name="pattern">
+
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
                         <c:forEach items="${sessionScope.listNavigationItem}" var="item">
                             <c:choose>
                                 <c:when test="${item.getName() == 'Branches'}">

@@ -230,7 +230,7 @@ button {
 }
 
 .logo {
-    width: 42%;
+    width: 15%;
     float: left;
 }
 
@@ -255,6 +255,26 @@ button {
 }
 .navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show>.nav-link {
     color: #15e4d0;
+}
+
+.form-control {
+    border-radius: 10px;
+    height: 45px;
+}
+
+.btn-outline-success {
+    background-color: #2C6975;
+    color: #E0ECDE;
+    border: 1px solid #E0ECDE;
+    border-radius: 180px;
+    width: 45px;
+    height: 45px;
+}
+
+.btn-outline-success:hover {
+    background-color: #E0ECDE;
+    color: #2C6975;
+    border: 1px solid #2C6975;
 }
 
 .banner_section {
@@ -411,7 +431,8 @@ button {
 
 /* Style cho hình ảnh đại diện */
 .doctor-img img {
-    width: 100px;
+    min-width: 100px;
+    min-height: 100px;
     margin-right: 20px; /* Giảm khoảng cách giữa hình ảnh và thông tin bác sĩ */
 }
 
@@ -431,16 +452,22 @@ button {
 }
 
 /* Style cho nút 'Tìm hiểu thêm' */
-.find-more {
+.find-more a {
     position: absolute;
     bottom: 15px;
     left: 50%;
     transform: translateX(-50%);
     background-color: #2C6975;
     color: #E0ECDE;
-    border-radius: 5px;
+    border-radius: 10px;
     margin-right: 5px;
-    padding: 5px;
+    padding: 10px;
+}
+
+.find-more a:hover {
+    background-color: #E0ECDE;
+    color: #2C6975;
+    border: 1px solid #2C6975;
 }
 
 .banner_section {
@@ -1616,3 +1643,91 @@ ul .tab-component a:hover {
 
 
 
+/* -------------------------------- Style for user-search-result.jsp -------------------------------- */
+
+.search-container {
+    margin-top: 300px;
+    margin-bottom: 100px;
+}
+
+.search-doctor-title {
+    text-align: center; /* Căn giữa tiêu đề */
+    margin-top: 20px; /* Khoảng cách từ trên xuống */
+    font-size: 36px; /* Kích thước tiêu đề */
+    font-weight: bold; /* In đậm */
+    color: #2C6975; /* Màu chữ tiêu đề */
+}
+
+/* Style cho danh sách bác sĩ theo chiều ngang */
+.vertical-doctor-list {
+    display: block; /* Hiển thị các phần tử con theo chiều ngang */
+}
+
+/* Style cho mỗi phần tử bác sĩ trong danh sách */
+.search-doctor-block {
+    min-width: 100%; /* Kích thước của mỗi phần tử bác sĩ */
+    min-height: 350px;
+    margin-right: 20px; /* Khoảng cách giữa các phần tử bác sĩ */
+    display: flex; /* Hiển thị các phần tử con bên trong theo chiều ngang */
+    flex-direction: row; /* Sắp xếp các phần tử con bên trong theo chiều dọc */
+    box-shadow: 0px 0px 6px #2C6975;
+    border-radius: 20px;
+    padding: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #FFFFFF;
+}
+
+/* Style cho thông tin bác sĩ */
+.search-doctor-information {
+    flex-grow: 1; /* Để phần thông tin bác sĩ mở rộng để lấp đầy khoảng trống còn lại */
+    display: flex;
+    flex-direction: column;
+}
+
+.search-doctor-name {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.search-doctor-introduce {
+    padding-right: 20px;
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Thay thế văn bản bị tràn bằng dấu ba chấm */
+    white-space: nowrap;
+}
+
+/* Style cho phần giới thiệu */
+.search-doctor-intro {
+    font-size: 12px;
+    color: black;
+    max-height: 100px; /* Điều này giới hạn chiều cao của phần giới thiệu */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Thay thế văn bản bị tràn bằng dấu ba chấm */
+    white-space: nowrap;
+}
+
+/* Style cho nút 'Tìm hiểu thêm' */
+.search-find-more a {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #2C6975;
+    color: #E0ECDE;
+    border-radius: 10px;
+    margin-right: 5px;
+    padding: 10px;
+}
+
+.search-find-more a:hover {
+    background-color: #E0ECDE;
+    color: #2C6975;
+    border: 1px solid #2C6975;
+}
