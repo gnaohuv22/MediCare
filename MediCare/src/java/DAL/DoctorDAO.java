@@ -358,7 +358,7 @@ public class DoctorDAO extends DBContext {
                 + "FULL JOIN Department ON Department.id = ST.departmentId "
                 + "FULL JOIN CurriculumVitae AS CV On CV.id = d.CVId "
                 + "LEFT JOIN Reviews AS r ON r.doctorId = d.id "
-                + "WHERE d.displayName LIKE ? "
+                + "WHERE d.displayName COLLATE SQL_Latin1_General_CP1_CI_AI LIKE ? "
                 + "GROUP BY d.id, d.email, d.password, d.displayName, b.[name], d.phone, a.[name], DC.Certificates,"
                 + "Department.id, Department.[name], CV.education, CV.introduce, CV.workHistory,"
                 + "CV.startYear, d.salary, d.workplace, d.profilePicture, d.status "

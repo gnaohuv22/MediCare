@@ -126,7 +126,7 @@
                                 border-radius: 10px;
                                 margin-right: 5px;
                                 "
-                                >Login</a
+                                >Đăng nhập</a
                             >
                         </li>
                         <li class="nav-item">
@@ -141,7 +141,7 @@
                                 border-radius: 10px;
                                 margin-left: 5px;
                                 "
-                                >Register</a
+                                >Đăng ký</a
                             >
                         </li>
                     </ul>
@@ -159,7 +159,7 @@
                                 border-radius: 10px;
                                 margin-right: 5px;
                                 "
-                                >Hello ${sessionScope.name}</a
+                                >Xin chào ${sessionScope.name}</a
                             >
                         </li>
                         <li class="nav-item">
@@ -174,7 +174,7 @@
                                 border-radius: 10px;
                                 margin-left: 5px;
                                 "
-                                >Logout</a
+                                >Đăng xuất</a
                             >
                         </li>
                     </ul>

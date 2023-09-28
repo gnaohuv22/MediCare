@@ -4,6 +4,7 @@
     Author     : hoang
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -51,63 +52,40 @@
             <div class="row">
                 <div class="col-lg-3 col-sm-6">
                     <div class="footer_logo">
-                        <a href="index.html"><img src="assets/client/images/footer-logo.png" /></a>
+                        <a href="user-home.jsp"><img width="100" height="100" src="assets/client/images/logo.png" /></a>
                     </div>
-                    <h1 class="adderss_text">Contact Us</h1>
-                    <div class="map_icon">
-                        <img src="assets/client/images/map-icon.png" /><span class="paddlin_left_0"
-                                                               >Page when looking at its</span
-                        >
-                    </div>
-                    <div class="map_icon">
-                        <img src="assets/client/images/call-icon.png" /><span class="paddlin_left_0"
-                                                                >+7586656566</span
-                        >
-                    </div>
-                    <div class="map_icon">
-                        <img src="assets/client/images/mail-icon.png" /><span class="paddlin_left_0"
-                                                                >volim@gmail.com</span
-                        >
-                    </div>
+                    <h1 class="adderss_text">Liên hệ với chúng tôi</h1>
+                    <c:forEach items="${sessionScope.contacts}" var="contact">
+                        <div class="map_icon">
+                            <img src="${contact.getIcon()}"/><span class="paddlin_left_0">${contact.getContact()}</span>
+                        </div>
+                    </c:forEach>
                 </div>
                 <div class="col-lg-3 col-sm-6">
-                    <h1 class="adderss_text">Doctors</h1>
-                    <div class="hiphop_text_1">
-                        There are many variations of passages of Lorem Ipsum available,
-                        but the majority have suffered alteration in some form, by
-                        injected humour,
-                    </div>
+                    <h1 class="adderss_text">Bác sĩ tiêu biểu</h1>
+                    <c:forEach items="${sessionScope.trendDoctors}" var="d">
+                        <div class="hiphop_text_1">
+                            <a href="user-doctor-detail?doctorId=${d.getId()}">${d.getDisplayName()}</a>
+                        </div>
+                    </c:forEach>
                 </div>
                 <div class="col-lg-3 col-sm-6">
-                    <h1 class="adderss_text">Useful Links</h1>
-                    <div class="Useful_text">
-                        There are many variations of passages of Lorem Ipsum available,
-                        but the majority have suffered ,
-                    </div>
+                    <h1 class="adderss_text">Tham khảo</h1>
+                    <c:forEach items="${sessionScope.usefulLinks}" var="ul">
+                        <div class="Useful_text">
+                            <a href="${ul.getLink()}">${ul.getTitle()}</a>
+                        </div>
+                    </c:forEach>
                 </div>
                 <div class="col-lg-3 col-sm-6">
-                    <h1 class="adderss_text">Newsletter</h1>
-                    <input
-                        type="text"
-                        class="Enter_text"
-                        placeholder="Enter your Emil"
-                        name="Enter your Emil"
-                        />
-                    <div class="subscribe_bt"><a href="#">Subscribe</a></div>
+                    <h1 class="adderss_text">Kết nối với chúng tôi</h1>
                     <div class="social_icon">
                         <ul>
-                            <li>
-                                <a href="#"><img src="assets/client/images/fb-icon.png" /></a>
-                            </li>
-                            <li>
-                                <a href="#"><img src="assets/client/images/twitter-icon.png" /></a>
-                            </li>
-                            <li>
-                                <a href="#"><img src="assets/client/images/linkedin-icon.png" /></a>
-                            </li>
-                            <li>
-                                <a href="#"><img src="assets/client/images/instagram-icon.png" /></a>
-                            </li>
+                            <c:forEach items="${sessionScope.socialNetworks}" var="sn">
+                                <li>
+                                    <a href="${sn.getLink()}"><img src="${sn.getIcon()}" alt="${sn.getSocialName()}"/></a>
+                                </li>
+                            </c:forEach>
                         </ul>
                     </div>
                 </div>

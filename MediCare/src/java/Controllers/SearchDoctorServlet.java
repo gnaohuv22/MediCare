@@ -30,6 +30,7 @@ public class SearchDoctorServlet extends HttpServlet {
         DoctorDAO dd = new DoctorDAO();
         ArrayList<Doctor> doctors = dd.getDoctorsByPattern(pattern);
         
+        
         request.setAttribute("pattern", pattern);
         request.setAttribute("doctors", doctors);
         request.getRequestDispatcher("user-search-result.jsp").forward(request, response);

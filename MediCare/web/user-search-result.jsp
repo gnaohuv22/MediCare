@@ -46,10 +46,14 @@
     </head>
     <body>
         <%@include file="user-header.jsp" %>
+
+        <div class="branch-profile-header">
+            <img src="assets/client/images/branch-img.jpg" alt="branch-img" class="branch-image" />
+            <p class="branch-name">Kết quả tìm kiếm cho "${pattern}"</p>
+        </div>
         <!-- search result section start -->
         <div id="doctor-carousel" class="carousel slide" data-ride="carousel">
             <div class="search-container container">
-                <h1 class="search-doctor-title">Kết quả tìm kiếm cho "${pattern}"</h1>
                 <div class="vertical-doctor-list">
                     <c:forEach var="doctor" items="${doctors}">
                         <div class="search-doctor-block">

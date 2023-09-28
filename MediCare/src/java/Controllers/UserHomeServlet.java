@@ -66,6 +66,18 @@ public class UserHomeServlet extends HttpServlet {
         EmployeeDAO ed = new EmployeeDAO();
         ArrayList<Employee> employees = ed.getEmployeeList();
         
+        ContactsDAO cd = new ContactsDAO();
+        ArrayList<Contacts> contacts = cd.getListContacts();
+        
+        UsefulLinksDAO uld = new UsefulLinksDAO();
+        ArrayList<UsefulLinks> usefulLinks = uld.getListUsefulLinks();
+        
+        SocialNetworksDAO snd = new SocialNetworksDAO();
+        ArrayList<SocialNetworks> socialNetworks = snd.getListSocialNetworks();
+        
+        session.setAttribute("contacts", contacts);
+        session.setAttribute("usefulLinks", usefulLinks);
+        session.setAttribute("socialNetworks", socialNetworks);
         session.setAttribute("topNews", topNews);
         session.setAttribute("categories", categories);
         session.setAttribute("employees", employees);

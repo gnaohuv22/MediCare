@@ -262,9 +262,9 @@ button {
     width: 200px;
 }
 
- .form-inline .form-control:focus {
+.form-inline .form-control:focus {
     transition: all 0.5s ease-in-out; /* Thêm hiệu ứng chuyển đổi */
-    width: 500px; /* Thay đổi kích thước khi thanh tìm kiếm được focus */
+    width: 400px; /* Thay đổi kích thước khi thanh tìm kiếm được focus */
 }
 
 .form-control {
@@ -353,14 +353,14 @@ button {
     float: left;
     font-size: 18px;
     color: #f6f8f8;
-    background-color: #252525;
+    background-color: #333333;
     text-align: center;
     padding: 10px 0px;
 }
 
 .contact_bt a:hover {
     color: #f6f8f8;
-    background-color: #68B2A0;
+    background-color: #2C6975;
 }
 
 .image_1 img {
@@ -727,6 +727,7 @@ button {
     width: 100%;
     float: left;
     background-image: url(../images/contact-bg.png);
+    color: #E0ECDE;
     background-size: 100%;
     background-repeat: no-repeat;
     padding-bottom: 150px;
@@ -744,6 +745,7 @@ button {
     width: 100%;
     display: flex;
     padding-top: 50px;
+    filter: brightness(0) saturate(100%) invert(34%) sepia(46%) saturate(518%) hue-rotate(142deg) brightness(95%) contrast(91%);
 }
 
 .icon_7 {
@@ -961,13 +963,15 @@ button {
     font-size: 24px;
     color: #ffffff;
     padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
 }
 
 .map_icon {
     width: 100%;
     float: left;
     font-size: 16px;
-    color: #d6d6d6;
+    color: #E0ECDE;
     padding-bottom: 10px;
 }
 
@@ -977,16 +981,34 @@ button {
 
 .hiphop_text_1 {
     width: 90%;
-    color: #d6d6d6;
+    color: #E0ECDE;
     font-size: 16px;
     margin-left: 0px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.hiphop_text_1 a {
+    color: #E0ECDE;
+}
+
+.hiphop_text_1 a:hover {
+    color: #68B2A0;
 }
 
 .Useful_text {
     width: 50%;
-    color: #d6d6d6;
+    color: #E0ECDE;
     font-size: 16px;
     margin-left: 0px;
+}
+
+.Useful_text a {
+    color: #E0ECDE;
+}
+
+.Useful_text a:hover {
+    color: #68B2A0;
 }
 
 .Enter_text {
@@ -1665,7 +1687,6 @@ ul .tab-component a:hover {
 /* -------------------------------- Style for user-search-result.jsp -------------------------------- */
 
 .search-container {
-    margin-top: 300px;
     margin-bottom: 100px;
 }
 

@@ -56,7 +56,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <h1 class="banner-taital">
-                                        Medi <br /><span style="color: #151515">Care</span>
+                                        Medi <br /><span style="color: #2C6975">Care</span>
                                     </h1>
                                     <p class="banner-text">
                                         Chăm sóc sức khỏe toàn diện
@@ -200,27 +200,27 @@
                     </div>
                     <div class="col-md-6">
                         <div class="contact_box">
-                            <h1 class="book_text">Book Appoinment</h1>
+                            <h1 class="book_text">Đặt lịch</h1>
                             <input
                                 type="text"
                                 class="Email_text"
-                                placeholder="Name"
-                                name="Name"
+                                placeholder="Email"
+                                name="Email"
                                 />
                             <input
                                 type="text"
                                 class="Email_text"
-                                placeholder="Name"
+                                placeholder="Tên"
                                 name="Name"
                                 />
                             <textarea
                                 class="massage-bt"
-                                placeholder="Massage"
+                                placeholder="Tin nhắn"
                                 rows="5"
                                 id="comment"
-                                name="Massage"
+                                name="Message"
                                 ></textarea>
-                            <div class="send_bt"><a href="#">SEND</a></div>
+                            <div class="send_bt"><a href="#">GỬI</a></div>
                         </div>
                     </div>
                 </div>
