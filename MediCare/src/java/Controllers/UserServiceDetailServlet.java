@@ -4,22 +4,22 @@
  */
 package Controllers;
 
-import DAL.DoctorDAO;
+import DAL.ServiceTagDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import Models.Doctor;
+import Models.ServiceTag;
 
 /**
  *
  * @author tubinh
  */
-public class UserListAllDoctorServlet extends HttpServlet {
+public class UserServiceDetailServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +38,10 @@ public class UserListAllDoctorServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DoctorListServlet</title>");
+            out.println("<title>Servlet ServiceDetailServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DoctorListServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ServiceDetailServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,21 +59,19 @@ public class UserListAllDoctorServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DoctorDAO dd = new DoctorDAO();
-        
-        int page = 1;
-        int recordsPerPage = 9;
-        if (request.getParameter("page") != null) {
-            page = Integer.parseInt(request.getParameter("page"));
+        String serviceId = request.getParameter("serviceId");
+        ServiceTagDAO std = new ServiceTagDAO();
+        // List all doctors in each branch with serviceTagId:
+        ArrayList<Doctor> doctorsOfService = std.getAllDoctorsByServiceId(serviceId);
+        ServiceTag s = std.getServiceTagByServiceTagId(serviceId);
+        System.out.println("user-service-detail Servlet:");
+        for (Doctor doctor : doctorsOfService) {
+            System.out.println(doctor);
         }
-        ArrayList<Doctor> doctors = dd.getAllDoctorPaginated((page - 1) * recordsPerPage, recordsPerPage);
-        int recordCount = dd.getNoOfRecords();
-        int pageCount = (int)Math.ceil(recordCount * 1.0 / recordsPerPage);
-        request.setAttribute("pageCount", pageCount);
-        request.setAttribute("currentPage", page);
-//        HttpSession session = request.getSession();
-        request.setAttribute("doctors", doctors);
-        request.getRequestDispatcher("user-list-all-doctor.jsp").forward(request, response);
+
+        request.setAttribute("serviceTag", s);
+        request.setAttribute("doctorsOfService", doctorsOfService);
+        request.getRequestDispatcher("user-service-detail.jsp").forward(request, response);
     }
 
     /**

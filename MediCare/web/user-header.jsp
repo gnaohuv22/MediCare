@@ -72,42 +72,31 @@
                                 <i class="fas fa-search"></i>
                             </button>
                         </form>
-                        <c:forEach items="${sessionScope.listNavigationItem}" var="item">
-                            <c:choose>
-                                <c:when test="${item.getName() == 'Branches'}">
-                                    <li class="nav-item list-parent">
-                                        <a class="nav-link" href="${item.getLink()}">${item.getName()}</a>
-                                        <ul class="list-child">
-                                            <c:forEach items="${sessionScope.branches}" var="branch">
-                                                <li>
-                                                    <a href="user-branch-detail?branchId=${branch.getId()}">${branch.getName()}</a>
-                                                </li>
-                                            </c:forEach>
-                                        </ul>
-                                    </li>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:choose>
-                                        <c:when test="${item.getName() == 'Services'}">
-                                            <li class="nav-item list-parent">
-                                                <a class="nav-link" href="${item.getLink()}">${item.getName()}</a>
-                                                <ul class="list-child">
-                                                    <c:forEach items="${sessionScope.servicesTop10}" var="service">
+
+                        <c:forEach items="${sessionScope.subMenu}" var="sub">
+                            <c:if test="${sub.getCategoryId() eq 1}">
+                                <c:choose>
+                                    <c:when test="${sub.getContent() eq 'Chi nhánh' or sub.getContent() eq 'Dịch vụ' or sub.getContent() eq 'Tin tức'}">
+                                        <li class="nav-item list-parent">
+                                            <a class="nav-link" href="${sub.getHref()}">${sub.getContent()}</a>
+                                            <ul class="list-child">
+                                                <c:forEach items="${sessionScope.subMenu}" var="item">
+                                                    <c:if test="${item.getParentId() eq sub.getId()}">
                                                         <li>
-                                                            <a href="user-branch-detail?branchId=${service.getId()}">${service.getNametag()}</a>
+                                                            <a href="${item.getHref()}">${item.getContent()}</a>
                                                         </li>
-                                                    </c:forEach>
-                                                </ul>
-                                            </li>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="${item.getLink()}">${item.getName()}</a>
-                                            </li>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:otherwise>
-                            </c:choose>
+                                                    </c:if>
+                                                </c:forEach>
+                                            </ul>
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="${sub.getHref()}">${sub.getContent()}</a>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:if>
                         </c:forEach>
                     </ul>
                 </div>

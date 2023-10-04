@@ -18,6 +18,12 @@ import java.util.List;
  */
 public class DoctorDAO extends DBContext {
 
+    private int noOfRecords;
+
+    public int getNoOfRecords() {
+        return noOfRecords;
+    }
+
     public ArrayList<Doctor> getListDoctor() {
         ArrayList<Doctor> list = new ArrayList<>();
         String SQL = "SELECT * FROM [Doctor]";
@@ -46,7 +52,7 @@ public class DoctorDAO extends DBContext {
         }
         return null;
     }
-    
+
     public ArrayList<Doctor> getAllDoctors() {
         ArrayList<Doctor> list = new ArrayList<>();
         String sql = "/****** Script for SelectTopNRows command from SSMS  ******/\n"
@@ -119,8 +125,117 @@ public class DoctorDAO extends DBContext {
                         String.valueOf(rs.getInt("startYear")));
                 list.add(d);
             }
+            
         } catch (SQLException e) {
             System.out.println("getAllDoctors: " + e);
+        }
+        return list;
+    }
+    
+    public ArrayList<Doctor> getAllDoctorPaginated(int offset, int noOfRecords) {
+        ArrayList<Doctor> list = new ArrayList<>();
+        String sql = "SELECT d.*, b.[name] AS branchName, a.[name] AS ARName, "
+            + "DC.Certificates AS Certificates, Department.id as DepartmentId, Department.[name] AS departmentName, CV.education, CV.introduce, CV.workHistory, CV.startYear "
+            + "FROM Doctor AS d "
+            + "FULL JOIN Branch AS b On b.id = d.branchId "
+            + "FULL JOIN AcademicRank AS a On a.id = d.ARId "
+            + "FULL JOIN DoctorCertificates DC ON d.id = DC.DoctorId "
+            + "FULL JOIN DoctorService AS DS ON DS.doctorId = d.id "
+            + "FULL JOIN ServiceTag AS ST ON ST.id = DS.serviceId "
+            + "FULL JOIN Department ON Department.id = ST.departmentId "
+            + "FULL JOIN CurriculumVitae AS CV On CV.id = d.CVId "
+            + "GROUP BY d.ARId, d.branchId, d.CVId, d.displayName, d.email, d.id, d.phone, d.profilePicture, d.salary, d.status, d.workplace, "
+            + "b.[name], a.[name], DC.Certificates,  Department.[name], Department.id, CV.education, CV.introduce, CV.workHistory, CV.startYear, d.[password] "
+            + "HAVING d.id IS NOT NULL "
+            + "ORDER BY d.id " 
+            + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, offset);
+            st.setInt(2, noOfRecords);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                Doctor d = new Doctor(rs.getString("id"),
+                        rs.getString("email"),
+                        rs.getString("displayName"),
+                        String.valueOf(rs.getInt("branchId")),
+                        rs.getString("phone"),
+                        String.valueOf(rs.getInt("ARId")),
+                        String.valueOf(rs.getInt("CVId")),
+                        String.valueOf(rs.getFloat("salary")),
+                        rs.getString("workplace"),
+                        rs.getString("profilePicture"),
+                        String.valueOf(rs.getBoolean("status")),
+                        rs.getString("password"),
+                        rs.getString("branchName"),
+                        rs.getString("ARName"),
+                        DoctorDAO.concatenateNames(rs.getString("Certificates")),
+                        String.valueOf(rs.getInt("DepartmentId")),
+                        rs.getString("departmentName"),
+                        rs.getString("education"),
+                        rs.getString("introduce"),
+                        rs.getString("workHistory"),
+                        String.valueOf(rs.getInt("startYear")));
+                list.add(d);
+            }
+            
+            rs.close();
+            sql = 
+                "SELECT COUNT(*) FROM (\n"
+                + "SELECT d.*, b.[name] AS branchName, a.[name] AS ARName, \n"
+                + "DC.Certificates AS Certificates, Department.id as DepartmentId, Department.[name] AS departmentName, CV.education, CV.introduce, CV.workHistory, CV.startYear\n"
+                + "FROM Doctor AS d\n"
+                + "\n"
+                + "FULL JOIN\n"
+                + "\n"
+                + "Branch AS b On b.id = d.branchId\n"
+                + "\n"
+                + "FULL JOIN \n"
+                + "\n"
+                + "AcademicRank AS a\n"
+                + "On a.id = d.ARId\n"
+                + "\n"
+                + "FULL JOIN \n"
+                + "\n"
+                + "DoctorCertificates DC \n"
+                + "ON d.id = DC.DoctorId\n"
+                + "\n"
+                + "FULL JOIN \n"
+                + "\n"
+                + "DoctorService AS DS\n"
+                + "ON DS.doctorId = d.id\n"
+                + "\n"
+                + "FULL JOIN \n"
+                + "ServiceTag AS ST\n"
+                + "ON ST.id = DS.serviceId\n"
+                + "\n"
+                + "FULL JOIN \n"
+                + "\n"
+                + "Department\n"
+                + "ON Department.id = ST.departmentId\n"
+                + "\n"
+                + "FULL JOIN \n"
+                + "\n"
+                + "CurriculumVitae AS CV\n"
+                + "On CV.id = d.CVId\n"
+                + "\n"
+                + "\n"
+                + "GROUP BY d.ARId, d.branchId, d.CVId, d.displayName, d.email, d.id, d.phone, d.profilePicture, d.salary, d.status, d.workplace, \n"
+                + "b.[name], a.[name], DC.Certificates,  Department.[name], Department.id, CV.education, CV.introduce, CV.workHistory, CV.startYear, d.[password]\n"
+                + "HAVING d.id IS NOT NULL) AS subquery";
+            try (PreparedStatement psm = connection.prepareStatement(sql)) {
+                
+                ResultSet rst = psm.executeQuery();
+                
+                while (rst.next()) {
+                    this.noOfRecords = rst.getInt(1);
+                }
+            } catch (Exception e) {
+                System.out.println("getAllDoctorPaginated: " + e.getMessage());
+            }
+        } catch (SQLException e) {
+            System.out.println("getAllDoctorPaginated: " + e);
         }
         return list;
     }
@@ -341,8 +456,8 @@ public class DoctorDAO extends DBContext {
         }
         return list;
     }
-    
-    public ArrayList<Doctor> getDoctorsByPattern(String pattern) {
+
+    public ArrayList<Doctor> getDoctorsByPattern(String pattern, int offset, int noOfRecords) {
         ArrayList<Doctor> list = new ArrayList<>();
         String searchValue = "%" + pattern + "%";
         String SQL = "SELECT d.id, d.email, d.password, d.displayName, b.[name] AS branchName, d.phone, a.[name] AS ARName, "
@@ -362,13 +477,16 @@ public class DoctorDAO extends DBContext {
                 + "GROUP BY d.id, d.email, d.password, d.displayName, b.[name], d.phone, a.[name], DC.Certificates,"
                 + "Department.id, Department.[name], CV.education, CV.introduce, CV.workHistory,"
                 + "CV.startYear, d.salary, d.workplace, d.profilePicture, d.status "
-                + "ORDER BY COUNT(r.id) DESC;";
-        
-        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+                + "ORDER BY COUNT(r.id) DESC "
+                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;";
+
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, searchValue);
-            
+            ps.setInt(2, offset);
+            ps.setInt(3, noOfRecords);
+
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 Doctor d = new Doctor(
                         rs.getString(1),
@@ -393,7 +511,39 @@ public class DoctorDAO extends DBContext {
 
                 list.add(d);
             }
-            
+            rs.close();
+            SQL = "SELECT COUNT(*) \n"
+                    + "FROM (\n"
+                    + "    SELECT ROW_NUMBER() OVER (ORDER BY COUNT(r.id) DESC) AS RowNum, d.id, d.email, d.password, d.displayName, b.[name] AS branchName, d.phone, a.[name] AS ARName,\n"
+                    + "           COUNT(r.id) AS ReviewCount, DC.Certificates AS Certificates, Department.id as DepartmentId,\n"
+                    + "           Department.[name] AS departmentName, CV.education, CV.introduce, CV.workHistory,\n"
+                    + "           CV.startYear, d.salary, d.workplace, d.profilePicture, d.status\n"
+                    + "    FROM Doctor AS d\n"
+                    + "    FULL JOIN Branch AS b On b.id = d.branchId\n"
+                    + "    FULL JOIN AcademicRank AS a On a.id = d.ARId\n"
+                    + "    FULL JOIN DoctorCertificates DC ON d.id = DC.DoctorId\n"
+                    + "    FULL JOIN DoctorService AS DS ON DS.doctorId = d.id\n"
+                    + "    FULL JOIN ServiceTag AS ST ON ST.id = DS.serviceId\n"
+                    + "    FULL JOIN Department ON Department.id = ST.departmentId\n"
+                    + "    FULL JOIN CurriculumVitae AS CV On CV.id = d.CVId\n"
+                    + "    LEFT JOIN Reviews AS r ON r.doctorId = d.id\n"
+                    + "    WHERE d.displayName COLLATE SQL_Latin1_General_CP1_CI_AI LIKE ?\n"
+                    + "    GROUP BY d.id, d.email, d.password, d.displayName, b.[name], d.phone, a.[name], DC.Certificates,\n"
+                    + "             Department.id, Department.[name], CV.education, CV.introduce, CV.workHistory,\n"
+                    + "             CV.startYear, d.salary, d.workplace, d.profilePicture, d.status\n"
+                    + ") AS subquery\n";
+            try (PreparedStatement psm = connection.prepareStatement(SQL)) {
+                psm.setString(1, searchValue);
+                
+                ResultSet rst = psm.executeQuery();
+                
+                while (rst.next()) {
+                    this.noOfRecords = rst.getInt(1);
+                }
+            } catch (Exception e) {
+                System.out.println("getDoctorsByPattern: " + e.getMessage());
+            }
+
         } catch (SQLException e) {
             System.out.println("getDoctorsByPattern: " + e.getMessage());
         }
@@ -402,7 +552,7 @@ public class DoctorDAO extends DBContext {
 
     public static void main(String[] args) {
         DoctorDAO dd = new DoctorDAO();
-        ArrayList<Doctor> list = dd.getDoctorsByPattern("a");
+        ArrayList<Doctor> list = dd.getDoctorsByPattern("a", 0, 0);
         for (Doctor doctor : list) {
             System.out.println(doctor);
         }
@@ -410,5 +560,4 @@ public class DoctorDAO extends DBContext {
 //        System.out.println("concat: " + concatenateNames(""));
     }
 
-    
 }

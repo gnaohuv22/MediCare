@@ -177,8 +177,8 @@ public class ServiceTagDAO extends DBContext {
 
     public static void main(String[] args) {
         ServiceTagDAO sd = new ServiceTagDAO();
-        ArrayList<ServiceTag> list = sd.getServiceTagsByDoctorId("1");
-        for (ServiceTag serviceTag : list) {
+        ArrayList<Doctor> list = sd.getAllDoctorsByServiceId("2");
+        for (Doctor serviceTag : list) {
             System.out.println(serviceTag);
         }
     }

@@ -26,21 +26,12 @@ public class UserHomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String value = request.getParameter("value");
-        System.out.println("value: " + value);
+//        System.out.println("value: " + value);
         HttpSession session = request.getSession();
         if (value != null) {
             session.removeAttribute("email");
             session.removeAttribute("loginValue");
         }
-
-        BranchDAO bd = new BranchDAO();
-        ArrayList<Branch> branches = bd.getAllBranches();
-
-        ServiceTagDAO sd = new ServiceTagDAO();
-        ArrayList<ServiceTag> servicesTop10 = sd.getTop10ServiceTags();
-        
-        NavigationItemDAO nid = new NavigationItemDAO();
-        ArrayList<NavigationItem> listNavigationItem = nid.getListNavigationItem();
         
         ReviewsDAO rd = new ReviewsDAO();
         ArrayList<Reviews> topReviewList = rd.getTopReviews();
@@ -66,18 +57,14 @@ public class UserHomeServlet extends HttpServlet {
         EmployeeDAO ed = new EmployeeDAO();
         ArrayList<Employee> employees = ed.getEmployeeList();
         
-        ContactsDAO cd = new ContactsDAO();
-        ArrayList<Contacts> contacts = cd.getListContacts();
+        TopLevelMenuDAO tlmd = new TopLevelMenuDAO();
+        ArrayList<TopLevelMenu> pages = tlmd.getListTopLevelMenu();
         
-        UsefulLinksDAO uld = new UsefulLinksDAO();
-        ArrayList<UsefulLinks> usefulLinks = uld.getListUsefulLinks();
+        SubLevelMenuDAO slmd = new SubLevelMenuDAO();
+        ArrayList<SubLevelMenu> subMenu = slmd.getListSubLevelCategory();
         
-        SocialNetworksDAO snd = new SocialNetworksDAO();
-        ArrayList<SocialNetworks> socialNetworks = snd.getListSocialNetworks();
-        
-        session.setAttribute("contacts", contacts);
-        session.setAttribute("usefulLinks", usefulLinks);
-        session.setAttribute("socialNetworks", socialNetworks);
+        session.setAttribute("pages", pages);
+        session.setAttribute("subMenu", subMenu);
         session.setAttribute("topNews", topNews);
         session.setAttribute("categories", categories);
         session.setAttribute("employees", employees);
@@ -86,9 +73,7 @@ public class UserHomeServlet extends HttpServlet {
         session.setAttribute("trendDoctors", trendDoctors);
         session.setAttribute("listUser", listUser);
         session.setAttribute("topReviewList", topReviewList);
-        session.setAttribute("branches", branches);
-        session.setAttribute("servicesTop10", servicesTop10);
-        session.setAttribute("listNavigationItem", listNavigationItem);
+
         request.getRequestDispatcher("user-home.jsp").forward(request, response);
     }
 

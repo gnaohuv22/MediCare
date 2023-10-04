@@ -61,10 +61,6 @@
                                     <p class="banner-text">
                                         Chăm sóc sức khỏe toàn diện
                                     </p>
-                                    <div class="btn_main">
-                                        <div class="more_bt"><a href="#">Contact Now</a></div>
-                                        <div class="contact_bt"><a href="#">Get A Quote</a></div>
-                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="image_1"><img src="assets/client/images/img-1.png" /></div>

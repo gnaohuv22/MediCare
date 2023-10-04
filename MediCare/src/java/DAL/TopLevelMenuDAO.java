@@ -14,25 +14,19 @@ import java.util.ArrayList;
  *
  * @author hoang
  */
-public class SocialNetworksDAO extends DBContext {
-    public ArrayList<SocialNetworks> getListSocialNetworks() {
-        String SQL = "SELECT * FROM [SocialNetworks]";
-        ArrayList<SocialNetworks> list = new ArrayList<>();
+public class TopLevelMenuDAO extends DBContext {
+    public ArrayList<TopLevelMenu> getListTopLevelMenu() {
+        String SQL = "SELECT * FROM [TopLevelMenu]";
+        ArrayList<TopLevelMenu> list = new ArrayList<>();
         
         try (PreparedStatement ps = connection.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
             
             while (rs.next()) {
-                SocialNetworks sn = new SocialNetworks(
-                        String.valueOf(rs.getInt(1)), 
-                        rs.getString(2), 
-                        rs.getString(3),
-                        rs.getString(4)
-                );
-                list.add(sn);
+                list.add(new TopLevelMenu(String.valueOf(rs.getInt(1)), rs.getString(2)));
             }
         } catch (SQLException e) {
-            System.out.println("getListSocialNetworks: " + e.getMessage());
+            System.out.println("getListTopLevelMenu: " + e.getMessage());
         }
         return list;
     }

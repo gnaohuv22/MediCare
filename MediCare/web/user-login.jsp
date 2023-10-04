@@ -47,7 +47,6 @@
     </head>
     <body>
         <%@include file="user-header.jsp" %>
-
         <div class="main-wrapper account-wrapper">
             <div class="account-page">
                 <div class="account-center">

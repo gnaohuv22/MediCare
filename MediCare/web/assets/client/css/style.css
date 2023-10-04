@@ -1772,3 +1772,29 @@ ul .tab-component a:hover {
     color: #2C6975;
     border: 1px solid #2C6975;
 }
+
+.pagination {
+    margin-bottom: 40px;
+    margin-top: 40px;
+}
+
+.page-item.active .page-link {
+    background-color: #2C6975;
+    color: #E0ECDE;
+    border: 1px solid #E0ECDE;
+    padding: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.page-link {
+    color: #2C6975;
+    padding: 15px;
+    font-size: 1.2em;
+}
+
+.page-item .page-link:hover {
+    background-color: #68B2A0;
+    color: #E0ECDE;
+    border: 1px solid #E0ECDE;
+}

@@ -28,9 +28,16 @@ public class SearchDoctorServlet extends HttpServlet {
     throws ServletException, IOException {
         String pattern = request.getParameter("pattern");
         DoctorDAO dd = new DoctorDAO();
-        ArrayList<Doctor> doctors = dd.getDoctorsByPattern(pattern);
-        
-        
+        int page = 1;
+        int recordsPerPage = 5;
+        if (request.getParameter("page") != null) {
+            page = Integer.parseInt(request.getParameter("page"));
+        }
+        ArrayList<Doctor> doctors = dd.getDoctorsByPattern(pattern, (page - 1) * recordsPerPage, recordsPerPage);
+        int recordCount = dd.getNoOfRecords();
+        int pageCount = (int)Math.ceil(recordCount * 1.0 / recordsPerPage);
+        request.setAttribute("pageCount", pageCount);
+        request.setAttribute("currentPage", page);
         request.setAttribute("pattern", pattern);
         request.setAttribute("doctors", doctors);
         request.getRequestDispatcher("user-search-result.jsp").forward(request, response);

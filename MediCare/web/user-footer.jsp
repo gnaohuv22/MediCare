@@ -54,11 +54,18 @@
                     <div class="footer_logo">
                         <a href="user-home.jsp"><img width="100" height="100" src="assets/client/images/logo.png" /></a>
                     </div>
-                    <h1 class="adderss_text">Liên hệ với chúng tôi</h1>
-                    <c:forEach items="${sessionScope.contacts}" var="contact">
-                        <div class="map_icon">
-                            <img src="${contact.getIcon()}"/><span class="paddlin_left_0">${contact.getContact()}</span>
-                        </div>
+
+                    <c:forEach items="${sessionScope.pages}" var="item">
+                        <c:if test="${item.getId() eq 4}">
+                            <h1 class="adderss_text">${item.getName()}</h1>
+                            <c:forEach items="${sessionScope.subMenu}" var="contact">
+                                <c:if test="${item.getId() eq contact.getCategoryId()}">
+                                    <div class="map_icon">
+                                        <img src="${contact.getIcon()}"/><span class="paddlin_left_0">${contact.getContent()}</span>
+                                    </div>
+                                </c:if>
+                            </c:forEach>
+                        </c:if>
                     </c:forEach>
                 </div>
                 <div class="col-lg-3 col-sm-6">
@@ -70,24 +77,36 @@
                     </c:forEach>
                 </div>
                 <div class="col-lg-3 col-sm-6">
-                    <h1 class="adderss_text">Tham khảo</h1>
-                    <c:forEach items="${sessionScope.usefulLinks}" var="ul">
-                        <div class="Useful_text">
-                            <a href="${ul.getLink()}">${ul.getTitle()}</a>
-                        </div>
+                    <c:forEach items="${sessionScope.pages}" var="item">
+                        <c:if test="${item.getId() eq 5}">
+                            <h1 class="adderss_text">${item.getName()}</h1>
+                            <c:forEach items="${sessionScope.subMenu}" var="sub">
+                                <c:if test="${item.getId() eq sub.getCategoryId()}">
+                                    <div class="Useful_text">
+                                        <a href="${sub.getHref()}">${sub.getContent()}</a>
+                                    </div>
+                                </c:if>
+                            </c:forEach>
+                        </c:if>
                     </c:forEach>
                 </div>
                 <div class="col-lg-3 col-sm-6">
-                    <h1 class="adderss_text">Kết nối với chúng tôi</h1>
-                    <div class="social_icon">
-                        <ul>
-                            <c:forEach items="${sessionScope.socialNetworks}" var="sn">
-                                <li>
-                                    <a href="${sn.getLink()}"><img src="${sn.getIcon()}" alt="${sn.getSocialName()}"/></a>
-                                </li>
-                            </c:forEach>
-                        </ul>
-                    </div>
+                    <c:forEach items="${sessionScope.pages}" var="item">
+                        <c:if test="${item.getId() eq 6}">
+                            <h1 class="adderss_text">${item.getName()}</h1>
+                            <div class="social_icon">
+                                <ul>
+                                    <c:forEach items="${sessionScope.subMenu}" var="sub">
+                                        <c:if test="${item.getId() eq sub.getCategoryId()}">
+                                            <li>
+                                                <a href="${sub.getHref()}"><img src="${sub.getIcon()}" alt="${sub.getContent()}"/></a>
+                                            </li>
+                                        </c:if>
+                                    </c:forEach>
+                                </ul>
+                            </div>
+                        </c:if>
+                    </c:forEach>
                 </div>
             </div>
         </div>

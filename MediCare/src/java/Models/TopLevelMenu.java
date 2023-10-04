@@ -8,16 +8,15 @@ package Models;
  *
  * @author hoang
  */
-public class NavigationItem {
-    private String id, name, link;
+public class TopLevelMenu {
+    private String id, name;
 
-    public NavigationItem() {
+    public TopLevelMenu() {
     }
 
-    public NavigationItem(String id, String name, String link) {
+    public TopLevelMenu(String id, String name) {
         this.id = id;
         this.name = name;
-        this.link = link;
     }
 
     public String getId() {
@@ -34,14 +33,6 @@ public class NavigationItem {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
     }
     
     
