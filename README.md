@@ -12,6 +12,7 @@
 ##### Code changelog
 + Merged with Jack's code.
 + Minify CSS file. (more minify is recommended)
++ Deleted unnecessary JSP files which remain from conversion to JSP
 
 ### CHANGELOG 04-10
 
