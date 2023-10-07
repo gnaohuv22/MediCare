@@ -78,7 +78,7 @@
                                 <c:choose>
                                     <c:when test="${sub.getContent() eq 'Chi nhánh' or sub.getContent() eq 'Dịch vụ' or sub.getContent() eq 'Tin tức'}">
                                         <li class="nav-item list-parent">
-                                            <a class="nav-link" href="${sub.getHref()}">${sub.getContent()}</a>
+                                            <a class="nav-link" href="${sub.getHref()}">${sub.getContent()} <img src="https://www.svgrepo.com/show/495005/arrow-down.svg" width="10px" height="10px" alt="alt"/></a>
                                             <ul class="list-child">
                                                 <c:forEach items="${sessionScope.subMenu}" var="item">
                                                     <c:if test="${item.getParentId() eq sub.getId()}">
@@ -137,34 +137,21 @@
                 </c:if>
                 <c:if test="${sessionScope.loginValue.equals('true')}">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a
-                                class="nav-link"
-                                href="#" 
-                                id="signin-btn"
-                                style="
-                                background-color: #68b2a0;
-                                color: white;
-                                border-radius: 10px;
-                                margin-right: 5px;
-                                "
-                                >Xin chào ${sessionScope.name}</a
-                            >
-                        </li>
-                        <li class="nav-item">
-                            <a
-                                class="nav-link"
-                                href="user-home?value=1"
-                                id="register-btn"
-                                -btn
-                                style="
-                                background-color: white;
-                                color: #2c6975;
-                                border-radius: 10px;
-                                margin-left: 5px;
-                                "
-                                >Đăng xuất</a
-                            >
+                        <li class="nav-item list-parent">
+                            <a class="nav-link" href="user-profile">
+                                <img src="https://www.svgrepo.com/show/497407/profile-circle.svg" width="24px" height="24px" style="filter: invert(32%) sepia(55%) saturate(465%) hue-rotate(142deg) brightness(96%) contrast(88%)" alt="alt"/>
+                                <span>${sessionScope.name}</span>
+                                <img src="https://www.svgrepo.com/show/495005/arrow-down.svg" width="10px" height="10px" alt="alt"/>
+                            </a>
+                            <ul class="list-child">
+                                <c:forEach items="${sessionScope.subMenu}" var="item">
+                                    <c:if test="${item.getCategoryId() eq 8}">
+                                        <li>
+                                            <a href="${item.getHref()}">${item.getContent()}</a> 
+                                        </li>
+                                    </c:if>
+                                </c:forEach>
+                            </ul>
                         </li>
                     </ul>
                 </c:if>

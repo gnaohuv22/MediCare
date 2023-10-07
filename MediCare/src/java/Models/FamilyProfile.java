@@ -9,12 +9,14 @@ package Models;
  * @author hoang
  */
 public class FamilyProfile {
-    private String profileId, email, name, birthDate, gender, address, provinceId, identity, medicalId, ethnic, phone, profilePicture, createdAt, relationId;
+    private String profileId, email, name, birthDate, gender, address, provinceId, identity, medicalId, ethnic, phone, profilePicture, createdAt, relationId,ownerId;
+
+    
 
     public FamilyProfile() {
     }
 
-    public FamilyProfile(String profileId, String email, String name, String birthDate, String gender, String address, String provinceId, String identity, String medicalId, String ethnic, String phone, String profilePicture, String createdAt, String relationId) {
+    public FamilyProfile(String profileId, String email, String name, String birthDate, String gender, String address, String provinceId, String identity, String medicalId, String ethnic, String phone, String profilePicture, String createdAt, String relationId, String ownerId) {
         this.profileId = profileId;
         this.email = email;
         this.name = name;
@@ -29,6 +31,7 @@ public class FamilyProfile {
         this.profilePicture = profilePicture;
         this.createdAt = createdAt;
         this.relationId = relationId;
+        this.ownerId = ownerId;
     }
 
     public String getProfileId() {
@@ -142,6 +145,17 @@ public class FamilyProfile {
     public void setRelationId(String relationId) {
         this.relationId = relationId;
     }
-    
-    
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+    @Override
+    public String toString() {
+        return "FamilyProfile{" + "profileId=" + profileId + ", email=" + email + ", name=" + name + ", birthDate=" + birthDate + ", gender=" + gender + ", address=" + address + ", provinceId=" + provinceId + ", identity=" + identity + ", medicalId=" + medicalId + ", ethnic=" + ethnic + ", phone=" + phone + ", profilePicture=" + profilePicture + ", createdAt=" + createdAt + ", relationId=" + relationId + ", ownerId=" + ownerId + '}';
+    }
 }
+    

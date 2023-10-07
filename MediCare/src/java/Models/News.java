@@ -9,7 +9,7 @@ package Models;
  * @author hoang
  */
 public class News {
-    private String id, title, content, author, categoryId, createdAt, lastModified, viewCount, coverImage;
+    private String id, title, content, author, categoryId, category, createdAt, lastModified, viewCount, coverImage;
 
     public News() {
     }
@@ -20,6 +20,19 @@ public class News {
         this.content = content;
         this.author = author;
         this.categoryId = categoryId;
+        this.createdAt = createdAt;
+        this.lastModified = lastModified;
+        this.viewCount = viewCount;
+        this.coverImage = coverImage;
+    }
+
+    public News(String id, String title, String content, String author, String categoryId, String category, String createdAt, String lastModified, String viewCount, String coverImage) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.author = author;
+        this.categoryId = categoryId;
+        this.category = category;
         this.createdAt = createdAt;
         this.lastModified = lastModified;
         this.viewCount = viewCount;
@@ -97,4 +110,21 @@ public class News {
     public void setCoverImage(String coverImage) {
         this.coverImage = coverImage;
     }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "{" + this.id + ", " + this.title + ", " + content + ", " + author + ", " + category + "}\n";
+    }
+
+
 }

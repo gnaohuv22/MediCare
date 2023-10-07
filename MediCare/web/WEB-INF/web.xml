@@ -12,6 +12,18 @@
         <servlet-name>UserServiceDetailServlet</servlet-name>
         <servlet-class>Controllers.UserServiceDetailServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserNewsServlet</servlet-name>
+        <servlet-class>Controllers.UserNewsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserLogoutController</servlet-name>
+        <servlet-class>Controllers.UserLogoutController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserProfileController</servlet-name>
+        <servlet-class>Controllers.UserProfileController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserLoginServlet</servlet-name>
         <url-pattern>/user-login</url-pattern>
@@ -63,6 +75,18 @@
     <servlet-mapping>
         <servlet-name>UserServiceDetailServlet</servlet-name>
         <url-pattern>/user-service-detail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserNewsServlet</servlet-name>
+        <url-pattern>/news</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserLogoutController</servlet-name>
+        <url-pattern>/user-logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserProfileController</servlet-name>
+        <url-pattern>/user-profile</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

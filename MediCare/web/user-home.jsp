@@ -1,10 +1,11 @@
-<%-- 
+<%--
     Document   : home
     Created on : Sep 16, 2023, 11:10:25 PM
     Author     : hoang
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="Controllers.RemoveAccent" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -147,7 +148,7 @@
             </p>
             <div class="news_section_3 layout_padding">
                 <c:forEach items="${topNews}" var="news">
-                    <a class="news-block" href="user-news?id=${news.getId()}">
+                    <a class="news-block" href="news/${RemoveAccent.removeAccent(news.getTitle())}-${news.getId()}">
                         <div class="news-cover">
                             <img src="${news.getCoverImage()}" alt="Cover image of ${news.getTitle()}"/>
                         </div>
@@ -328,4 +329,3 @@
     </script>
 </body>
 </html>
-

@@ -187,6 +187,22 @@ public class UserDAO extends DBContext {
         }
         return -1;
     }
+    
+    public int getIdByEmail(String email) {
+        System.out.println("UserDAO.getIdByEmail: email:"+email);
+        String sql = "SELECT id FROM [User] WHERE email=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, email);
+            ResultSet rs=st.executeQuery();
+            if (rs.next()) {
+                return Integer.parseInt(rs.getString(1));
+            }
+        } catch (NumberFormatException | SQLException e) {
+            System.out.println("UserDAO.getIdByEmail: " + e);
+        }
+        return -1;
+    }
 
     public static void main(String[] args) {
         UserDAO ud = new UserDAO();

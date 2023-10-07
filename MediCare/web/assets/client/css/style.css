@@ -508,16 +508,6 @@ button {
     float: left;
 }
 
-.left_main {
-    width: 70%;
-    float: left;
-}
-
-.right_main {
-    width: 30%;
-    float: left;
-}
-
 .banner_title {
 /*    width: 100%;
     float: left;*/
@@ -552,28 +542,6 @@ button {
     font-size: 16px;
     margin-bottom: 60px;
     text-align: center;
-}
-
-.play_icon {
-    width: 130px;
-    float: left;
-    position: relative;
-    z-index: 5;
-}
-
-.play_icon::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    transform: translate(-50%, -50%);
-    background-color: #ffffff;
-    border-radius: 100%;
-    z-index: -1;
-    animation: fadeEffect 1.3s infinite ease;
-    box-shadow: 0px 0px 10px 0px;
 }
 
 @keyframes fadeEffect {
@@ -677,50 +645,6 @@ button {
     text-align: center;
     padding-bottom: 20px;
     line-height: 95px;
-}
-
-.daily_text {
-    width: 40%;
-    margin: 0 auto;
-    text-align: center;
-    font-weight: bold;
-    font-size: 24px;
-    display: block;
-    color: #fff;
-    line-height: 30px;
-}
-
-.daily_text_1 {
-    width: 40%;
-    margin: 0 auto;
-    text-align: center;
-    font-weight: bold;
-    font-size: 24px;
-    display: block;
-    color: #fff;
-    line-height: 30px;
-    padding-bottom: 40px;
-}
-
-.getquote_bt {
-    width: 180px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.getquote_bt a {
-    width: 100%;
-    float: left;
-    font-size: 18px;
-    color: #ffffff;
-    background-color: #1becde;
-    padding: 7px 0px;
-    text-align: center;
-    margin-top: 50px;
-}
-
-.getquote_bt a:hover {
-    background-color: #252525;
 }
 
 .contact_section {
@@ -1009,38 +933,6 @@ button {
 
 .Useful_text a:hover {
     color: #68B2A0;
-}
-
-.Enter_text {
-    width: 100%;
-    float: left;
-    font-size: 18px;
-    color: #ffffff;
-    background-color: transparent;
-    padding: 7px 10px;
-    margin-top: 10px;
-    border: 1px solid #cfcfd0;
-}
-
-input.Enter_text::placeholder {
-    color: #fff;
-}
-
-.subscribe_bt {
-    width: 170px;
-    float: left;
-    margin-top: 20px;
-}
-
-.subscribe_bt a {
-    width: 100%;
-    float: left;
-    font-size: 18px;
-    color: #ffffff;
-    background-color: #19e9d9;
-    text-align: center;
-    padding: 7px 0px;
-    text-transform: uppercase;
 }
 
 .social_icon {
@@ -1797,4 +1689,126 @@ ul .tab-component a:hover {
     background-color: #68B2A0;
     color: #E0ECDE;
     border: 1px solid #E0ECDE;
+}
+
+.profile-wrapper{
+    justify-content: unset;
+    align-items: unset;
+}
+
+.sidebar{
+    width: 250px;
+    height: 100%;
+    box-sizing: border-box;
+    border-right: 1px solid #dbdbdb;
+}
+
+.sidebar ul a{
+    display: block;
+    height: 100%;
+    width: 100%;
+    line-height: 60px;
+    font-size: 20px;
+    padding-left: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #dbdbdb;
+}
+
+.sidebar ul a:hover {
+    background-color: #ededed;
+}
+.sidebar ul li:first-child a:hover{
+    background-color: #ededed;
+    border-top-left-radius: 20px;
+}
+
+.sidebar-active{
+    background-color: #d7ecf0;
+    border-right: 4px solid #2C6975;
+}
+
+.sidebar-active:first-child{
+    background-color: #d7ecf0;
+    border-right: 4px solid #2C6975;
+    border-top-left-radius: 20px;
+}
+
+/* Define styles for the search box */
+.search-box {
+    width: 370px; /* Adjust for sidebar width */
+    padding: 20px;
+    overflow: auto;
+}
+
+.search-box input{
+    width: 100%; /* Adjusted width to fill the .search-box */
+    padding: 10px;
+    margin: 10px;
+    border-radius: 6px;
+    border-width: 1px;
+}
+
+.profile-list {
+    text-decoration: none;
+}
+
+.profile-item {
+    display: flex;
+    align-items: center; /* Vertically center items within each list item */
+    padding-bottom: 10px;
+    padding-top: 10px;
+    cursor: pointer;
+}
+
+.profile-item h3{
+    padding-bottom: 0;
+}
+
+.profile-item-pics {
+    flex: 0 0 auto; /* Prevent this div from growing or shrinking */
+    margin-right: 10px; /* Add some spacing between pics and info */
+}
+
+.profile-item-info {
+    flex: 1; /* Allow this div to grow and take up remaining space */
+}
+
+.profile-item-active{
+    background-color: #ededed;
+}
+
+/* Add styles for profile display */
+.profile-display {
+    width: 60%;
+    clear: both; /* Clear floats to prevent overlapping */
+    padding: 20px;
+}
+
+.profile-display-header{
+    display: flex;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.profile-display-pics{
+    padding-right: 10px;
+}
+
+.profile-display h2{
+    padding-bottom: 0;
+}
+
+.profile-display-basic,
+.profile-display-addition {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.profile-display-basic span,
+.profile-display-addition span {
+    font-weight: bold;
 }

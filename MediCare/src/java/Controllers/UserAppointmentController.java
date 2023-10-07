@@ -4,14 +4,9 @@
  */
 package Controllers;
 
-import DAL.DoctorDAO;
-import Models.User;
-import DAL.UserDAO;
-import Models.Doctor;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,8 +16,7 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author phuon
  */
-@WebServlet(name = "DoctorLoginController", urlPatterns = {"/doctor-login"})
-public class DoctorLoginController extends HttpServlet {
+public class UserAppointmentController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,7 +29,7 @@ public class DoctorLoginController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("doctor-login.jsp").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -50,7 +44,12 @@ public class DoctorLoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        if (session.getAttribute("email") == null) {
+            response.sendRedirect("user-login");
+        } else {
+            request.getRequestDispatcher("user-appointment.jsp").forward(request, response);
+        }
     }
 
     /**
@@ -64,19 +63,6 @@ public class DoctorLoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DoctorDAO dd = new DoctorDAO();
-        
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        
-        if(!dd.login(email, password)){
-            request.setAttribute("error", "Account does not exist!");
-            response.sendRedirect("doctor-login");
-        }else{
-            HttpSession session=request.getSession();
-            session.setAttribute("account", dd.getDoctorByEmail(email));
-            request.getRequestDispatcher("doctor-dashboard").forward(request, response);
-        }
     }
 
     /**

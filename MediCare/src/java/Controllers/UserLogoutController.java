@@ -4,10 +4,9 @@
  */
 package Controllers;
 
-import Models.Doctor;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,8 +16,7 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author phuon
  */
-@WebServlet(name = "DoctorAppointmentController", urlPatterns = {"/doctor-appointments"})
-public class DoctorAppointmentController extends HttpServlet {
+public class UserLogoutController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,13 +29,10 @@ public class DoctorAppointmentController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        Doctor a = (Doctor) session.getAttribute("account");
-        if(a==null){
-            response.sendRedirect("doctor-login");
-        }else
-        request.getRequestDispatcher("doctor-appointments.jsp").forward(request, response);
+        HttpSession session=request.getSession();
+        session.removeAttribute("email");
+        session.setAttribute("loginValue", "false");
+        response.sendRedirect("user-home");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
