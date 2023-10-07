@@ -101,7 +101,7 @@ public class FamilyProfileDAO extends DBContext {
                     gender = "Female";
                 }
 
-                if (rs.getString(3).contains(name)) {
+                if (rs.getString(3).toLowerCase().contains(name.toLowerCase())) {
                     FamilyProfile fp = new FamilyProfile(
                             String.valueOf(rs.getInt(1)),
                             rs.getString(2),
