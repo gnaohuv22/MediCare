@@ -18,18 +18,22 @@
             <div class="main-wrapper profile-wrapper">
                 <div class="sidebar">
                     <ul>
-                        <li class="sidebar-active">
-                            <a href="user-profile">Profile</a>
-                        </li>
-                        <li>
-                            <a href="user-appointment">Appointment</a>
-                        </li>
-                        <li>
-                            <a href="user-payment-history">Payment History</a>
-                        </li>
-                        <li>
-                            <a href="user-logout">Log out</a>
-                        </li>
+                        <c:forEach items="${sessionScope.subMenu}" var="item">
+                            <c:if test="${item.getCategoryId() eq 9}">
+                                <c:choose>
+                                    <c:when test="${'user-profile' eq item.getHref()}">
+                                        <li class="sidebar-active">
+                                            <a href="#">${item.getContent()}</a>
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li>
+                                            <a href="${item.getHref()}">${item.getContent()}</a>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:if>
+                        </c:forEach>
                     </ul>
                 </div>
                 <div class="search-box">
@@ -59,13 +63,13 @@
                     <div class="profile-display-header">
                         <div class="profile-display-pics ">
                             <img src="https://www.svgrepo.com/show/497407/profile-circle.svg" width="50px" height="50px" alt="client-img"/> 
-                </div>
+                        </div>
                         <div class="profile-display-info">
                             <h2>${current.name}</h2>
                             <span>Patient Code: ${current.profileId}</span>
-            </div>
+                        </div>
                     </div>
-                        <div class="profile-display-body">
+                    <div class="profile-display-body">
                         <h3>Thông tin cơ bản</h3>
                         <div class="profile-display-basic">
                             <span>Họ và tên:</span><span>${current.name}</span>
@@ -81,7 +85,7 @@
                             <span>Dân tộc:</span><span>${current.ethnic}</span>
                             <span>Email:</span><span>${current.email}</span>
                         </div>
-                        </div>
+                    </div>
                 </div>
             </div>
         </main>                       

@@ -1697,7 +1697,7 @@ ul .tab-component a:hover {
 }
 
 .sidebar{
-    width: 250px;
+    width: 20%;
     height: 100%;
     box-sizing: border-box;
     border-right: 1px solid #dbdbdb;
@@ -1709,9 +1709,7 @@ ul .tab-component a:hover {
     width: 100%;
     line-height: 60px;
     font-size: 20px;
-    padding-left: 40px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 20px 40px 20px 40px;
     box-sizing: border-box;
     border-bottom: 1px solid #dbdbdb;
 }
