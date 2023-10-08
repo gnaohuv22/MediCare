@@ -21,20 +21,20 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <!-- bootstrap css -->
-        <link rel="stylesheet" href="assets/client/css/bootstrap.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/bootstrap.min.css">
         <!-- style css -->
-        <link rel="stylesheet" href="assets/client/css/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/style.css">
         <!-- Responsive-->
-        <link rel="stylesheet" href="assets/client/css/responsive.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/responsive.css">
         <!-- fevicon -->
-        <link rel="icon" href="assets/client/images/fevicon.png" type="image/gif" />
+        <link rel="icon" href="${pageContext.request.contextPath}/assets/client/images/fevicon.png" type="image/gif" />
         <!-- Scrollbar Custom CSS -->
-        <link rel="stylesheet" href="assets/client/css/jquery.mCustomScrollbar.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/jquery.mCustomScrollbar.min.css">
         <!-- Tweaks for older IEs-->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
         <!-- owl stylesheets --> 
-        <link rel="stylesheet" href="assets/client/css/owl.carousel.min.css">
-        <link rel="stylesheet" href="assets/client/css/owl.theme.default.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.theme.default.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
     </head>
 
@@ -43,7 +43,7 @@
 
         <!--profile header of a branch start-->
         <div class="branch-profile-header">
-            <img src="assets/client/images/branch-img.jpg" alt="branch-img" class="branch-image" />
+            <img src="${pageContext.request.contextPath}/assets/client/images/branch-img.jpg" alt="branch-img" class="branch-image" />
             <p class="branch-name">MediCare - List of doctors nationwide</p>
         </div>
         <!--profile header of a branch end-->
@@ -52,7 +52,7 @@
         <div class="doctors-container">
             <c:forEach items="${requestScope.doctors}" var="doctor">
                 <div class="doctor-card">
-                    <img src="assets/client/images/doctor-img.png" width="100" height="100" alt="doctor-image"/>
+                    <img src="${pageContext.request.contextPath}/assets/client/images/doctor-img.png" width="100" height="100" alt="doctor-image"/>
                     <div class="doctor-info">
                         <h2 class="doctor-name">${doctor.getDisplayName()}</h2>
                         <p class="academic-degree">
@@ -81,7 +81,7 @@
             <ul class="pagination justify-content-center">
                 <c:if test="${currentPage != 1}">
                     <li class="page-item">
-                        <a class="page-link" href="user-list-all-doctor?page=${currentPage - 1}"><<</a>
+                        <a class="page-link" href="${pageContext.request.contextPath}/user-list-all-doctor?page=${currentPage - 1}"><<</a>
                     </li>
                 </c:if>
 
@@ -89,19 +89,19 @@
                     <c:choose>
                         <c:when test="${currentPage eq i}">
                             <li class="page-item active">
-                                <a class="page-link" href="#">${i}</a>
+                                <a class="page-link" href="${pageContext.request.contextPath}/#">${i}</a>
                             </li>
                         </c:when>
                         <c:otherwise>
                             <li class="page-item">
-                                <a class="page-link" href="user-list-all-doctor?page=${i}">${i}</a>
+                                <a class="page-link" href="${pageContext.request.contextPath}/user-list-all-doctor?page=${i}">${i}</a>
                             </li>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
                 <c:if test="${currentPage lt pageCount}">
                     <li class="page-item">
-                        <a class="page-link" href="user-list-all-doctor?page=${currentPage + 1}">>></a>
+                        <a class="page-link" href="${pageContext.request.contextPath}/user-list-all-doctor?page=${currentPage + 1}">>></a>
                     </li>
                 </c:if>
             </ul>
@@ -109,16 +109,16 @@
         <!--list all doctors end-->
         <%@include file="user-footer.jsp" %>
         <!-- Javascript files-->
-        <script src="assets/client/js/jquery.min.js"></script>
-        <script src="assets/client/js/popper.min.js"></script>
-        <script src="assets/client/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/client/js/jquery-3.0.0.min.js"></script>
-        <script src="assets/client/js/plugin.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/jquery.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/popper.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/bootstrap.bundle.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/jquery-3.0.0.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/plugin.js"></script>
         <!-- sidebar -->
-        <script src="assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="assets/client/js/custom.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/custom.js"></script>
         <!-- javascript --> 
-        <script src="assets/client/js/owl.carousel.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/owl.carousel.js"></script>
         <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
     </body>
 </html>

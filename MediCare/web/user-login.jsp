@@ -21,23 +21,23 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <!-- bootstrap css -->
-        <link rel="stylesheet" href="assets/client/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/bootstrap.min.css" />
         <!-- style css -->
-        <link rel="stylesheet" href="assets/client/css/style.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/style.css" />
         <!-- Responsive-->
-        <link rel="stylesheet" href="assets/client/css/responsive.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/responsive.css" />
         <!-- fevicon -->
-        <link rel="icon" href="assets/client/images/fevicon.png" type="image/gif" />
+        <link rel="icon" href="${pageContext.request.contextPath}/assets/client/images/fevicon.png" type="image/gif" />
         <!-- Scrollbar Custom CSS -->
-        <link rel="stylesheet" href="assets/client/css/jquery.mCustomScrollbar.min.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/jquery.mCustomScrollbar.min.css" />
         <!-- Tweaks for older IEs-->
         <link
             rel="stylesheet"
             href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
             />
         <!-- owl stylesheets -->
-        <link rel="stylesheet" href="assets/client/css/owl.carousel.min.css" />
-        <link rel="stylesheet" href="assets/client/css/owl.theme.default.min.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.carousel.min.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.theme.default.min.css" />
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
@@ -68,7 +68,7 @@
                                 <p style="color: red">${error}</p>
                             </div>
                             <div class="form-group text-right">
-                                <a href="#">Forgot your password?</a>
+                                <a href="${pageContext.request.contextPath}/#">Forgot your password?</a>
                             </div>
                             <div class="form-group text-center">
                                 <button type="submit" class="btn btn-primary account-btn">Login</button>
@@ -77,30 +77,30 @@
                                 <a style="color: blue" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:9999/MediCare/user-login-google-handler&response_type=code&client_id=304835980690-njlmvsh5aa80tmn61q83410iutm5s1q9.apps.googleusercontent.com&approval_prompt=force">Login with Google</a>
                             </div>
                             <div class="text-center register-link">
-                                Don’t have an account? <a href="user-register" style="color: red">Register Now</a>
+                                Don’t have an account? <a href="${pageContext.request.contextPath}/user-register" style="color: red">Register Now</a>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
             <div class="account-image">
-                <img src="assets/client/images/banner-account.jpg" alt="Medicare Login Banner"/>
+                <img src="${pageContext.request.contextPath}/assets/client/images/banner-account.jpg" alt="Medicare Login Banner"/>
             </div>
         </div>
 
 
         <%@include file="user-footer.jsp" %>
         <!-- Javascript files-->
-        <script src="assets/client/js/jquery.min.js"></script>
-        <script src="assets/client/js/popper.min.js"></script>
-        <script src="assets/client/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/client/js/jquery-3.0.0.min.js"></script>
-        <script src="assets/client/js/plugin.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/jquery.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/popper.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/bootstrap.bundle.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/jquery-3.0.0.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/plugin.js"></script>
         <!-- sidebar -->
-        <script src="assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="assets/client/js/custom.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/custom.js"></script>
         <!-- javascript -->
-        <script src="assets/client/js/owl.carousel.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/owl.carousel.js"></script>
         <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
     </body>
 </html>

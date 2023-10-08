@@ -9,14 +9,15 @@ package Models;
  * @author hoang
  */
 public class News {
-    private String id, title, content, author, categoryId, category, createdAt, lastModified, viewCount, coverImage;
+    private String id, title, subtitle, content, author, categoryId, category, createdAt, lastModified, viewCount, coverImage, slug;
 
     public News() {
     }
 
-    public News(String id, String title, String content, String author, String categoryId, String createdAt, String lastModified, String viewCount, String coverImage) {
+    public News(String id, String title, String subtitle, String content, String author, String categoryId, String createdAt, String lastModified, String viewCount, String coverImage, String slug) {
         this.id = id;
         this.title = title;
+        this.subtitle = subtitle;
         this.content = content;
         this.author = author;
         this.categoryId = categoryId;
@@ -24,11 +25,13 @@ public class News {
         this.lastModified = lastModified;
         this.viewCount = viewCount;
         this.coverImage = coverImage;
+        this.slug = slug;
     }
 
-    public News(String id, String title, String content, String author, String categoryId, String category, String createdAt, String lastModified, String viewCount, String coverImage) {
+    public News(String id, String title, String subtitle, String content, String author, String categoryId, String category, String createdAt, String lastModified, String viewCount, String coverImage, String slug) {
         this.id = id;
         this.title = title;
+        this.subtitle = subtitle;
         this.content = content;
         this.author = author;
         this.categoryId = categoryId;
@@ -37,8 +40,25 @@ public class News {
         this.lastModified = lastModified;
         this.viewCount = viewCount;
         this.coverImage = coverImage;
+        this.slug = slug;
     }
 
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+    
     public String getId() {
         return id;
     }

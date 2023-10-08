@@ -22,20 +22,20 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <!-- bootstrap css -->
-        <link rel="stylesheet" href="assets/client/css/bootstrap.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/bootstrap.min.css">
         <!-- style css -->
-        <link rel="stylesheet" href="assets/client/css/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/style.css">
         <!-- Responsive-->
-        <link rel="stylesheet" href="assets/client/css/responsive.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/responsive.css">
         <!-- fevicon -->
-        <link rel="icon" href="assets/client/imagesimages/fevicon.png" type="image/gif" />
+        <link rel="icon" href="${pageContext.request.contextPath}/assets/client/imagesimages/fevicon.png" type="image/gif" />
         <!-- Scrollbar Custom CSS -->
-        <link rel="stylesheet" href="assets/client/css/jquery.mCustomScrollbar.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/jquery.mCustomScrollbar.min.css">
         <!-- Tweaks for older IEs-->
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
         <!-- owl stylesheets --> 
-        <link rel="stylesheet" href="assets/client/css/owl.carousel.min.css">
-        <link rel="stylesheet" href="assets/client/css/owl.theme.default.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.theme.default.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
     </head>
 
@@ -54,20 +54,20 @@
         </c:if>
         <!--profile header of a doctor start-->
         <div class="doctor-profile-header">
-            <img src="assets/client/images/doctor-sample.png" alt="doctor-img" class="branch-image" />
+            <img src="${pageContext.request.contextPath}/assets/client/images/doctor-sample.png" alt="doctor-img" class="branch-image" />
             <p class="branch-name">${ArCert} ${doctor.displayName}</p>
         </div>
         <!--profile header of a doctor end-->
         <div class="doctor-profile-bottom">
             <ul class="tab-components nav-tabs tab-content list-inline">
                 <li class="tab-component active">
-                    <a href="#detail-info">Detail Info</a>
+                    <a href="${pageContext.request.contextPath}/#detail-info">Detail Info</a>
                 </li>   
                 <li class="tab-component">
-                    <a href="#review">Review</a>
+                    <a href="${pageContext.request.contextPath}/#review">Review</a>
                 </li>
                 <li  class="tab-component">
-                    <a href="#images">Images</a>
+                    <a href="${pageContext.request.contextPath}/#images">Images</a>
                 </li>
                 <li class="tab-component booking-tab"><a href="#">Booking</a></li>
             </ul>
@@ -381,7 +381,7 @@
                                 <span class="toggle-icon">▼</span>
                             </div>
                             <div id="images-doctor-content" class="collapse show">
-                                <p><img src="assets/client/images/doctor-sample.png" width="width" height="height" alt="alt"/></p>
+                                <p><img src="${pageContext.request.contextPath}/assets/client/images/doctor-sample.png" width="width" height="height" alt="alt"/></p>
                             </div>
                         </div>
 
@@ -460,16 +460,16 @@
         </script>
 
         <!-- Javascript files-->
-        <script src="assets/client/js/jquery.min.js"></script>
-        <script src="assets/client/js/popper.min.js"></script>
-        <script src="assets/client/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/client/js/jquery-3.0.0.min.js"></script>
-        <script src="assets/client/js/plugin.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/jquery.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/popper.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/bootstrap.bundle.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/jquery-3.0.0.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/plugin.js"></script>
         <!-- sidebar -->
-        <script src="assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="assets/client/js/custom.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/custom.js"></script>
         <!-- javascript --> 
-        <script src="assets/client/js/owl.carousel.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/owl.carousel.js"></script>
         <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
     </body>
 </html>
