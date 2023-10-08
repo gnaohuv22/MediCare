@@ -138,7 +138,7 @@
                 <c:if test="${sessionScope.loginValue.equals('true')}">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item list-parent">
-                            <a class="nav-link" href="user-profile">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/user-profile">
                                 <img src="https://www.svgrepo.com/show/497407/profile-circle.svg" width="24px" height="24px" style="filter: invert(32%) sepia(55%) saturate(465%) hue-rotate(142deg) brightness(96%) contrast(88%)" alt="alt"/>
                                 <span>${sessionScope.name}</span>
                                 <img src="https://www.svgrepo.com/show/495005/arrow-down.svg" width="10px" height="10px" alt="alt"/>

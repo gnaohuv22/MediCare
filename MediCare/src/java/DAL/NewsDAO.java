@@ -43,26 +43,29 @@ public class NewsDAO extends DBContext {
     }
 
     public ArrayList<News> getTopNews() {
-        String SQL = "SELECT TOP(5) * FROM [News] \n"
-                + "ORDER BY createdAt DESC, viewCount DESC";
+        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id AS categoryId, nc.name AS category, nc.slug AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n\n"
+                + "LEFT JOIN [NewsCategory] nc \n"
+                + "ON n.categoryId = nc.id \n";
         ArrayList<News> list = new ArrayList<>();
 
-        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 News n = new News(
                         String.valueOf(rs.getInt(1)),
                         rs.getString(2),
-                        rs.getString(10),
                         rs.getString(3),
                         rs.getString(4),
-                        String.valueOf(rs.getInt(5)),
-                        String.valueOf(rs.getDate(6)),
-                        String.valueOf(rs.getDate(7)),
-                        String.valueOf(rs.getInt(8)),
-                        rs.getString(9),
-                        rs.getString(11)
+                        rs.getString(5),
+                        String.valueOf(rs.getInt(6)),
+                        rs.getString(7),
+                        rs.getString(8),
+                        String.valueOf(rs.getDate(9)),
+                        String.valueOf(rs.getDate(10)),
+                        String.valueOf(rs.getInt(11)),
+                        rs.getString(12),
+                        rs.getString(13)
                 );
                 list.add(n);
             }
@@ -75,7 +78,7 @@ public class NewsDAO extends DBContext {
     }
 
     public News getNewsById(String id) {
-        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id AS categoryId, nc.name AS category, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n\n"
+        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id AS categoryId, nc.name AS category, nc.slug AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n\n"
                 + "LEFT JOIN [NewsCategory] nc \n"
                 + "ON n.categoryId = nc.id \n"
                 + "WHERE n.id = ?";
@@ -93,11 +96,12 @@ public class NewsDAO extends DBContext {
                         rs.getString(5),
                         String.valueOf(rs.getInt(6)),
                         rs.getString(7),
-                        String.valueOf(rs.getDate(8)),
+                        rs.getString(8),
                         String.valueOf(rs.getDate(9)),
-                        String.valueOf(rs.getInt(10)),
-                        rs.getString(11),
-                        rs.getString(12)
+                        String.valueOf(rs.getDate(10)),
+                        String.valueOf(rs.getInt(11)),
+                        rs.getString(12),
+                        rs.getString(13)
                 );
                 return n;
             }
@@ -108,7 +112,7 @@ public class NewsDAO extends DBContext {
     }
 
     public News getNewsByTitle(String title) {
-        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id AS categoryId, nc.name AS category, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n\n"
+        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id AS categoryId, nc.name AS category, nc.slug AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n\n"
                 + "LEFT JOIN [NewsCategory] nc \n"
                 + "ON n.categoryId = nc.id \n"
                 + "WHERE n.title = ?";
@@ -126,11 +130,12 @@ public class NewsDAO extends DBContext {
                         rs.getString(5),
                         String.valueOf(rs.getInt(6)),
                         rs.getString(7),
-                        String.valueOf(rs.getDate(8)),
+                        rs.getString(8),
                         String.valueOf(rs.getDate(9)),
-                        String.valueOf(rs.getInt(10)),
-                        rs.getString(11),
-                        rs.getString(12)
+                        String.valueOf(rs.getDate(10)),
+                        String.valueOf(rs.getInt(11)),
+                        rs.getString(12),
+                        rs.getString(13)
                 );
                 return n;
             }
@@ -141,7 +146,7 @@ public class NewsDAO extends DBContext {
     }
 
     public ArrayList<News> getListNewsByCategory(int categoryId) {
-        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id as categoryId, nc.name AS category, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n\n"
+        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id as categoryId, nc.name AS category, nc.slug AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n\n"
                 + "LEFT JOIN [NewsCategory] nc ON n.categoryId = nc.id\n"
                 + "WHERE nc.id = ?";
         ArrayList<News> list = new ArrayList<>();
@@ -160,11 +165,12 @@ public class NewsDAO extends DBContext {
                         rs.getString(5),
                         String.valueOf(rs.getInt(6)),
                         rs.getString(7),
-                        String.valueOf(rs.getDate(8)),
+                        rs.getString(8),
                         String.valueOf(rs.getDate(9)),
-                        String.valueOf(rs.getInt(10)),
-                        rs.getString(11),
-                        rs.getString(12)
+                        String.valueOf(rs.getDate(10)),
+                        String.valueOf(rs.getInt(11)),
+                        rs.getString(12),
+                        rs.getString(13)
                 );
                 list.add(n);
 
@@ -205,13 +211,13 @@ public class NewsDAO extends DBContext {
             System.out.println("addNews: " + e.getMessage());
         }
     }
-    
+
     public News getNewsFromSlug(String slug) {
-        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id as categoryId, nc.name AS category, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n\n"
+        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id as categoryId, nc.name AS category, nc.slug AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n \n"
                 + "LEFT JOIN [NewsCategory] nc ON n.categoryId = nc.id\n"
                 + "WHERE n.slug LIKE ?";
-        
-        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, slug);
 
             ResultSet rs = ps.executeQuery();
@@ -225,11 +231,12 @@ public class NewsDAO extends DBContext {
                         rs.getString(5),
                         String.valueOf(rs.getInt(6)),
                         rs.getString(7),
-                        String.valueOf(rs.getDate(8)),
+                        rs.getString(8),
                         String.valueOf(rs.getDate(9)),
-                        String.valueOf(rs.getInt(10)),
-                        rs.getString(11),
-                        rs.getString(12)
+                        String.valueOf(rs.getDate(10)),
+                        String.valueOf(rs.getInt(11)),
+                        rs.getString(12),
+                        rs.getString(13)
                 );
                 return n;
             }
@@ -237,5 +244,41 @@ public class NewsDAO extends DBContext {
             System.out.println("getNewsFromSlug: " + e.getMessage());
         }
         return null;
+    }
+
+    public ArrayList<News> getNewest(String id) {
+        String SQL = "SELECT TOP(3) n.id, n.title, n.subtitle, n.content, n.author, nc.id as categoryId, nc.name AS category, nc.slug AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n \n"
+                + "LEFT JOIN [NewsCategory] nc ON n.categoryId = nc.id\n"
+                + "WHERE n.id != ?\n"
+                + "ORDER BY n.createdAt DESC, n.viewCount DESC";
+        ArrayList<News> list = new ArrayList<>();
+
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setInt(1, Integer.parseInt(id));
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                News n = new News(
+                        String.valueOf(rs.getInt(1)),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        String.valueOf(rs.getInt(6)),
+                        rs.getString(7),
+                        rs.getString(8),
+                        String.valueOf(rs.getDate(9)),
+                        String.valueOf(rs.getDate(10)),
+                        String.valueOf(rs.getInt(11)),
+                        rs.getString(12),
+                        rs.getString(13)
+                );
+                list.add(n);
+
+            }
+        } catch (SQLException e) {
+            System.out.println("getNewest: " + e.getMessage());
+        }
+        return list;
     }
 }

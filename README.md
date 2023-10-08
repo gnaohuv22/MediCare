@@ -2,6 +2,16 @@
 
 ##### This document started writing from 4-10-2023 to take note about changes made in the project branch.
 
+### CHANGELOG 09-10
+
+##### Code changes:
++ Added News viewing screen (view content, view sidebar - in a basic view)
++ Added script for new attributes from `Doctor` and `News`, also `NewsCategory`
+
+##### Database changes:
++ Added `isDelete`, `gender`, `birthDate` for `Doctor`, `symptom` for `Appointment`. ANY OTHER CHANGES ARE NOT ACCEPTED.
++ Updated data for `News` and `NewsCategory`
+
 ### CHANGELOG 07-10
 
 ##### Database Structure:

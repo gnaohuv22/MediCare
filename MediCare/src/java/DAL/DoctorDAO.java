@@ -55,48 +55,53 @@ public class DoctorDAO extends DBContext {
 
     public ArrayList<Doctor> getAllDoctors() {
         ArrayList<Doctor> list = new ArrayList<>();
-        String sql = "/****** Script for SelectTopNRows command from SSMS  ******/\n"
-                + "SELECT d.*, b.[name] AS branchName, a.[name] AS ARName, \n"
-                + "DC.Certificates AS Certificates, Department.id as DepartmentId, Department.[name] AS departmentName, CV.education, CV.introduce, CV.workHistory, CV.startYear\n"
-                + "FROM Doctor AS d\n"
-                + "\n"
-                + "FULL JOIN\n"
-                + "\n"
-                + "Branch AS b On b.id = d.branchId\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "\n"
-                + "AcademicRank AS a\n"
-                + "On a.id = d.ARId\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "\n"
-                + "DoctorCertificates DC \n"
-                + "ON d.id = DC.DoctorId\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "\n"
-                + "DoctorService AS DS\n"
-                + "ON DS.doctorId = d.id\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "ServiceTag AS ST\n"
-                + "ON ST.id = DS.serviceId\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "\n"
-                + "Department\n"
-                + "ON Department.id = ST.departmentId\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "\n"
-                + "CurriculumVitae AS CV\n"
-                + "On CV.id = d.CVId\n"
-                + "\n"
-                + "\n"
-                + "GROUP BY d.ARId, d.branchId, d.CVId, d.displayName, d.email, d.id, d.phone, d.profilePicture, d.salary, d.status, d.workplace, \n"
-                + "b.[name], a.[name], DC.Certificates,  Department.[name], Department.id, CV.education, CV.introduce, CV.workHistory, CV.startYear, d.[password]\n"
-                + "HAVING d.id IS NOT NULL";
+        String sql = "SELECT COUNT(*) FROM (\n"
+                + "    SELECT d.*, b.[name] AS branchName, a.[name] AS ARName,\n"
+                + "    DC.Certificates AS Certificates, Department.id as DepartmentId, Department.[name] AS departmentName, CV.education, CV.introduce, CV.workHistory,\n"
+                + "    CV.startYear\n"
+                + "    FROM Doctor AS d\n"
+                + "    FULL JOIN Branch AS b On b.id = d.branchId\n"
+                + "    FULL JOIN AcademicRank AS a On a.id = d.ARId\n"
+                + "    FULL JOIN DoctorCertificates DC ON d.id = DC.DoctorId\n"
+                + "    FULL JOIN DoctorService AS DS ON DS.doctorId = d.id\n"
+                + "    FULL JOIN ServiceTag AS ST ON ST.id = DS.serviceId\n"
+                + "    FULL JOIN Department ON Department.id = ST.departmentId\n"
+                + "    FULL JOIN CurriculumVitae AS CV On CV.id = d.CVId\n"
+                + "    GROUP BY d.ARId, d.branchId, d.CVId, d.displayName, d.email, d.id, \n"
+                + "    d.phone, \n"
+                + "    d.profilePicture,\n"
+                + "    d.salary,\n"
+                + "    d.status,\n"
+                + "    b.[name],\n"
+                + "    a.[name],\n"
+                + "    DC.Certificates,\n"
+                + "    Department.id,\n"
+                + "    Department.[name],\n"
+                + "    CV.education,\n"
+                + "    CV.introduce,\n"
+                + "    CV.workHistory,\n"
+                + "    CV.startYear,\n"
+                + "    b.[name],\n"
+                + "    a.[name],\n"
+                + "    DC.Certificates,\n"
+                + "    Department.[name],\n"
+                + "    Department.id,\n"
+                + "    CV.education,\n"
+                + "    CV.introduce,\n"
+                + "    CV.workHistory,\n"
+                + "    CV.startYear,\n"
+                + "    b.[name],\n"
+                + "    a.[name],\n"
+                + "    DC.Certificates,\n"
+                + "    Department.[name],\n"
+                + "    Department.id,\n"
+                + "    CV.education,\n"
+                + "    CV.introduce,\n"
+                + "    CV.workHistory,\n"
+                + "    CV.startYear,\n"
+                + "	d.isDelete,\n"
+                + "	d.gender,\n"
+                + "	d.birthDate) AS subquery;";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
@@ -125,30 +130,32 @@ public class DoctorDAO extends DBContext {
                         String.valueOf(rs.getInt("startYear")));
                 list.add(d);
             }
-            
+
         } catch (SQLException e) {
             System.out.println("getAllDoctors: " + e);
         }
         return list;
     }
-    
+
     public ArrayList<Doctor> getAllDoctorPaginated(int offset, int noOfRecords) {
         ArrayList<Doctor> list = new ArrayList<>();
-        String sql = "SELECT d.*, b.[name] AS branchName, a.[name] AS ARName, "
-            + "DC.Certificates AS Certificates, Department.id as DepartmentId, Department.[name] AS departmentName, CV.education, CV.introduce, CV.workHistory, CV.startYear "
-            + "FROM Doctor AS d "
-            + "FULL JOIN Branch AS b On b.id = d.branchId "
-            + "FULL JOIN AcademicRank AS a On a.id = d.ARId "
-            + "FULL JOIN DoctorCertificates DC ON d.id = DC.DoctorId "
-            + "FULL JOIN DoctorService AS DS ON DS.doctorId = d.id "
-            + "FULL JOIN ServiceTag AS ST ON ST.id = DS.serviceId "
-            + "FULL JOIN Department ON Department.id = ST.departmentId "
-            + "FULL JOIN CurriculumVitae AS CV On CV.id = d.CVId "
-            + "GROUP BY d.ARId, d.branchId, d.CVId, d.displayName, d.email, d.id, d.phone, d.profilePicture, d.salary, d.status, d.workplace, "
-            + "b.[name], a.[name], DC.Certificates,  Department.[name], Department.id, CV.education, CV.introduce, CV.workHistory, CV.startYear, d.[password] "
-            + "HAVING d.id IS NOT NULL "
-            + "ORDER BY d.id " 
-            + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
+        String sql = "SELECT d.*, b.[name] AS branchName, a.[name] AS ARName, \n"
+                + "DC.Certificates AS Certificates, Department.id as DepartmentId, Department.[name] AS departmentName, CV.education, CV.introduce, CV.workHistory, CV.startYear\n"
+                + "FROM Doctor AS d\n"
+                + "FULL JOIN Branch AS b On b.id = d.branchId\n"
+                + "FULL JOIN AcademicRank AS a On a.id = d.ARId\n"
+                + "FULL JOIN DoctorCertificates DC ON d.id = DC.DoctorId\n"
+                + "FULL JOIN DoctorService AS DS ON DS.doctorId = d.id\n"
+                + "FULL JOIN ServiceTag AS ST ON ST.id = DS.serviceId\n"
+                + "FULL JOIN Department ON Department.id = ST.departmentId\n"
+                + "FULL JOIN CurriculumVitae AS CV On CV.id = d.CVId\n"
+                + "GROUP BY d.ARId, d.branchId, d.CVId, d.displayName, d.email, d.id, d.phone, d.profilePicture, d.salary, d.status, d.workplace,\n"
+                + "b.[name], a.[name], DC.Certificates,\n"
+                + "Department.id, Department.[name], CV.education, CV.introduce, CV.workHistory,\n"
+                + "CV.startYear, d.[password], d.isDelete, d.gender, d.birthDate\n"
+                + "HAVING d.id IS NOT NULL \n"
+                + "ORDER BY d.id \n"
+                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, offset);
@@ -179,55 +186,29 @@ public class DoctorDAO extends DBContext {
                         String.valueOf(rs.getInt("startYear")));
                 list.add(d);
             }
-            
+
             rs.close();
-            sql = 
-                "SELECT COUNT(*) FROM (\n"
-                + "SELECT d.*, b.[name] AS branchName, a.[name] AS ARName, \n"
-                + "DC.Certificates AS Certificates, Department.id as DepartmentId, Department.[name] AS departmentName, CV.education, CV.introduce, CV.workHistory, CV.startYear\n"
-                + "FROM Doctor AS d\n"
-                + "\n"
-                + "FULL JOIN\n"
-                + "\n"
-                + "Branch AS b On b.id = d.branchId\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "\n"
-                + "AcademicRank AS a\n"
-                + "On a.id = d.ARId\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "\n"
-                + "DoctorCertificates DC \n"
-                + "ON d.id = DC.DoctorId\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "\n"
-                + "DoctorService AS DS\n"
-                + "ON DS.doctorId = d.id\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "ServiceTag AS ST\n"
-                + "ON ST.id = DS.serviceId\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "\n"
-                + "Department\n"
-                + "ON Department.id = ST.departmentId\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "\n"
-                + "CurriculumVitae AS CV\n"
-                + "On CV.id = d.CVId\n"
-                + "\n"
-                + "\n"
-                + "GROUP BY d.ARId, d.branchId, d.CVId, d.displayName, d.email, d.id, d.phone, d.profilePicture, d.salary, d.status, d.workplace, \n"
-                + "b.[name], a.[name], DC.Certificates,  Department.[name], Department.id, CV.education, CV.introduce, CV.workHistory, CV.startYear, d.[password]\n"
-                + "HAVING d.id IS NOT NULL) AS subquery";
-            try (PreparedStatement psm = connection.prepareStatement(sql)) {
-                
+            sql
+                    = "SELECT COUNT(*) FROM (\n"
+                    + "    SELECT d.*, b.[name] AS branchName, a.[name] AS ARName, \n"
+                    + "    DC.Certificates AS Certificates, Department.id as DepartmentId, Department.[name] AS departmentName, CV.education, CV.introduce, CV.workHistory, CV.startYear\n"
+                    + "    FROM Doctor AS d\n"
+                    + "    FULL JOIN Branch AS b On b.id = d.branchId\n"
+                    + "    FULL JOIN AcademicRank AS a On a.id = d.ARId\n"
+                    + "    FULL JOIN DoctorCertificates DC ON d.id = DC.DoctorId\n"
+                    + "    FULL JOIN DoctorService AS DS ON DS.doctorId = d.id\n"
+                    + "    FULL JOIN ServiceTag AS ST ON ST.id = DS.serviceId\n"
+                    + "    FULL JOIN Department ON Department.id = ST.departmentId\n"
+                    + "    FULL JOIN CurriculumVitae AS CV On CV.id = d.CVId\n"
+                    + "    GROUP BY d.ARId, d.branchId, d.CVId, d.displayName, d.email, d.id, d.phone, d.profilePicture, d.salary, d.status, d.workplace,\n"
+                    + "    b.[name], a.[name], DC.Certificates,\n"
+                    + "    Department.id, Department.[name], CV.education, CV.introduce, CV.workHistory,\n"
+                    + "    CV.startYear, d.[password], d.isDelete, d.gender, d.birthDate\n"
+                    + "    HAVING d.id IS NOT NULL) AS subquery;";
+            try ( PreparedStatement psm = connection.prepareStatement(sql)) {
+
                 ResultSet rst = psm.executeQuery();
-                
+
                 while (rst.next()) {
                     this.noOfRecords = rst.getInt(1);
                 }
@@ -241,47 +222,21 @@ public class DoctorDAO extends DBContext {
     }
 
     public Doctor getDoctorByDoctorId(String doctorId) {
-        String sql = "/****** Script for SelectTopNRows command from SSMS  ******/\n"
-                + "SELECT d.*, b.[name] AS branchName, a.[name] AS ARName, \n"
+        String sql = "SELECT d.*, b.[name] AS branchName, a.[name] AS ARName, \n"
                 + "DC.Certificates AS Certificates, Department.id as DepartmentId, Department.[name] AS departmentName, CV.education, CV.introduce, CV.workHistory, CV.startYear\n"
                 + "FROM Doctor AS d\n"
-                + "\n"
-                + "FULL JOIN\n"
-                + "\n"
-                + "Branch AS b On b.id = d.branchId\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "\n"
-                + "AcademicRank AS a\n"
-                + "On a.id = d.ARId\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "\n"
-                + "DoctorCertificates DC \n"
-                + "ON d.id = DC.DoctorId\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "\n"
-                + "DoctorService AS DS\n"
-                + "ON DS.doctorId = d.id\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "ServiceTag AS ST\n"
-                + "ON ST.id = DS.serviceId\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "\n"
-                + "Department\n"
-                + "ON Department.id = ST.departmentId\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "\n"
-                + "CurriculumVitae AS CV\n"
-                + "On CV.id = d.CVId\n"
-                + "\n"
+                + "FULL JOIN Branch AS b On b.id = d.branchId\n"
+                + "FULL JOIN AcademicRank AS a On a.id = d.ARId\n"
+                + "FULL JOIN DoctorCertificates DC ON d.id = DC.DoctorId\n"
+                + "FULL JOIN DoctorService AS DS ON DS.doctorId = d.id\n"
+                + "FULL JOIN ServiceTag AS ST ON ST.id = DS.serviceId\n"
+                + "FULL JOIN Department ON Department.id = ST.departmentId\n"
+                + "FULL JOIN CurriculumVitae AS CV On CV.id = d.CVId\n"
                 + "WHERE d.id = ?\n"
-                + "GROUP BY d.ARId, d.branchId, d.CVId, d.displayName, d.email, d.id, d.phone, d.profilePicture, d.salary, d.status, d.workplace, \n"
-                + "b.[name], a.[name], DC.Certificates,  Department.[name], Department.id, CV.education, CV.introduce, CV.workHistory, CV.startYear, d.[password]";
+                + "GROUP BY d.ARId, d.branchId, d.CVId, d.displayName, d.email, d.id, d.phone, d.profilePicture, d.salary, d.status, d.workplace,\n"
+                + "b.[name], a.[name], DC.Certificates,\n"
+                + "Department.id, Department.[name], CV.education, CV.introduce, CV.workHistory,\n"
+                + "CV.startYear, d.[password], d.isDelete, d.gender, d.birthDate;";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -460,24 +415,21 @@ public class DoctorDAO extends DBContext {
     public ArrayList<Doctor> getDoctorsByPattern(String pattern, int offset, int noOfRecords) {
         ArrayList<Doctor> list = new ArrayList<>();
         String searchValue = "%" + pattern + "%";
-        String SQL = "SELECT d.id, d.email, d.password, d.displayName, b.[name] AS branchName, d.phone, a.[name] AS ARName, "
-                + "COUNT(r.id) AS ReviewCount, DC.Certificates AS Certificates, Department.id as DepartmentId, "
-                + "Department.[name] AS departmentName, CV.education, CV.introduce, CV.workHistory, CV.startYear, "
-                + "d.salary, d.workplace, d.profilePicture, d.status "
-                + "FROM Doctor AS d "
-                + "FULL JOIN Branch AS b On b.id = d.branchId "
-                + "FULL JOIN AcademicRank AS a On a.id = d.ARId "
-                + "FULL JOIN DoctorCertificates DC ON d.id = DC.DoctorId "
-                + "FULL JOIN DoctorService AS DS ON DS.doctorId = d.id "
-                + "FULL JOIN ServiceTag AS ST ON ST.id = DS.serviceId "
-                + "FULL JOIN Department ON Department.id = ST.departmentId "
-                + "FULL JOIN CurriculumVitae AS CV On CV.id = d.CVId "
-                + "LEFT JOIN Reviews AS r ON r.doctorId = d.id "
-                + "WHERE d.displayName COLLATE SQL_Latin1_General_CP1_CI_AI LIKE ? "
-                + "GROUP BY d.id, d.email, d.password, d.displayName, b.[name], d.phone, a.[name], DC.Certificates,"
-                + "Department.id, Department.[name], CV.education, CV.introduce, CV.workHistory,"
-                + "CV.startYear, d.salary, d.workplace, d.profilePicture, d.status "
-                + "ORDER BY COUNT(r.id) DESC "
+        String SQL = "SELECT d.*, b.[name] AS branchName, a.[name] AS ARName, \n"
+                + "DC.Certificates AS Certificates, Department.id as DepartmentId, Department.[name] AS departmentName, CV.education, CV.introduce, CV.workHistory, CV.startYear\n"
+                + "FROM Doctor AS d \n"
+                + "FULL JOIN Branch AS b On b.id = d.branchId \n"
+                + "FULL JOIN AcademicRank AS a On a.id = d.ARId \n"
+                + "FULL JOIN DoctorCertificates DC ON d.id = DC.DoctorId \n"
+                + "FULL JOIN DoctorService AS DS ON DS.doctorId = d.id \n"
+                + "FULL JOIN ServiceTag AS ST ON ST.id = DS.serviceId \n"
+                + "FULL JOIN Department ON Department.id = ST.departmentId \n"
+                + "FULL JOIN CurriculumVitae AS CV On CV.id = d.CVId \n"
+                + "GROUP BY d.ARId, d.branchId, d.CVId, d.displayName, d.email, d.id, d.phone, d.profilePicture, d.salary, d.status, d.workplace,\n"
+                + "b.[name], a.[name], DC.Certificates,  Department.[name], Department.id, CV.education, CV.introduce, CV.workHistory, CV.startYear,\n"
+                + "d.[password], d.isDelete, d.gender, d.birthDate\n"
+                + "HAVING d.id IS NOT NULL \n"
+                + "ORDER BY d.id\n"
                 + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;";
 
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
@@ -517,7 +469,8 @@ public class DoctorDAO extends DBContext {
                     + "    SELECT ROW_NUMBER() OVER (ORDER BY COUNT(r.id) DESC) AS RowNum, d.id, d.email, d.password, d.displayName, b.[name] AS branchName, d.phone, a.[name] AS ARName,\n"
                     + "           COUNT(r.id) AS ReviewCount, DC.Certificates AS Certificates, Department.id as DepartmentId,\n"
                     + "           Department.[name] AS departmentName, CV.education, CV.introduce, CV.workHistory,\n"
-                    + "           CV.startYear, d.salary, d.workplace, d.profilePicture, d.status\n"
+                    + "           CV.startYear, d.salary, d.workplace, d.profilePicture, d.status,\n"
+                    + "           d.isDelete, d.gender, d.birthDate\n"
                     + "    FROM Doctor AS d\n"
                     + "    FULL JOIN Branch AS b On b.id = d.branchId\n"
                     + "    FULL JOIN AcademicRank AS a On a.id = d.ARId\n"
@@ -530,13 +483,14 @@ public class DoctorDAO extends DBContext {
                     + "    WHERE d.displayName COLLATE SQL_Latin1_General_CP1_CI_AI LIKE ?\n"
                     + "    GROUP BY d.id, d.email, d.password, d.displayName, b.[name], d.phone, a.[name], DC.Certificates,\n"
                     + "             Department.id, Department.[name], CV.education, CV.introduce, CV.workHistory,\n"
-                    + "             CV.startYear, d.salary, d.workplace, d.profilePicture, d.status\n"
-                    + ") AS subquery\n";
-            try (PreparedStatement psm = connection.prepareStatement(SQL)) {
+                    + "             CV.startYear, d.salary, d.workplace, d.profilePicture, d.status,\n"
+                    + "             d.isDelete, d.gender, d.birthDate\n"
+                    + ") AS subquery;";
+            try ( PreparedStatement psm = connection.prepareStatement(SQL)) {
                 psm.setString(1, searchValue);
-                
+
                 ResultSet rst = psm.executeQuery();
-                
+
                 while (rst.next()) {
                     this.noOfRecords = rst.getInt(1);
                 }

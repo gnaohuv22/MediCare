@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 
 /**
  *
@@ -32,7 +33,7 @@ public class UserNewsServlet extends HttpServlet {
         String[] pathParts = pathInfo.split("/");
         if (pathParts.length == 3) {
             NewsDAO nd = new NewsDAO();
-            String categorySlug = pathParts[1];
+//            String categorySlug = pathParts[1];
             String newsSlug = pathParts[2];
             
             News n = nd.getNewsFromSlug(newsSlug);
@@ -41,8 +42,11 @@ public class UserNewsServlet extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 return;
             }
+            ArrayList<News> related = nd.getNewest(n.getId());
+
             
             request.setAttribute("n", n);
+            request.setAttribute("related", related);
             
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/user-news.jsp");
             dispatcher.forward(request, response);

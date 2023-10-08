@@ -12,6 +12,7 @@ public class Doctor {
 
     private String id, email, displayName, branchId, phone, ARId, CVId, salary, workplace, profilePicture, status, certificates;
     private String branchName, ARName, departmentId, departmentName, education, introduce, workHistory, startYear, password;
+    private String gender, isDelete, birthDate;
     public Doctor() {
     }
 
@@ -328,6 +329,30 @@ public class Doctor {
         this.startYear = startYear;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(String isDelete) {
+        this.isDelete = isDelete;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
+    
     @Override
     public String toString() {
         return "Doctor{" + "id=" + id + ", email=" + email + ", displayName=" + displayName + ", branchId=" + branchId + ", phone=" + phone + ", ARId=" + ARId + ", CVId=" + CVId + ", salary=" + salary + ", workplace=" + workplace + ", profilePicture=" + profilePicture + ", status=" + status + ", certificates=" + certificates + ", branchName=" + branchName + ", ARName=" + ARName + ", departmentId=" + departmentId + ", departmentName=" + departmentName + ", education=" + education + ", introduce=" + introduce + ", workHistory=" + workHistory + ", startYear=" + startYear + ", password=" + password + '}';

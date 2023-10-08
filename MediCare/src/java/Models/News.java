@@ -9,7 +9,7 @@ package Models;
  * @author hoang
  */
 public class News {
-    private String id, title, subtitle, content, author, categoryId, category, createdAt, lastModified, viewCount, coverImage, slug;
+    private String id, title, subtitle, content, author, categoryId, category, categorySlug, createdAt, lastModified, viewCount, coverImage, slug;
 
     public News() {
     }
@@ -28,7 +28,7 @@ public class News {
         this.slug = slug;
     }
 
-    public News(String id, String title, String subtitle, String content, String author, String categoryId, String category, String createdAt, String lastModified, String viewCount, String coverImage, String slug) {
+    public News(String id, String title, String subtitle, String content, String author, String categoryId, String category, String categorySlug, String createdAt, String lastModified, String viewCount, String coverImage, String slug) {
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
@@ -36,6 +36,7 @@ public class News {
         this.author = author;
         this.categoryId = categoryId;
         this.category = category;
+        this.categorySlug = categorySlug;
         this.createdAt = createdAt;
         this.lastModified = lastModified;
         this.viewCount = viewCount;
@@ -139,6 +140,13 @@ public class News {
         this.category = category;
     }
 
+    public String getCategorySlug() {
+        return categorySlug;
+    }
+
+    public void setCategorySlug(String categorySlug) {
+        this.categorySlug = categorySlug;
+    }
 
 
     @Override

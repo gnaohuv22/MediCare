@@ -135,200 +135,195 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </c:forEach>
-    <!-- banner section end -->
-    <!-- news section start -->
-    <div class="news_section layout_padding">
-        <div class="container">
-            <h1 class="health_taital">Bài viết nổi bật từ các Chuyên gia</h1>
-            <p class="health_text">
-                “Đi sâu vào các bài viết sâu sắc từ các chuyên gia chăm sóc sức khỏe hàng đầu, đưa ra những quan điểm mới mẻ về sức khỏe và thể chất.”
-            </p>
-            <div class="news_section_3 layout_padding">
-                <c:forEach items="${topNews}" var="news">
-                    <c:forEach items="${categories}" var="c">
-                        <c:if test="${c.getId() eq news.getCategoryId()}">
-                            <a class="news-block" href="${pageContext.request.contextPath}/news/${c.getSlug()}/${news.getSlug()}">
-                                <div class="news-cover">
-                                    <img src="${news.getCoverImage()}" alt="Cover image of ${news.getTitle()}"/>
-                                </div>
-                                <div class="news-title">
-                                    ${news.getTitle()}
-                                </div>
-                                <c:forEach items="${employees}" var="e">
-                                    <c:if test="${e.getEmail() eq news.getAuthor()}">
-                                        <div class="news-author">
-                                            Author: ${e.getName()}
-                                        </div>
-                                    </c:if>
-                                </c:forEach>
+        </c:forEach>
+        <!-- banner section end -->
+        <!-- news section start -->
+        <div class="news_section layout_padding">
+            <div class="container">
+                <h1 class="health_taital">Bài viết nổi bật từ các Chuyên gia</h1>
+                <p class="health_text">
+                    “Đi sâu vào các bài viết sâu sắc từ các chuyên gia chăm sóc sức khỏe hàng đầu, đưa ra những quan điểm mới mẻ về sức khỏe và thể chất.”
+                </p>
+                <div class="news_section_3 layout_padding">
+                    <c:forEach items="${topNews}" var="news">
+                        <a class="news-block" href="${pageContext.request.contextPath}/news/${news.getCategorySlug()}/${news.getSlug()}">
+                            <div class="news-cover">
+                                <img src="${news.getCoverImage()}" alt="Cover image of ${news.getTitle()}"/>
+                            </div>
+                            <div class="news-title">
+                                ${news.getTitle()}
+                            </div>
+                            <c:forEach items="${employees}" var="e">
+                                <c:if test="${e.getEmail() eq news.getAuthor()}">
+                                    <div class="news-author">
+                                        Author: ${e.getName()}
+                                    </div>
+                                </c:if>
+                            </c:forEach>
 
-                                <div class="news-create-time">
-                                    <i class="fas fa-calendar"> ${news.getCreatedAt()}</i>
-                                </div>
-                                <div class="news-view-count">
-                                    <i class="fas fa-eye"> ${news.getViewCount()}</i>
-                                </div>
-                            </a>
-                        </c:if>
+                            <div class="news-create-time">
+                                <i class="fas fa-calendar"> ${news.getCreatedAt()}</i>
+                            </div>
+                            <div class="news-view-count">
+                                <i class="fas fa-eye"> ${news.getViewCount()}</i>
+                            </div>
+                        </a>
                     </c:forEach>
-                </c:forEach>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- news section end -->
-    <!-- contact section start -->
-    <div class="contact_section layout_padding">
-        <div class="container">
-            <h1 class="contact_taital">Đặt khám ngay bây giờ</h1>
-            <div class="news_section_2">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="icon_main">
-                            <div class="icon_7"><img src="${pageContext.request.contextPath}/assets/client/images/icon-7.png" /></div>
-                            <h4 class="diabetes_text">Đội ngũ y bác sĩ nhiệt tình</h4>
+        <!-- news section end -->
+        <!-- contact section start -->
+        <div class="contact_section layout_padding">
+            <div class="container">
+                <h1 class="contact_taital">Đặt khám ngay bây giờ</h1>
+                <div class="news_section_2">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="icon_main">
+                                <div class="icon_7"><img src="${pageContext.request.contextPath}/assets/client/images/icon-7.png" /></div>
+                                <h4 class="diabetes_text">Đội ngũ y bác sĩ nhiệt tình</h4>
+                            </div>
+                            <div class="icon_main">
+                                <div class="icon_7"><img src="${pageContext.request.contextPath}/assets/client/images/icon-5.png" /></div>
+                                <h4 class="diabetes_text">Năng lực chuyên môn cao</h4>
+                            </div>
+                            <div class="icon_main">
+                                <div class="icon_7"><img src="${pageContext.request.contextPath}/assets/client/images/icon-6.png" /></div>
+                                <h4 class="diabetes_text">Tiếp nhận bệnh nhân nhanh như chớp</h4>
+                            </div>
                         </div>
-                        <div class="icon_main">
-                            <div class="icon_7"><img src="${pageContext.request.contextPath}/assets/client/images/icon-5.png" /></div>
-                            <h4 class="diabetes_text">Năng lực chuyên môn cao</h4>
-                        </div>
-                        <div class="icon_main">
-                            <div class="icon_7"><img src="${pageContext.request.contextPath}/assets/client/images/icon-6.png" /></div>
-                            <h4 class="diabetes_text">Tiếp nhận bệnh nhân nhanh như chớp</h4>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="contact_box">
-                            <h1 class="book_text">Đặt lịch</h1>
-                            <input
-                                type="text"
-                                class="Email_text"
-                                placeholder="Email"
-                                name="Email"
-                                />
-                            <input
-                                type="text"
-                                class="Email_text"
-                                placeholder="Tên"
-                                name="Name"
-                                />
-                            <textarea
-                                class="massage-bt"
-                                placeholder="Tin nhắn"
-                                rows="5"
-                                id="comment"
-                                name="Message"
-                                ></textarea>
-                            <div class="send_bt"><a href="#">GỬI</a></div>
+                        <div class="col-md-6">
+                            <div class="contact_box">
+                                <h1 class="book_text">Đặt lịch</h1>
+                                <input
+                                    type="text"
+                                    class="Email_text"
+                                    placeholder="Email"
+                                    name="Email"
+                                    />
+                                <input
+                                    type="text"
+                                    class="Email_text"
+                                    placeholder="Tên"
+                                    name="Name"
+                                    />
+                                <textarea
+                                    class="massage-bt"
+                                    placeholder="Tin nhắn"
+                                    rows="5"
+                                    id="comment"
+                                    name="Message"
+                                    ></textarea>
+                                <div class="send_bt"><a href="#">GỬI</a></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- contact section end -->
-    <!-- client section start -->
-    <div class="client_section layout_padding">
-        <div id="my_slider" class="carousel slide" data-ride="carousel" data-interval="5000">
-            <ol class="carousel-indicators">
-                <c:forEach items="${sessionScope.topReviewList}" var="review" varStatus="loop">
-                    <li data-target="#my_slider" data-slide-to="${loop.index}" class="${loop.first ? 'active' : ''}"></li>
-                    </c:forEach>
-            </ol>
-            <h1 class="client_taital">Mọi người nói về chúng tôi</h1>
-            <div class="carousel-inner">
-                <c:forEach items="${sessionScope.topReviewList}" var="review" varStatus="loop">
-                    <div class="carousel-item ${loop.first ? 'active' : ''}">
-                        <div class="container">
-                            <div class="client_section_2">
-                                <div class="client_left">
-                                    <c:forEach items="${sessionScope.listUser}" var="user">
-                                        <c:if test="${user.getId() eq review.getUserId()}">
-                                            <div>
-                                                <img src="${user.getProfilePicture()}" class="client_img" />
+        <!-- contact section end -->
+        <!-- client section start -->
+        <div class="client_section layout_padding">
+            <div id="my_slider" class="carousel slide" data-ride="carousel" data-interval="5000">
+                <ol class="carousel-indicators">
+                    <c:forEach items="${sessionScope.topReviewList}" var="review" varStatus="loop">
+                        <li data-target="#my_slider" data-slide-to="${loop.index}" class="${loop.first ? 'active' : ''}"></li>
+                        </c:forEach>
+                </ol>
+                <h1 class="client_taital">Mọi người nói về chúng tôi</h1>
+                <div class="carousel-inner">
+                    <c:forEach items="${sessionScope.topReviewList}" var="review" varStatus="loop">
+                        <div class="carousel-item ${loop.first ? 'active' : ''}">
+                            <div class="container">
+                                <div class="client_section_2">
+                                    <div class="client_left">
+                                        <c:forEach items="${sessionScope.listUser}" var="user">
+                                            <c:if test="${user.getId() eq review.getUserId()}">
+                                                <div>
+                                                    <img src="${user.getProfilePicture()}" class="client_img" />
+                                                </div>
+                                            </c:if>
+                                        </c:forEach>
+                                    </div>
+                                    <div class="client_right">
+                                        <c:forEach items="${sessionScope.listUser}" var="user">
+                                            <c:if test="${user.getId() eq review.getUserId()}">
+                                                <h3 class="distracted_text">${user.getName()}</h3>
+                                            </c:if>
+                                        </c:forEach>
+                                        <div class="review-content">
+                                            <p class="lorem_text">${review.getReviewContent()}</p>
+                                            <div class="quote_icon">
+                                                <img src="${pageContext.request.contextPath}/assets/client/images/quote-icon.png" />
                                             </div>
-                                        </c:if>
-                                    </c:forEach>
-                                </div>
-                                <div class="client_right">
-                                    <c:forEach items="${sessionScope.listUser}" var="user">
-                                        <c:if test="${user.getId() eq review.getUserId()}">
-                                            <h3 class="distracted_text">${user.getName()}</h3>
-                                        </c:if>
-                                    </c:forEach>
-                                    <div class="review-content">
-                                        <p class="lorem_text">${review.getReviewContent()}</p>
-                                        <div class="quote_icon">
-                                            <img src="${pageContext.request.contextPath}/assets/client/images/quote-icon.png" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </c:forEach>
+                    </c:forEach>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- client section end -->
-    <%@include file="user-footer.jsp" %>
-    <!-- Javascript files-->
-    <script src="${pageContext.request.contextPath}/assets/client/js/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/client/js/popper.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/client/js/bootstrap.bundle.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/client/js/jquery-3.0.0.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/client/js/plugin.js"></script>
-    <!-- sidebar -->
-    <script src="${pageContext.request.contextPath}/assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/client/js/custom.js"></script>
-    <!-- javascript -->
-    <script src="${pageContext.request.contextPath}/assets/client/js/owl.carousel.js"></script>
-    <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
-    <script>
-        $(document).ready(function () {
+        <!-- client section end -->
+        <%@include file="user-footer.jsp" %>
+        <!-- Javascript files-->
+        <script src="${pageContext.request.contextPath}/assets/client/js/jquery.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/popper.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/bootstrap.bundle.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/jquery-3.0.0.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/plugin.js"></script>
+        <!-- sidebar -->
+        <script src="${pageContext.request.contextPath}/assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/custom.js"></script>
+        <!-- javascript -->
+        <script src="${pageContext.request.contextPath}/assets/client/js/owl.carousel.js"></script>
+        <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+        <script>
+            $(document).ready(function () {
 
-            // Tính toán chiều rộng của mỗi doctor-block
-            var doctorBlockWidth = 360 + 22.5;
+                // Tính toán chiều rộng của mỗi doctor-block
+                var doctorBlockWidth = 360 + 22.5;
 
-            // Đặt chiều rộng cho mỗi doctor-block
-            $('.doctor-block').css('width', doctorBlockWidth + 'px');
+                // Đặt chiều rộng cho mỗi doctor-block
+                $('.doctor-block').css('width', doctorBlockWidth + 'px');
 
-            // Đặt chiều rộng cho danh sách
-            var doctorListWidth = doctorBlockWidth * $('.doctor-block').length;
-            $('#doctor-carousel .horizontal-doctor-list').css('width', doctorListWidth + 'px'); // Sửa tên ID
+                // Đặt chiều rộng cho danh sách
+                var doctorListWidth = doctorBlockWidth * $('.doctor-block').length;
+                $('#doctor-carousel .horizontal-doctor-list').css('width', doctorListWidth + 'px'); // Sửa tên ID
 
-            // Sự kiện cuộn ngang khi nhấp vào nút "next"
-            $('.carousel-control-next').click(function () {
-                $('#doctor-carousel .horizontal-doctor-list').animate({scrollLeft: '+=' + doctorBlockWidth}, 'slow'); // Sửa tên ID
+                // Sự kiện cuộn ngang khi nhấp vào nút "next"
+                $('.carousel-control-next').click(function () {
+                    $('#doctor-carousel .horizontal-doctor-list').animate({scrollLeft: '+=' + doctorBlockWidth}, 'slow'); // Sửa tên ID
+                });
+
+                // Sự kiện cuộn ngang khi nhấp vào nút "prev"
+                $('.carousel-control-prev').click(function () {
+                    $('#doctor-carousel .horizontal-doctor-list').animate({scrollLeft: '-=' + doctorBlockWidth}, 'slow'); // Sửa tên ID
+                });
             });
+        </script>
 
-            // Sự kiện cuộn ngang khi nhấp vào nút "prev"
-            $('.carousel-control-prev').click(function () {
-                $('#doctor-carousel .horizontal-doctor-list').animate({scrollLeft: '-=' + doctorBlockWidth}, 'slow'); // Sửa tên ID
+        <script>
+            $(document).ready(function () {
+                $('.doctor-introduce').each(function () {
+                    var maxLength = 100; // Đặt độ dài tối đa cho nội dung
+                    if ($(this).text().length > maxLength) {
+                        var shortText = $(this).text().substr(0, maxLength) + '...'; // Cắt nội dung
+                        var longText = $(this).text().substr(maxLength);
+
+                        var doctorId = $(this).data('doctor-id');
+
+                        // Tạo nút "Xem thêm"
+                        var btn = $('<a href="user-doctor-detail?doctorId=' + doctorId + '" style="color: #68B2A0; text-decoration: underline;"> Xem thêm>></a>');
+
+                        // Thay thế nội dung bằng nội dung đã được cắt và nút "Xem thêm"
+                        $(this).html(shortText);
+                        $(this).append(btn);
+                    }
+                });
             });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            $('.doctor-introduce').each(function () {
-                var maxLength = 100; // Đặt độ dài tối đa cho nội dung
-                if ($(this).text().length > maxLength) {
-                    var shortText = $(this).text().substr(0, maxLength) + '...'; // Cắt nội dung
-                    var longText = $(this).text().substr(maxLength);
-
-                    var doctorId = $(this).data('doctor-id');
-
-                    // Tạo nút "Xem thêm"
-                    var btn = $('<a href="user-doctor-detail?doctorId=' + doctorId + '" style="color: #68B2A0; text-decoration: underline;"> Xem thêm>></a>');
-
-                    // Thay thế nội dung bằng nội dung đã được cắt và nút "Xem thêm"
-                    $(this).html(shortText);
-                    $(this).append(btn);
-                }
-            });
-        });
-    </script>
-</body>
+        </script>
+    </body>
 </html>
