@@ -43,53 +43,44 @@
                     <div class="profile-list">
                         <ul>
                             <c:forEach items="${requestScope.fpList}" var="fp">
-                                <a href="user-profile?id=${fp.getProfileId()}">
-                                    <li class="profile-item <c:if test="${fp.getProfileId() == requestScope.currentfp.profileId}">profile-item-active</c:if>">
-                                            <div class="profile-item-pics ">
-                                                <img src="https://www.svgrepo.com/show/497407/profile-circle.svg" width="50px" height="50px" alt="client-img"/> 
-                                            </div>
-                                            <div class="profile-item-info">
-                                                <h3>${fp.getName()}</h3>
-                                            <span>${fp.getBirthDate()}</span>
+                                <li class="profile-item <c:if test="${fp.getProfileId() == requestScope.currentfp.profileId}">profile-item-active</c:if>"
+                                    onclick="loadProfile(${fp.getProfileId()})"
+                                    >
+                                        <div class="profile-item-pics ">
+                                            <img src="https://www.svgrepo.com/show/497407/profile-circle.svg" width="50px" height="50px" alt="client-img"/> 
                                         </div>
-                                    </li>
-                                </a>
+                                        <div class="profile-item-info">
+                                            <h3>${fp.getName()}</h3>
+                                        <span>${fp.getBirthDate()}</span>
+                                    </div>
+                                </li>
                             </c:forEach>
                         </ul>
                     </div>
                 </div>
                 <c:set value="${requestScope.currentfp}" var="current"/>
-                <div class="profile-display">
-                    <div class="profile-display-header">
-                        <div class="profile-display-pics ">
-                            <img src="https://www.svgrepo.com/show/497407/profile-circle.svg" width="50px" height="50px" alt="client-img"/> 
-                        </div>
-                        <div class="profile-display-info">
-                            <h2>${current.name}</h2>
-                            <span>Patient Code: ${current.profileId}</span>
-                        </div>
-                    </div>
-                    <div class="profile-display-body">
-                        <h3>Thông tin cơ bản</h3>
-                        <div class="profile-display-basic">
-                            <span>Họ và tên:</span><span>${current.name}</span>
-                            <span>Điện thoại:</span><span>${current.phone}</span>
-                            <span>Ngày sinh:</span><span>${current.birthDate}</span>
-                            <span>Giới tính:</span><span>${current.gender}</span>
-                            <span>Địa chỉ:</span><span>${current.address}</span>
-                        </div>
-                        <h3>Thông tin bổ sung</h3>
-                        <div class="profile-display-addition">
-                            <span>Mã BHYT:</span><span>${current.medicalId}</span>
-                            <span>Số CMND/CCCD:</span><span>${current.identity}</span>
-                            <span>Dân tộc:</span><span>${current.ethnic}</span>
-                            <span>Email:</span><span>${current.email}</span>
-                        </div>
-                    </div>
+                <div class="profile-display" id="profile-display">
+                    
                 </div>
             </div>
         </main>                       
         <jsp:include page="user-footer.jsp"/>
         <jsp:include page="user-script.jsp"/>
+        <script>
+            function loadProfile(id) {
+                $.ajax({
+                    url: "/MediCare/user-profile?id=" + id,
+                    type: "GET",
+                    success: function (data) {
+                        var box = document.getElementById("profile-display");
+                        box.innerHTML = data;
+                    },
+                    error: function (jqXHR) {
+                        
+                    }
+                });
+
+            }
+        </script>
     </body>
 </html>
