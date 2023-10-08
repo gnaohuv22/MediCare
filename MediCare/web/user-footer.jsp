@@ -61,7 +61,7 @@
                             <c:forEach items="${sessionScope.subMenu}" var="contact">
                                 <c:if test="${item.getId() eq contact.getCategoryId()}">
                                     <div class="map_icon">
-                                        <img src="${contact.getIcon()}"/><span class="paddlin_left_0">${contact.getContent()}</span>
+                                        <img src="${pageContext.request.contextPath}/${contact.getIcon()}"/><span class="paddlin_left_0">${contact.getContent()}</span>
                                     </div>
                                 </c:if>
                             </c:forEach>
@@ -83,7 +83,7 @@
                             <c:forEach items="${sessionScope.subMenu}" var="sub">
                                 <c:if test="${item.getId() eq sub.getCategoryId()}">
                                     <div class="Useful_text">
-                                        <a href="${pageContext.request.contextPath}/${sub.getHref()}">${sub.getContent()}</a>
+                                        <a href="${sub.getHref()}">${sub.getContent()}</a>
                                     </div>
                                 </c:if>
                             </c:forEach>
@@ -99,7 +99,7 @@
                                     <c:forEach items="${sessionScope.subMenu}" var="sub">
                                         <c:if test="${item.getId() eq sub.getCategoryId()}">
                                             <li>
-                                                <a href="${pageContext.request.contextPath}/${sub.getHref()}"><img src="${sub.getIcon()}" alt="${sub.getContent()}"/></a>
+                                                <a href="${sub.getHref()}"><img src="${pageContext.request.contextPath}/${sub.getIcon()}" alt="${sub.getContent()}"/></a>
                                             </li>
                                         </c:if>
                                     </c:forEach>

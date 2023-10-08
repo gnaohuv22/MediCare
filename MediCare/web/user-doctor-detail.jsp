@@ -61,13 +61,13 @@
         <div class="doctor-profile-bottom">
             <ul class="tab-components nav-tabs tab-content list-inline">
                 <li class="tab-component active">
-                    <a href="${pageContext.request.contextPath}/#detail-info">Detail Info</a>
+                    <a href="#detail-info">Detail Info</a>
                 </li>   
                 <li class="tab-component">
-                    <a href="${pageContext.request.contextPath}/#review">Review</a>
+                    <a href="#review">Review</a>
                 </li>
                 <li  class="tab-component">
-                    <a href="${pageContext.request.contextPath}/#images">Images</a>
+                    <a href="#images">Images</a>
                 </li>
                 <li class="tab-component booking-tab"><a href="#">Booking</a></li>
             </ul>
