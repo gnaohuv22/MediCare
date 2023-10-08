@@ -18,23 +18,23 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="assets/client/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/bootstrap.min.css" />
     <!-- style css -->
-    <link rel="stylesheet" href="assets/client/css/style.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/style.css" />
     <!-- Responsive-->
-    <link rel="stylesheet" href="assets/client/css/responsive.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/responsive.css" />
     <!-- fevicon -->
-    <link rel="icon" href="assets/client/images/favicon.png" type="image/gif" />
+    <link rel="icon" href="${pageContext.request.contextPath}/assets/client/images/favicon.png" type="image/gif" />
     <!-- Scrollbar Custom CSS -->
-    <link rel="stylesheet" href="assets/client/css/jquery.mCustomScrollbar.min.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/jquery.mCustomScrollbar.min.css" />
     <!-- Tweaks for older IEs-->
     <link
         rel="stylesheet"
         href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
         />
     <!-- owl stylesheets -->
-    <link rel="stylesheet" href="assets/client/css/owl.carousel.min.css" />
-    <link rel="stylesheet" href="assets/client/css/owl.theme.default.min.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.theme.default.min.css" />
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
@@ -47,7 +47,7 @@
 <%@include file="user-header.jsp" %>
 
 <div class="branch-profile-header">
-    <img src="assets/client/images/branch-img.jpg" alt="branch-img" class="branch-image" />
+    <img src="${pageContext.request.contextPath}/assets/client/images/branch-img.jpg" alt="branch-img" class="branch-image" />
     <p class="branch-name">Kết quả tìm kiếm cho "${pattern}"</p>
 </div>
 <!-- search result section start -->
@@ -57,7 +57,7 @@
         <c:forEach var="doctor" items="${doctors}">
             <div class="search-doctor-block">
                 <div class="doctor-img">
-                    <img src="assets/client/images/doctor-img.png" width="100" height="100" alt="${doctor.getDisplayName()}">
+                    <img src="${pageContext.request.contextPath}/assets/client/images/doctor-img.png" width="100" height="100" alt="${doctor.getDisplayName()}">
                     <div class="doctor-rating">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -75,7 +75,7 @@
                     <span class="search-doctor-intro">${doctor.getARName()}</span><br>
                     <span class="search-doctor-introduce" data-doctor-id="${doctor.getId()}">${doctor.getIntroduce()}</span>
                     <button class="search-find-more">
-                        <a href="user-doctor-detail?doctorId=${doctor.getId()}">Tìm hiểu thêm</a>
+                        <a href="${pageContext.request.contextPath}/user-doctor-detail?doctorId=${doctor.getId()}">Tìm hiểu thêm</a>
                     </button>
                 </div>
             </div>
@@ -88,7 +88,7 @@
     <ul class="pagination justify-content-center">
         <c:if test="${currentPage != 1}">
             <li class="page-item">
-                <a class="page-link" href="search-doctor?pattern=${pattern}&page=${currentPage - 1}"><<</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/search-doctor?pattern=${pattern}&page=${currentPage - 1}"><<</a>
             </li>
         </c:if>
 
@@ -96,19 +96,19 @@
             <c:choose>
                 <c:when test="${currentPage eq i}">
                     <li class="page-item active">
-                        <a class="page-link" href="#">${i}</a>
+                        <a class="page-link" href="${pageContext.request.contextPath}/#">${i}</a>
                     </li>
                 </c:when>
                 <c:otherwise>
                     <li class="page-item">
-                        <a class="page-link" href="search-doctor?pattern=${pattern}&page=${i}">${i}</a>
+                        <a class="page-link" href="${pageContext.request.contextPath}/search-doctor?pattern=${pattern}&page=${i}">${i}</a>
                     </li>
                 </c:otherwise>
             </c:choose>
         </c:forEach>
         <c:if test="${currentPage lt pageCount}">
             <li class="page-item">
-                <a class="page-link" href="search-doctor?pattern=${pattern}&page=${currentPage + 1}">>></a>
+                <a class="page-link" href="${pageContext.request.contextPath}/search-doctor?pattern=${pattern}&page=${currentPage + 1}">>></a>
             </li>
         </c:if>
     </ul>
@@ -117,16 +117,16 @@
 
 <!-- search result section end -->
 <%@include file="user-footer.jsp" %>
-<script src="assets/client/js/jquery.min.js"></script>
-<script src="assets/client/js/popper.min.js"></script>
-<script src="assets/client/js/bootstrap.bundle.min.js"></script>
-<script src="assets/client/js/jquery-3.0.0.min.js"></script>
-<script src="assets/client/js/plugin.js"></script>
+<script src="${pageContext.request.contextPath}/assets/client/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/client/js/popper.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/client/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/client/js/jquery-3.0.0.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/client/js/plugin.js"></script>
 <!-- sidebar -->
-<script src="assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="assets/client/js/custom.js"></script>
+<script src="${pageContext.request.contextPath}/assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/client/js/custom.js"></script>
 <!-- javascript -->
-<script src="assets/client/js/owl.carousel.js"></script>
+<script src="${pageContext.request.contextPath}/assets/client/js/owl.carousel.js"></script>
 <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
 <script>
     $(document).ready(function () {

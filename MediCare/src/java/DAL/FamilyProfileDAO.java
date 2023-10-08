@@ -52,7 +52,7 @@ public class FamilyProfileDAO extends DBContext {
         return list;
     }
 
-    public List<FamilyProfile> getFamilyProfileListByUserOwnerId(int idByEmail) {
+    public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
         String SQL = "SELECT * FROM [FamilyProfile] where ownerid=?";
         ArrayList<FamilyProfile> list = new ArrayList<>();
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
@@ -89,11 +89,11 @@ public class FamilyProfileDAO extends DBContext {
         return null;
     }
 
-    public List<FamilyProfile> getFamilyProfileListByUserName(String name, int ownerId) {
+    public List<FamilyProfile> getFamilyProfileListByUserName(String name, String ownerId) {
         String SQL = "SELECT * FROM [FamilyProfile] where ownerid=?";
         ArrayList<FamilyProfile> list = new ArrayList<>();
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
-            ps.setString(1, String.valueOf(ownerId));
+            ps.setString(1, ownerId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String gender = "Male";
@@ -129,10 +129,10 @@ public class FamilyProfileDAO extends DBContext {
         return null;
     }
 
-    public FamilyProfile getFamilyProfileById(String id, int ownerId) {
+    public FamilyProfile getFamilyProfileById(String id, String ownerId) {
         String SQL = "SELECT * FROM [FamilyProfile] where ownerid=? and profileId=?";
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
-            ps.setString(1, String.valueOf(ownerId));
+            ps.setString(1, ownerId);
             ps.setInt(2, Integer.parseInt(id));
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {

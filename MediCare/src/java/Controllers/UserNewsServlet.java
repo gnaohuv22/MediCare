@@ -6,6 +6,7 @@ package Controllers;
 
 import DAL.NewsDAO;
 import Models.News;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -21,19 +22,33 @@ public class UserNewsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        String pathInfo = request.getPathInfo(); // /{slug}/{id}
-//        System.out.println("Request URI: " + request.getRequestURI());
-//        System.out.println("Query string: " + request.getQueryString());
-//        String[] pathParts = pathInfo.split("-");
-//        String idStr = pathParts[pathParts.length - 1];
-//
-//        System.out.println("getTitle: " + idStr);
-//        NewsDAO nd = new NewsDAO();
-//
-//        News n = nd.getNewsById("5");
-//
-//        request.setAttribute("n", n);
-//        request.getRequestDispatcher("user-news.jsp").forward(request, response);
+        String pathInfo = request.getPathInfo();
+        
+        if (pathInfo == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+        
+        String[] pathParts = pathInfo.split("/");
+        if (pathParts.length == 3) {
+            NewsDAO nd = new NewsDAO();
+            String categorySlug = pathParts[1];
+            String newsSlug = pathParts[2];
+            
+            News n = nd.getNewsFromSlug(newsSlug);
+            
+            if (n == null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+            
+            request.setAttribute("n", n);
+            
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/user-news.jsp");
+            dispatcher.forward(request, response);
+        } else {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     @Override

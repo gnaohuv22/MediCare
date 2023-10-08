@@ -188,7 +188,7 @@ public class UserDAO extends DBContext {
         return -1;
     }
     
-    public int getIdByEmail(String email) {
+    public String getIdByEmail(String email) {
         System.out.println("UserDAO.getIdByEmail: email:"+email);
         String sql = "SELECT id FROM [User] WHERE email=?";
         try {
@@ -196,12 +196,12 @@ public class UserDAO extends DBContext {
             st.setString(1, email);
             ResultSet rs=st.executeQuery();
             if (rs.next()) {
-                return Integer.parseInt(rs.getString(1));
+                return rs.getString(1);
             }
         } catch (NumberFormatException | SQLException e) {
             System.out.println("UserDAO.getIdByEmail: " + e);
         }
-        return -1;
+        return "";
     }
 
     public static void main(String[] args) {

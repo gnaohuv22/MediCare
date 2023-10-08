@@ -22,23 +22,23 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <!-- bootstrap css -->
-        <link rel="stylesheet" href="assets/client/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/bootstrap.min.css" />
         <!-- style css -->
-        <link rel="stylesheet" href="assets/client/css/style.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/style.css" />
         <!-- Responsive-->
-        <link rel="stylesheet" href="assets/client/css/responsive.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/responsive.css" />
         <!-- fevicon -->
-        <link rel="icon" href="assets/client/images/fevicon.png" type="image/gif" />
+        <link rel="icon" href="${pageContext.request.contextPath}/assets/client/images/fevicon.png" type="image/gif" />
         <!-- Scrollbar Custom CSS -->
-        <link rel="stylesheet" href="assets/client/css/jquery.mCustomScrollbar.min.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/jquery.mCustomScrollbar.min.css" />
         <!-- Tweaks for older IEs-->
         <link
             rel="stylesheet"
             href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
             />
         <!-- owl stylesheets -->
-        <link rel="stylesheet" href="assets/client/css/owl.carousel.min.css" />
-        <link rel="stylesheet" href="assets/client/css/owl.theme.default.min.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.carousel.min.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.theme.default.min.css" />
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
@@ -49,7 +49,7 @@
     <div class="header_section">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="logo">
-                <a href="user-home"><img width="100px" height="100px" src="assets/client/images/logo.png" /></a>
+                <a href="${pageContext.request.contextPath}/user-home"><img width="100px" height="100px" src="${pageContext.request.contextPath}/assets/client/images/logo.png" /></a>
             </div>
             <button
                 class="navbar-toggler"
@@ -78,12 +78,12 @@
                                 <c:choose>
                                     <c:when test="${sub.getContent() eq 'Chi nhánh' or sub.getContent() eq 'Dịch vụ' or sub.getContent() eq 'Tin tức'}">
                                         <li class="nav-item list-parent">
-                                            <a class="nav-link" href="${sub.getHref()}">${sub.getContent()} <img src="https://www.svgrepo.com/show/495005/arrow-down.svg" width="10px" height="10px" alt="alt"/></a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/${sub.getHref()}">${sub.getContent()} <img src="https://www.svgrepo.com/show/495005/arrow-down.svg" width="10px" height="10px" alt="alt"/></a>
                                             <ul class="list-child">
                                                 <c:forEach items="${sessionScope.subMenu}" var="item">
                                                     <c:if test="${item.getParentId() eq sub.getId()}">
                                                         <li>
-                                                            <a href="${item.getHref()}">${item.getContent()}</a>
+                                                            <a href="${pageContext.request.contextPath}/${item.getHref()}">${item.getContent()}</a>
                                                         </li>
                                                     </c:if>
                                                 </c:forEach>
@@ -92,7 +92,7 @@
                                     </c:when>
                                     <c:otherwise>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="${sub.getHref()}">${sub.getContent()}</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/${sub.getHref()}">${sub.getContent()}</a>
                                         </li>
                                     </c:otherwise>
                                 </c:choose>
@@ -107,7 +107,7 @@
                         <li class="nav-item">
                             <a
                                 class="nav-link"
-                                href="user-login" 
+                                href="${pageContext.request.contextPath}/user-login" 
                                 id="signin-btn"
                                 style="
                                 background-color: #68b2a0;
@@ -121,7 +121,7 @@
                         <li class="nav-item">
                             <a
                                 class="nav-link"
-                                href="user-register"
+                                href="${pageContext.request.contextPath}/user-register"
                                 id="register-btn"
                                 -btn
                                 style="
@@ -147,7 +147,7 @@
                                 <c:forEach items="${sessionScope.subMenu}" var="item">
                                     <c:if test="${item.getCategoryId() eq 8}">
                                         <li>
-                                            <a href="${item.getHref()}">${item.getContent()}</a> 
+                                            <a href="${pageContext.request.contextPath}/${item.getHref()}">${item.getContent()}</a> 
                                         </li>
                                     </c:if>
                                 </c:forEach>
@@ -160,16 +160,16 @@
         <!-- header section end -->
 
         <!-- Javascript files-->
-        <script src="assets/client/js/jquery.min.js"></script>
-        <script src="assets/client/js/popper.min.js"></script>
-        <script src="assets/client/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/client/js/jquery-3.0.0.min.js"></script>
-        <script src="assets/client/js/plugin.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/jquery.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/popper.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/bootstrap.bundle.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/jquery-3.0.0.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/plugin.js"></script>
         <!-- sidebar -->
-        <script src="assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="assets/client/js/custom.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/custom.js"></script>
         <!-- javascript -->
-        <script src="assets/client/js/owl.carousel.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/owl.carousel.js"></script>
         <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
         <script>
             $(document).ready(function () {

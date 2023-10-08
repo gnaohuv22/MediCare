@@ -77,16 +77,16 @@
         <url-pattern>/user-service-detail</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>UserNewsServlet</servlet-name>
-        <url-pattern>/news</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>UserLogoutController</servlet-name>
         <url-pattern>/user-logout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserProfileController</servlet-name>
         <url-pattern>/user-profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserNewsServlet</servlet-name>
+        <url-pattern>/news/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
