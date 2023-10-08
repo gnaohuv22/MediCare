@@ -33,9 +33,9 @@ public class UserProfileController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        FamilyProfileDAO fpDAO = new FamilyProfileDAO();
         HttpSession session = request.getSession();
         List<FamilyProfile> fpList;
-        FamilyProfileDAO fpDAO = new FamilyProfileDAO();
         UserDAO uDAO = new UserDAO();
 
         String id;
@@ -47,7 +47,7 @@ public class UserProfileController extends HttpServlet {
         }
         System.out.println(id);
 
-        int ownerId = uDAO.getIdByEmail(String.valueOf(session.getAttribute("email")));
+        String ownerId = uDAO.getIdByEmail(String.valueOf(session.getAttribute("email")));
         fpList = fpDAO.getFamilyProfileListByUserOwnerId(ownerId);
 
         if (session.getAttribute("email") == null) {
@@ -88,16 +88,16 @@ public class UserProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        FamilyProfileDAO fpDAO = new FamilyProfileDAO();
         HttpSession session = request.getSession();
         List<FamilyProfile> fpList;
-        FamilyProfileDAO fpDAO = new FamilyProfileDAO();
         UserDAO uDAO = new UserDAO();
 
         String name;
         name = request.getParameter("search-profile");
 
         String id;
-        int ownerId = uDAO.getIdByEmail(String.valueOf(session.getAttribute("email")));
+        String ownerId = uDAO.getIdByEmail(String.valueOf(session.getAttribute("email")));
 
         if (request.getParameter("id") == null) {
             id = String.valueOf(1);

@@ -27,7 +27,7 @@
                                         </li>
                                     </c:when>
                                     <c:otherwise>
-                                        <li>
+                                        <li> 
                                             <a href="${item.getHref()}">${item.getContent()}</a>
                                         </li>
                                     </c:otherwise>
