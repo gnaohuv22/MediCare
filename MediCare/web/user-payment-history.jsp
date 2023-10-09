@@ -1,6 +1,6 @@
 <%-- 
-    Document   : user-profile
-    Created on : Sep 26, 2023, 4:59:54 AM
+    Document   : user-payment-history
+    Created on : Oct 9, 2023, 11:44:17 PM
     Author     : phuon
 --%>
 
@@ -17,25 +17,25 @@
         <main>
             <div class="main-wrapper profile-wrapper">
                 <div class="sidebar">
-        <ul>
-            <c:forEach items="${sessionScope.subMenu}" var="item">
-                <c:if test="${item.getCategoryId() eq 9}">
-                    <c:choose>
-                        <c:when test="${'user-profile' eq item.getHref()}">
-                            <li class="sidebar-active">
-                                <a href="${item.getHref()}">${item.getContent()}</a>
-                            </li>
-                        </c:when>
-                        <c:otherwise>
-                            <li> 
-                                <a href="${item.getHref()}">${item.getContent()}</a>
-                            </li>
-                        </c:otherwise>
-                    </c:choose>
-                </c:if>
-            </c:forEach>
-        </ul>
-    </div>
+                    <ul>
+                        <c:forEach items="${sessionScope.subMenu}" var="item">
+                            <c:if test="${item.getCategoryId() eq 9}">
+                                <c:choose>
+                                    <c:when test="${'user-payment-history' eq item.getHref()}">
+                                        <li class="sidebar-active">
+                                            <a href="${item.getHref()}">${item.getContent()}</a>
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li> 
+                                            <a href="${item.getHref()}">${item.getContent()}</a>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:if>
+                        </c:forEach>
+                    </ul>
+                </div>
                 <div class="search-box">
                     <form action="" method="post" class="search-bar">
                         <input placeholder="Tìm nhanh hồ sơ" type="search" name="search-profile" id="search-profile">

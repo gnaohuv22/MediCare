@@ -24,6 +24,18 @@
         <servlet-name>UserProfileController</servlet-name>
         <servlet-class>Controllers.UserProfileController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoadProfileServlet</servlet-name>
+        <servlet-class>Controllers.LoadProfileServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserPaymentHistoryServlet</servlet-name>
+        <servlet-class>Controllers.UserPaymentHistoryServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserAppointmentController</servlet-name>
+        <servlet-class>Controllers.UserAppointmentController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserLoginServlet</servlet-name>
         <url-pattern>/user-login</url-pattern>
@@ -87,6 +99,18 @@
     <servlet-mapping>
         <servlet-name>UserNewsServlet</servlet-name>
         <url-pattern>/news/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadProfileServlet</servlet-name>
+        <url-pattern>/load-profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserPaymentHistoryServlet</servlet-name>
+        <url-pattern>/user-payment-history</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserAppointmentController</servlet-name>
+        <url-pattern>/user-appointment</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

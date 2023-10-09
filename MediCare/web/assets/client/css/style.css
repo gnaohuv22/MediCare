@@ -1784,7 +1784,6 @@ ul .tab-component a:hover {
     width: 60%;
     clear: both; /* Clear floats to prevent overlapping */
     padding: 20px;
-    cursor: pointer;
 }
 
 .profile-display-header{
