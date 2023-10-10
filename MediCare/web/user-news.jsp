@@ -70,6 +70,8 @@
         </div>
     </c:forEach>
     <!-- banner section end -->
+
+    <!-- display news section -->
     <div class="display-news">
         <div class="container">
             <div class="row">
@@ -87,19 +89,25 @@
                             </p>
                         </div>
                     </div>
-                    <h2>${n.getSubtitle()}</h2>
+                    <h2 style="color: #2C6975">${n.getSubtitle()}</h2>
                     <img src="${n.getCoverImage()}" alt="${n.getTitle()}" class="fit-height">
-                    <p class="news-content">${n.getContent()}</p>
-                    <p>Categories: 
+                    <div class="news-content">
+                        <c:out value="${n.getContent()}" escapeXml="false" />
+                    </div>
+                    <p>
+                        <i class="fas fa-tags"></i> 
+                        Categories: 
                         <c:forEach var="category" items="${categories}">
                             <c:if test="${category.getId() eq n.getCategoryId()}">
-                                <a href="/category/${category.getId()}">${category.getName()}</a> 
+                                <a href="/category/${category.getSlug()}" class="category-box">
+                                    ${category.getName()}
+                                </a>
                             </c:if>
                         </c:forEach>
                     </p>
                 </div>
                 <div class="col-md-3 bordered-news">
-                    <h3 class="related-news">Có thể bạn quan tâm</h3>
+                    <h3 class="related-news" style="font-weight: bold; font-size: 22px; color: #2C6975">Có thể bạn quan tâm</h3>
                     <!-- Replace this forEach with your actual data -->
                     <c:forEach var="news" items="${related}">
                         <div class="card mb-4">
@@ -107,7 +115,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">${news.getTitle()}</h5>
                                 <div class=" d-flex flex-column justify-content-center align-items-center">
-                                    <a href="${pageContext.request.contextPath}/news/${news.getCategorySlug()}/${news.getSlug()}" class="btn btn-primary">Read More</a>
+                                    <a href="${pageContext.request.contextPath}/news/${news.getCategorySlug()}/${news.getSlug()}" class="btn btn-primary btn-read-more">Read More</a>
                                 </div>
                             </div>
                         </div>
@@ -116,6 +124,7 @@
             </div>
         </div>
     </div>
+    <!-- display news section -->
     <%@include file="user-footer.jsp" %>
     <!-- Javascript files-->
     <script src="${pageContext.request.contextPath}/assets/client/js/jquery.min.js"></script>
