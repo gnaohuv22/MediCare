@@ -3,17 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/web/user-appointment.jsp</file>
-            <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/src/java/Controllers/UserProfileController.java</file>
-            <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/web/user-script.jsp</file>
-            <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/web/assets/client/css/style.css</file>
-            <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/web/user-payment-history.jsp</file>
-            <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/src/java/Controllers/UserAppointmentController.java</file>
-            <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/src/java/Controllers/LoadProfileServlet.java</file>
-            <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/web/user-profile.jsp</file>
-            <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/src/java/DAL/FamilyProfileDAO.java</file>
-            <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/src/java/Controllers/UserPaymentHistoryServlet.java</file>
+            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-hoangvu/medicalserviceproject/MediCare/src/java/Controllers/UserLoadDoctorsByServiceId.java</file>
         </group>
     </open-files>
 </project-private>

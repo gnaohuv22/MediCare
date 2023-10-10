@@ -171,22 +171,108 @@ public class UserDAO extends DBContext {
         }
         return false;
     }
+    
+        public boolean registerUserGoogleAccount(User u) {
+        String sql = "INSERT INTO [dbo].[User]\n"
+                + "           ([id]\n"
+                + "           ,[email]\n"
+                + "           ,[password]\n"
+                + "           ,[name]\n"
+                + "           ,[createdAt])\n"
+                + "     VALUES"
+                + "           (?,?,?,?,?)";
+
+        byte[] salt = PasswordEncryption.generateSalt();
+        String encryptedPassword = PasswordEncryption.encryptPassword(u.getPassword(), salt);
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, this.getLastUserId() + 1 + "");
+            st.setString(2, u.getEmail());
+            st.setString(3, encryptedPassword);
+            st.setString(4, u.getName());
+            st.setString(5, u.getCreatedAt());
+            st.execute();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("registerUserGoogleAccount: " + e);
+        }
+        return false;
+    }
 
     public int getLastUserId() {
-        String sql = "SELECT TOP (1) [id]\n"
-                + "  FROM [User]\n"
-                + "  ORDER by id DESC";
+        // First, cast the id from nvarchar to int:
+        String sql = "SELECT *\n"
+                + "FROM [User]\n"
+                + "ORDER BY CAST(id AS INT) DESC;";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 return Integer.parseInt(rs.getString(1));
             }
-        } catch (NumberFormatException|SQLException e) {
+        } catch (NumberFormatException | SQLException e) {
             System.out.println("getLastUserId: " + e);
         }
         return -1;
     }
+    
+    public User getUserNotRegistered(String email) {
+        String sql = "SELECT id FROM [User]\n"
+                + "WHERE password IS NULL AND email = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, email);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return new User(rs.getString("id"));
+            }
+        } catch (SQLException e) {
+            System.out.println("getUserNotRegistered: " + e);
+        }
+        return null;
+    }
+
+    public boolean addUserNotRegistered(String emailPatient) {
+        String sql = "INSERT INTO [dbo].[User]\n"
+                + "           ([id]\n"
+                + "           ,[email]\n"
+                + "           ,[createdAt])\n"
+                + "     VALUES\n"
+                + "           (?,?,?)";
+        UserDAO ud = new UserDAO();
+        String id = String.valueOf(ud.getLastUserId() + 1);
+        java.util.Date currentDate = new java.util.Date();
+        java.sql.Timestamp createdAt = new java.sql.Timestamp(currentDate.getTime());
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, id);
+            st.setString(2, emailPatient);
+            st.setString(3, createdAt.toString());
+            st.execute();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("addUserNotRegistered: " + e);
+        }
+        return false;
+    }
+
+    User getUserRegistered(String email, String password) {
+        String sql = "SELECT id FROM [User]\n"
+                + "WHERE password = ? AND email = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, password);
+            st.setString(2, email);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return new User(rs.getString("id"));
+            }
+        } catch (SQLException e) {
+            System.out.println("getUserRegistered: " + e);
+        }
+        return null;
+    }
+    
     
     public String getIdByEmail(String email) {
         System.out.println("UserDAO.getIdByEmail: email:"+email);

@@ -113,6 +113,40 @@
         <servlet-name>UserAppointmentController</servlet-name>
         <url-pattern>/user-appointment</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>UserBookingAppointmentServlet</servlet-name>
+        <servlet-class>Controllers.UserBookAppointmentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserBookingAppointmentServlet</servlet-name>
+        <url-pattern>/user-book-appointment</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UserLoadInfoOfAppointmentServlet</servlet-name>
+        <servlet-class>Controllers.UserLoadInfoOfAppointmentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserLoadInfoOfAppointmentServlet</servlet-name>
+        <url-pattern>/load-info-appointment</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UserLoadDatesBookingByServiceIdAndDoctorId</servlet-name>
+        <servlet-class>Controllers.UserLoadScheduleBooking</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserLoadDatesBookingByServiceIdAndDoctorId</servlet-name>
+        <url-pattern>/load-schedule-booking</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UserLoadDoctorsByServiceId</servlet-name>
+        <servlet-class>Controllers.UserLoadDoctorsByServiceId</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserLoadDoctorsByServiceId</servlet-name>
+        <url-pattern>/load-doctors-by-serviceid</url-pattern>
+    </servlet-mapping>
+    
     <session-config>
         <session-timeout>
             30

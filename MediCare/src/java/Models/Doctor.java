@@ -155,6 +155,11 @@ public class Doctor {
         this.startYear = startYear;
         this.password = password;
     }
+
+    public Doctor(String id, String displayName) {
+        this.id = id;
+        this.displayName = displayName;
+    }
     
     
     

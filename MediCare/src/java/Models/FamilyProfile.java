@@ -34,6 +34,10 @@ public class FamilyProfile {
         this.ownerId = ownerId;
     }
 
+    public FamilyProfile(String profileId) {
+        this.profileId = profileId;
+    }
+
     public String getProfileId() {
         return profileId;
     }

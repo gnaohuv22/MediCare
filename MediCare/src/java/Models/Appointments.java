@@ -9,7 +9,7 @@ package Models;
  * @author hoang
  */
 public class Appointments {
-    private String id, userId, doctorId, serviceId, plannedAt, status;
+    private String id, userId, doctorId, serviceId, plannedAt, status, branchId, createdAt, symptoms, profileId;
 
     public Appointments() {
     }
@@ -21,6 +21,14 @@ public class Appointments {
         this.serviceId = serviceId;
         this.plannedAt = plannedAt;
         this.status = status;
+    }
+    
+    public Appointments(String doctorId, String serviceId, String plannedAt,String branchId, String symptoms) {
+        this.doctorId = doctorId;
+        this.serviceId = serviceId;
+        this.plannedAt = plannedAt;
+        this.branchId = branchId;
+        this.symptoms = symptoms;
     }
 
     public String getId() {
@@ -70,6 +78,42 @@ public class Appointments {
     public void setStatus(String status) {
         this.status = status;
     }
-    
+
+    public String getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(String branchId) {
+        this.branchId = branchId;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getSymptoms() {
+        return symptoms;
+    }
+
+    public void setSymptoms(String symptoms) {
+        this.symptoms = symptoms;
+    }
+
+    public String getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(String profileId) {
+        this.profileId = profileId;
+    }
+
+    @Override
+    public String toString() {
+        return "Appointments{" + "id=" + id + ", userId=" + userId + ", doctorId=" + doctorId + ", serviceId=" + serviceId + ", plannedAt=" + plannedAt + ", status=" + status + ", branchId=" + branchId + ", createdAt=" + createdAt + ", symptoms=" + symptoms + ", profileId=" + profileId + '}';
+    }
     
 }

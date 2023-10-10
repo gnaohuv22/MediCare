@@ -164,4 +164,79 @@ public class FamilyProfileDAO extends DBContext {
         }
         return null;
     }
+    
+    public FamilyProfile getFamilyProfileByInfo(String patientName, String gender, String birthDate, String phone, String emailPatient) {
+        String sql = "SELECT * FROM FamilyProfile\n"
+                + "WHERE email = ? AND birthDate = ? AND gender = ? AND [name] =? AND phone = ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, emailPatient);
+            st.setString(2, birthDate);
+            st.setString(3, gender);
+            st.setString(4, patientName);
+            st.setString(5, phone);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return new FamilyProfile(String.valueOf(rs.getInt("profileId")));
+            }
+        } catch (SQLException e) {
+            System.out.println("getFamilyProfileByInfo-guest: " + e);
+        }
+        return null;
+    }
+
+    public boolean addNewProfile(String patientName, String gender, String birthDate, String phone, String emailPatient, String ownerId) {
+        String sql = "INSERT INTO  [dbo].[FamilyProfile]\n"
+                + "           ([email]\n"
+                + "           ,[name]\n"
+                + "           ,[birthDate]\n"
+                + "           ,[gender]\n"
+                + "           ,[phone]\n"
+                + "           ,[createdAt]\n"
+                + "		   ,[ownerId])\n"
+                + "     VALUES\n"
+                + "           (?,?,?,?,?,?,?)";
+        java.util.Date currentDate = new java.util.Date();
+        java.sql.Timestamp createdAt = new java.sql.Timestamp(currentDate.getTime());
+        try {
+
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, emailPatient);
+            st.setString(2, patientName);
+            st.setString(3, birthDate);
+            st.setString(4, gender);
+            st.setString(5, phone);
+            st.setString(6, createdAt.toString());
+            st.setString(7, ownerId);
+            st.execute();
+            System.out.println("Add new profile-------------");
+            return true;
+        } catch (SQLException e) {
+            System.out.println("addNewProfile: " + e);
+        }
+        return false;
+    }
+
+    FamilyProfile getFamilyProfileByInfo(String patientName, String gender, String birthDate, String phone, String emailPatient, String ownerId) {
+        String sql = "SELECT * FROM FamilyProfile\n"
+                + "WHERE email = ? AND birthDate = ? AND gender = ? AND [name] =? AND phone = ? AND ownerId = ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, emailPatient);
+            st.setString(2, birthDate);
+            st.setString(3, gender);
+            st.setString(4, patientName);
+            st.setString(5, phone);
+            st.setString(6, ownerId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return new FamilyProfile(String.valueOf(rs.getInt("profileId")));
+            }
+        } catch (SQLException e) {
+            System.out.println("getFamilyProfileByInfo-user: " + e);
+        }
+        return null;
+    }
 }

@@ -1853,3 +1853,123 @@ ul .tab-component a:hover {
     margin-top: 10%;
     margin-bottom: 10%;
 }
+
+/*TU BINH - SEP 28 2023 - CSS Screen: Booking Appointment:*/
+.booking-container {
+    margin: 10%;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-radius: 10px;
+}
+
+.btn-booking .btn-primary {
+    background-color: #1ead5b;
+    border: none;
+}
+
+.form-group-booking {
+    /*display: inline-block;*/
+}
+
+.booking-info {
+
+}
+
+#serviceId {
+    max-height: 150px; /* Đặt độ cao tối đa của mục lựa chọn */
+    overflow-y: auto; /* Hiển thị thanh cuộn theo chiều dọc khi cần */
+}
+
+.booking-container .nice-select {
+    background-color: #fff;
+    color: #333;
+    margin: 10px;
+    max-height: 150px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: none;
+}
+
+.booking-container .nice-select ul {
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+
+.booking-container .nice-select li:hover {
+    background-color: #1ead5b;
+}
+
+
+/*css Oct 07 20223: */
+.booking-select-class {
+    margin: 10px;
+    width: 250px;
+    height: 45px;
+    border-radius: 5px;
+}
+
+.booking-select-class option:hover {
+    display: block;
+    background-color: #1ead5b;
+}
+
+.booking-container .booking-header {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 16px;
+}
+
+.booking-container .btn-booking {
+    border-top: 1px solid #ccc;
+    padding-top: 16px;
+}
+
+.booking-container .btn-booking button {
+    width: 150px;
+}
+
+.booking-container #step-2-container,
+.booking-container #step-3-container{
+    display: none;
+}
+
+#step-2-container input[type="tel"],
+#step-2-container input[type="text"],
+#step-2-container input[type="password"] {
+    width: 80%;
+    margin: 10px;
+}
+#step-2-container #patientName {
+    width: 50%;
+    margin: 10px;
+}
+
+#step-2-container input[type="date"] {
+    margin: 10px;
+}
+
+#step-2-container input[type="radio"] {
+    margin-left: 10px;
+}
+
+.group-info-booking-table 
+{
+    width: 100%;
+}
+
+.group-info-booking-table th:first-child,.group-info-booking-table td:first-child{
+    width: 150px;
+}
+.error-message-input-step-1,
+.error-message-input-step-2 {
+    color: red;
+    margin: 0;
+    margin-left: 10px;
+    margin-top: -10px;
+    font-size: 12px;
+    padding: 0;
+}

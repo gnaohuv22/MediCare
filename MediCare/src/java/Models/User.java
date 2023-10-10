@@ -75,6 +75,10 @@ public class User {
         this.email = email;
         this.name = name;
     }
+
+    public User(String id) {
+        this.id = id;
+    }
     
     public String getId() {
         return id;

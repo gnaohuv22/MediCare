@@ -504,6 +504,29 @@ public class DoctorDAO extends DBContext {
         return list;
     }
 
+    public ArrayList<Doctor> getAllDoctorsByBranchIdAndServiceId(String branchId, String serviceId) {
+        ArrayList<Doctor> list = new ArrayList<>();
+        String sql = "SELECT d.id, d.displayName FROM Doctor AS d\n"
+                + "JOIN DoctorService AS DS \n"
+                + "ON DS.doctorId = d.id\n"
+                + "WHERE d.branchId = ? AND DS.serviceId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, Integer.parseInt(branchId));
+            st.setInt(2, Integer.parseInt(serviceId));
+            
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Doctor d = new Doctor(rs.getString("id"), 
+                                      rs.getString("displayName"));
+                list.add(d);
+            }
+        } catch (SQLException|NumberFormatException e) {
+            System.out.println("getAllDoctorsByBranchIdAndServiceId: " + e);
+        }
+        return list;
+    }
+    
     public static void main(String[] args) {
         DoctorDAO dd = new DoctorDAO();
         ArrayList<Doctor> list = dd.getDoctorsByPattern("a", 0, 0);
