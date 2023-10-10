@@ -575,7 +575,7 @@ button {
 
 .news-block {
     min-width: 31.8%;
-    min-height: 430px;
+    min-height: 450px;
     margin-right: 20px;
     display: flex;
     flex-direction: column;
@@ -598,8 +598,9 @@ button {
 }
 
 .news-title {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
+    color: #2C6975;
 }
 
 .news-author {
@@ -1784,6 +1785,7 @@ ul .tab-component a:hover {
     width: 60%;
     clear: both; /* Clear floats to prevent overlapping */
     padding: 20px;
+    cursor: pointer;
 }
 
 .profile-display-header{
@@ -1839,14 +1841,59 @@ ul .tab-component a:hover {
     object-fit: contain;
 }
 
-.news-content p{
-    font-size: 24px;
+.display-title {
+    font-size: 32px;
+}
+
+.news-content h1,
+.news-content h2,
+.news-content h3,
+.news-content h4,
+.news-content h5,
+.news-content h6 {
+    color: #2C6975;
+    font-weight: bold;
+}
+
+.news-content p,
+.news-content li {
+    font-size: 16px;
+}
+
+.news-content ul {
+    margin-left: 20px;
+}
+
+.news-content li {
+    margin-left: 15px;
+    list-style: circle;
+}
+
+.category-box {
+    border: 1px solid #2C6975;
+    border-radius: 10px;
+    background-color: #E0ECDE;
+    padding: 10px;
+}
+
+.category-box .category-name {
+    color: #2C6975;
+}
+
+.category-box:hover {
+    background-color: #2C6975;
+    border: 1px solid #E0ECDE;
+}
+
+.category-box .category-name:hover {
+    color: #E0ECDE;
 }
 
 .bordered-news {
     border: 1px solid #68B2A0;
     margin-top: 5%;
     height: min-content;
+    border-radius: 20px;
 }
 
 .col-md-4 .related-news {
@@ -1972,4 +2019,27 @@ ul .tab-component a:hover {
     margin-top: -10px;
     font-size: 12px;
     padding: 0;
+}
+.related-news {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.btn-read-more {
+    background-color: #2C6975;
+    border: 1px solid #E0ECDE;
+    color: #E0ECDE;
+}
+
+.btn-read-more:hover {
+    background-color: #E0ECDE;
+    border: 1px solid #2C6975;
+    color: #2C6975;
+}
+
+.card-title {
+    font-weight: bold;
+    font-size: 18px;
+    color: #2C6975;
 }
