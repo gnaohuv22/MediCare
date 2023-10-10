@@ -2,6 +2,10 @@
 
 =================================================================
 
+### v3.4.1
+
+- Remove attribute userId and doctorId from Billing History
+
 ### v3.4
 
 - Add some table (Navigation Bar, Banner, etc) to display information from DB.
