@@ -86,6 +86,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserNewsServlet</servlet-name>
+        <url-pattern>/news</url-pattern>
         <url-pattern>/news/*</url-pattern>
     </servlet-mapping>
     <session-config>
