@@ -23,7 +23,7 @@
                                 <c:choose>
                                     <c:when test="${'user-profile' eq item.getHref()}">
                                         <li class="sidebar-active">
-                                            <a href="#">${item.getContent()}</a>
+                                            <a href="${item.getHref()}">${item.getContent()}</a>
                                         </li>
                                     </c:when>
                                     <c:otherwise>
@@ -43,43 +43,48 @@
                     <div class="profile-list">
                         <ul>
                             <c:forEach items="${requestScope.fpList}" var="fp">
-                                <li class="profile-item <c:if test="${fp.getProfileId() == requestScope.currentfp.profileId}">profile-item-active</c:if>"
-                                    onclick="loadProfile(${fp.getProfileId()})"
-                                    >
-                                        <div class="profile-item-pics ">
-                                            <img src="https://www.svgrepo.com/show/497407/profile-circle.svg" width="50px" height="50px" alt="client-img"/> 
-                                        </div>
-                                        <div class="profile-item-info">
-                                            <h3>${fp.getName()}</h3>
+                                <li class="profile-item" onclick="loadProfile(${fp.getProfileId()})" id="${fp.getProfileId()}">
+                                    <div class="profile-item-pics ">
+                                        <img src="https://www.svgrepo.com/show/497407/profile-circle.svg" width="50px" height="50px" alt="client-img"/> 
+                                    </div>
+                                    <div class="profile-item-info">
+                                        <h3>${fp.getName()}</h3>
                                         <span>${fp.getBirthDate()}</span>
                                     </div>
-                                </li>
+                                </li>   
                             </c:forEach>
                         </ul>
                     </div>
                 </div>
                 <c:set value="${requestScope.currentfp}" var="current"/>
                 <div class="profile-display" id="profile-display">
-                    
+
                 </div>
             </div>
         </main>                       
         <jsp:include page="user-footer.jsp"/>
         <jsp:include page="user-script.jsp"/>
         <script>
+            $(document).ready(function () {
+                // Trigger a click event on the first <li> element
+                $(".profile-list li:first").trigger("click");
+            });
+
             function loadProfile(id) {
                 $.ajax({
-                    url: "/MediCare/user-profile?id=" + id,
+                    url: "/MediCare/load-profile?id=" + id,
                     type: "GET",
                     success: function (data) {
                         var box = document.getElementById("profile-display");
                         box.innerHTML = data;
+                        $(".profile-list li").removeClass("profile-item-active");
+                        var current = document.getElementById(id);
+                        current.className += " profile-item-active";
                     },
                     error: function (jqXHR) {
-                        
+
                     }
                 });
-
             }
         </script>
     </body>

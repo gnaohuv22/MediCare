@@ -1,6 +1,6 @@
 <%-- 
-    Document   : user-appointment
-    Created on : Sep 26, 2023, 4:59:54 AM
+    Document   : user-payment-history
+    Created on : Oct 9, 2023, 11:44:17 PM
     Author     : phuon
 --%>
 
@@ -21,7 +21,7 @@
                         <c:forEach items="${sessionScope.subMenu}" var="item">
                             <c:if test="${item.getCategoryId() eq 9}">
                                 <c:choose>
-                                    <c:when test="${'user-appointment' eq item.getHref()}">
+                                    <c:when test="${'user-payment-history' eq item.getHref()}">
                                         <li class="sidebar-active">
                                             <a href="${item.getHref()}">${item.getContent()}</a>
                                         </li>
