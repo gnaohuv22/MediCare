@@ -65,9 +65,10 @@ public class UserNewsServlet extends HttpServlet {
 
                 request.setAttribute("topLevel", topLevel);
                 request.setAttribute("subLevel", subLevel);
+                request.setAttribute("parentIds", ncd.getParentCategoryNumber());
                 request.setAttribute("news", news);
             } 
-            request.getRequestDispatcher("user-news-general.jsp").forward(request, response);
+            request.getRequestDispatcher("/user-news-general.jsp").forward(request, response);
             }
         }
 

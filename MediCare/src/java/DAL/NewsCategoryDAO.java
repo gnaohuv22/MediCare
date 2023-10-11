@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import Models.News;
 import Models.NewsCategory;
+import java.util.List;
 
 /**
  *
@@ -77,6 +78,22 @@ public class NewsCategoryDAO extends DBContext {
             return list;
         } catch (SQLException e) {
             System.out.println("getTopLevelCategory: " + e.getMessage());
+        }
+        return list;
+    }
+
+    public List<Integer> getParentCategoryNumber() {
+        String SQL = "SELECT DISTINCT parentId  FROM [NewsCategory]\n"
+                + "WHERE parentId IS NOT NULL";
+        List<Integer> list = new ArrayList();
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                list.add(Integer.parseInt(rs.getString(1)));
+            }
+        } catch (SQLException e) {
+            System.out.println("getParentCategoryNumber: " + e.getMessage());
         }
         return list;
     }

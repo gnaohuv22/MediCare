@@ -15,18 +15,21 @@ import java.util.ArrayList;
  * @author hoang
  */
 public class TopLevelMenuDAO extends DBContext {
-    public ArrayList<TopLevelMenu> getListTopLevelMenu() {
-        String SQL = "SELECT * FROM [TopLevelMenu]";
+    public ArrayList<TopLevelMenu> getTopLevelMenu() {
         ArrayList<TopLevelMenu> list = new ArrayList<>();
+        String SQL = "SELECT * FROM [TopLevelMenu]";
         
         try (PreparedStatement ps = connection.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
             
             while (rs.next()) {
-                list.add(new TopLevelMenu(String.valueOf(rs.getInt(1)), rs.getString(2)));
+                TopLevelMenu tlm = new TopLevelMenu(
+                        String.valueOf(rs.getInt("id")), 
+                        rs.getString(2));
+                list.add(tlm);
             }
         } catch (SQLException e) {
-            System.out.println("getListTopLevelMenu: " + e.getMessage());
+            System.out.println("getTopLevelMenu: " + e.getMessage());
         }
         return list;
     }

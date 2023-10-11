@@ -413,7 +413,7 @@ button {
     display: flex; /* Hiển thị các phần tử con theo chiều ngang */
     flex-wrap: nowrap; /* Ngăn các phần tử con tràn xuống hàng dưới khi không đủ không gian */
     overflow-x: auto; /* Hiển thị thanh cuộn ngang nếu danh sách quá rộng */
-    
+
 }
 
 /* Style cho mỗi phần tử bác sĩ trong danh sách */
@@ -490,14 +490,14 @@ button {
 }
 
 .banner_section {
-/*    width: 100%;
-    float: left;
-    background-image: url(../images/knowledge-bg.png);
-    background-size: 100%;
-    height: auto;
-    background-repeat: no-repeat;
-    padding-top: 180px;
-    padding-bottom: 240px;*/
+    /*    width: 100%;
+        float: left;
+        background-image: url(../images/knowledge-bg.png);
+        background-size: 100%;
+        height: auto;
+        background-repeat: no-repeat;
+        padding-top: 180px;
+        padding-bottom: 240px;*/
     color: #E0ECDE;
     padding: 20px;
 }
@@ -509,16 +509,16 @@ button {
 }
 
 .banner_title {
-/*    width: 100%;
-    float: left;*/
+    /*    width: 100%;
+        float: left;*/
     font-size: 40px;
     color: #E0ECDE;
     font-weight: bold;
 }
 
 .banner_text {
-/*    width: 100%;
-    float: left;*/
+    /*    width: 100%;
+        float: left;*/
     font-size: 20px;
     color: #E0ECDE;
     /*margin: 0px;*/
@@ -1424,7 +1424,7 @@ ul .tab-component a:hover {
 .each-review-detail p {
     margin: 0;
     margin-left: 10px;
-    color: #333;    
+    color: #333;
     font-weight: 500;
 }
 .rating-and-time p {
@@ -1514,26 +1514,26 @@ ul .tab-component a:hover {
 
 /*Css the rating-bar:*/
 .rating-bar {
-  width: 200px; /* Chiều rộng tổng của thanh dài */
-  height: 10px; /* Chiều cao của thanh dài */
-  background-color: #ccc; /* Màu nền của thanh dài */
-  position: relative; /* Để có thể sử dụng position absolute cho .filler */
-  flex: 7;
-  border-radius: 20px;
-  overflow: hidden;
+    width: 200px; /* Chiều rộng tổng của thanh dài */
+    height: 10px; /* Chiều cao của thanh dài */
+    background-color: #ccc; /* Màu nền của thanh dài */
+    position: relative; /* Để có thể sử dụng position absolute cho .filler */
+    flex: 7;
+    border-radius: 20px;
+    overflow: hidden;
 }
 
 .rating-bar-filler {
-  height: 100%; /* Chiều cao của phần filler */
-  background-color: #4CAF50; /* Màu của phần filler */
-  position: absolute;
-  top: 0;
-  left: 0;
-  transition: width 0.5s; /* Hiệu ứng thay đổi chiều rộng */
-  white-space: nowrap; /* Đảm bảo văn bản không bị tràn ra khỏi thanh dài */
-  color: #fff; /* Màu văn bản trên thanh dài */
-  text-align: center; /* Canh giữa văn bản */
-  line-height: 10px; /* Canh giữa theo chiều dọc */
+    height: 100%; /* Chiều cao của phần filler */
+    background-color: #4CAF50; /* Màu của phần filler */
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: width 0.5s; /* Hiệu ứng thay đổi chiều rộng */
+    white-space: nowrap; /* Đảm bảo văn bản không bị tràn ra khỏi thanh dài */
+    color: #fff; /* Màu văn bản trên thanh dài */
+    text-align: center; /* Canh giữa văn bản */
+    line-height: 10px; /* Canh giữa theo chiều dọc */
 }
 
 .star-rating-index {
@@ -1565,7 +1565,7 @@ ul .tab-component a:hover {
 }
 
 .overview-rating-content-each {
-    display: flex;  
+    display: flex;
     padding: 10px;
 }
 
@@ -1900,7 +1900,7 @@ ul .tab-component a:hover {
     margin-top: 10%;
     margin-bottom: 10%;
 }
-
+/* CSS code style for user-news.jsp  */
 /*TU BINH - SEP 28 2023 - CSS Screen: Booking Appointment:*/
 .booking-container {
     margin: 10%;
@@ -2003,7 +2003,7 @@ ul .tab-component a:hover {
     margin-left: 10px;
 }
 
-.group-info-booking-table 
+.group-info-booking-table
 {
     width: 100%;
 }
@@ -2041,5 +2041,70 @@ ul .tab-component a:hover {
 .card-title {
     font-weight: bold;
     font-size: 18px;
+    color: #2C6975;
+}
+
+/* CSS code style for user-news-general.jsp  */
+
+.display-sidebar {
+    margin-bottom: 300px;
+}
+
+.news-sidebar {
+    height: fit-content;
+    border-right: 1px solid #68B2A0;
+    margin-top: 5%;
+
+}
+
+.news-sidebar li {
+    border-bottom: 1px solid #E0ECDE;
+    list-style-type: none;
+    padding: 10px;
+    position: relative;
+    font-weight: bold;
+}
+
+.news-sidebar li a {
+    color: #2C6975;
+}
+
+.news-sidebar li a:hover {
+    color: #68B2A0;
+}
+
+.news-sidebar li:last-child {
+    border-bottom: none;
+}
+
+.news-sidebar .list-child {
+    display: none;
+    margin-left: 20px;
+}
+
+.news-sidebar li ul {
+    display: none;
+}
+
+.caret-icon {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    transition: transform 0.3s ease;
+}
+
+.caret-icon i {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.news-sidebar li ul a {
+    color: #68B2A0;
+}
+
+.news-sidebar li ul a:hover {
     color: #2C6975;
 }

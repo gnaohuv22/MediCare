@@ -42,10 +42,96 @@
     <body>
         <%@include file="user-header.jsp" %>
     </div>
+    <!-- banner section start -->
+    <c:forEach items="${sessionScope.bannerList}" var="banner">
+        <div class="banner_section layout_padding" style="background-image: url('${pageContext.request.contextPath}/${banner.getImage()}')">
+            <div class="container">
+                <div class="banner_main">
+                    <h1 class="banner_title">${banner.getTitle()}</h1>
+                    <p class="banner_text">
+                        ${banner.getDescription()}
+                    </p>
+                    <div class="row banner_bullet_points">
+                        <c:forEach items="${sessionScope.bannerDetailsList}" var="detail">
+                            <c:if test="${detail.getBannerId() eq banner.getId()}">
+                                <div class="col flex-grow-1 banner-number">${detail.getNumber()}</div>
+                            </c:if>
+                        </c:forEach>
+                    </div>
+                    <div class="row banner_bullet_points">
+                        <c:forEach items="${sessionScope.bannerDetailsList}" var="detail">
+                            <c:if test="${detail.getBannerId() eq banner.getId()}">
+                                <p class="col flex-grow-1 number-description">${detail.getInformation()}</p>
+                            </c:if>
+                        </c:forEach>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </c:forEach>
+
     <!--<h1>Hello World!</h1>-->
+
+    <div class="display-sidebar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 news-sidebar">
+                    <c:forEach items="${topLevel}" var="top">
+                        <c:set var="isParent" value="false" />
+                        <c:forEach items="${parentIds}" var="id">
+                            <c:if test="${top.getId() eq id}">
+                                <c:set var="isParent" value="true" />
+                            </c:if>
+                        </c:forEach>
+                        <c:choose>
+                            <c:when test="${isParent}">
+                                <li>
+                                    <a href="${pageContext.request.contextPath}/news/${top.getSlug()}">${top.getName()} </a> 
+                                    <span class="caret-icon"><i class="fas fa-caret-right"></i></span>
+                                    <ul>
+                                        <c:forEach items="${subLevel}" var="sub">
+                                            <c:if test="${sub.getParentId() eq top.getId()}">
+                                                <li>
+                                                    <a href="${pageContext.request.contextPath}/news/${top.getSlug()}/${sub.getSlug()}">${sub.getName()}</a>
+                                                </li>
+                                            </c:if>
+                                        </c:forEach>
+                                    </ul>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <li>
+                                    <a href="${pageContext.request.contextPath}/news/${top.getSlug()}">${top.getName()}</a>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                </div>
+                <div class="col-md-9">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <%@include file="user-footer.jsp" %>
     <!-- Javascript files-->
     <jsp:include page="user-script.jsp"/>
+    <script>
+        $('.caret-icon').click(function (event) {
+            event.stopPropagation();
+            $(this).siblings('ul').toggle();
+            var i = $(this).children('i');
+            if (i.hasClass('rotated')) {
+                i.css('transform', 'rotate(0deg)');
+                i.removeClass('rotated');
+            } else {
+                i.css('transform', 'rotate(90deg)');
+                i.addClass('rotated');
+            }
+        });
+    </script>
 </body>
 
 </html>
