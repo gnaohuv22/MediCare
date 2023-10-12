@@ -72,7 +72,7 @@
 
             function loadProfile(id) {
                 $.ajax({
-                    url: "/MediCare/load-profile?id=" + id,
+                    url: "/MediCare/load-html?id=" + id + "&method=appointment",
                     type: "GET",
                     success: function (data) {
                         var box = document.getElementById("profile-display");

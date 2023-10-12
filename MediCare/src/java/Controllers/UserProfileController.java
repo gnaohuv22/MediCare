@@ -38,16 +38,16 @@ public class UserProfileController extends HttpServlet {
         HttpSession session = request.getSession();
         List<FamilyProfile> fpList;
         UserDAO uDAO = new UserDAO();
-        
+
         String id;
-        
+
         if (request.getParameter("id") == null || request.getParameter("id").isEmpty()) {
             id = String.valueOf(1);
         } else {
             id = String.valueOf(request.getParameter("id"));
         }
         System.out.println(id);
-        
+
         String ownerId = uDAO.getIdByEmail(String.valueOf(session.getAttribute("email")));
         fpList = (List<FamilyProfile>) request.getAttribute("fpList");
         if (request.getAttribute("fpList") == null) {
@@ -62,10 +62,8 @@ public class UserProfileController extends HttpServlet {
             }
             request.getRequestDispatcher("user-profile.jsp").forward(request, response);
         }
-        
+
     }
-    
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -97,38 +95,58 @@ public class UserProfileController extends HttpServlet {
         HttpSession session = request.getSession();
         List<FamilyProfile> fpList;
         UserDAO uDAO = new UserDAO();
-        
-        String name;
-        name = request.getParameter("search-profile");
-        
+
+        String search;
+        search = request.getParameter("search-profile");
+
         String id;
         String ownerId = uDAO.getIdByEmail(String.valueOf(session.getAttribute("email")));
-        
+
         if (request.getParameter("id") == null) {
             id = String.valueOf(1);
         } else {
             id = String.valueOf(request.getParameter("id"));
         }
-        
-        fpList = fpDAO.getFamilyProfileListByUserName(name, ownerId);
-        
+
+        fpList = fpDAO.getFamilyProfileListByUserName(search, ownerId);
+
         if (session.getAttribute("email") == null) {
             response.sendRedirect("user-login");
         } else {
-            FamilyProfile fd;
-            if (getIndexById(id, fpList) == -1) {
-                fd = null;
-            } else {
-                int i = getIndexById(id, fpList);
-                fd = fpList.get(i);
+            String method = request.getParameter("method");
+            switch (method) {
+                case "search":
+                    FamilyProfile fd;
+                    if (getIndexById(id, fpList) == -1) {
+                        fd = null;
+                    } else {
+                        int i = getIndexById(id, fpList);
+                        fd = fpList.get(i);
+                    }
+
+                    request.setAttribute("fpList", fpList);
+                    request.setAttribute("currentfp", fd);
+                    request.getRequestDispatcher("user-profile.jsp").forward(request, response);
+                    break;
+                case "add":
+                    String profileId = String.valueOf(fpDAO.getLatestIdByOwnerId(ownerId));
+                    String name = request.getParameter("name");
+                    String phone = request.getParameter("phone");
+                    String birthDate = request.getParameter("birthDate");
+                    String gender = request.getParameter("gender");
+                    String medicalId = request.getParameter("medicalId");
+                    String identity = request.getParameter("identity");
+                    String ethnic = request.getParameter("ethnic");
+                    String email = request.getParameter("email");
+                    
+                    break;
+                default:
+                    throw new AssertionError();
             }
-            
-            request.setAttribute("fpList", fpList);
-            request.setAttribute("currentfp", fd);
-            request.getRequestDispatcher("user-profile.jsp").forward(request, response);
+
         }
     }
-    
+
     private int getIndexById(String id, List<FamilyProfile> fpList) {
         if (fpList == null || fpList.isEmpty()) {
             return -1;

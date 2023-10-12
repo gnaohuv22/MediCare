@@ -4,6 +4,9 @@
  */
 package Controllers;
 
+import DAL.AppointmentsDAO;
+import DAL.UserDAO;
+import Models.Appointments;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  *
@@ -45,9 +49,17 @@ public class UserAppointmentController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        
+        UserDAO uDAO = new UserDAO();
+        String ownerId = uDAO.getIdByEmail((String)session.getAttribute("email"));
+        
+        AppointmentsDAO aDAO = new AppointmentsDAO();
+        List<Appointments> aList = aDAO.getListAppointmentsByOwnerId(ownerId);
+        
         if (session.getAttribute("email") == null) {
             response.sendRedirect("user-login");
         } else {
+            request.setAttribute("aList", aList);
             request.getRequestDispatcher("user-appointment.jsp").forward(request, response);
         }
     }

@@ -47,7 +47,7 @@ public class FamilyProfileDAO extends DBContext {
             }
             return list;
         } catch (SQLException e) {
-            System.out.println("getFamilyProfileList: " + e.getMessage());
+            System.out.println("FamilyProfileDAO.getFamilyProfileList: " + e.getMessage());
         }
         return list;
     }
@@ -181,7 +181,7 @@ public class FamilyProfileDAO extends DBContext {
                 return new FamilyProfile(String.valueOf(rs.getInt("profileId")));
             }
         } catch (SQLException e) {
-            System.out.println("getFamilyProfileByInfo-guest: " + e);
+            System.out.println("FamilyProfileDAO.getFamilyProfileByInfo-guest: " + e);
         }
         return null;
     }
@@ -235,8 +235,24 @@ public class FamilyProfileDAO extends DBContext {
                 return new FamilyProfile(String.valueOf(rs.getInt("profileId")));
             }
         } catch (SQLException e) {
-            System.out.println("getFamilyProfileByInfo-user: " + e);
+            System.out.println("FamilyProfileDAO.getFamilyProfileByInfo-user: " + e);
         }
         return null;
+    }
+
+    public int getLatestIdByOwnerId(String ownerId) {
+        String sql = "SELECT MAX(profileId) FROM FamilyProfile where ownerId=?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, ownerId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("profileId")+1;
+            }
+        } catch (SQLException e) {
+            System.out.println("FamilyProfileDAO.getLatestIdByOwnerId: " + e);
+        }
+        return -1;
     }
 }

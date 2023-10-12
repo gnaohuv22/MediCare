@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author phuon
  */
-public class LoadProfileServlet extends HttpServlet {
+public class LoadHtmlServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,18 +37,26 @@ public class LoadProfileServlet extends HttpServlet {
         FamilyProfileDAO fpDAO = new FamilyProfileDAO();
         HttpSession session = request.getSession();
         UserDAO uDAO = new UserDAO();
-        
+
         String id;
-        String ownerId = uDAO.getIdByEmail((String)session.getAttribute("email"));
-        if (request.getParameter("id") == null || request.getParameter("id").isEmpty()) {
-            id = String.valueOf(1);
-        } else {
-            id = String.valueOf(request.getParameter("id"));
+        String method = request.getParameter("method");
+        switch (method) {
+            case "profile":
+                String ownerId = uDAO.getIdByEmail((String) session.getAttribute("email"));
+                if (request.getParameter("id") == null || request.getParameter("id").isEmpty()) {
+                    id = String.valueOf(1);
+                } else {
+                    id = String.valueOf(request.getParameter("id"));
+                }
+
+                try ( PrintWriter out = response.getWriter()) {
+                    out.println(generateProfileHtml(fpDAO.getFamilyProfileById(id, ownerId)));
+                }
+                break;
+            default:
+                throw new AssertionError();
         }
-        
-        try ( PrintWriter out = response.getWriter()) {
-            out.println(generateProfileHtml(fpDAO.getFamilyProfileById(id, ownerId)));
-        }
+
     }
 
     private String generateProfileHtml(FamilyProfile fp) {

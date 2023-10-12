@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import Models.Appointments;
 import Models.FamilyProfile;
 import Models.User;
+import java.util.List;
 
 /**
  *
@@ -35,7 +36,7 @@ public class AppointmentsDAO extends DBContext {
             }
             return list;
         } catch (SQLException e) {
-            System.out.println("getListAppointments: " + e.getMessage());
+            System.out.println("AppointmentsDAO.getListAppointments: " + e.getMessage());
         } 
         return null;
     }
@@ -191,7 +192,7 @@ public class AppointmentsDAO extends DBContext {
                 st.execute();
                 return true;
             } catch (SQLException e) {
-                System.out.println("addNewAppointment - TH1: " + e);
+                System.out.println("AppointmentsDAO.addNewAppointment - TH1: " + e);
             }
             //TH2: userId != null, serviceId != null -> doctorId == null -> status: 0 - pending
         } else if (userId != null && serviceId != null && doctorId == null) {
@@ -210,7 +211,7 @@ public class AppointmentsDAO extends DBContext {
                 st.execute();
                 return true;
             } catch (SQLException e) {
-                System.out.println("addNewAppointment - TH2: " + e);
+                System.out.println("AppointmentsDAO.addNewAppointment - TH2: " + e);
             }
             //TH3: userId != null, serviceId != null -> doctorId != null -> status: 1 - Accepted
         } else if (userId != null && serviceId != null && doctorId != null) {
@@ -230,7 +231,7 @@ public class AppointmentsDAO extends DBContext {
                 st.execute();
                 return true;
             } catch (SQLException e) {
-                System.out.println("addNewAppointment - TH3: " + e);
+                System.out.println("AppointmentsDAO.addNewAppointment - TH3: " + e);
             }
             //Guest:
             //TH4: userId == null, serviceId == null -> doctorId == null -> status: 0 - pending
@@ -248,7 +249,7 @@ public class AppointmentsDAO extends DBContext {
                 st.execute();
                 return true;
             } catch (SQLException | NumberFormatException e) {
-                System.out.println("addNewAppointment - TH4: " + e);
+                System.out.println("AppointmentsDAO.addNewAppointment - TH4: " + e);
             }
             //TH5: userId == null, serviceId != null -> doctorId == null -> status: 0 - pending
         } else if (userId == null && serviceId != null && doctorId == null) {
@@ -268,7 +269,7 @@ public class AppointmentsDAO extends DBContext {
                 st.execute();
                 return true;
             } catch (SQLException | NumberFormatException e) {
-                System.out.println("addNewAppointment - TH5: " + e);
+                System.out.println("AppointmentsDAO.addNewAppointment - TH5: " + e);
             }
             //TH6: userId == null, serviceId != null -> doctorId != null -> status: 1 - Accepted
         } else if (userId == null && serviceId != null && doctorId != null) {
@@ -287,15 +288,38 @@ public class AppointmentsDAO extends DBContext {
                 st.execute();
                 return true;
             } catch (SQLException | NumberFormatException e) {
-                System.out.println("addNewAppointment - TH6: " + e);
+                System.out.println("AppointmentsDAO.addNewAppointment - TH6: " + e);
             }
         }
 
         try {
             PreparedStatement st = connection.prepareStatement(sql1);
         } catch (SQLException e) {
-            System.out.println("addNewAppointment: " + e);
+            System.out.println("AppointmentsDAO.addNewAppointment: " + e);
         }
         return false;
+    }
+
+    public List<Appointments> getListAppointmentsByOwnerId(String ownerId) {
+        ArrayList<Appointments> list = new ArrayList<>();
+        String SQL = "SELECT * FROM [Appointments] where userId=?";
+        
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Appointments a = new Appointments(
+                    String.valueOf(rs.getInt(1)),
+                    rs.getString(2),
+                    rs.getString(3),
+                    String.valueOf(rs.getInt(4)),
+                    String.valueOf(rs.getDate(5)),
+                    String.valueOf(rs.getInt(6)));
+                list.add(a);
+            }
+            return list;
+        } catch (SQLException e) {
+            System.out.println("AppointmentsDAO.getListAppointments: " + e.getMessage());
+        } 
+        return null;
     }
 }

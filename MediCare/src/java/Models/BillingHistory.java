@@ -9,17 +9,15 @@ package Models;
  * @author hoang
  */
 public class BillingHistory {
-    private String id, appointmentId, totalCash, userId, doctorId, createdAt;
+    private String id, appointmentId, totalCash, createdAt;
 
     public BillingHistory() {
     }
 
-    public BillingHistory(String id, String appointmentId, String totalCash, String userId, String doctorId, String createdAt) {
+    public BillingHistory(String id, String appointmentId, String totalCash, String createdAt) {
         this.id = id;
         this.appointmentId = appointmentId;
         this.totalCash = totalCash;
-        this.userId = userId;
-        this.doctorId = doctorId;
         this.createdAt = createdAt;
     }
 
@@ -45,22 +43,6 @@ public class BillingHistory {
 
     public void setTotalCash(String totalCash) {
         this.totalCash = totalCash;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getDoctorId() {
-        return doctorId;
-    }
-
-    public void setDoctorId(String doctorId) {
-        this.doctorId = doctorId;
     }
 
     public String getCreatedAt() {

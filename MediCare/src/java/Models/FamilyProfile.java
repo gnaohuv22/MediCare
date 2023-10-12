@@ -31,7 +31,7 @@ public class FamilyProfile {
         this.profilePicture = profilePicture;
         this.createdAt = createdAt;
         this.relationId = relationId;
-        this.ownerId = ownerId;
+        this.ownerId = ownerId; 
     }
 
     public FamilyProfile(String profileId) {

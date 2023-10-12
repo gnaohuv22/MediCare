@@ -25,8 +25,8 @@
         <servlet-class>Controllers.UserProfileController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>LoadProfileServlet</servlet-name>
-        <servlet-class>Controllers.LoadProfileServlet</servlet-class>
+        <servlet-name>LoadHtmlServlet</servlet-name>
+        <servlet-class>Controllers.LoadHtmlServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UserPaymentHistoryServlet</servlet-name>
@@ -102,10 +102,6 @@
         <url-pattern>/news/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>LoadProfileServlet</servlet-name>
-        <url-pattern>/load-profile</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>UserPaymentHistoryServlet</servlet-name>
         <url-pattern>/user-payment-history</url-pattern>
     </servlet-mapping>
@@ -113,7 +109,6 @@
         <servlet-name>UserAppointmentController</servlet-name>
         <url-pattern>/user-appointment</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>UserBookingAppointmentServlet</servlet-name>
         <servlet-class>Controllers.UserBookAppointmentServlet</servlet-class>
@@ -146,7 +141,10 @@
         <servlet-name>UserLoadDoctorsByServiceId</servlet-name>
         <url-pattern>/load-doctors-by-serviceid</url-pattern>
     </servlet-mapping>
-    
+    <servlet-mapping>
+        <servlet-name>LoadHtmlServlet</servlet-name>
+        <url-pattern>/load-html</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
