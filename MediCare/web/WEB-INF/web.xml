@@ -147,6 +147,16 @@
         <url-pattern>/load-doctors-by-serviceid</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>UserLoadEachFamilyProfile</servlet-name>
+        <servlet-class>Controllers.UserLoadEachFamilyProfile</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>UserLoadEachFamilyProfile</servlet-name>
+        <url-pattern>/load-each-family-profile</url-pattern>
+    </servlet-mapping>
+    
     <session-config>
         <session-timeout>
             30

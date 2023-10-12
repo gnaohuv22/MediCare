@@ -9,11 +9,38 @@ package Models;
  * @author hoang
  */
 public class FamilyProfile {
-    private String profileId, email, name, birthDate, gender, address, provinceId, identity, medicalId, ethnic, phone, profilePicture, createdAt, relationId,ownerId;
 
-    
+    private String profileId, email, name, birthDate, gender, address, provinceId, identity, medicalId, ethnic, phone, profilePicture, createdAt, relationId, ownerId;
+    private Relationship relationship;
+
+    public Relationship getRelationship() {
+        return relationship;
+    }
+
+    public void setRelationship(Relationship relationship) {
+        this.relationship = relationship;
+    }
 
     public FamilyProfile() {
+    }
+
+    public FamilyProfile(String profileId, String email, String name, String birthDate, String gender, String address, String provinceId, String identity, String medicalId, String ethnic, String phone, String profilePicture, String createdAt, String relationId, String ownerId, Relationship relationship) {
+        this.profileId = profileId;
+        this.email = email;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.address = address;
+        this.provinceId = provinceId;
+        this.identity = identity;
+        this.medicalId = medicalId;
+        this.ethnic = ethnic;
+        this.phone = phone;
+        this.profilePicture = profilePicture;
+        this.createdAt = createdAt;
+        this.relationId = relationId;
+        this.ownerId = ownerId;
+        this.relationship = relationship;
     }
 
     public FamilyProfile(String profileId, String email, String name, String birthDate, String gender, String address, String provinceId, String identity, String medicalId, String ethnic, String phone, String profilePicture, String createdAt, String relationId, String ownerId) {
@@ -157,9 +184,9 @@ public class FamilyProfile {
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
     }
+
     @Override
     public String toString() {
         return "FamilyProfile{" + "profileId=" + profileId + ", email=" + email + ", name=" + name + ", birthDate=" + birthDate + ", gender=" + gender + ", address=" + address + ", provinceId=" + provinceId + ", identity=" + identity + ", medicalId=" + medicalId + ", ethnic=" + ethnic + ", phone=" + phone + ", profilePicture=" + profilePicture + ", createdAt=" + createdAt + ", relationId=" + relationId + ", ownerId=" + ownerId + '}';
     }
 }
-    
