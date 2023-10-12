@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import Models.News;
 import Models.NewsCategory;
+import java.util.List;
 
 /**
  *
@@ -79,5 +80,43 @@ public class NewsCategoryDAO extends DBContext {
             System.out.println("getTopLevelCategory: " + e.getMessage());
         }
         return list;
+    }
+
+    public List<Integer> getParentCategoryNumber() {
+        String SQL = "SELECT DISTINCT parentId  FROM [NewsCategory]\n"
+                + "WHERE parentId IS NOT NULL";
+        List<Integer> list = new ArrayList();
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                list.add(Integer.parseInt(rs.getString(1)));
+            }
+        } catch (SQLException e) {
+            System.out.println("getParentCategoryNumber: " + e.getMessage());
+        }
+        return list;
+    }
+
+    public NewsCategory getCategoryBySlug(String categorySlug) {
+        String SQL = "SELECT * FROM [NewsCategory]\n"
+                + "WHERE slug LIKE ?";
+        NewsCategory nc = new NewsCategory();
+        
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setString(1, categorySlug);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                nc = new NewsCategory(
+                        String.valueOf(rs.getInt("id")), 
+                        rs.getString("name"), 
+                        String.valueOf(rs.getInt("parentId")), 
+                        rs.getString("slug"));
+            }
+        } catch (SQLException e) {
+            System.out.println("getCategoryBySlug: " + e.getMessage());
+        }
+        return nc;
     }
 }

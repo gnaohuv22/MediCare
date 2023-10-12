@@ -35,4 +35,19 @@ public class RelationshipDAO extends DBContext{
         }
         return list;
     }
+    
+    public Relationship getRelationshipByRelationshipId (String relationshipId) {
+        String sql = "SELECT * FROM Relationship WHERE id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, Integer.parseInt(relationshipId));
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return new Relationship(rs.getInt("id")+"", rs.getString("relation"));
+            }
+        } catch (SQLException|NumberFormatException e) {
+            System.out.println("getRelationshipByRelationshipId: " + e);
+        }
+        return null;
+    }
 }

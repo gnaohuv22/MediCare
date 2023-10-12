@@ -1851,10 +1851,15 @@ ul .tab-component a:hover {
 .fit-height {
     flex-grow: 1;
     object-fit: contain;
+    border-radius: 10px;
 }
 
 .display-title {
     font-size: 32px;
+}
+
+.news-content {
+    padding-top: 20px;
 }
 
 .news-content h1,
@@ -1864,7 +1869,6 @@ ul .tab-component a:hover {
 .news-content h5,
 .news-content h6 {
     color: #2C6975;
-    font-weight: bold;
 }
 
 .news-content p,
@@ -1912,7 +1916,7 @@ ul .tab-component a:hover {
     margin-top: 10%;
     margin-bottom: 10%;
 }
-
+/* CSS code style for user-news.jsp  */
 /*TU BINH - SEP 28 2023 - CSS Screen: Booking Appointment:*/
 .booking-container {
     margin: 10%;
@@ -1996,22 +2000,22 @@ ul .tab-component a:hover {
     display: none;
 }
 
-#step-2-container input[type="tel"],
-#step-2-container input[type="text"],
-#step-2-container input[type="password"] {
+#step-1-container input[type="tel"],
+#step-1-container input[type="text"],
+#step-1-container input[type="password"] {
     width: 80%;
     margin: 10px;
 }
-#step-2-container #patientName {
+#step-1-container #patientName {
     width: 50%;
     margin: 10px;
 }
 
-#step-2-container input[type="date"] {
+#step-1-container input[type="date"] {
     margin: 10px;
 }
 
-#step-2-container input[type="radio"] {
+#step-1-container input[type="radio"] {
     margin-left: 10px;
 }
 
@@ -2031,6 +2035,44 @@ ul .tab-component a:hover {
     margin-top: -10px;
     font-size: 12px;
     padding: 0;
+}
+
+/*Css for the family profile - 12 Oc 2023:*/
+.family-profiles-container {
+    display: flex;
+    padding-bottom: 32px;
+    /*border-bottom: 1px solid #ccc;*/
+}
+
+.each-family-profile {
+    width: 7%;
+    margin: 15px;
+    border-radius: 50%;
+    border: 1px solid #333;
+    position: relative;
+    text-align: center;
+    justify-content: end;
+    align-items: center;
+    display: flex;
+}
+
+.each-family-profile:hover {
+    cursor: pointer;
+}
+
+span.relation-each-family-profile {
+    position: absolute;
+    bottom: -2%;
+    width: 100%;
+    background-color: #1ead5b;
+    color: #fff;
+    border-radius: 20px;
+}
+
+span.name-each-family-profile {
+    position: absolute;
+    bottom: -40px;
+    width: 100%;
 }
 .related-news {
     margin-top: 20px;
@@ -2104,4 +2146,115 @@ ul .tab-component a:hover {
 #close-button{
     padding: 10px;
     background-color: #ccc;
+/* CSS code style for user-news-general.jsp  */
+
+.display-sidebar {
+    margin-bottom: 300px;
+}
+
+.news-sidebar {
+    height: fit-content;
+    border-right: 1px solid #68B2A0;
+    margin-top: 5%;
+
+}
+
+.news-sidebar li {
+    border-bottom: 1px solid #E0ECDE;
+    list-style-type: none;
+    padding: 10px;
+    position: relative;
+    font-weight: bold;
+}
+
+.news-sidebar li a {
+    color: #2C6975;
+}
+
+.news-sidebar li a:hover {
+    color: #68B2A0;
+}
+
+.news-sidebar li:last-child {
+    border-bottom: none;
+}
+
+.news-sidebar .list-child {
+    display: none;
+    margin-left: 20px;
+}
+
+.news-sidebar li ul {
+    display: none;
+}
+
+.caret-icon {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    transition: transform 0.3s ease;
+}
+
+.caret-icon i {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.news-sidebar li ul a {
+    color: #68B2A0;
+}
+
+.news-sidebar li ul a:hover {
+    color: #2C6975;
+}
+
+.col-md-9 .centered-news .centered-img img {
+    height: 100%; /* This will make the image take the full height of the .col-md-9 */
+    width: auto; /* This will make sure the width changes proportionally */
+    object-fit: contain; /* This makes sure the entire image is shown */
+}
+
+.grid-news {
+    border-top: 1px solid #E0ECDE;
+    display: flex;
+    flex-direction: row;
+}
+
+.grid-news h3 {
+    font-weight: bold;
+    color: #2C6975;
+}
+
+.grid-img {
+    padding: 30px;
+}
+
+.news-information {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 0 0 30px;
+    flex-wrap: wrap;
+    /*justify-content: center;*/
+}
+
+.grid-news .grid-img img {
+    max-width: 260px;
+    height: auto;
+    border-radius: 10px;
+}
+
+.news-href {
+    padding-top: 10px;
+    color: #2c6975;
+}
+
+.news-href i {
+    color: #2c6975;
+}
+
+.news-href:hover {
+    color: #E0ECDE;
 }

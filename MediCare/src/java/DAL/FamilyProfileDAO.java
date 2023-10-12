@@ -52,8 +52,8 @@ public class FamilyProfileDAO extends DBContext {
         return list;
     }
 
-    public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
-        String SQL = "SELECT * FROM [FamilyProfile] where ownerid=?";
+     public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
+        String SQL = "SELECT * FROM [FamilyProfile] where ownerid=? AND relationId IS NOT NULL ORDER BY relationId";
         ArrayList<FamilyProfile> list = new ArrayList<>();
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, String.valueOf(idByEmail));
@@ -63,10 +63,14 @@ public class FamilyProfileDAO extends DBContext {
                 if (rs.getInt(5) == 1) {
                     gender = "Female";
                 }
+                RelationshipDAO rd = new RelationshipDAO();
+                String[] names = rs.getString(3).split(" ");
+                String lastName = names[names.length-1];
                 FamilyProfile fp = new FamilyProfile(
                         String.valueOf(rs.getInt(1)),
                         rs.getString(2),
-                        rs.getString(3),
+//                        rs.getString(3),
+                        lastName,
                         String.valueOf(rs.getDate(4)),
                         gender,
                         rs.getString(6),
@@ -78,7 +82,8 @@ public class FamilyProfileDAO extends DBContext {
                         rs.getString(12),
                         String.valueOf(rs.getDate(13)),
                         String.valueOf(rs.getInt(14)),
-                        rs.getString(15));
+                        rs.getString(15),
+                        rd.getRelationshipByRelationshipId(String.valueOf(rs.getInt(14))));
                 System.out.println(fp.toString());
                 list.add(fp);
             }
@@ -165,6 +170,41 @@ public class FamilyProfileDAO extends DBContext {
         return null;
     }
     
+    public FamilyProfile getFamilyProfileByProfileId(String profileId) {
+        String SQL = "SELECT * FROM [FamilyProfile] where profileId=?";
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setInt(1, Integer.parseInt(profileId));
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String gender = "Male";
+                if (rs.getInt(5) == 1) {
+                    gender = "Female";
+                }
+                FamilyProfile fp = new FamilyProfile(
+                        String.valueOf(rs.getInt(1)),
+                        rs.getString(2),
+                        rs.getString(3),
+                        String.valueOf(rs.getDate(4)),
+                        gender,
+                        rs.getString(6),
+                        String.valueOf(rs.getInt(7)),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getString(10),
+                        rs.getString(11),
+                        rs.getString(12),
+                        String.valueOf(rs.getDate(13)),
+                        String.valueOf(rs.getInt(14)),
+                        rs.getString(15));
+                System.out.println("getFamilyProfileById" + fp.toString());
+                return fp;
+            }
+        } catch (SQLException e) {
+            System.out.println("FamilyProfileDAO.getFamilyProfileByProfileId: " + e.getMessage());
+        }
+        return null;
+    }
+    
     public FamilyProfile getFamilyProfileByInfo(String patientName, String gender, String birthDate, String phone, String emailPatient) {
         String sql = "SELECT * FROM FamilyProfile\n"
                 + "WHERE email = ? AND birthDate = ? AND gender = ? AND [name] =? AND phone = ?";
@@ -185,7 +225,51 @@ public class FamilyProfileDAO extends DBContext {
         }
         return null;
     }
+    
+    public FamilyProfile getFamilyProfileByInfoGuest(String patientName, String gender, String birthDate, String phone, String emailPatient, String ownerId) {
+        String sql = "SELECT * FROM FamilyProfile\n"
+                + "WHERE email = ? AND birthDate = ? AND gender = ? AND [name] =? AND phone = ? AND ownerId = ?";
 
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, emailPatient);
+            st.setString(2, birthDate);
+            st.setString(3, gender);
+            st.setString(4, patientName);
+            st.setString(5, phone);
+            st.setString(6, ownerId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return new FamilyProfile(String.valueOf(rs.getInt("profileId")));
+            }
+        } catch (SQLException e) {
+            System.out.println("getFamilyProfileByInfo-guest: " + e);
+        }
+        return null;
+    }
+
+    public FamilyProfile getFamilyProfileByInfoUser(String patientName, String gender, String birthDate, String phone, String emailPatient, String ownerId) {
+        String sql = "SELECT * FROM FamilyProfile\n"
+                + "WHERE email = ? AND birthDate = ? AND gender = ? AND [name] =? AND phone = ? AND ownerId = ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, emailPatient);
+            st.setString(2, birthDate);
+            st.setString(3, gender);
+            st.setString(4, patientName);
+            st.setString(5, phone);
+            st.setString(6, ownerId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return new FamilyProfile(String.valueOf(rs.getInt("profileId")));
+            }
+        } catch (SQLException e) {
+            System.out.println("getFamilyProfileByInfo-user: " + e);
+        }
+        return null;
+    }
+    
     public boolean addNewProfile(String patientName, String gender, String birthDate, String phone, String emailPatient, String ownerId) {
         String sql = "INSERT INTO  [dbo].[FamilyProfile]\n"
                 + "           ([email]\n"

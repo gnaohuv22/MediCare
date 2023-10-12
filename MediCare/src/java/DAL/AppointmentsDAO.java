@@ -18,20 +18,21 @@ import java.util.List;
  * @author hoang
  */
 public class AppointmentsDAO extends DBContext {
+
     public ArrayList<Appointments> getListAppointments() {
         ArrayList<Appointments> list = new ArrayList<>();
         String SQL = "SELECT * FROM [Appointments]";
-        
-        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Appointments a = new Appointments(
-                    String.valueOf(rs.getInt(1)),
-                    rs.getString(2),
-                    rs.getString(3),
-                    String.valueOf(rs.getInt(4)),
-                    String.valueOf(rs.getDate(5)),
-                    String.valueOf(rs.getInt(6)));
+                        String.valueOf(rs.getInt(1)),
+                        rs.getString(2),
+                        rs.getString(3),
+                        String.valueOf(rs.getInt(4)),
+                        String.valueOf(rs.getDate(5)),
+                        String.valueOf(rs.getInt(6)));
                 list.add(a);
             }
             return list;
@@ -40,8 +41,8 @@ public class AppointmentsDAO extends DBContext {
         } 
         return null;
     }
-    
-     public int getLastestId() {
+
+    public int getLastestId() {
         String sql = "SELECT TOP 1 id FROM Appointments\n"
                 + "ORDER BY id DESC";
         try {
@@ -57,24 +58,27 @@ public class AppointmentsDAO extends DBContext {
     }
 
     public boolean addNewAppointment(String userId, String branchId, String serviceId, String doctorId, String plannedAt, String slotId, String createdAt,
-            String patientName, String gender, String birthDate, String phone, String emailPatient, String symptoms,String email ,String password) {
+            String patientName, String gender, String birthDate, String phone, String emailPatient, String symptoms, String email, String password) {
         UserDAO ud = new UserDAO();
         // If guest book:
         User user;
+        System.out.println("--- START ADD NEW APPOINTMENT ---");
+        System.out.println("Check Login: email = " + email + " | password = " + password);
         if (password == null) {
             user = null;
         } else {
-            user = ud.login(email, password);
+            user = ud.login(email);
         }
         User guest = ud.getUserNotRegistered(emailPatient);
 
         // Check if the profile of PATIENT existed?:
         FamilyProfileDAO fpd = new FamilyProfileDAO();
         FamilyProfile p;
-        
+
         // If user book:
         if (user == null) { // Guest book:
             System.out.println("USER == NULL -> GUEST BOOK:");
+            System.out.println("USER = " + user);
             // If guest is not in database -> Add guest to table User:
             if (guest == null) {
                 if (ud.addUserNotRegistered(emailPatient)) {
@@ -84,20 +88,25 @@ public class AppointmentsDAO extends DBContext {
                 }
             }
             guest = ud.getUserNotRegistered(emailPatient);
-            p = fpd.getFamilyProfileByInfo(patientName, gender, birthDate, phone, emailPatient);
+            p = fpd.getFamilyProfileByInfoGuest(patientName, gender, birthDate, phone, emailPatient, guest.getId());
             if (p == null) {
                 fpd.addNewProfile(patientName, gender, birthDate, phone, emailPatient, guest.getId());
             }
         } else { // User book:
             System.out.println("USER != NULL -> USER BOOK:");
-            p = fpd.getFamilyProfileByInfo(patientName, gender, birthDate, phone, emailPatient, user.getId());
+            p = fpd.getFamilyProfileByInfoUser(patientName, gender, birthDate, phone, emailPatient, user.getId());
             if (p == null) {
                 fpd.addNewProfile(patientName, gender, birthDate, phone, emailPatient, user.getId());
             }
         }
-        p = fpd.getFamilyProfileByInfo(patientName, gender, birthDate, phone, emailPatient);
+        if (user != null) {
+            p = fpd.getFamilyProfileByInfoGuest(patientName, gender, birthDate, phone, emailPatient, user.getId());
+        } else {
+            p = fpd.getFamilyProfileByInfoGuest(patientName, gender, birthDate, phone, emailPatient, guest.getId());
+        }
+
         String profileId = p.getProfileId();
-        System.out.println("Profile Id: " + profileId);
+        System.out.println("Profile Id Guest: " + profileId);
 
         //User login:
         //TH1: userId != null, serviceId == null -> doctorId == null

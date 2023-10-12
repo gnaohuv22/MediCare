@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,20 +21,20 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <!-- bootstrap css -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}client/css/bootstrap.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/bootstrap.min.css">
         <!-- style css -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}client/css/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/style.css">
         <!-- Responsive-->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}client/css/responsive.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/responsive.css">
         <!-- fevicon -->
-        <link rel="icon" href="${pageContext.request.contextPath}client/imagesimages/fevicon.png" type="image/gif" />
+        <link rel="icon" href="${pageContext.request.contextPath}/assets/client/imagesimages/fevicon.png" type="image/gif" />
         <!-- Scrollbar Custom CSS -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}client/css/jquery.mCustomScrollbar.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/jquery.mCustomScrollbar.min.css">
         <!-- Tweaks for older IEs-->
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
         <!-- owl stylesheets --> 
-        <link rel="stylesheet" href="${pageContext.request.contextPath}client/css/owl.carousel.min.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}client/css/owl.theme.default.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.theme.default.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
         <title>Client Page</title>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -44,11 +45,81 @@
         <%@include file="user-header.jsp" %>
         <!-- client section start -->
 
+        <!--        <div class="booking-container-1">
+                    FOR USER: If logged in, they can choose profile for booking fast: start
+                    <h2>Chọn khách hàng</h2>
+                    <div id="family-profiles-container" class="family-profiles-container">
+        <c:forEach items="${requestScope.profiles}" var="profile">
+            <div class="each-family-profile" data-profile-id="${profile.getProfileId()}" onclick="handleProfileClick(this)">
+                <img src="./assets/client/images/human.png" alt="alt"/>
+                <span class="relation-each-family-profile">${profile.getRelationship().getRelation()}</span>
+                <span class="name-each-family-profile">${profile.getName()}</span>
+            </div>
+        </c:forEach>
+    </div>
+    FOR USER: If logged in, they can choose profile for booking fast: end
+
+</div>-->
+
+
         <div class="booking-container">
+
+
             <!--Step-1-container - start-->
             <form action="user-book-appointment" method="post">
                 <div id="step-1-container">
-                    <h2 class="booking-header">Bước 1/3 - Chọn thông tin khám bệnh</h2>
+                    <c:if test="${requestScope.ownerId != null}"> 
+                        <!--FOR USER: If logged in, they can choose profile for booking fast: start-->
+                        <h2>Chọn khách hàng</h2>
+                        <div id="family-profiles-container" class="family-profiles-container">
+                            <c:forEach items="${requestScope.profiles}" var="profile">
+                                <div class="each-family-profile" data-profile-id="${profile.getProfileId()}" data-ownerID ="${requestScope.ownerId}" onclick="handleProfileClick(this)">
+                                    <img src="./assets/client/images/human.png" alt="alt"/>
+                                    <span class="relation-each-family-profile">${profile.getRelationship().getRelation()}</span>
+                                    <span class="name-each-family-profile">${profile.getName()}</span>
+                                </div>
+                            </c:forEach>
+                        </div>
+                        <!--FOR USER: If logged in, they can choose profile for booking fast: end-->
+                    </c:if>
+                    <h2 class="booking-header">Bước 1/3 - Nhập thông tin người khám</h2>
+                    <div class="row">
+                        <!-- Cột 1 -->
+                        <div class="col-md-6">
+                            <div> 
+                                <input type="text" name="patientName" id="patientName" placeholder="Họ và tên (*)" required/> 
+                                <input type="radio" name="gender" checked value="1"> Nam &nbsp;
+                                <input type="radio" name="gender" value="0"> Nữ<br>
+                                <p style="color: red;" id="inputNameError" class="error-message-input-step-2"></p>
+
+                                <input type="date" id="birthDate" name="birthDate" placeholder="Ngày sinh (*)" value="" max="2023-10-08" required> (Birth date - Thông tin bắt buộc)<br>
+                                <p style="color: red;" id="inputBirthDateError" class="error-message-input-step-2"></p>
+
+                                <input type="tel" id="phone" name="phone" placeholder="Eg: 0123456789 (*)" pattern="[0-9]{10}" required value="" maxlength="10"><br>
+                                <p style="color: red;" id="inputPhoneError" class="error-message-input-step-2"></p> 
+
+                                <input type="text" id="email" value="${requestScope.email}" name="email" maxlength="32" placeholder="Vui lòng nhập đúng email để xác nhận thông tin lịch hẹn (*)" required>
+                                <p style="color: red;" id="inputEmailError" class="error-message-input-step-2"></p> 
+                            </div>
+                        </div>
+
+                        <!-- Cột 2 -->
+                        <div class="col-md-6">
+                            <div>
+                                <textarea style="resize: none" id="description" name="description" rows="4" cols="60" placeholder="Vui lòng mô tả rõ triệu chứng của bạn và nhu cầu thăm khám (*)" required></textarea>
+                                <p style="color: red;" id="inputSymptomsError" class="error-message-input-step-2"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mt-3 text-center btn-booking">
+                        <div id="step-1-to-2" class="btn btn-primary" onclick="handleSubmit(this)">Tiếp tục</div>
+                    </div>
+                </div>          
+                <!--Step-1-container - end-->
+                <!--Step-2-container - start-->
+                <div id="step-2-container">
+                    <h2 class="booking-header">Bước 2/3 - Chọn thông tin khám bệnh</h2>
                     <div class="row">
                         <!-- Cột 1 -->
                         <div class="col-md-6">
@@ -81,6 +152,7 @@
                                 <label for="date-appointment">Ngày khám (*)</label></br>
                                 <input style="margin: 10px;" type="date" class="" value="${requestScope.currentDate}" id="booking-calendar" name="booking-calendar" onchange="loadScheduleOfDoctor()">
                             </div>
+                            <p id="dateError" class="error-message-input-step-1"></p>
                             <label for="booking-slot">Khung giờ khám (*)</label><br>
                             <div id="slot-select-box">
                             </div>
@@ -90,53 +162,14 @@
 
                     <div class="col-md-12 mt-3 text-center btn-booking">
                         <!--<button type="submit" class="btn btn-primary">Tiếp tục</button>-->
-                        <div id="step-1-to-2" class="btn btn-primary" onclick="handleSubmit(this)">Tiếp tục</div>
-                    </div>
-                    <!--</form>-->
-                </div>
-                <!--Step-1-container - end-->
-
-                <!--Step-2-container - start-->
-                <div id="step-2-container">
-                    <h2 class="booking-header">Bước 2/3 - Nhập thông tin người khám</h2>
-                    <!--<form action="user-book-appointment" method="post">-->
-                    <div class="row">
-                        <!-- Cột 1 -->
-                        <div class="col-md-6">
-                            <div> 
-                                <input type="text" name="patientName" id="patientName" placeholder="Họ và tên (*)" required/> 
-                                <input type="radio" name="gender" checked value="1"> Nam &nbsp;
-                                <input type="radio" name="gender" value="0"> Nữ<br>
-                                <p style="color: red;" id="inputNameError" class="error-message-input-step-2"></p>
-
-                                <input type="date" id="birthDate" name="birthDate" placeholder="Ngày sinh (*)" value="" max="2023-10-08" required> (Birth date - Thông tin bắt buộc)<br>
-                                <p style="color: red;" id="inputBirthDateError" class="error-message-input-step-2"></p>
-
-                                <input type="tel" id="phone" name="phone" placeholder="Eg: 0123456789 (*)" pattern="[0-9]{10}" required value="" maxlength="10"><br>
-                                <p style="color: red;" id="inputPhoneError" class="error-message-input-step-2"></p> 
-
-                                <input type="text" id="email" value="${requestScope.email}" name="email" maxlength="32" placeholder="Vui lòng nhập đúng email để xác nhận thông tin lịch hẹn (*)" required>
-                                <p style="color: red;" id="inputEmailError" class="error-message-input-step-2"></p> 
-                            </div>
-                        </div>
-
-                        <!-- Cột 2 -->
-                        <div class="col-md-6">
-                            <div>
-                                <textarea id="description" name="description" rows="4" cols="60" placeholder="Vui lòng mô tả rõ triệu chứng của bạn và nhu cầu thăm khám (*)" required></textarea>
-                                <p style="color: red;" id="inputSymptomsError" class="error-message-input-step-2"></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-12 mt-3 text-center btn-booking">
-                        <!--<button type="submit" class="btn btn-primary">Tiếp tục</button>-->
                         <div id="step-2-to-1" class="btn btn-primary" onclick="handleSubmit(this)">Quay lại</div>
                         <div id="step-2-to-3" class="btn btn-primary" onclick="handleSubmit(this)">Tiếp tục</div>
                     </div>
                     <!--</form>-->
-                </div>          
+                </div>
                 <!--Step-2-container - end-->
+
+
 
                 <!--Step-3-container - start-->
                 <div id="step-3-container">
@@ -152,6 +185,33 @@
 
         <%@include file="user-footer.jsp" %>
         <!-- client section end -->
+        <!--Profile JS - start-->
+        <script>
+            function handleProfileClick(element) {
+                var profileId = element.getAttribute("data-profile-id");
+                var ownerId = element.getAttribute("data-ownerId");
+                console.log("Clicked on profile with ID: " + profileId);
+
+                $.ajax({
+                    url: "/MediCare/load-each-family-profile",
+                    data: {
+                        profileId: profileId,
+                        ownerId: ownerId
+                    },
+                    cache: false,
+                    type: "POST",
+                    success: function (response) {
+                        var profileInfo = document.getElementById("step-1-container");
+                        profileInfo.innerHTML = response;
+                    },
+                    error: function (xhr) {
+
+                    }
+                });
+            }
+        </script>
+        <!--Profile JS - end-->
+
 
         <script>
             var dataLoaded = false;
@@ -160,6 +220,7 @@
             var today = new Date();
 
             var dateInput = document.getElementById('booking-calendar');
+
 
             // Đặt thuộc tính min của input là ngày hiện tại (để disable các ngày trước ngày hiện tại)
             dateInput.min = today.toISOString().split('T')[0];
@@ -330,8 +391,21 @@
                 var slotId = document.getElementById("booking-slot").value;
                 console.log("SlotId " + slotId);
 
+                var dateError = document.getElementById("dateError");
+                // Lấy ngày hiện tại
+                var today = new Date();
+                today.setDate(today.getDate() - 1);
+//                var today = new Date(Date.now() + new Date().getTimezoneOffset() * 60000);
 
-
+                // Lấy giá trị của ngày từ input
+                var selectedDate = new Date(dateInput.value);
+                // Kiểm tra nếu ngày đã chọn nhỏ hơn ngày hiện tại
+                if (selectedDate < today) {
+                    dateError.innerHTML = "* Ngày không thể nhỏ hơn ngày hiện tại.";
+                    return false;
+                } else {
+                    dateError.innerHTML = ''; // Xóa thông báo lỗi nếu ngày hợp lệ
+                }
                 if (dataLoaded) {
                     console.log("dataloaded: TRUE");
                     var slotError = document.getElementById("slotError");
@@ -520,21 +594,22 @@
                 var step2container = document.getElementById('step-2-container');
                 var step3container = document.getElementById('step-3-container');
                 console.log("Ten cua the duoc click la: " + elementId);
-                if (elementId === 'step-1-to-2') {
-                    console.log("element = step 1 to 2");
+                if (elementId === 'step-2-to-3') {
+                    console.log("element = step 2 to 3");
                     if (validateFormStep1()) {
                         console.log("step 1: TRUE");
-                        step1container.style.display = 'none';
-                        step2container.style.display = 'block';
+                        step2container.style.display = 'none';
+                        step3container.style.display = 'block';
                     } else {
                         console.log("step 1: FALSE");
                     }
+                    loadInfoOfAppointment();
                 } else if (elementId === 'step-2-to-1') {
                     console.log("element = step 2 to 1");
                     step2container.style.display = 'none';
                     step1container.style.display = 'block';
-                } else if (elementId === 'step-2-to-3') {
-                    console.log("element = step 2 to 3");
+                } else if (elementId === 'step-1-to-2') {
+                    console.log("element = step 1 to 2");
                     var inputNameError = document.getElementById("inputNameError");
                     var inputBirthDateError = document.getElementById("inputBirthDateError");
                     var inputPhoneError = document.getElementById("inputPhoneError");
@@ -548,13 +623,12 @@
                     inputEmailError.innerHTML = '';
                     if (validateFormStep2()) {
                         console.log("step 2: TRUE");
-                        step2container.style.display = 'none';
-                        step3container.style.display = 'block';
+                        step1container.style.display = 'none';
+                        step2container.style.display = 'block';
                     } else {
                         console.log("step 2: FALSE");
                     }
 
-                    loadInfoOfAppointment();
                 } else if (elementId === 'step-3-to-2') {
                     console.log("element = step 3 to 2");
                     step3container.style.display = 'none';
@@ -590,16 +664,16 @@
             };
         </script>
         <!-- Javascript files-->
-        <script src="${pageContext.request.contextPath}client/js/jquery.min.js"></script>
-        <script src="${pageContext.request.contextPath}client/js/popper.min.js"></script>
-        <script src="${pageContext.request.contextPath}client/js/bootstrap.bundle.min.js"></script>
-        <script src="${pageContext.request.contextPath}client/js/jquery-3.0.0.min.js"></script>
-        <script src="${pageContext.request.contextPath}client/js/plugin.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/jquery.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/popper.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/bootstrap.bundle.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/jquery-3.0.0.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/plugin.js"></script>
         <!-- sidebar -->
-        <script src="${pageContext.request.contextPath}client/js/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="${pageContext.request.contextPath}client/js/custom.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/custom.js"></script>
         <!-- javascript --> 
-        <script src="${pageContext.request.contextPath}client/js/owl.carousel.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/client/js/owl.carousel.js"></script>
         <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
 
     </body>

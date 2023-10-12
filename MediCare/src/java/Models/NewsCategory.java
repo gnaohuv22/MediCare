@@ -20,18 +20,18 @@ public class NewsCategory {
         this.parentId = parentId;
         this.slug = slug;
     }
+    
+    public NewsCategory(String id, String name, String slug) {
+        this.id = id;
+        this.name = name;
+        this.slug = slug;
+    }
 
     public String getSlug() {
         return slug;
     }
 
     public void setSlug(String slug) {
-        this.slug = slug;
-    }
-
-    public NewsCategory(String id, String name, String slug) {
-        this.id = id;
-        this.name = name;
         this.slug = slug;
     }
 

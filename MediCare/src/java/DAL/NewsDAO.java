@@ -148,11 +148,12 @@ public class NewsDAO extends DBContext {
     public ArrayList<News> getListNewsByCategory(int categoryId) {
         String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id as categoryId, nc.name AS category, nc.slug AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n\n"
                 + "LEFT JOIN [NewsCategory] nc ON n.categoryId = nc.id\n"
-                + "WHERE nc.id = ?";
+                + "WHERE nc.id = ? OR nc.parentId = ?";
         ArrayList<News> list = new ArrayList<>();
 
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setInt(1, categoryId);
+            ps.setInt(2, categoryId);
 
             ResultSet rs = ps.executeQuery();
 
@@ -247,7 +248,43 @@ public class NewsDAO extends DBContext {
     }
 
     public ArrayList<News> getNewestExcept(String id) {
-        String SQL = "SELECT TOP(3) n.id, n.title, n.subtitle, n.content, n.author, nc.id as categoryId, nc.name AS category, nc.slug AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n \n"
+        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id as categoryId, nc.name AS category, nc.slug AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n \n"
+                + "LEFT JOIN [NewsCategory] nc ON n.categoryId = nc.id\n"
+                + "WHERE n.id != ?\n"
+                + "ORDER BY n.createdAt DESC, n.viewCount DESC";
+        ArrayList<News> list = new ArrayList<>();
+
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setInt(1, Integer.parseInt(id));
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                News n = new News(
+                        String.valueOf(rs.getInt(1)),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        String.valueOf(rs.getInt(6)),
+                        rs.getString(7),
+                        rs.getString(8),
+                        String.valueOf(rs.getDate(9)),
+                        String.valueOf(rs.getDate(10)),
+                        String.valueOf(rs.getInt(11)),
+                        rs.getString(12),
+                        rs.getString(13)
+                );
+                list.add(n);
+
+            }
+        } catch (SQLException e) {
+            System.out.println("getNewestExcept: " + e.getMessage());
+        }
+        return list;
+    }
+
+    public ArrayList<News> getNewestExcept(int num, String id) {
+        String SQL = "SELECT TOP(" + num + ") n.id, n.title, n.subtitle, n.content, n.author, nc.id as categoryId, nc.name AS category, nc.slug AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n \n"
                 + "LEFT JOIN [NewsCategory] nc ON n.categoryId = nc.id\n"
                 + "WHERE n.id != ?\n"
                 + "ORDER BY n.createdAt DESC, n.viewCount DESC";

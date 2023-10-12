@@ -24,7 +24,7 @@ public class BillingHistoryDAO extends DBContext {
             while (rs.next()) {
                 BillingHistory bh = new BillingHistory (String.valueOf(rs.getInt(1)),
                                                 String.valueOf(rs.getInt(2)),
-                                                rs.getString(3),
+                                                String.valueOf(rs.getFloat(3)),
                                                 String.valueOf(rs.getDate(4)));
                 list.add(bh);
             }

@@ -45,10 +45,29 @@ public class UserNewsServlet extends HttpServlet {
                     response.sendError(HttpServletResponse.SC_NOT_FOUND);
                     return;
                 }
-                ArrayList<News> related = nd.getNewestExcept(n.getId());
+                ArrayList<News> related = nd.getNewestExcept(3, n.getId());
                 request.setAttribute("n", n);
                 request.setAttribute("related", related);
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/user-news.jsp");
+                dispatcher.forward(request, response);
+            }
+            else if (pathParts.length == 2) {
+                NewsDAO nd = new NewsDAO();
+                
+                String categorySlug = pathParts[1];
+                NewsCategoryDAO ncd = new NewsCategoryDAO();
+                NewsCategory nc = ncd.getCategoryBySlug(categorySlug);
+                ArrayList<News> news = nd.getListNewsByCategory(Integer.parseInt(nc.getId()));
+                ArrayList<NewsCategory> topLevel = ncd.getTopLevelCategory();
+                ArrayList<NewsCategory> subLevel = ncd.getSubLevelCategory();
+
+                request.setAttribute("topLevel", topLevel);
+                request.setAttribute("subLevel", subLevel);
+                request.setAttribute("parentIds", ncd.getParentCategoryNumber());
+                request.setAttribute("news", news);
+                request.setAttribute("nc", nc);
+                
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/user-category.jsp");
                 dispatcher.forward(request, response);
             }
         } else {
@@ -65,16 +84,20 @@ public class UserNewsServlet extends HttpServlet {
 
                 request.setAttribute("topLevel", topLevel);
                 request.setAttribute("subLevel", subLevel);
+                request.setAttribute("parentIds", ncd.getParentCategoryNumber());
                 request.setAttribute("news", news);
-            } 
-            request.getRequestDispatcher("user-news-general.jsp").forward(request, response);
+                
+                request.getRequestDispatcher("/user-news-general.jsp").forward(request, response);
+            }
+            else {
+                response.sendError(HttpServletResponse.SC_NO_CONTENT);
             }
         }
+    }
 
-        @Override
-        protected void doPost
-        (HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        }
     }
+}

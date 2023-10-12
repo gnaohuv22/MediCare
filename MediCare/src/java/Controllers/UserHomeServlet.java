@@ -59,7 +59,7 @@ public class UserHomeServlet extends HttpServlet {
         ArrayList<Employee> employees = ed.getEmployeeList();
 
         TopLevelMenuDAO tlmd = new TopLevelMenuDAO();
-        ArrayList<TopLevelMenu> pages = tlmd.getListTopLevelMenu();
+        ArrayList<TopLevelMenu> pages = tlmd.getTopLevelMenu();
 
         SubLevelMenuDAO slmd = new SubLevelMenuDAO();
         ArrayList<SubLevelMenu> subMenu = slmd.getListSubLevelCategory();
