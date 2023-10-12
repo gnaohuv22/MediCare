@@ -1839,10 +1839,15 @@ ul .tab-component a:hover {
 .fit-height {
     flex-grow: 1;
     object-fit: contain;
+    border-radius: 10px;
 }
 
 .display-title {
     font-size: 32px;
+}
+
+.news-content {
+    padding-top: 20px;
 }
 
 .news-content h1,
@@ -1852,7 +1857,6 @@ ul .tab-component a:hover {
 .news-content h5,
 .news-content h6 {
     color: #2C6975;
-    font-weight: bold;
 }
 
 .news-content p,
@@ -2107,4 +2111,52 @@ ul .tab-component a:hover {
 
 .news-sidebar li ul a:hover {
     color: #2C6975;
+}
+
+.col-md-9 .centered-news .centered-img img {
+    height: 100%; /* This will make the image take the full height of the .col-md-9 */
+    width: auto; /* This will make sure the width changes proportionally */
+    object-fit: contain; /* This makes sure the entire image is shown */
+}
+
+.grid-news {
+    border-top: 1px solid #E0ECDE;
+    display: flex;
+    flex-direction: row;
+}
+
+.grid-news h3 {
+    font-weight: bold;
+    color: #2C6975;
+}
+
+.grid-img {
+    padding: 30px;
+}
+
+.news-information {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 0 0 30px;
+    flex-wrap: wrap;
+    /*justify-content: center;*/
+}
+
+.grid-news .grid-img img {
+    max-width: 260px;
+    height: auto;
+    border-radius: 10px;
+}
+
+.news-href {
+    padding-top: 10px;
+    color: #2c6975;
+}
+
+.news-href i {
+    color: #2c6975;
+}
+
+.news-href:hover {
+    color: #E0ECDE;
 }

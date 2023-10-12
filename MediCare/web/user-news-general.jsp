@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -42,35 +44,8 @@
     <body>
         <%@include file="user-header.jsp" %>
     </div>
-    <!-- banner section start -->
-    <c:forEach items="${sessionScope.bannerList}" var="banner">
-        <div class="banner_section layout_padding" style="background-image: url('${pageContext.request.contextPath}/${banner.getImage()}')">
-            <div class="container">
-                <div class="banner_main">
-                    <h1 class="banner_title">${banner.getTitle()}</h1>
-                    <p class="banner_text">
-                        ${banner.getDescription()}
-                    </p>
-                    <div class="row banner_bullet_points">
-                        <c:forEach items="${sessionScope.bannerDetailsList}" var="detail">
-                            <c:if test="${detail.getBannerId() eq banner.getId()}">
-                                <div class="col flex-grow-1 banner-number">${detail.getNumber()}</div>
-                            </c:if>
-                        </c:forEach>
-                    </div>
-                    <div class="row banner_bullet_points">
-                        <c:forEach items="${sessionScope.bannerDetailsList}" var="detail">
-                            <c:if test="${detail.getBannerId() eq banner.getId()}">
-                                <p class="col flex-grow-1 number-description">${detail.getInformation()}</p>
-                            </c:if>
-                        </c:forEach>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </c:forEach>
 
-    <!--<h1>Hello World!</h1>-->
+    <!--News general display section-->
 
     <div class="display-sidebar">
         <div class="container">
@@ -108,7 +83,45 @@
                     </c:forEach>
                 </div>
                 <div class="col-md-9">
-                    
+                    <div class="centered-news">
+                        <a href="${pageContext.request.contextPath}/news/${centeredNews.getCategorySlug()}/${centeredNews.getSlug()}">
+                            <div class="centered-img">
+                                <img src="${centeredNews.getCoverImage()}" alt="${centeredNews.getTitle()}"/>
+                            </div>
+                            <h1 class="display-title">${centeredNews.getTitle()}</h1>
+                            <div class="centered-category">
+                                <a class="news-href" href="${pageContext.request.contextPath}/news/${centeredNews.getCategorySlug()}">
+                                    <i class="fas fa-tags"></i> ${centeredNews.getCategory()}
+                                </a>
+                            </div>
+                            <span class="centered-subtitle">
+                                <p>${centeredNews.getSubtitle()}</p>
+                            </span>
+                        </a>
+                    </div>
+                    <!-- display other news-->     
+                    <c:forEach items="${news}" var="n" varStatus="status">
+                        <div class="row grid-news">
+                            <div class="grid-img col-md-4">
+                                <a href="${pageContext.request.contextPath}/news/${n.getCategorySlug()}/${n.getSlug()}">
+                                    <img src="${n.getCoverImage()}" alt="${n.getTitle()}"/>
+                                </a>
+                            </div>
+                            <div class="news-information col-md-8">
+                                <a href="${pageContext.request.contextPath}/news/${n.getCategorySlug()}/${n.getSlug()}">
+                                    <h3 class="grid-title">
+                                        ${n.getTitle()}
+                                    </h3>
+                                </a>
+                                <span class="grid-subtitle">
+                                    ${n.getSubtitle()}
+                                </span>
+                                <a class="news-href" href="${pageContext.request.contextPath}/news/${n.getCategorySlug()}">
+                                    <i class="fas fa-tags"></i> ${n.getCategory()}
+                                </a>
+                            </div>
+                        </div>
+                    </c:forEach>
                 </div>
             </div>
         </div>
@@ -130,6 +143,45 @@
                 i.css('transform', 'rotate(90deg)');
                 i.addClass('rotated');
             }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.centered-news').each(function () {
+                var maxLength = 200; // Set the maximum length for the content
+                var subtitleElement = $(this).find('.centered-subtitle');
+                if (subtitleElement.text().length > maxLength) {
+                    var shortText = subtitleElement.text().substr(0, maxLength) + '...'; // Cut the content
+                    var longText = subtitleElement.text().substr(maxLength);
+
+                    // Create the "Read more" button
+                    var btn = $('<a href="' + $(this).attr('href') + '" style="color: #68B2A0; text-decoration: underline;"> Read more>></a>');
+
+                    // Replace the content with the cut content and the "Read more" button
+                    subtitleElement.html(shortText);
+                    subtitleElement.append(btn);
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.grid-news').each(function () {
+                var maxLength = 315; // Set the maximum length for the content
+                var subtitleElement = $(this).find('.grid-subtitle');
+                if (subtitleElement.text().length > maxLength) {
+                    var shortText = subtitleElement.text().substr(0, maxLength) + '...'; // Cut the content
+                    var longText = subtitleElement.text().substr(maxLength);
+
+                    // Create the "Read more" button
+                    var btn = $('<a href="' + $(this).find('a').attr('href') + '" style="color: #68B2A0; text-decoration: underline;"> Read more>></a>');
+
+                    // Replace the content with the cut content and the "Read more" button
+                    subtitleElement.html(shortText);
+                    subtitleElement.append(btn);
+                }
+            });
         });
     </script>
 </body>
