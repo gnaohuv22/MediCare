@@ -76,6 +76,7 @@ public class UserLoginGoogleHandler extends HttpServlet {
                 // return a valid object -> login success -> (forward to home page):
             } else {
                 session.setAttribute("email", email);
+                session.setAttribute("password", u.getPassword());
                 session.setAttribute("name", u.getName());
                 System.out.println("Login successfully!");
                 session.setAttribute("loginValue", "true");

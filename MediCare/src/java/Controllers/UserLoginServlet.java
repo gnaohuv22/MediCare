@@ -82,6 +82,7 @@ public class UserLoginServlet extends HttpServlet {
         HttpSession session = request.getSession();
 //        String loginValue = "";
         session.setAttribute("email", email);
+        session.setAttribute("password", password);
 //        session.setAttribute("password", password);
         // Case 1: Both inputs email and password is valid:
         if (email != null && password != null && !email.equals("") && !password.equals("")) {

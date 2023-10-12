@@ -1988,26 +1988,26 @@ ul .tab-component a:hover {
     display: none;
 }
 
-#step-2-container input[type="tel"],
-#step-2-container input[type="text"],
-#step-2-container input[type="password"] {
+#step-1-container input[type="tel"],
+#step-1-container input[type="text"],
+#step-1-container input[type="password"] {
     width: 80%;
     margin: 10px;
 }
-#step-2-container #patientName {
+#step-1-container #patientName {
     width: 50%;
     margin: 10px;
 }
 
-#step-2-container input[type="date"] {
+#step-1-container input[type="date"] {
     margin: 10px;
 }
 
-#step-2-container input[type="radio"] {
+#step-1-container input[type="radio"] {
     margin-left: 10px;
 }
 
-.group-info-booking-table
+.group-info-booking-table 
 {
     width: 100%;
 }
@@ -2023,6 +2023,44 @@ ul .tab-component a:hover {
     margin-top: -10px;
     font-size: 12px;
     padding: 0;
+}
+
+/*Css for the family profile - 12 Oc 2023:*/
+.family-profiles-container {
+    display: flex;
+    padding-bottom: 32px;
+    /*border-bottom: 1px solid #ccc;*/
+}
+
+.each-family-profile {
+    width: 7%;
+    margin: 15px;
+    border-radius: 50%;
+    border: 1px solid #333;
+    position: relative;
+    text-align: center;
+    justify-content: end;
+    align-items: center;
+    display: flex;
+}
+
+.each-family-profile:hover {
+    cursor: pointer;
+}
+
+span.relation-each-family-profile {
+    position: absolute;
+    bottom: -2%;
+    width: 100%;
+    background-color: #1ead5b;
+    color: #fff;
+    border-radius: 20px;
+}
+
+span.name-each-family-profile {
+    position: absolute;
+    bottom: -40px;
+    width: 100%;
 }
 .related-news {
     margin-top: 20px;
