@@ -425,6 +425,7 @@ public class DoctorDAO extends DBContext {
                 + "FULL JOIN ServiceTag AS ST ON ST.id = DS.serviceId \n"
                 + "FULL JOIN Department ON Department.id = ST.departmentId \n"
                 + "FULL JOIN CurriculumVitae AS CV On CV.id = d.CVId \n"
+                + "WHERE d.displayName = ?"
                 + "GROUP BY d.ARId, d.branchId, d.CVId, d.displayName, d.email, d.id, d.phone, d.profilePicture, d.salary, d.status, d.workplace,\n"
                 + "b.[name], a.[name], DC.Certificates,  Department.[name], Department.id, CV.education, CV.introduce, CV.workHistory, CV.startYear,\n"
                 + "d.[password], d.isDelete, d.gender, d.birthDate\n"

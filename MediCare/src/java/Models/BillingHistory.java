@@ -20,13 +20,6 @@ public class BillingHistory {
         this.totalCash = totalCash;
         this.createdAt = createdAt;
     }
-
-    public BillingHistory(String id, String appointmentId, String totalCash, String createdAt) {
-        this.id = id;
-        this.appointmentId = appointmentId;
-        this.totalCash = totalCash;
-        this.createdAt = createdAt;
-    }
     
     public String getId() {
         return id;

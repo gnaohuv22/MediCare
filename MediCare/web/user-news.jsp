@@ -73,7 +73,7 @@
 
     <!-- display news section -->
     <div class="display-news">
-        <div class="container">
+        <div class="container ">
             <div class="row">
                 <div class="news col-md-9">
                     <h1 class="display-title">${n.getTitle()}</h1>

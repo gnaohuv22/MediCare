@@ -39,7 +39,7 @@ html {
 body {
     color: #666666;
     font-size: 14px;
-    font-family: Poppins;
+    font-family: sans-serif;
     line-height: 1.80857;
     font-weight: normal;
     overflow-x: hidden;
@@ -2146,6 +2146,7 @@ span.name-each-family-profile {
 #close-button{
     padding: 10px;
     background-color: #ccc;
+}
 /* CSS code style for user-news-general.jsp  */
 
 .display-sidebar {
