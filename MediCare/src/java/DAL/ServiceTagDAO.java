@@ -97,7 +97,7 @@ public class ServiceTagDAO extends DBContext {
                 + "On CV.id = d.CVId\n"
                 + "\n"
                 + "WHERE DS.serviceId = ?\n"
-                + "GROUP BY d.ARId, d.branchId, d.CVId, d.displayName, d.email, d.id, d.phone, d.profilePicture, d.salary, d.status, d.workplace, \n"
+                + "GROUP BY d.ARId, d.branchId, d.CVId, d.displayName, d.email, d.id, d.phone, d.profilePicture, d.salary, d.status, d.workplace, d.birthDate, d.gender, d.isDelete, \n"
                 + "b.[name], a.[name], DC.Certificates,  Department.[name], Department.id, CV.education, CV.introduce, CV.workHistory, CV.startYear, d.[password]\n"
                 + "HAVING d.id IS NOT NULL";
         try {

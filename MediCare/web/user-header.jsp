@@ -78,7 +78,7 @@
                                 <c:choose>
                                     <c:when test="${sub.getContent() eq 'Chi nhánh' or sub.getContent() eq 'Dịch vụ' or sub.getContent() eq 'Tin tức'}">
                                         <li class="nav-item list-parent">
-                                            <a class="nav-link" href="${pageContext.request.contextPath}/${sub.getHref()}">${sub.getContent()} <img src="https://www.svgrepo.com/show/495005/arrow-down.svg" width="10px" height="10px" alt="alt"/></a>
+                                            <a class="nav-link" href="${sub.getHref()}">${sub.getContent()} <img src="https://www.svgrepo.com/show/495005/arrow-down.svg" width="10px" height="10px" alt="alt"/></a>
                                             <ul class="list-child">
                                                 <c:forEach items="${sessionScope.subMenu}" var="item">
                                                     <c:if test="${item.getParentId() eq sub.getId()}">

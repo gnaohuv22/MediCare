@@ -106,7 +106,7 @@
                         <!-- Cột 2 -->
                         <div class="col-md-6">
                             <div>
-                                <textarea id="description" name="description" rows="4" cols="60" placeholder="Vui lòng mô tả rõ triệu chứng của bạn và nhu cầu thăm khám (*)" required></textarea>
+                                <textarea style="resize: none" id="description" name="description" rows="4" cols="60" placeholder="Vui lòng mô tả rõ triệu chứng của bạn và nhu cầu thăm khám (*)" required></textarea>
                                 <p style="color: red;" id="inputSymptomsError" class="error-message-input-step-2"></p>
                             </div>
                         </div>
