@@ -9,30 +9,63 @@ package Models;
  * @author hoang
  */
 public class NewsCategory {
-    private String id, name, parentId, slug;
+    private String id, name, parentId, href, icon, locateId;
 
     public NewsCategory() {
     }
-
-    public NewsCategory(String id, String name, String parentId, String slug) {
+    
+    public NewsCategory(String id, String name, String parentId, String href, String icon, String locateId) {
         this.id = id;
         this.name = name;
         this.parentId = parentId;
-        this.slug = slug;
+        this.href = href;
+        this.icon = icon;
+        this.locateId = locateId;
     }
     
-    public NewsCategory(String id, String name, String slug) {
+    public NewsCategory(String id, String name, String parentId, String href) {
         this.id = id;
         this.name = name;
-        this.slug = slug;
+        this.parentId = parentId;
+        this.href = href;
+    }
+    
+    public NewsCategory(String id, String name, String href) {
+        this.id = id;
+        this.name = name;
+        this.href = href;
     }
 
-    public String getSlug() {
-        return slug;
+    public NewsCategory(String id, String name, String href, String icon, String locateId) {
+        this.id = id;
+        this.name = name;
+        this.href = href;
+        this.icon = icon;
+        this.locateId = locateId;
     }
 
-    public void setSlug(String slug) {
-        this.slug = slug;
+    public String getHref() {
+        return href;
+    }
+
+    public void setHref(String href) {
+        this.href = href;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getLocateId() {
+        return locateId;
+    }
+
+    public void setLocateId(String locateId) {
+        this.locateId = locateId;
     }
 
     public String getId() {

@@ -9,7 +9,7 @@ package Models;
  * @author hoang
  */
 public class News {
-    private String id, title, subtitle, content, author, categoryId, category, categorySlug, createdAt, lastModified, viewCount, coverImage, slug;
+    private String id, title, subtitle, content, author, categoryId, category, categorySlug, createdAt, lastModified, viewCount, coverImage, slug, type;
 
     public News() {
     }
@@ -26,6 +26,23 @@ public class News {
         this.viewCount = viewCount;
         this.coverImage = coverImage;
         this.slug = slug;
+    }
+    
+    
+
+    public News(String id, String title, String subtitle, String content, String author, String categoryId, String createdAt, String lastModified, String viewCount, String coverImage, String slug, String type) {
+        this.id = id;
+        this.title = title;
+        this.subtitle = subtitle;
+        this.content = content;
+        this.author = author;
+        this.categoryId = categoryId;
+        this.createdAt = createdAt;
+        this.lastModified = lastModified;
+        this.viewCount = viewCount;
+        this.coverImage = coverImage;
+        this.slug = slug;
+        this.type = type;
     }
 
     public News(String id, String title, String subtitle, String content, String author, String categoryId, String category, String categorySlug, String createdAt, String lastModified, String viewCount, String coverImage, String slug) {
@@ -44,6 +61,22 @@ public class News {
         this.slug = slug;
     }
 
+    public News(String id, String title, String type) {
+        this.id = id;
+        this.title = title;
+        this.type = type;
+    }
+    
+    
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    
     public String getSubtitle() {
         return subtitle;
     }

@@ -73,30 +73,35 @@
                             </button>
                         </form>
 
-                        <c:forEach items="${sessionScope.subMenu}" var="sub">
-                            <c:if test="${sub.getCategoryId() eq 1}">
-                                <c:choose>
-                                    <c:when test="${sub.getContent() eq 'Chi nhánh' or sub.getContent() eq 'Dịch vụ' or sub.getContent() eq 'Tin tức'}">
-                                        <li class="nav-item list-parent">
-                                            <a class="nav-link" href="${sub.getHref()}">${sub.getContent()} <img src="https://www.svgrepo.com/show/495005/arrow-down.svg" width="10px" height="10px" alt="alt"/></a>
-                                            <ul class="list-child">
-                                                <c:forEach items="${sessionScope.subMenu}" var="item">
-                                                    <c:if test="${item.getParentId() eq sub.getId()}">
-                                                        <li>
-                                                            <a href="${pageContext.request.contextPath}/${item.getHref()}">${item.getContent()}</a>
-                                                        </li>
-                                                    </c:if>
-                                                </c:forEach>
-                                            </ul>
-                                        </li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="${pageContext.request.contextPath}/${sub.getHref()}">${sub.getContent()}</a>
-                                        </li>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:if>
+                        <c:forEach items="${sessionScope.navbar}" var="nav">
+                            <c:choose>
+                                <c:when test="${nav.getName() eq 'Chi nhánh' or nav.getName() eq 'Dịch vụ' or nav.getName() eq 'Tin tức'}">
+                                    <li class="nav-item list-parent">
+                                        <c:choose>
+                                            <c:when test="${nav.getName() eq 'Tin tức'}">
+                                                <a class="nav-link" href="${pageContext.request.contextPath}/${nav.getHref()}">${nav.getName()} <img src="https://www.svgrepo.com/show/495005/arrow-down.svg" width="10px" height="10px" alt="alt"/></a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a class="nav-link" href="${nav.getHref()}">${nav.getName()} <img src="https://www.svgrepo.com/show/495005/arrow-down.svg" width="10px" height="10px" alt="alt"/></a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <ul class="list-child">
+                                            <c:forEach items="${sessionScope.subMenu}" var="sub">
+                                                <c:if test="${sub.getParentId() eq nav.getId()}">
+                                                    <li>
+                                                        <a href="${pageContext.request.contextPath}/${nav.getHref()}/${sub.getHref()}">${sub.getName()}</a>
+                                                    </li>
+                                                </c:if>
+                                            </c:forEach>
+                                        </ul>
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="${pageContext.request.contextPath}/${nav.getHref()}">${nav.getName()}</a>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
                         </c:forEach>
                     </ul>
                 </div>
@@ -144,12 +149,10 @@
                                 <img src="https://www.svgrepo.com/show/495005/arrow-down.svg" width="10px" height="10px" alt="alt"/>
                             </a>
                             <ul class="list-child">
-                                <c:forEach items="${sessionScope.subMenu}" var="item">
-                                    <c:if test="${item.getCategoryId() eq 8}">
-                                        <li>
-                                            <a href="${pageContext.request.contextPath}/${item.getHref()}">${item.getContent()}</a> 
-                                        </li>
-                                    </c:if>
+                                <c:forEach items="${sessionScope.profileMenu}" var="item">
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/${item.getHref()}">${item.getName()}</a> 
+                                    </li>
                                 </c:forEach>
                             </ul>
                         </li>

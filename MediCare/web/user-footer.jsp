@@ -57,13 +57,11 @@
 
                     <c:forEach items="${sessionScope.pages}" var="item">
                         <c:if test="${item.getId() eq 4}">
-                            <h1 class="adderss_text">${item.getName()}</h1>
-                            <c:forEach items="${sessionScope.subMenu}" var="contact">
-                                <c:if test="${item.getId() eq contact.getCategoryId()}">
-                                    <div class="map_icon">
-                                        <img src="${pageContext.request.contextPath}/${contact.getIcon()}"/><span class="paddlin_left_0">${contact.getContent()}</span>
-                                    </div>
-                                </c:if>
+                            <h1 class="adderss_text">${item.getTitle()}</h1>
+                            <c:forEach items="${sessionScope.contacts}" var="contact">
+                                <div class="map_icon">
+                                    <img src="${pageContext.request.contextPath}/${contact.getIcon()}"/><span class="paddlin_left_0">${contact.getName()}</span>
+                                </div>
                             </c:forEach>
                         </c:if>
                     </c:forEach>
@@ -79,13 +77,11 @@
                 <div class="col-lg-3 col-sm-6">
                     <c:forEach items="${sessionScope.pages}" var="item">
                         <c:if test="${item.getId() eq 5}">
-                            <h1 class="adderss_text">${item.getName()}</h1>
-                            <c:forEach items="${sessionScope.subMenu}" var="sub">
-                                <c:if test="${item.getId() eq sub.getCategoryId()}">
-                                    <div class="Useful_text">
-                                        <a href="${sub.getHref()}">${sub.getContent()}</a>
-                                    </div>
-                                </c:if>
+                            <h1 class="adderss_text">${item.getTitle()}</h1>
+                            <c:forEach items="${sessionScope.references}" var="reference">
+                                <div class="Useful_text">
+                                    <a href="${reference.getHref()}">${reference.getName()}</a>
+                                </div>
                             </c:forEach>
                         </c:if>
                     </c:forEach>
@@ -93,15 +89,13 @@
                 <div class="col-lg-3 col-sm-6">
                     <c:forEach items="${sessionScope.pages}" var="item">
                         <c:if test="${item.getId() eq 6}">
-                            <h1 class="adderss_text">${item.getName()}</h1>
+                            <h1 class="adderss_text">${item.getTitle()}</h1>
                             <div class="social_icon">
                                 <ul>
-                                    <c:forEach items="${sessionScope.subMenu}" var="sub">
-                                        <c:if test="${item.getId() eq sub.getCategoryId()}">
-                                            <li>
-                                                <a href="${sub.getHref()}"><img src="${pageContext.request.contextPath}/${sub.getIcon()}" alt="${sub.getContent()}"/></a>
-                                            </li>
-                                        </c:if>
+                                    <c:forEach items="${sessionScope.snsList}" var="sns">
+                                        <li>
+                                            <a href="${sns.getHref()}"><img src="${pageContext.request.contextPath}/${sns.getIcon()}" alt="${sns.getName()}"/></a>
+                                        </li>
                                     </c:forEach>
                                 </ul>
                             </div>

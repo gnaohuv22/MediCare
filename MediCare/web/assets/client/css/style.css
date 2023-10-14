@@ -3,7 +3,7 @@
 
 /*--------------------------------------------------------------------- import Fonts ---------------------------------------------------------------------*/
 
-@import url('https://fonts.googleapis.com/css?family=Rajdhani:300,400,500,600,700');
+@import url('https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700');
 @import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
 
 /*****---------------------------------------- 1) font-family: 'Rajdhani', sans-serif;
@@ -39,7 +39,7 @@ html {
 body {
     color: #666666;
     font-size: 14px;
-    font-family: sans-serif;
+    font-family: 'Inter', sans-serif;
     line-height: 1.80857;
     font-weight: normal;
     overflow-x: hidden;
@@ -264,7 +264,7 @@ button {
 
 .form-inline .form-control:focus {
     transition: all 0.5s ease-in-out; /* Thêm hiệu ứng chuyển đổi */
-    width: 400px; /* Thay đổi kích thước khi thanh tìm kiếm được focus */
+    width: 350px; /* Thay đổi kích thước khi thanh tìm kiếm được focus */
 }
 
 .form-control {

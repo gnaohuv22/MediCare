@@ -53,7 +53,7 @@ public class FamilyProfileDAO extends DBContext {
     }
 
      public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
-        String SQL = "SELECT * FROM [FamilyProfile] where ownerid=? AND relationId IS NOT NULL ORDER BY relationId";
+        String SQL = "SELECT * FROM [FamilyProfile] where ownerid=? ORDER BY relationId";
         ArrayList<FamilyProfile> list = new ArrayList<>();
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, String.valueOf(idByEmail));
@@ -165,7 +165,7 @@ public class FamilyProfileDAO extends DBContext {
                 return fp;
             }
         } catch (SQLException e) {
-            System.out.println("FamilyProfileDAO.getFamilyProfileListByUserName: " + e.getMessage());
+            System.out.println("FamilyProfileDAO.getFamilyProfileById: " + e.getMessage());
         }
         return null;
     }

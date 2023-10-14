@@ -99,7 +99,7 @@
                         Categories: 
                         <c:forEach var="category" items="${categories}">
                             <c:if test="${category.getId() eq n.getCategoryId()}">
-                                <a href="/category/${category.getSlug()}" class="category-box">
+                                <a href="${pageContext.request.contextPath}/news/${category.getHref()}" class="category-box">
                                     ${category.getName()}
                                 </a>
                             </c:if>

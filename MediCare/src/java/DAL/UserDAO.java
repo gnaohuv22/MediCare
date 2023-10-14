@@ -27,19 +27,19 @@ public class UserDAO extends DBContext {
 
             while (rs.next()) {
                 User u = new User(rs.getString(1),
-                            rs.getString(2),
-                            rs.getString(3),
-                            rs.getString(4),
-                            String.valueOf(rs.getDate(5)),
-                            String.valueOf(rs.getInt(6)),
-                            rs.getString(7),
-                            String.valueOf(rs.getInt(8)),
-                            rs.getString(9),
-                            rs.getString(10),
-                            rs.getString(11),
-                            rs.getString(12),
-                            rs.getString(13),
-                            String.valueOf(rs.getDate(14)));
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        String.valueOf(rs.getDate(5)),
+                        String.valueOf(rs.getInt(6)),
+                        rs.getString(7),
+                        String.valueOf(rs.getInt(8)),
+                        rs.getString(9),
+                        rs.getString(10),
+                        rs.getString(11),
+                        rs.getString(12),
+                        rs.getString(13),
+                        String.valueOf(rs.getDate(14)));
                 list.add(u);
             }
         } catch (SQLException e) {
@@ -83,6 +83,7 @@ public class UserDAO extends DBContext {
         }
         return null;
     }
+
     public User login(String email, String password) {
         String sql = "SELECT u.name, u.email, u.password from [user] as u WHERE u.email = ?";
         try {
@@ -115,19 +116,19 @@ public class UserDAO extends DBContext {
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 User u = new User(rs.getString(1),
-                            rs.getString(2),
-                            rs.getString(3),
-                            rs.getString(4),
-                            String.valueOf(rs.getDate(5)),
-                            String.valueOf(rs.getInt(6)),
-                            rs.getString(7),
-                            String.valueOf(rs.getInt(8)),
-                            rs.getString(9),
-                            rs.getString(10),
-                            rs.getString(11),
-                            rs.getString(12),
-                            rs.getString(13),
-                            String.valueOf(rs.getDate(14)));
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        String.valueOf(rs.getDate(5)),
+                        String.valueOf(rs.getInt(6)),
+                        rs.getString(7),
+                        String.valueOf(rs.getInt(8)),
+                        rs.getString(9),
+                        rs.getString(10),
+                        rs.getString(11),
+                        rs.getString(12),
+                        rs.getString(13),
+                        String.valueOf(rs.getDate(14)));
                 System.out.println(u);
                 return u;
             }
@@ -155,7 +156,7 @@ public class UserDAO extends DBContext {
         String encryptedPassword = PasswordEncryption.encryptPassword(u.getPassword(), salt);
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, this.getLastUserId()+1+"");
+            st.setString(1, this.getLastUserId() + 1 + "");
             st.setString(2, u.getEmail());
             st.setString(3, encryptedPassword);
             st.setString(4, u.getName());
@@ -171,8 +172,8 @@ public class UserDAO extends DBContext {
         }
         return false;
     }
-    
-        public boolean registerUserGoogleAccount(User u) {
+
+    public boolean registerUserGoogleAccount(User u) {
         String sql = "INSERT INTO [dbo].[User]\n"
                 + "           ([id]\n"
                 + "           ,[email]\n"
@@ -215,7 +216,7 @@ public class UserDAO extends DBContext {
         }
         return -1;
     }
-    
+
     public User getUserNotRegistered(String email) {
         String sql = "SELECT id FROM [User]\n"
                 + "WHERE password IS NULL AND email = ?";
@@ -256,7 +257,7 @@ public class UserDAO extends DBContext {
         return false;
     }
 
-    User getUserRegistered(String email, String password) {
+    public User getUserRegistered(String email, String password) {
         String sql = "SELECT id FROM [User]\n"
                 + "WHERE password = ? AND email = ?";
         try {
@@ -272,15 +273,14 @@ public class UserDAO extends DBContext {
         }
         return null;
     }
-    
-    
+
     public String getIdByEmail(String email) {
-        System.out.println("UserDAO.getIdByEmail: email:"+email);
+        System.out.println("UserDAO.getIdByEmail: email:" + email);
         String sql = "SELECT id FROM [User] WHERE email=?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, email);
-            ResultSet rs=st.executeQuery();
+            ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 return rs.getString(1);
             }
