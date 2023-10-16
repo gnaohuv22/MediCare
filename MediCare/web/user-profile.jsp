@@ -18,21 +18,19 @@
             <div class="main-wrapper profile-wrapper">
                 <div class="sidebar">
                     <ul>
-                        <c:forEach items="${sessionScope.subMenu}" var="item">
-                            <c:if test="${item.getCategoryId() eq 9}">
-                                <c:choose>
-                                    <c:when test="${'user-profile' eq item.getHref()}">
-                                        <li class="sidebar-active">
-                                            <a href="${item.getHref()}">${item.getContent()}</a>
-                                        </li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li> 
-                                            <a href="${item.getHref()}">${item.getContent()}</a>
-                                        </li>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:if>
+                        <c:forEach items="${sessionScope.profileSidebar}" var="item">
+                            <c:choose>
+                                <c:when test="${'user-profile' eq item.getHref()}">
+                                    <li class="sidebar-active">
+                                        <a href="${item.getHref()}">${item.getName()}</a>
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li> 
+                                        <a href="${item.getHref()}">${item.getName()}</a>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
                         </c:forEach>
                     </ul>
                 </div>

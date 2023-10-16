@@ -73,7 +73,7 @@
 
     <!-- display news section -->
     <div class="display-news">
-        <div class="container">
+        <div class="container ">
             <div class="row">
                 <div class="news col-md-9">
                     <h1 class="display-title">${n.getTitle()}</h1>
@@ -99,7 +99,7 @@
                         Categories: 
                         <c:forEach var="category" items="${categories}">
                             <c:if test="${category.getId() eq n.getCategoryId()}">
-                                <a href="/category/${category.getSlug()}" class="category-box">
+                                <a href="${pageContext.request.contextPath}/news/${category.getHref()}" class="category-box">
                                     ${category.getName()}
                                 </a>
                             </c:if>

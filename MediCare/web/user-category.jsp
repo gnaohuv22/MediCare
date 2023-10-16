@@ -59,13 +59,13 @@
                         <c:choose>
                             <c:when test="${isParent}">
                                 <li>
-                                    <a href="${pageContext.request.contextPath}/news/${top.getSlug()}">${top.getName()} </a> 
+                                    <a href="${pageContext.request.contextPath}/news/${top.getHref()}">${top.getName()} </a> 
                                     <span class="caret-icon"><i class="fas fa-caret-right"></i></span>
                                     <ul>
                                         <c:forEach items="${subLevel}" var="sub">
                                             <c:if test="${sub.getParentId() eq top.getId()}">
                                                 <li>
-                                                    <a href="${pageContext.request.contextPath}/news/${top.getSlug()}/${sub.getSlug()}">${sub.getName()}</a>
+                                                    <a href="${pageContext.request.contextPath}/news/${top.getHref()}/${sub.getHref()}">${sub.getName()}</a>
                                                 </li>
                                             </c:if>
                                         </c:forEach>
@@ -74,7 +74,7 @@
                             </c:when>
                             <c:otherwise>
                                 <li>
-                                    <a href="${pageContext.request.contextPath}/news/${top.getSlug()}">${top.getName()}</a>
+                                    <a href="${pageContext.request.contextPath}/news/${top.getHref()}">${top.getName()}</a>
                                 </li>
                             </c:otherwise>
                         </c:choose>

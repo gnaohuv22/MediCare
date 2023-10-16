@@ -51,20 +51,35 @@ public class UserHomeServlet extends HttpServlet {
 
         NewsDAO nd = new NewsDAO();
         ArrayList<News> topNews = nd.getTopNews();
+        ArrayList<News> pages = nd.getTopLevelMenu();
 
         NewsCategoryDAO ncd = new NewsCategoryDAO();
         ArrayList<NewsCategory> categories = ncd.getNewsCategoryList();
+        ArrayList<NewsCategory> navbar = ncd.getNavigationBar();
+        ArrayList<NewsCategory> contacts = ncd.getContacts();
+        ArrayList<NewsCategory> references = ncd.getReferences();
+        ArrayList<NewsCategory> snsList = ncd.getSocial();
+        ArrayList<NewsCategory> profileMenu = ncd.getProfileMenu();
+        ArrayList<NewsCategory> profileSidebar = ncd.getProfileSidebar();
+        
+        ArrayList<NewsCategory> subMenu = ncd.getAllSubMenu();
 
         EmployeeDAO ed = new EmployeeDAO();
         ArrayList<Employee> employees = ed.getEmployeeList();
 
-        TopLevelMenuDAO tlmd = new TopLevelMenuDAO();
-        ArrayList<TopLevelMenu> pages = tlmd.getTopLevelMenu();
-
-        SubLevelMenuDAO slmd = new SubLevelMenuDAO();
-        ArrayList<SubLevelMenu> subMenu = slmd.getListSubLevelCategory();
-
+//        TopLevelMenuDAO tlmd = new TopLevelMenuDAO();
+//        ArrayList<TopLevelMenu> pages = tlmd.getTopLevelMenu();
+//
+//        SubLevelMenuDAO slmd = new SubLevelMenuDAO();
+//        ArrayList<SubLevelMenu> subMenu = slmd.getListSubLevelCategory();
+//
         session.setAttribute("pages", pages);
+        session.setAttribute("profileSidebar", profileSidebar);
+        session.setAttribute("profileMenu", profileMenu);
+        session.setAttribute("navbar", navbar);
+        session.setAttribute("contacts", contacts);
+        session.setAttribute("references", references);
+        session.setAttribute("snsList", snsList);
         session.setAttribute("subMenu", subMenu);
         session.setAttribute("topNews", topNews);
         session.setAttribute("categories", categories);

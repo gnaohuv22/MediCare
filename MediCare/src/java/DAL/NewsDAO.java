@@ -14,7 +14,8 @@ import Models.News;
 public class NewsDAO extends DBContext {
 
     public ArrayList<News> getNewsList() {
-        String SQL = "SELECT * FROM [News]";
+        String SQL = "SELECT id, title, subtitle, content, author, categoryId, createdAt, lastModified, viewCount, coverImage, subtitle, slug FROM [News]"
+                + "WHERE type IS NULL";
         ArrayList<News> list = new ArrayList<>();
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
@@ -43,9 +44,10 @@ public class NewsDAO extends DBContext {
     }
 
     public ArrayList<News> getTopNews() {
-        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id AS categoryId, nc.name AS category, nc.slug AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n\n"
+        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id AS categoryId, nc.name AS category, nc.href AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n\n"
                 + "LEFT JOIN [NewsCategory] nc \n"
-                + "ON n.categoryId = nc.id \n";
+                + "ON n.categoryId = nc.id \n"
+                + "WHERE type IS NULL";
         ArrayList<News> list = new ArrayList<>();
 
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
@@ -72,16 +74,16 @@ public class NewsDAO extends DBContext {
             return list;
 
         } catch (SQLException e) {
-            System.out.println("getTopNews" + e.getMessage());
+            System.out.println("getTopNews: " + e.getMessage());
         }
         return null;
     }
 
     public News getNewsById(String id) {
-        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id AS categoryId, nc.name AS category, nc.slug AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n\n"
+        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id AS categoryId, nc.name AS category, nc.href AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n\n"
                 + "LEFT JOIN [NewsCategory] nc \n"
                 + "ON n.categoryId = nc.id \n"
-                + "WHERE n.id = ?";
+                + "WHERE n.id = ? AND type IS NULL";
 
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setInt(1, Integer.parseInt(id));
@@ -112,10 +114,10 @@ public class NewsDAO extends DBContext {
     }
 
     public News getNewsByTitle(String title) {
-        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id AS categoryId, nc.name AS category, nc.slug AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n\n"
+        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id AS categoryId, nc.name AS category, nc.href AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n\n"
                 + "LEFT JOIN [NewsCategory] nc \n"
                 + "ON n.categoryId = nc.id \n"
-                + "WHERE n.title = ?";
+                + "WHERE n.title = ? AND type IS NULL";
 
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, title);
@@ -146,9 +148,9 @@ public class NewsDAO extends DBContext {
     }
 
     public ArrayList<News> getListNewsByCategory(int categoryId) {
-        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id as categoryId, nc.name AS category, nc.slug AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n\n"
+        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id as categoryId, nc.name AS category, nc.href AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n\n"
                 + "LEFT JOIN [NewsCategory] nc ON n.categoryId = nc.id\n"
-                + "WHERE nc.id = ? OR nc.parentId = ?";
+                + "WHERE nc.id = ? OR nc.parentId = ? AND type IS NULL";
         ArrayList<News> list = new ArrayList<>();
 
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
@@ -214,9 +216,9 @@ public class NewsDAO extends DBContext {
     }
 
     public News getNewsFromSlug(String slug) {
-        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id as categoryId, nc.name AS category, nc.slug AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n \n"
+        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id as categoryId, nc.name AS category, nc.href AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n \n"
                 + "LEFT JOIN [NewsCategory] nc ON n.categoryId = nc.id\n"
-                + "WHERE n.slug LIKE ?";
+                + "WHERE n.slug LIKE ? AND type IS NULL";
 
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, slug);
@@ -248,9 +250,9 @@ public class NewsDAO extends DBContext {
     }
 
     public ArrayList<News> getNewestExcept(String id) {
-        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id as categoryId, nc.name AS category, nc.slug AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n \n"
+        String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id as categoryId, nc.name AS category, nc.href AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n \n"
                 + "LEFT JOIN [NewsCategory] nc ON n.categoryId = nc.id\n"
-                + "WHERE n.id != ?\n"
+                + "WHERE n.id != ? AND type IS NULL\n"
                 + "ORDER BY n.createdAt DESC, n.viewCount DESC";
         ArrayList<News> list = new ArrayList<>();
 
@@ -284,9 +286,9 @@ public class NewsDAO extends DBContext {
     }
 
     public ArrayList<News> getNewestExcept(int num, String id) {
-        String SQL = "SELECT TOP(" + num + ") n.id, n.title, n.subtitle, n.content, n.author, nc.id as categoryId, nc.name AS category, nc.slug AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n \n"
+        String SQL = "SELECT TOP(" + num + ") n.id, n.title, n.subtitle, n.content, n.author, nc.id as categoryId, nc.name AS category, nc.href AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n \n"
                 + "LEFT JOIN [NewsCategory] nc ON n.categoryId = nc.id\n"
-                + "WHERE n.id != ?\n"
+                + "WHERE n.id != ? AND type IS NULL\n"
                 + "ORDER BY n.createdAt DESC, n.viewCount DESC";
         ArrayList<News> list = new ArrayList<>();
 
@@ -320,8 +322,9 @@ public class NewsDAO extends DBContext {
     }
 
     public ArrayList<News> getNewest(int n) {
-        String SQL = "SELECT TOP(" + n + ") n.id, n.title, n.subtitle, n.content, n.author, nc.id as categoryId, nc.name AS category, nc.slug AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n \n"
+        String SQL = "SELECT TOP(" + n + ") n.id, n.title, n.subtitle, n.content, n.author, nc.id as categoryId, nc.name AS category, nc.href AS categorySlug, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n \n"
                 + "LEFT JOIN [NewsCategory] nc ON n.categoryId = nc.id\n"
+                + "WHERE type IS NULL\n"
                 + "ORDER BY n.createdAt DESC, n.viewCount DESC\n";
         ArrayList<News> list = new ArrayList<>();
 
@@ -348,6 +351,26 @@ public class NewsDAO extends DBContext {
             }
         } catch (SQLException e) {
             System.out.println("getNewest: " + e.getMessage());
+        }
+        return list;
+    }
+    
+    public ArrayList<News> getTopLevelMenu() {
+        String SQL = "SELECT id, title, type FROM [News]";
+        ArrayList<News> list = new ArrayList<>();
+        
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                list.add(new News(
+                        String.valueOf(rs.getInt("id")), 
+                        rs.getString("title"), 
+                        String.valueOf(rs.getInt("type")))
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("getTopLevelMenu: " + e.getMessage());
         }
         return list;
     }

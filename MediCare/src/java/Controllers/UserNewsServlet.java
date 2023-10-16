@@ -6,7 +6,6 @@ package Controllers;
 
 import DAL.NewsCategoryDAO;
 import DAL.NewsDAO;
-import DAL.SubLevelMenuDAO;
 import Models.News;
 import Models.NewsCategory;
 import jakarta.servlet.RequestDispatcher;
@@ -58,8 +57,8 @@ public class UserNewsServlet extends HttpServlet {
                 NewsCategoryDAO ncd = new NewsCategoryDAO();
                 NewsCategory nc = ncd.getCategoryBySlug(categorySlug);
                 ArrayList<News> news = nd.getListNewsByCategory(Integer.parseInt(nc.getId()));
-                ArrayList<NewsCategory> topLevel = ncd.getTopLevelCategory();
-                ArrayList<NewsCategory> subLevel = ncd.getSubLevelCategory();
+                ArrayList<NewsCategory> topLevel = ncd.getTopLevelSideBar();
+                ArrayList<NewsCategory> subLevel = ncd.getSubLevelSideBar();
 
                 request.setAttribute("topLevel", topLevel);
                 request.setAttribute("subLevel", subLevel);
@@ -78,8 +77,8 @@ public class UserNewsServlet extends HttpServlet {
             if (centeredNews != null) {
                 request.setAttribute("centeredNews", centeredNews);
 
-                ArrayList<NewsCategory> topLevel = ncd.getTopLevelCategory();
-                ArrayList<NewsCategory> subLevel = ncd.getSubLevelCategory();
+                ArrayList<NewsCategory> topLevel = ncd.getTopLevelSideBar();
+                ArrayList<NewsCategory> subLevel = ncd.getSubLevelSideBar();
                 ArrayList<News> news = nd.getNewestExcept(centeredNews.getId());
 
                 request.setAttribute("topLevel", topLevel);
