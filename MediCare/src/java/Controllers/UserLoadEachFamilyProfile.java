@@ -91,17 +91,20 @@ public class UserLoadEachFamilyProfile extends HttpServlet {
                     + "                        <div id=\"family-profiles-container\" class=\"family-profiles-container\">\n");
             for (FamilyProfile p : profiles) {
                 out.println(
-                        "                                <div class=\"each-family-profile\" data-profile-id=\"" + p.getProfileId() + "\" data-ownerID =\"" + ownerId + "\" onclick=\"handleProfileClick(this)\">\n"
+                        "                                <div class=\"each-family-profile" + (p.getProfileId().equals(profileId) ? " each-family-profile-active" : "") + "\" data-profile-id=\"" + p.getProfileId() + "\" data-ownerID =\"" + ownerId + "\" onclick=\"handleProfileClick(this)\">\n"
                         + "                                    <img src=\"./assets/client/images/human.png\" alt=\"alt\"/>\n"
                         + "                                    <span class=\"relation-each-family-profile\">" + p.getRelationship().getRelation() + "</span>\n"
                         + "                                    <span class=\"name-each-family-profile\">" + p.getName() + "</span>\n"
                         + "                                </div>\n");
 
             }
+            out.println("<div id=\"add-family-profile\" class=\"add-family-profile\" data-ownerID =\"${requestScope.ownerId}\" onclick=\"openAddProfileForm()\">\n"
+                    + "                                <img src=\"./assets/client/images/add-icon.png\" alt=\"alt\"/>\n"
+                    + "                            </div>");
             out.println("                        </div>\n"
                     + "                        <!--FOR USER: If logged in, they can choose profile for booking fast: end-->\n");
             out.println("<h2 class=\"booking-header\">Bước 1/3 - Nhập thông tin người khám</h2>\n"
-                    + "                    <div class=\"row\">\n"
+                    + "                    <div class=\"row booking-info-input\">\n"
                     + "                        <!-- Cột 1 -->\n"
                     + "                        <div class=\"col-md-6\">\n"
                     + "                            <div> \n"
@@ -123,7 +126,9 @@ public class UserLoadEachFamilyProfile extends HttpServlet {
                     + "\n"
                     + "                                <input type=\"text\" id=\"email\" value=\"" + profile.getEmail() + "\" name=\"email\" maxlength=\"32\" placeholder=\"Vui lòng nhập đúng email để xác nhận thông tin lịch hẹn (*)\" required>\n"
                     + "                                <p style=\"color: red;\" id=\"inputEmailError\" class=\"error-message-input-step-2\"></p> \n"
-                    + "                            </div>\n"
+                    + "                                <input onclick=\"getCheckboxValue()\" style=\" margin:10px;\" type=\"checkbox\" id=\"confirm-edit-profile\" name=\"confirm-edit-profile\" value=\"edittrue\"> "
+                    + "<span class=\"confirm-edit-profile-text\" onclick=\"toggleCheckbox()\">Chỉnh sửa thông tin trong profile như thông tin trên</span>\n"
+                    + "</div>\n"
                     + "                        </div>\n"
                     + "\n"
                     + "                        <!-- Cột 2 -->\n"
@@ -136,7 +141,7 @@ public class UserLoadEachFamilyProfile extends HttpServlet {
                     + "                    </div>\n"
                     + "\n"
                     + "                    <div class=\"col-md-12 mt-3 text-center btn-booking\">\n"
-                    + "                        <div id=\"step-1-to-2\" class=\"btn btn-primary\" onclick=\"handleSubmit(this)\">Tiếp tục</div>\n"
+                    + "                        <div id=\"step-1-to-2\" class=\"btn btn-primary btn-booking-hover\" onclick=\"handleSubmit(this)\">Tiếp tục</div>\n"
                     + "                    </div>");
         }
     }

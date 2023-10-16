@@ -5,7 +5,6 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,20 +20,20 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <!-- bootstrap css -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/client/css/bootstrap.min.css">
         <!-- style css -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/style.css">
+        <link rel="stylesheet" href="assets/client/css/style.css">
         <!-- Responsive-->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/responsive.css">
+        <link rel="stylesheet" href="assets/client/css/responsive.css">
         <!-- fevicon -->
-        <link rel="icon" href="${pageContext.request.contextPath}/assets/client/imagesimages/fevicon.png" type="image/gif" />
+        <link rel="icon" href="assets/client/imagesimages/fevicon.png" type="image/gif" />
         <!-- Scrollbar Custom CSS -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/jquery.mCustomScrollbar.min.css">
+        <link rel="stylesheet" href="assets/client/css/jquery.mCustomScrollbar.min.css">
         <!-- Tweaks for older IEs-->
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
         <!-- owl stylesheets --> 
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.carousel.min.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.theme.default.min.css">
+        <link rel="stylesheet" href="assets/client/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="assets/client/css/owl.theme.default.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
         <title>Client Page</title>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -44,23 +43,6 @@
     <body>
         <%@include file="user-header.jsp" %>
         <!-- client section start -->
-
-        <!--        <div class="booking-container-1">
-                    FOR USER: If logged in, they can choose profile for booking fast: start
-                    <h2>Chọn khách hàng</h2>
-                    <div id="family-profiles-container" class="family-profiles-container">
-        <c:forEach items="${requestScope.profiles}" var="profile">
-            <div class="each-family-profile" data-profile-id="${profile.getProfileId()}" onclick="handleProfileClick(this)">
-                <img src="./assets/client/images/human.png" alt="alt"/>
-                <span class="relation-each-family-profile">${profile.getRelationship().getRelation()}</span>
-                <span class="name-each-family-profile">${profile.getName()}</span>
-            </div>
-        </c:forEach>
-    </div>
-    FOR USER: If logged in, they can choose profile for booking fast: end
-
-</div>-->
-
 
         <div class="booking-container">
 
@@ -79,11 +61,14 @@
                                     <span class="name-each-family-profile">${profile.getName()}</span>
                                 </div>
                             </c:forEach>
+                            <div id="add-family-profile" class="add-family-profile" data-ownerID ="${requestScope.ownerId}" onclick="openAddProfileForm()">
+                                <img src="./assets/client/images/add-icon.png" alt="alt"/>
+                            </div>
                         </div>
                         <!--FOR USER: If logged in, they can choose profile for booking fast: end-->
                     </c:if>
                     <h2 class="booking-header">Bước 1/3 - Nhập thông tin người khám</h2>
-                    <div class="row">
+                    <div class="row booking-info-input">
                         <!-- Cột 1 -->
                         <div class="col-md-6">
                             <div> 
@@ -100,20 +85,25 @@
 
                                 <input type="text" id="email" value="${requestScope.email}" name="email" maxlength="32" placeholder="Vui lòng nhập đúng email để xác nhận thông tin lịch hẹn (*)" required>
                                 <p style="color: red;" id="inputEmailError" class="error-message-input-step-2"></p> 
+                                <c:if test="${requestScope.ownerId != null}">
+                                    <input onclick="getCheckboxValue()" style=" margin:10px;" type="checkbox" id="confirm-edit-profile" name="confirm-edit-profile" value="edittrue"> 
+                                    <span onclick="toggleCheckbox()" class="confirm-edit-profile-text">Chỉnh sửa thông tin trong profile như thông tin trên</span>
+                                </c:if>
+
                             </div>
                         </div>
 
                         <!-- Cột 2 -->
-                        <div class="col-md-6">
+                        <div class="col-md-6">  
                             <div>
-                                <textarea style="resize: none" id="description" name="description" rows="4" cols="60" placeholder="Vui lòng mô tả rõ triệu chứng của bạn và nhu cầu thăm khám (*)" required></textarea>
+                                <textarea id="description" name="description" rows="4" cols="60" placeholder="Vui lòng mô tả rõ triệu chứng của bạn và nhu cầu thăm khám (*)" required></textarea>
                                 <p style="color: red;" id="inputSymptomsError" class="error-message-input-step-2"></p>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-12 mt-3 text-center btn-booking">
-                        <div id="step-1-to-2" class="btn btn-primary" onclick="handleSubmit(this)">Tiếp tục</div>
+                        <div id="step-1-to-2" class="btn btn-primary btn-booking-hover" onclick="handleSubmit(this)">Tiếp tục</div>
                     </div>
                 </div>          
                 <!--Step-1-container - end-->
@@ -161,9 +151,9 @@
                     </div>
 
                     <div class="col-md-12 mt-3 text-center btn-booking">
-                        <!--<button type="submit" class="btn btn-primary">Tiếp tục</button>-->
-                        <div id="step-2-to-1" class="btn btn-primary" onclick="handleSubmit(this)">Quay lại</div>
-                        <div id="step-2-to-3" class="btn btn-primary" onclick="handleSubmit(this)">Tiếp tục</div>
+                        <!--<button type="submit" class="btn btn-primary btn-booking-hover">Tiếp tục</button>-->
+                        <div id="step-2-to-1" class="btn btn-primary btn-booking-hover" onclick="handleSubmit(this)">Quay lại</div>
+                        <div id="step-2-to-3" class="btn btn-primary btn-booking-hover" onclick="handleSubmit(this)">Tiếp tục</div>
                     </div>
                     <!--</form>-->
                 </div>
@@ -176,6 +166,41 @@
 
                 </div>
             </form>
+            <!--Popup - Start-->
+            <div id="profileForm" class="form-popup">
+                <form action="user-profile" class="form-container" method="post">
+                    <h3><b>Thêm hồ sơ</b></h3>
+                    <!-- Your form fields go here -->
+                    <label for="name">Họ và Tên:</label><br/>
+                    <input type="text" id="name" name="name" placeholder="Nguyễn Văn A" required=""><br/>
+
+                    <label for="phone">Số điện thoại:</label><br/>
+                    <input type="tel" id="phone" name="phone"  placeholder="0xxxxxxxx" pattern="[0]{1}[0-9]{9,10}" required=""><br/>
+
+                    <label for="birthDate">Ngày sinh:</label><br/>
+                    <input type="date" id="birthDate" name="birthDate" placeholder="01/01/1990" required=""><br/>
+                    <label>Giới tính:</label><br/>
+                    <input type="radio" name="gender" id="male" value="Male" required="">
+                    <label for="male">Nam</label>
+
+                    <input type="radio" name="gender" id="female" value="Female" required="">
+                    <label for="female">Nữ</label><br/>
+
+                    <label for="medicalId">Mã BHYT:</label><br/>
+                    <input type="text" id="medicalId" name="medicalId" placeholder="Mã BHYT:"><br/>
+                    <label for="identity">Số CMND/CCCD:</label><br/>
+                    <input type="text" id="identity" name="identity" placeholder="Số CMND/CCCD:"><br/>
+                    <label for="ethnic">Dân tộc:</label><br/>
+                    <input type="text" id="ethnic" name="ethnic" placeholder="Kinh"><br/>
+                    <label for="email">Email:</label><br/>
+                    <input type="text" id="email" name="email" placeholder="example@gmail.com"><br/>
+                    <!-- Add more input fields as needed -->
+                    <input type="hidden" name="method" id="method" value=""/><br/>
+                    <button class="button-container" id="submit-button" type="submit"></button>
+                    <button type="button" id="close-button" onclick="closeAddProfileForm()">Close</button>
+                </form>
+            </div>
+            <!--Popup - End-->
         </div>
         <!--Step-3-container - end
 
@@ -185,12 +210,70 @@
 
         <%@include file="user-footer.jsp" %>
         <!-- client section end -->
+
+        <!--Create Profile JS - Popup - start-->
+        <script>
+            function openAddProfileForm() {
+                var modal = document.getElementById("profileForm");
+                modal.style.display = "block";
+                document.getElementById("method").value = "add";
+                document.getElementById("submit-button").innerHTML = "Add";
+
+                // Close the modal if the user clicks outside of it
+                window.onclick = function (event) {
+                    if (event.target === modal) {
+                        modal.style.display = "none";
+                        document.getElementById("method").value = "add";
+                    }
+                };
+            }
+
+            function closeAddProfileForm() {
+                var modal = document.getElementById("profileForm");
+                modal.style.display = "none";
+                document.getElementById("method").value = "";
+                document.getElementById("submit-button").innerHTML = "";
+            }
+
+            function toggleCheckbox() {
+                var checkbox = document.getElementById("confirm-edit-profile");
+
+                if (checkbox) {
+                    checkbox.checked = !checkbox.checked;
+                }
+                getCheckboxValue();
+            }
+
+            // Lấy giá trị của checkbox
+            function getCheckboxValue() {
+                var checkbox = document.getElementById("confirm-edit-profile");
+
+                if (checkbox) {
+                    if (checkbox.checked) {
+                        console.log("Checkbox is checked");
+                    } else {
+                        console.log("Checkbox is not checked");
+                    }
+                }
+            }
+
+        </script>
+        <!--Create Profile JS - Popup - end-->
+
         <!--Profile JS - start-->
         <script>
             function handleProfileClick(element) {
                 var profileId = element.getAttribute("data-profile-id");
                 var ownerId = element.getAttribute("data-ownerId");
                 console.log("Clicked on profile with ID: " + profileId);
+
+                // Loại bỏ lớp active từ tất cả các phần tử có lớp each-family-profile
+                var allProfileElements = document.querySelectorAll('.each-family-profile');
+                allProfileElements.forEach(function (el) {
+                    el.classList.remove('each-family-profile-active');
+                });
+                // Add active class for this element:
+                element.classList.add('each-family-profile-active');
 
                 $.ajax({
                     url: "/MediCare/load-each-family-profile",
@@ -208,6 +291,10 @@
 
                     }
                 });
+            }
+
+            function handleAddProfile(element) {
+                console.log("Clicked on profile with ID: " + element);
             }
         </script>
         <!--Profile JS - end-->
@@ -664,16 +751,16 @@
             };
         </script>
         <!-- Javascript files-->
-        <script src="${pageContext.request.contextPath}/assets/client/js/jquery.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/client/js/popper.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/client/js/bootstrap.bundle.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/client/js/jquery-3.0.0.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/client/js/plugin.js"></script>
+        <script src="assets/client/js/jquery.min.js"></script>
+        <script src="assets/client/js/popper.min.js"></script>
+        <script src="assets/client/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/client/js/jquery-3.0.0.min.js"></script>
+        <script src="assets/client/js/plugin.js"></script>
         <!-- sidebar -->
-        <script src="${pageContext.request.contextPath}/assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/client/js/custom.js"></script>
+        <script src="assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="assets/client/js/custom.js"></script>
         <!-- javascript --> 
-        <script src="${pageContext.request.contextPath}/assets/client/js/owl.carousel.js"></script>
+        <script src="assets/client/js/owl.carousel.js"></script>
         <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
 
     </body>
