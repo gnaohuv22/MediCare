@@ -2056,8 +2056,77 @@ ul .tab-component a:hover {
     display: flex;
 }
 
-.each-family-profile:hover {
+.add-family-profile {
+    border: none;
+    width: 4%;
+    margin: 15px;
+    border-radius: 50%;
+    position: relative;
+    text-align: center;
+    justify-content: end;
+    align-items: center;
+    display: flex;
+}
+
+.add-family-profile {
+    position: relative;
+}
+
+.add-family-profile:hover::before {
+    content: "Add new profile";
+    display: inline-block;
+    position: absolute;
+    top: 80%; /* Đặt vị trí của văn bản xuống dưới */
+    left: 0;
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    opacity: 1;
+    z-index: 1;
+    font-size: 8px;
+    width: 80px;
+}
+
+.confirm-edit-profile-text {
+    color: blue;
+    font-size: 16px;
+}
+
+.confirm-edit-profile-text:hover {
+    color: #1ead5b;
     cursor: pointer;
+}
+
+.add-family-profile:hover {
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.each-family-profile:hover span.relation-each-family-profile {
+    background-color: springgreen;
+}
+
+.each-family-profile:hover {
+    border: 3px solid springgreen;
+    cursor: pointer;
+}
+
+.each-family-profile-active {
+    border: 3px solid springgreen;
+    position: relative;
+}
+
+.each-family-profile-active::before {
+    content: "";
+    background-image: url(../images/active-icon.png);
+    background-size: 30px;
+    background-repeat: no-repeat;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: -10px;
+    right: 0;
+    z-index: 1; /* Đặt z-index để nổi lên phía trên */
 }
 
 span.relation-each-family-profile {
@@ -2073,6 +2142,11 @@ span.name-each-family-profile {
     position: absolute;
     bottom: -40px;
     width: 100%;
+}
+
+.btn-booking-hover:hover {
+    background-color: #71dd8a;
+    color: #333;
 }
 .related-news {
     margin-top: 20px;
