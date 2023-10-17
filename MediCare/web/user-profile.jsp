@@ -45,7 +45,7 @@
                                 <li class="profile-item" onclick="loadProfile(${fp.getProfileId()})" id="${fp.getProfileId()}">
                                     <div class="profile-item-pics ">
                                         <img src="https://www.svgrepo.com/show/497407/profile-circle.svg" width="50px" height="50px" alt="client-img"/> 
-                                        <span class="profile-item-pics-relation">Relation</span>
+                                        <span class="profile-item-pics-relation">${fp.getRelationship().getRelation()}</span>
                                     </div>
                                     <div class="profile-item-info">
                                         <h3>${fp.getName()}</h3>
@@ -81,7 +81,9 @@
 
                     <input type="radio" name="gender" id="female" value="Female" required="">
                     <label for="female">Nữ</label><br/>
-
+                    
+                    <label for="name">Địa chỉ:</label><br/>
+                    <input type="text" id="address" name="address" placeholder="Ex: 123 Nguyễn Chí Thanh" required=""><br/>
                     <label for="medicalId">Mã BHYT:</label><br/>
                     <input type="text" id="medicalId" name="medicalId" placeholder="Mã BHYT:"><br/>
                     <label for="identity">Số CMND/CCCD:</label><br/>
@@ -90,6 +92,14 @@
                     <input type="text" id="ethnic" name="ethnic" placeholder="Kinh"><br/>
                     <label for="email">Email:</label><br/>
                     <input type="text" id="email" name="email" placeholder="example@gmail.com"><br/>
+                    <label for="relation">Quan hệ:</label><br/>
+                    <select id="relation" name="relation"><br/>
+                        <c:forEach items="${requestScope.rList}" var="r">
+                            <c:if test="${r.getId() != 0}">
+                                <option value="${r.getId()}">${r.getRelation()}</option>
+                            </c:if>
+                        </c:forEach>
+                    </select>   
                     <!-- Add more input fields as needed -->
                     <input type="hidden" name="method" id="method" value=""/><br/>
                     <button class="button-container" id="submit-button" type="submit"></button>

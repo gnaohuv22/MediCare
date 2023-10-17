@@ -43,23 +43,22 @@ public class FamilyProfile {
         this.relationship = relationship;
     }
 
-    public FamilyProfile(String profileId, String email, String name, String birthDate, String gender, String address, String provinceId, String identity, String medicalId, String ethnic, String phone, String profilePicture, String createdAt, String relationId, String ownerId) {
-        this.profileId = profileId;
+    public FamilyProfile( String email, String name, String birthDate, String gender, String address, String identity, String medicalId, String ethnic, String phone, String createdAt, String relationId, String ownerId) {
         this.email = email;
         this.name = name;
         this.birthDate = birthDate;
         this.gender = gender;
         this.address = address;
-        this.provinceId = provinceId;
         this.identity = identity;
         this.medicalId = medicalId;
         this.ethnic = ethnic;
         this.phone = phone;
-        this.profilePicture = profilePicture;
         this.createdAt = createdAt;
         this.relationId = relationId;
-        this.ownerId = ownerId; 
+        this.ownerId = ownerId;
     }
+    
+    
 
     public FamilyProfile(String profileId) {
         this.profileId = profileId;
