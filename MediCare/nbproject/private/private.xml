@@ -3,12 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/web/user-appointment.jsp</file>
             <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/src/java/Controllers/UserProfileController.java</file>
             <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/src/java/Controllers/UserAppointmentController.java</file>
             <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/src/java/DAL/DoctorDAO.java</file>
             <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/src/java/DAL/UserDAO.java</file>
             <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/src/java/DAL/FamilyProfileDAO.java</file>
+=======
+            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/user-news-general.jsp</file>
+            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/src/java/Controllers/UserNewsServlet.java</file>
+            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/user-news.jsp</file>
+            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/breadcrumb.jsp</file>
+            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/assets/client/css/style.css</file>
+>>>>>>> ec92431e907f14ca9197beb0b8c56f4a0316c1e2
         </group>
     </open-files>
 </project-private>

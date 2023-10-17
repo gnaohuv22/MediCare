@@ -49,6 +49,7 @@
 
     <div class="display-sidebar">
         <div class="container">
+            <%@include file="breadcrumb.jsp" %>
             <div class="row">
                 <div class="col-md-3 news-sidebar">
                     <c:forEach items="${topLevel}" var="top">
@@ -168,7 +169,7 @@
     <script>
         $(document).ready(function () {
             $('.grid-news').each(function () {
-                var maxLength = 315; // Set the maximum length for the content
+                var maxLength = 295; // Set the maximum length for the content
                 var subtitleElement = $(this).find('.grid-subtitle');
                 if (subtitleElement.text().length > maxLength) {
                     var shortText = subtitleElement.text().substr(0, maxLength) + '...'; // Cut the content
