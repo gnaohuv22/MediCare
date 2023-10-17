@@ -93,7 +93,7 @@
                     <label for="email">Email:</label><br/>
                     <input type="text" id="email" name="email" placeholder="example@gmail.com"><br/>
                     <label for="relation">Quan hệ:</label><br/>
-                    <select id="relation" name="relation"><br/>
+                    <select id="relation" name="relation" required=""><br/>
                         <c:forEach items="${requestScope.rList}" var="r">
                             <c:if test="${r.getId() != 0}">
                                 <option value="${r.getId()}">${r.getRelation()}</option>

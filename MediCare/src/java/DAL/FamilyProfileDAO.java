@@ -350,7 +350,7 @@ public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
     }
 
     public boolean addNewUserProfile(FamilyProfile fp) {
-        String sql = "INSERT [dbo].[FamilyProfile] ([email], [name], [birthDate], [gender], [address], [identity], [medicalId], [ethnic], [phone], [createdAt], [ownerId], [relationId]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO [dbo].[FamilyProfile] ([email], [name], [birthDate], [gender], [address], [identity], [medicalId], [ethnic], [phone], [createdAt], [ownerId], [relationId]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -369,7 +369,7 @@ public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
             st.execute();
             return true;
         } catch (SQLException e) {
-            System.out.println("FamilyProfileDAO.getFamilyProfileByInfo-user: " + e);
+            System.out.println("FamilyProfileDAO.addNewUserProfile: " + e);
         }
         return false;
     }

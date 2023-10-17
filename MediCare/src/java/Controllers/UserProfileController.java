@@ -52,10 +52,10 @@ public class UserProfileController extends HttpServlet {
             id = String.valueOf(request.getParameter("id"));
         }
         System.out.println(id);
-        
+
         RelationshipDAO rDAO = new RelationshipDAO();
         ArrayList<Relationship> rList = rDAO.getRelationshipList();
-        
+
         String ownerId = uDAO.getIdByEmail(String.valueOf(session.getAttribute("email")));
         fpList = (List<FamilyProfile>) request.getAttribute("fpList");
         if (request.getAttribute("fpList") == null) {
@@ -113,7 +113,7 @@ public class UserProfileController extends HttpServlet {
 
         RelationshipDAO rDAO = new RelationshipDAO();
         ArrayList<Relationship> rList = rDAO.getRelationshipList();
-        
+
         if (request.getParameter("id") == null) {
             id = String.valueOf(1);
         } else {
@@ -126,42 +126,40 @@ public class UserProfileController extends HttpServlet {
             response.sendRedirect("user-login");
         } else {
             String method = request.getParameter("method");
-            switch (method) {
-                case "search":
-                    FamilyProfile fd;
-                    if (getIndexById(id, fpList) == -1) {
-                        fd = null;
-                    } else {
-                        int i = getIndexById(id, fpList);
-                        fd = fpList.get(i);
-                    }
-                    fpList = fpDAO.getFamilyProfileListByUserName(search, ownerId);
-                    request.setAttribute("fpList", fpList);
-                    request.setAttribute("currentfp", fd);
-                    request.setAttribute("rList", rList);
-                    request.getRequestDispatcher("user-profile.jsp").forward(request, response);
-                    break;
-                case "add":
-                    String name = request.getParameter("name");
-                    String phone = request.getParameter("phone");
-                    String birthDate = request.getParameter("birthDate");
-                    String gender = request.getParameter("gender");
-                    String medicalId = request.getParameter("medicalId");
-                    String identity = request.getParameter("identity");
-                    String address = request.getParameter("address");
-                    String ethnic = request.getParameter("ethnic");
-                    String email = request.getParameter("email");
-                    LocalDate date = LocalDate.now();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                    String currentDate = date.format(formatter);
-                    String relationId = request.getParameter("relation");
-                    FamilyProfile fp = new FamilyProfile(email,name,birthDate,gender,address,identity,medicalId,ethnic,phone,currentDate,relationId,ownerId);
-                    request.setAttribute("fpList", fpList);
-                    request.setAttribute("rList", rList);
-                    request.getRequestDispatcher("user-profile.jsp").forward(request, response);
-                    break;
-                default:
-                    throw new AssertionError();
+            if (method.equals("search")) {
+                FamilyProfile fd;
+                if (getIndexById(id, fpList) == -1) {
+                    fd = null;
+                } else {
+                    int i = getIndexById(id, fpList);
+                    fd = fpList.get(i);
+                }
+                fpList = fpDAO.getFamilyProfileListByUserName(search, ownerId);
+                request.setAttribute("fpList", fpList);
+                request.setAttribute("currentfp", fd);
+                request.setAttribute("rList", rList);
+                request.getRequestDispatcher("user-profile.jsp").forward(request, response);
+            } else if (method.equals("add")) {
+                String name = request.getParameter("name");
+                String phone = request.getParameter("phone");
+                String birthDate = request.getParameter("birthDate");
+                String gender = request.getParameter("gender");
+                String medicalId = request.getParameter("medicalId");
+                String identity = request.getParameter("identity");
+                String address = request.getParameter("address");
+                String ethnic = request.getParameter("ethnic");
+                String email = request.getParameter("email");
+                LocalDate date = LocalDate.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                String currentDate = date.format(formatter);
+                String relationId = request.getParameter("relation");
+                FamilyProfile fp = new FamilyProfile(email, name, birthDate, gender, address, identity, medicalId, ethnic, phone, currentDate, relationId, ownerId);
+                fpDAO.addNewUserProfile(fp);
+                request.setAttribute("fpList", fpList);
+                request.setAttribute("rList", rList);
+                response.sendRedirect("user-profile");
+            } else {
+                throw new AssertionError();
             }
 
         }
