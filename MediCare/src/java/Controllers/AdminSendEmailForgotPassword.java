@@ -35,6 +35,7 @@ public class AdminSendEmailForgotPassword extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
+        System.out.println("processRequest");
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -48,6 +49,7 @@ public class AdminSendEmailForgotPassword extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        System.out.println("doget");
         processRequest(request, response);
     } 
 
@@ -61,6 +63,7 @@ public class AdminSendEmailForgotPassword extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        System.out.println("abc");
         EmployeeDAO eDao = new EmployeeDAO();
         Random generator = new Random();
         String email = request.getParameter("email").trim();

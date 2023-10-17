@@ -8,8 +8,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    
-       <jsp:include page="../admin-general/admin-head.jsp" />
+
+    <jsp:include page="../admin-general/admin-head.jsp" />
 
     <body>
         <div class="main-wrapper account-wrapper">
@@ -22,7 +22,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Email</label>
-                                <input type="text" autofocus="" class="form-control" value="${email}" name="email" placeholder="example@example.com">
+                                <input type="text" autofocus="" class="form-control" id="email" value="${email}" name="email" placeholder="example@example.com">
                             </div>
                             <div class="form-group">
                                 <label>Mật khẩu</label>
@@ -35,7 +35,7 @@
                                 <a class="btn btn-primary account-btn" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:9999/MediCare/login-google-employee-controller&response_type=code&client_id=715355702366-sf7g8mndhsmfp23df64m7rkf7f7a5526.apps.googleusercontent.com&approval_prompt=force">Đăng nhập với Google</a>  
                             </div>
                             <div class="form-group text-right">
-                                <button type="submit" name="btAction" value="Forgot password">Quên mật khẩu</button>
+                                <a id="forgotPassword" onclick=forgotPassword()>Quên mật khẩu</a>
                             </div>
                             <div class="form-group text-center">
                                 <p style="color: red">${MESSAGE}</p>
@@ -45,11 +45,13 @@
                 </div>
             </div>
         </div>
-        
-<!--        <script src="${pageContext.request.contextPath}/assets/admin/js/jquery-3.2.1.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/admin/js/popper.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/admin/js/bootstrap.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/admin/js/app.js"></script>-->
-       <jsp:include page="../admin-general/admin-script.jsp"/>
+
+        <script>
+            function forgotPassword(){
+                var email = document.getElementById("email").value;
+                window.location.href = "admin-send-email-forgot-password?email="+email;
+            }
+        </script>
+        <jsp:include page="../admin-general/admin-script.jsp"/>
     </body>
 </html>

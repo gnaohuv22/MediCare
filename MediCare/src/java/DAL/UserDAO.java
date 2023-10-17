@@ -362,4 +362,16 @@ public class UserDAO extends DBContext {
         }
         return false;
     }
+    public String generateId(){
+        String SQL = "select top(1) id from [User] order by id DESC";
+        try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            ResultSet rs = pstm.executeQuery();
+            String number = rs.getString(1);
+            number = Integer.parseInt(number)+1+"";
+            return number;
+        }catch (Exception e) {
+            System.out.println("generateId " + e.getMessage());
+        }
+        return null;
+    }
 }
