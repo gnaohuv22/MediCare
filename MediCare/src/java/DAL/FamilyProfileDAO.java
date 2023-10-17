@@ -53,7 +53,7 @@ public class FamilyProfileDAO extends DBContext {
     }
 
 public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
-        String SQL = "SELECT * FROM [FamilyProfile] where ownerid=? AND relationId IS NOT NULL ORDER BY relationId";
+        String SQL = "SELECT * FROM [FamilyProfile] where ownerid=? ORDER BY relationId";
         ArrayList<FamilyProfile> list = new ArrayList<>();
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, String.valueOf(idByEmail));

@@ -114,38 +114,36 @@ public class UserProfileController extends HttpServlet {
             response.sendRedirect("user-login");
         } else {
             String method = request.getParameter("method");
-            switch (method) {
-                case "search":
-                    FamilyProfile fd;
-                    if (getIndexById(id, fpList) == -1) {
-                        fd = null;
-                    } else {
-                        int i = getIndexById(id, fpList);
-                        fd = fpList.get(i);
-                    }
+            if (method.equals("search")) {
+                FamilyProfile fd;
+                if (getIndexById(id, fpList) == -1) {
+                    fd = null;
+                } else {
+                    int i = getIndexById(id, fpList);
+                    fd = fpList.get(i);
+                }
 
-                    request.setAttribute("fpList", fpList);
-                    request.setAttribute("currentfp", fd);
-                    request.getRequestDispatcher("user-profile.jsp").forward(request, response);
-                    break;
-                case "add":
-                    String profileId = String.valueOf(fpDAO.getLatestIdByOwnerId(ownerId));
-                    String name = request.getParameter("name");
-                    String phone = request.getParameter("phone");
-                    String birthDate = request.getParameter("birthDate");
-                    String gender = request.getParameter("gender");
-                    String medicalId = request.getParameter("medicalId");
-                    String identity = request.getParameter("identity");
-                    String ethnic = request.getParameter("ethnic");
-                    String email = request.getParameter("email");
-                    
-                    break;
-                default:
-                    throw new AssertionError();
+                request.setAttribute("fpList", fpList);
+                request.setAttribute("currentfp", fd);
+                request.getRequestDispatcher("user-profile.jsp").forward(request, response);
+            } else if (method.equals("add")) {
+                String profileId = String.valueOf(fpDAO.getLatestIdByOwnerId(ownerId));
+                String name = request.getParameter("name");
+                String phone = request.getParameter("phone");
+                String birthDate = request.getParameter("birthDate");
+                String gender = request.getParameter("gender");
+                String medicalId = request.getParameter("medicalId");
+                String identity = request.getParameter("identity");
+                String ethnic = request.getParameter("ethnic");
+                String email = request.getParameter("email");
+            } else {
+                throw new AssertionError();
             }
 
         }
     }
+
+    
 
     private int getIndexById(String id, List<FamilyProfile> fpList) {
         if (fpList == null || fpList.isEmpty()) {
