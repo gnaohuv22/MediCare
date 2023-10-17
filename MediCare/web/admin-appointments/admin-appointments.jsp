@@ -34,24 +34,18 @@
                                             <c:forEach var="title" items="${TITLE_APPOINTMENTS}">
                                                 ${title.toString()}
                                             </c:forEach>
-<!--                                            <th>ID đơn</th>
-                                            <th>Tên bệnh nhân</th>
-                                            <th>Tên bác sĩ</th>
-                                            <th>Tên dịch vụ</th>
-                                            <th>Thời gian tạo</th>
-                                            <th>Trạng thái</th>
-                                            <th class="text-right">Action</th>-->
+                                            <th class="text-right">Hành động</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <c:forEach var="list" items="${ALL_APPOINTMENT}">
                                         <tr name="display-table-tr">
-                                            <td>${list.getAppointments().getId()}</td>
+                                            <td>${list.getId()}</td>
                                             <td>${list.getUser().getName()}</td>
                                             <td>${list.getDoctor().getDisplayName()}</td>
                                             <td>${list.getServiceTag().getNametag()}</td>
-                                            <td>${list.getAppointments().getPlannedAt()}</td>
-                                            <td>${list.getAppointments().getStatus()}</td>
+                                            <td>${list.getPlannedAt()}</td>
+                                            <td>${list.getStatus()}</td>
                                             <!--<td><span class="custom-badge status-green">Active</span></td>-->
                                             <td class="text-right">
                                                 <div class="dropdown dropdown-action">
@@ -59,7 +53,7 @@
                                                     <div class="dropdown-menu dropdown-menu-right">
                                                         <!--<a class="dropdown-item" href="edit-appointment.jsp"><i class="fa fa-pencil m-r-5"></i> Edit</a>-->
                                                         <!--<a class="dropdown-item" href="${pageContext.request.contextPath}/admin-delete-appointment" data-toggle="modal" data-target="#delete_appointment"><i class="fa fa-trash-o m-r-5"></i> Xóa</a>-->
-                                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-delete-appointment?id=${list.getAppointments().getId()}"><i class="fa fa-trash-o m-r-5"></i> Xóa</a>
+                                                        <a class="dropdown-item" value="Xoa" onclick="return confirm('Bạn có chắc chắn muốn xóa? (Khi xóa thì dữ liệu này cùng những dữ liệu liên kết sẽ biến mất hoàn toàn và không thể khôi phục lại)');" href="${pageContext.request.contextPath}/admin-list-appointments?delete-appointment=true&id=${list.getId()}"><i class="fa fa-trash-o m-r-5"></i> Xóa</a>
                                                     </div>
                                                 </div>
                                             </td>
@@ -71,26 +65,41 @@
                         </div>
                     </div>
                 </div>
+                <!-- pagination section -->
+<nav aria-label="Pagination">
+    <ul class="pagination justify-content-center">
+        <c:if test="${currentPage != 1}">
+            <li class="page-item">
+                <a class="page-link" href="admin-list-appointments?pattern=${pattern}&page=${currentPage - 1}"><<</a>
+            </li>
+        </c:if>
+
+        <c:forEach begin="1" end="${pageCount}" var="i">
+            <c:choose>
+                <c:when test="${currentPage eq i}">
+                    <li class="page-item active">
+                        <a class="page-link" href="#">${i}</a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li class="page-item">
+                        <a class="page-link" href="admin-list-appointments?page=${i}">${i}</a>
+                    </li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+        <c:if test="${currentPage lt pageCount}">
+            <li class="page-item">
+                <a class="page-link" href="admin-list-appointments?page=${currentPage + 1}">>></a>
+            </li>
+        </c:if>
+    </ul>
+</nav>
+<!-- pagination section -->
                 <%@include file="../admin-general/admin-notifications-box.jsp"%>
-<!--                <form action="${pageContext.request.contextPath}/DispatchController">
-                <div id="delete_appointment" class="modal fade delete-modal" role="dialog">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-body text-center">
-                                <img src="../assets/admin/img/sent.png" alt="" width="50" height="46">
-                                <h3>Are you sure want to delete this Appointment?</h3>
-                                <h3>Bạn có chắc chắn xóa đơn hàng này không</h3>
-                                <div class="m-t-20"> <a href="#" class="btn btn-white" data-dismiss="modal">Close</a>
-                                    <input type="hidden" name="id" value="${list.getAppointments().getId()}">
-                                    <button type="submit" class="btn btn-danger" name="btAction" value="Delete appointment">Xóa</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </form>-->
             </div>
         </div>
+                                    
         <div class="sidebar-overlay" data-reff=""></div>
         <script src="${pageContext.request.contextPath}/assets/admin/js/jquery-3.2.1.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/admin/js/popper.min.js"></script>
@@ -107,6 +116,13 @@
                     format: 'LT'
                 });
             });
+        </script>
+        <script>
+            function confirmDelete(delUrl) {
+                if (confirm("Bạn có chắc chắn xóa không ?")) {
+                    document.location = delUrl;
+                }
+            }
         </script>
     </body>
 </body>

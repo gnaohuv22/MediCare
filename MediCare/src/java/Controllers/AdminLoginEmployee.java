@@ -5,7 +5,7 @@
  */
 package Controllers;
 
-import Models.GetEmployee;
+import Models.Employee;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,7 +21,7 @@ import DAL.EmployeeDAO;
 @WebServlet(name = "LoginEmployeeServlet", urlPatterns = {"/admin-login-employee"})
 public class AdminLoginEmployee extends HttpServlet {
     private final String EMPLOYEE_LOGIN="admin-screen/admin-login.jsp";
-    private final String EMPLOYEE_PAGE="admin-employee-home";
+    private final String EMPLOYEE_PAGE="admin-home-page";
     private final String LOGIN_FAIL = "Đăng nhập không thành công!";
     private final String LOGIN_EMPTY_EMAIL_ERROR = "Chưa nhập thông tin email";
     private final String LOGIN_EMPTY_PASSWORD_ERROR = "Chưa nhập thông tin mật khẩu";
@@ -70,14 +70,14 @@ public class AdminLoginEmployee extends HttpServlet {
         }
         session.setAttribute("EMAIL", email);
         EmployeeDAO dao = new EmployeeDAO();
-        GetEmployee emp = dao.getEmployeeByEmail(email);
+        Employee emp = dao.getEmployeeByEmail(email);
         // check employee is exist
         if (emp == null){
             request.setAttribute("MESSAGE", LOGIN_FAIL+" "+LOGIN_EMAIL_ERROR);
             request.getRequestDispatcher(EMPLOYEE_LOGIN).forward(request, response);
         }
         else{
-            String storedPassword = emp.getEmployee().getPassword();
+            String storedPassword = emp.getPassword();
             boolean check = PasswordEncryption.comparePasswords(password, storedPassword);
             //check login and get info employee
             if (check == false) {

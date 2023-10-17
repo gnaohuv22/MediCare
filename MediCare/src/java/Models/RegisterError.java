@@ -23,7 +23,18 @@ public class RegisterError {
     private String ethnicError;
     private String roleIdError;
     private String createAtError;
-
+    
+    private String identityError;
+    private String medicalIdError;
+    private String profilePictureError;
+    private String createdAtError;
+    
+    private String authorError;
+    private String titleError;
+    private String contentError;
+    private String coverImageError;
+    private String subtitleError;
+    
     public RegisterError() {
     }
 
@@ -44,6 +55,31 @@ public class RegisterError {
         this.createAtError = createAtError;
     }
 
+    public RegisterError(String IdError, String emailError, String passwordError, String nameError, String birthDateError, String genderError, String addressError, String provinceIdError, String identityError, String medicalIdError, String ethnicError, String phoneError, String profilePictureError, String createdAtError, String registerUser) {
+        this.IdError = IdError;
+        this.emailError = emailError;
+        this.passwordError = passwordError;
+        this.nameError = nameError;
+        this.birthDateError = birthDateError;
+        this.genderError = genderError;
+        this.addressError = addressError;
+        this.provinceIdError = provinceIdError;
+        this.phoneError = phoneError;
+        this.ethnicError = ethnicError;
+        this.identityError = identityError;
+        this.medicalIdError = medicalIdError;
+        this.profilePictureError = profilePictureError;
+        this.createdAtError = createdAtError;
+    }
+
+    public RegisterError(String IdError, String authorError, String titleError, String contentError, String coverImageError, String subtitleError) {
+        this.IdError = IdError;
+        this.titleError = titleError;
+        this.contentError = contentError;
+        this.coverImageError = coverImageError;
+        this.subtitleError = subtitleError;
+    }
+    
     public String getIdError() {
         return IdError;
     }
@@ -154,6 +190,78 @@ public class RegisterError {
 
     public void setCreateAtError(String createAtError) {
         this.createAtError = createAtError;
+    }
+
+    public String getIdentityError() {
+        return identityError;
+    }
+
+    public void setIdentityError(String identityError) {
+        this.identityError = identityError;
+    }
+
+    public String getMedicalIdError() {
+        return medicalIdError;
+    }
+
+    public void setMedicalIdError(String medicalIdError) {
+        this.medicalIdError = medicalIdError;
+    }
+
+    public String getProfilePictureError() {
+        return profilePictureError;
+    }
+
+    public void setProfilePictureError(String profilePictureError) {
+        this.profilePictureError = profilePictureError;
+    }
+
+    public String getCreatedAtError() {
+        return createdAtError;
+    }
+
+    public void setCreatedAtError(String createdAtError) {
+        this.createdAtError = createdAtError;
+    }
+
+    public String getTitleError() {
+        return titleError;
+    }
+
+    public void setTitleError(String titleError) {
+        this.titleError = titleError;
+    }
+
+    public String getContentError() {
+        return contentError;
+    }
+
+    public void setContentError(String contentError) {
+        this.contentError = contentError;
+    }
+
+    public String getCoverImageError() {
+        return coverImageError;
+    }
+
+    public void setCoverImageError(String coverImageError) {
+        this.coverImageError = coverImageError;
+    }
+
+    public String getSubtitleError() {
+        return subtitleError;
+    }
+
+    public void setSubtitleError(String subtitleError) {
+        this.subtitleError = subtitleError;
+    }
+
+    public String getAuthorError() {
+        return authorError;
+    }
+
+    public void setAuthorError(String authorError) {
+        this.authorError = authorError;
     }
 
     

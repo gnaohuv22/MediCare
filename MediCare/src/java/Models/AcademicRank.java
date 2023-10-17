@@ -6,10 +6,12 @@ package Models;
 
 /**
  *
- * @author hoang
+ * @author DELL
  */
 public class AcademicRank {
-    private String id, name, wage;
+    private String id;
+    private String name;
+    private String wage;
 
     public AcademicRank() {
     }
@@ -43,6 +45,5 @@ public class AcademicRank {
     public void setWage(String wage) {
         this.wage = wage;
     }
-    
     
 }

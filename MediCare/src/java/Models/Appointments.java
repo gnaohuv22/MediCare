@@ -10,22 +10,13 @@ package Models;
  */
 public class Appointments {
     private String id;
-    private String userId;
-    private String doctorId;
-    private String serviceId;
+    private User user;
+    private Doctor doctor;
+    private ServiceTag serviceTag;
     private String plannedAt;
     private String status;
 
     public Appointments() {
-    }
-
-    public Appointments(String id, String userId, String doctorId, String serviceId, String plannedAt, String status) {
-        this.id = id;
-        this.userId = userId;
-        this.doctorId = doctorId;
-        this.serviceId = serviceId;
-        this.plannedAt = plannedAt;
-        this.status = status;
     }
 
     public String getId() {
@@ -36,28 +27,28 @@ public class Appointments {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getDoctorId() {
-        return doctorId;
+    public Doctor getDoctor() {
+        return doctor;
     }
 
-    public void setDoctorId(String doctorId) {
-        this.doctorId = doctorId;
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 
-    public String getServiceId() {
-        return serviceId;
+    public ServiceTag getServiceTag() {
+        return serviceTag;
     }
 
-    public void setServiceId(String serviceId) {
-        this.serviceId = serviceId;
+    public void setServiceTag(ServiceTag serviceTag) {
+        this.serviceTag = serviceTag;
     }
 
     public String getPlannedAt() {
@@ -75,5 +66,14 @@ public class Appointments {
     public void setStatus(String status) {
         this.status = status;
     }
-    
+
+    public Appointments(String id, User user, Doctor doctor, ServiceTag serviceTag, String plannedAt, String status) {
+        this.id = id;
+        this.user = user;
+        this.doctor = doctor;
+        this.serviceTag = serviceTag;
+        this.plannedAt = plannedAt;
+        this.status = status;
+    }
+
 }

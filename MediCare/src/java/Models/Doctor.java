@@ -10,135 +10,42 @@ package Models;
  */
 public class Doctor {
 
-    private String id, email, displayName, branchId, phone, ARId, CVId, salary, workplace, profilePicture, status, certificates;
-    private String branchName, ARName, departmentId, departmentName, education, introduce, workHistory, startYear, password;
+    private String id;
+    private String email;
+    private String password;
+    private String displayName;
+    private Branch branch;
+    private String phone;
+    private AcademicRank academicRank;
+    private Certificate cetificate;
+    private String salary;
+    private String workplace;
+    private String profilePicture;
+    private String status;
+    private String birthDate;
+    private String gender;
+    private String isDelete;
+    
     public Doctor() {
     }
-    
 
-    public Doctor(String id, String email, String displayName, String branchId, String phone, String ARId, String CVId, String salary, String workplace, String profilePicture, String status) {
+    public Doctor(String id, String email, String password, String displayName, Branch branch, String phone, AcademicRank academicRank, Certificate cetificate, String salary, String workplace, String profilePicture, String status, String birthDate, String gender, String isDelete) {
         this.id = id;
         this.email = email;
-        this.displayName = displayName;
-        this.branchId = branchId;
-        this.phone = phone;
-        this.ARId = ARId;
-        this.CVId = CVId;
-        this.salary = salary;
-        this.workplace = workplace;
-        this.profilePicture = profilePicture;
-        this.status = status;
-    }
-
-    public Doctor(String id, String email, String displayName, String branchId, String phone, String ARId, String CVId, String salary, String workplace, String profilePicture, String status, String password) {
-        this.id = id;
-        this.email = email;
-        this.displayName = displayName;
-        this.branchId = branchId;
-        this.phone = phone;
-        this.ARId = ARId;
-        this.CVId = CVId;
-        this.salary = salary;
-        this.workplace = workplace;
-        this.profilePicture = profilePicture;
-        this.status = status;
         this.password = password;
-    }
-
-
-
-    public Doctor(String id, String email, String displayName, String branchId, String phone, String ARId, String CVId, String salary, String workplace, String profilePicture, String status, String branchName, String ARName, String certificates) {
-        this.id = id;
-        this.email = email;
         this.displayName = displayName;
-        this.branchId = branchId;
+        this.branch = branch;
         this.phone = phone;
-        this.ARId = ARId;
-        this.CVId = CVId;
+        this.academicRank = academicRank;
+        this.cetificate = cetificate;
         this.salary = salary;
         this.workplace = workplace;
         this.profilePicture = profilePicture;
         this.status = status;
-        this.branchName = branchName;
-        this.ARName = ARName;
-        this.certificates = certificates;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.isDelete = isDelete;
     }
-
-    public Doctor(String id, String email, String displayName, String branchId, String phone, String ARId, String CVId, String salary, String workplace, String profilePicture, String status, String branchName, String ARName, String certificates, String departmentId, String departmentName) {
-        this.id = id;
-        this.email = email;
-        this.displayName = displayName;
-        this.branchId = branchId;
-        this.phone = phone;
-        this.ARId = ARId;
-        this.CVId = CVId;
-        this.salary = salary;
-        this.workplace = workplace;
-        this.profilePicture = profilePicture;
-        this.status = status;
-        this.certificates = certificates;
-        this.branchName = branchName;
-        this.ARName = ARName;
-        this.departmentId = departmentId;
-        this.departmentName = departmentName;
-    }
-
-    public Doctor(String id, String email, String displayName, String branchId, 
-            String phone, String ARId, String CVId, String salary, String workplace, String profilePicture, 
-            String status, String branchName, String ARName, String certificates, String departmentId, String departmentName, 
-            String education, String introduce, String workHistory, String startYear) {
-        this.id = id;
-        this.email = email;
-        this.displayName = displayName;
-        this.branchId = branchId;
-        this.phone = phone;
-        this.ARId = ARId;
-        this.CVId = CVId;
-        this.salary = salary;
-        this.workplace = workplace;
-        this.profilePicture = profilePicture;
-        this.status = status;
-        this.certificates = certificates;
-        this.branchName = branchName;
-        this.ARName = ARName;
-        this.departmentId = departmentId;
-        this.departmentName = departmentName;
-        this.education = education;
-        this.introduce = introduce;
-        this.workHistory = workHistory;
-        this.startYear = startYear;
-    }
-    public Doctor(String id, String email, String displayName, String branchId, 
-            String phone, String ARId, String CVId, String salary, String workplace, String profilePicture, 
-            String status, String password, String branchName, String ARName, String certificates, String departmentId, String departmentName, 
-            String education, String introduce, String workHistory, String startYear) {
-        this.id = id;
-        this.email = email;
-        this.displayName = displayName;
-        this.branchId = branchId;
-        this.phone = phone;
-        this.ARId = ARId;
-        this.CVId = CVId;
-        this.salary = salary;
-        this.workplace = workplace;
-        this.profilePicture = profilePicture;
-        this.status = status;
-        this.certificates = certificates;
-        this.branchName = branchName;
-        this.ARName = ARName;
-        this.departmentId = departmentId;
-        this.departmentName = departmentName;
-        this.education = education;
-        this.introduce = introduce;
-        this.workHistory = workHistory;
-        this.startYear = startYear;
-        this.password = password;
-    }
-    
-    
-    
-    
-    
 
     public String getId() {
         return id;
@@ -156,6 +63,14 @@ public class Doctor {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getDisplayName() {
         return displayName;
     }
@@ -164,12 +79,12 @@ public class Doctor {
         this.displayName = displayName;
     }
 
-    public String getBranchId() {
-        return branchId;
+    public Branch getBranch() {
+        return branch;
     }
 
-    public void setBranchId(String branchId) {
-        this.branchId = branchId;
+    public void setBranch(Branch branch) {
+        this.branch = branch;
     }
 
     public String getPhone() {
@@ -180,20 +95,20 @@ public class Doctor {
         this.phone = phone;
     }
 
-    public String getARId() {
-        return ARId;
+    public AcademicRank getAcademicRank() {
+        return academicRank;
     }
 
-    public void setARId(String ARId) {
-        this.ARId = ARId;
+    public void setAcademicRank(AcademicRank academicRank) {
+        this.academicRank = academicRank;
     }
 
-    public String getCVId() {
-        return CVId;
+    public Certificate getCetificate() {
+        return cetificate;
     }
 
-    public void setCVId(String CVId) {
-        this.CVId = CVId;
+    public void setCetificate(Certificate cetificate) {
+        this.cetificate = cetificate;
     }
 
     public String getSalary() {
@@ -220,14 +135,6 @@ public class Doctor {
         this.profilePicture = profilePicture;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -236,91 +143,29 @@ public class Doctor {
         this.status = status;
     }
 
-    public String getCertificates() {
-        return certificates;
+    public String getBirthDate() {
+        return birthDate;
     }
 
-    public void setCertificates(String certificates) {
-        this.certificates = certificates;
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 
-    public String getBranchName() {
-        return branchName;
+    public String getGender() {
+        return gender;
     }
 
-    public void setBranchName(String branchName) {
-        this.branchName = branchName;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
-    public String getARName() {
-        return ARName;
+    public String getIsDelete() {
+        return isDelete;
     }
 
-    public void setARName(String ARName) {
-        this.ARName = ARName;
+    public void setIsDelete(String isDelete) {
+        this.isDelete = isDelete;
     }
-
-    public String getDepartmentId() {
-        return departmentId;
-    }
-
-    public void setDepartmentId(String departmentId) {
-        this.departmentId = departmentId;
-    }
-
-    public String getDepartmentName() {
-        return departmentName;
-    }
-
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
-    }
-
-    public String getEducation() {
-        return education;
-    }
-
-    public void setEducation(String education) {
-        this.education = education;
-    }
-
-    public String getIntroduce() {
-        return introduce;
-    }
-
-    public void setIntroduce(String introduce) {
-        this.introduce = introduce;
-    }
-
-    public String getWorkHistory() {
-        return workHistory;
-    }
-
-    public void setWorkHistory(String workHistory) {
-        this.workHistory = workHistory;
-    }
-
-    public String getStartYear() {
-        return startYear;
-    }
-
-    public void setStartYear(String startYear) {
-        this.startYear = startYear;
-    }
-
-    @Override
-    public String toString() {
-        return "Doctor{" + "id=" + id + ", email=" + email + ", displayName=" + displayName + ", branchId=" + branchId + ", phone=" + phone + ", ARId=" + ARId + ", CVId=" + CVId + ", salary=" + salary + ", workplace=" + workplace + ", profilePicture=" + profilePicture + ", status=" + status + ", certificates=" + certificates + ", branchName=" + branchName + ", ARName=" + ARName + ", departmentId=" + departmentId + ", departmentName=" + departmentName + ", education=" + education + ", introduce=" + introduce + ", workHistory=" + workHistory + ", startYear=" + startYear + ", password=" + password + '}';
-    }
-
-
     
-
-    
-
-
-    
-    
-
 
 }

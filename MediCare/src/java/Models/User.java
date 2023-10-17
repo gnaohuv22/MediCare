@@ -16,7 +16,7 @@ public class User {
     private String birthDate;
     private String gender;
     private String address;
-    private String provinceId;
+    private Province province;
     private String identity;
     private String medicalId;
     private String ethnic;
@@ -27,7 +27,7 @@ public class User {
     public User() {
     }
 
-    public User(String id, String email, String password, String name, String birthDate, String gender, String address, String provinceId, String identity, String medicalId, String ethnic, String phone, String profilePicture, String createdAt) {
+    public User(String id, String email, String password, String name, String birthDate, String gender, String address, Province province, String identity, String medicalId, String ethnic, String phone, String profilePicture, String createdAt) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -35,7 +35,7 @@ public class User {
         this.birthDate = birthDate;
         this.gender = gender;
         this.address = address;
-        this.provinceId = provinceId;
+        this.province = province;
         this.identity = identity;
         this.medicalId = medicalId;
         this.ethnic = ethnic;
@@ -100,12 +100,12 @@ public class User {
         this.address = address;
     }
 
-    public String getProvinceId() {
-        return provinceId;
+    public Province getProvince() {
+        return province;
     }
 
-    public void setProvinceId(String provinceId) {
-        this.provinceId = provinceId;
+    public void setProvince(Province province) {
+        this.province = province;
     }
 
     public String getIdentity() {

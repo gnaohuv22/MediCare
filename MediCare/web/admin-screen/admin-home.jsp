@@ -5,9 +5,6 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="Models.Doctor" %>
-<%@page import="Models.AcademicRank" %>
-<%@page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -54,7 +51,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+<!--                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                             <div class="dash-widget">
                                 <span class="dash-widget-bg4"><i class="fa fa-heartbeat" aria-hidden="true"></i></span>
                                 <div class="dash-widget-info text-right">
@@ -62,7 +59,7 @@
                                     <span class="widget-title4">Pending <i class="fa fa-check" aria-hidden="true"></i></span>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
 <!--                    <div class="row">
                         <div class="col-12 col-md-6 col-lg-6 col-xl-6">
@@ -93,8 +90,8 @@
                             </div>
                         </div>
                     </div>-->
-                    <div class="row">
-<!--                        <div class="col-12 col-md-6 col-lg-8 col-xl-8">
+<!--                    <div class="row">
+                        <div class="col-12 col-md-6 col-lg-8 col-xl-8">
                             <div class="card">
                                 <div class="card-header">
                                     <h4 class="card-title d-inline-block">Upcoming Appointments</h4> <a href="admin-appointments.jsp" class="btn btn-primary float-right">View all</a>
@@ -201,7 +198,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>-->
+                        </div>
                         <div class="col-12 col-md-6 col-lg-4 col-xl-4">
                             <div class="card member-panel">
                                 <div class="card-header bg-white">
@@ -209,30 +206,80 @@
                                 </div>
                                 <div class="card-body">
                                     <ul class="contact-list">
-                                        <%
-                                    ArrayList<Doctor> Doctorlist = (ArrayList<Doctor>)request.getAttribute("Doctorlist");
-                                    for (Doctor doc : Doctorlist){
-                                 %>  
                                         <li>
                                             <div class="contact-cont">
                                                 <div class="float-left user-img m-r-10">
-                                                    <a href="profile " title="<%=doc.getDisplayName()%>"><img src="<%=doc.getProfilePicture()%>" alt="" class="w-40 rounded-circle"><span class="status online"></span></a>
+                                                    <a href="profile/profile.jsp " title="John Doe"><img src="../assets/admin/img/user.jpg" alt="" class="w-40 rounded-circle"><span class="status online"></span></a>
                                                 </div>
                                                 <div class="contact-info">
-                                                    <span class="contact-name text-ellipsis"><%=doc.getDisplayName()%></span>
-                                                    <span class="contact-date"><%=doc.getARName()%></span>
+                                                    <span class="contact-name text-ellipsis">John Doe</span>
+                                                    <span class="contact-date">MBBS, MD</span>
                                                 </div>
                                             </div>
                                         </li>
-                                        <%}%>
+                                        <li>
+                                            <div class="contact-cont">
+                                                <div class="float-left user-img m-r-10">
+                                                    <a href="profile/profile.jsp " title="Richard Miles"><img src="../assets/admin/img/user.jpg" alt="" class="w-40 rounded-circle"><span class="status offline"></span></a>
+                                                </div>
+                                                <div class="contact-info">
+                                                    <span class="contact-name text-ellipsis">Richard Miles</span>
+                                                    <span class="contact-date">MD</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="contact-cont">
+                                                <div class="float-left user-img m-r-10">
+                                                    <a href="profile/profile.jsp " title="John Doe"><img src="../assets/admin/img/user.jpg" alt="" class="w-40 rounded-circle"><span class="status away"></span></a>
+                                                </div>
+                                                <div class="contact-info">
+                                                    <span class="contact-name text-ellipsis">John Doe</span>
+                                                    <span class="contact-date">BMBS</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="contact-cont">
+                                                <div class="float-left user-img m-r-10">
+                                                    <a href="profile/profile.jsp " title="Richard Miles"><img src="../assets/admin/img/user.jpg" alt="" class="w-40 rounded-circle"><span class="status online"></span></a>
+                                                </div>
+                                                <div class="contact-info">
+                                                    <span class="contact-name text-ellipsis">Richard Miles</span>
+                                                    <span class="contact-date">MS, MD</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="contact-cont">
+                                                <div class="float-left user-img m-r-10">
+                                                    <a href="profile/profile.jsp " title="John Doe"><img src="../assets/admin/img/user.jpg" alt="" class="w-40 rounded-circle"><span class="status offline"></span></a>
+                                                </div>
+                                                <div class="contact-info">
+                                                    <span class="contact-name text-ellipsis">John Doe</span>
+                                                    <span class="contact-date">MBBS</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="contact-cont">
+                                                <div class="float-left user-img m-r-10">
+                                                    <a href="profile/profile.jsp " title="Richard Miles"><img src="../assets/admin/img/user.jpg" alt="" class="w-40 rounded-circle"><span class="status away"></span></a>
+                                                </div>
+                                                <div class="contact-info">
+                                                    <span class="contact-name text-ellipsis">Richard Miles</span>
+                                                    <span class="contact-date">MBBS, MD</span>
+                                                </div>
+                                            </div>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div class="card-footer text-center bg-white">
-                                    <a href="admin-doctor" class="text-muted">View all Doctors</a>
+                                    <a href="doctors.jsp" class="text-muted">View all Doctors</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
 <!--                    <div class="row">
                         <div class="col-12 col-md-6 col-lg-8 col-xl-8">
                             <div class="card">

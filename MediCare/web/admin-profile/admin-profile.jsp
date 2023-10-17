@@ -38,9 +38,9 @@
                                         <div class="row">
                                             <div class="col-md-5">
                                                 <div class="profile-info-left">
-                                                    <h3 class="user-name m-t-0 mb-0">${EMPLOYEE.getEmployee().getName()}</h3>
+                                                    <h3 class="user-name m-t-0 mb-0">${EMPLOYEE.getName()}</h3>
                                                     <!--<small class="text-muted">Gynecologist</small>-->
-                                                    <div class="staff-id">ID : ${EMPLOYEE.getEmployee().getId()}</div>
+                                                    <div class="staff-id">ID : ${EMPLOYEE.getId()}</div>
                                                     <!--<div class="staff-msg"><a href="chat.html" class="btn btn-primary">Send Message</a></div>-->
                                                 </div>
                                             </div>
@@ -48,25 +48,25 @@
                                                 <ul class="personal-info">
                                                     <li>
                                                         <span class="title">Điện thoại:</span>
-                                                        <span class="text">${EMPLOYEE.getEmployee().getPhone()}</span>
+                                                        <span class="text">${EMPLOYEE.getPhone()}</span>
                                                     </li>
                                                     <li>
                                                         <span class="title">Email:</span>
-                                                        <span class="text">${EMPLOYEE.getEmployee().getEmail()}</span>
+                                                        <span class="text">${EMPLOYEE.getEmail()}</span>
                                                     </li>
                                                     <li>
                                                         <span class="title">Ngày sinh:</span>
-                                                        <span class="text">${EMPLOYEE.getEmployee().getBirthDate()}</span>
+                                                        <span class="text">${EMPLOYEE.getBirthDate()}</span>
                                                     </li>
                                                     <li>
                                                         <span class="title">Địa chỉ:</span>
-                                                        <span class="text">${EMPLOYEE.getEmployee().getAddress()}</span>
+                                                        <span class="text">${EMPLOYEE.getAddress()}</span>
                                                     </li>
                                                     <li>
                                                         <span class="title">Giới tính:</span>
                                                         <span class="text">
-                                                            <c:if test = "${EMPLOYEE.getEmployee().getGender()==0}">Nam</c:if>
-                                                            <c:if test = "${EMPLOYEE.getEmployee().getGender()==1}">Nữ</c:if>
+                                                            <c:if test = "${EMPLOYEE.getGender()==0}">Nam</c:if>
+                                                            <c:if test = "${EMPLOYEE.getGender()==1}">Nữ</c:if>
                                                         </span>
                                                     </li>
                                                 </ul>

@@ -100,4 +100,20 @@ public class AdminException {
             return "Ngày sinh không hợp lệ";
         }
     }
+
+    static class RedirecUrlException extends Exception {
+
+        public RedirecUrlException() {
+        }
+    }
+
+    static class NotHaveRole extends Exception {
+        String msg;
+        public NotHaveRole(String msg) {
+            this.msg=" "+msg;
+        }
+        public String getMessage(){
+            return "Bạn không có quyền để thực hiện hành động này"+msg;
+        }
+    }
 }

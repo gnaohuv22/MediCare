@@ -6,7 +6,7 @@
 package Controllers;
 
 import DAL.EmployeeDAO;
-import Models.GetEmployee;
+import Models.Employee;
 import Models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -65,7 +65,7 @@ public class AdminExportEmployeeList extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         EmployeeDAO eDao = new EmployeeDAO();
-        ArrayList<GetEmployee> empList = eDao.getAllEmployee();
+        ArrayList<Employee> empList = eDao.getAllEmployee();
 
         // Create a new Excel:
         Workbook workbook = new XSSFWorkbook();
@@ -82,25 +82,25 @@ public class AdminExportEmployeeList extends HttpServlet {
 
         // Write the data from Table User to the Excel:
         int rowNum = 1;
-        for (GetEmployee emp : empList) {
+        for (Employee emp : empList) {
             Row row = sheet.createRow(rowNum++);
-            row.createCell(0).setCellValue(emp.getEmployee().getId());
-            row.createCell(1).setCellValue(emp.getEmployee().getEmail());
-            row.createCell(2).setCellValue(emp.getEmployee().getPassword());
+            row.createCell(0).setCellValue(emp.getId());
+            row.createCell(1).setCellValue(emp.getEmail());
+            row.createCell(2).setCellValue(emp.getPassword());
             row.createCell(3).setCellValue(emp.getBranch().getName());
-            row.createCell(4).setCellValue(emp.getEmployee().getName());
-            row.createCell(5).setCellValue(emp.getEmployee().getBirthDate());
-            if(emp.getEmployee().getGender().equals('0'))
+            row.createCell(4).setCellValue(emp.getName());
+            row.createCell(5).setCellValue(emp.getBirthDate());
+            if(emp.getGender().equals('0'))
                 row.createCell(6).setCellValue("Nam");
             else
                 row.createCell(6).setCellValue("Nữ");
-            row.createCell(7).setCellValue(emp.getEmployee().getAddress());
-            row.createCell(8).setCellValue(emp.getEmployee().getWorkplace());
+            row.createCell(7).setCellValue(emp.getAddress());
+            row.createCell(8).setCellValue(emp.getWorkplace());
             row.createCell(9).setCellValue(emp.getProvince().getName());
-            row.createCell(10).setCellValue(emp.getEmployee().getEthnic());
-            row.createCell(11).setCellValue(emp.getEmployee().getPhone());
+            row.createCell(10).setCellValue(emp.getEthnic());
+            row.createCell(11).setCellValue(emp.getPhone());
             row.createCell(12).setCellValue(emp.getEmployeeRole().getRole());
-            row.createCell(13).setCellValue(emp.getEmployee().getCreateAt());
+            row.createCell(13).setCellValue(emp.getCreateAt());
         }
 
         // Initialize headers and file:

@@ -20,7 +20,7 @@
                         <li class="menu-title">Chính</li>
                         <c:forEach var="menu" items="${ADMIN_SIDEBAR_MENU}">
                         <li>
-                            <a href="${pageContext.request.contextPath}${menu.getLink()}"><i class="${menu.getIcon()}"></i> <span>${menu.getName()}</span></a>
+                            <a href="${pageContext.request.contextPath}/${menu.getLink()}"><i class="${menu.getIcon()}"></i> <span>${menu.getName()}</span></a>
                         </li>
                         </c:forEach>
                         <!-- comment <li>

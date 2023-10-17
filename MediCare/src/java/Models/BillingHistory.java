@@ -6,21 +6,26 @@ package Models;
 
 /**
  *
- * @author hoang
+ * @author DELL
  */
-public class BillingHistory {
-    private String id, appointmentId, totalCash, userId, doctorId, createdAt;
+public class billingHistory {
+    private String id;
+    private String appointmentId;
+    private String totalCash;
+    private String userId;
+    private String specialistId;
+    private String createdAt;
 
-    public BillingHistory() {
-    }
-
-    public BillingHistory(String id, String appointmentId, String totalCash, String userId, String doctorId, String createdAt) {
+    public billingHistory(String id, String appointmentId, String totalCash, String userId, String specialistId, String createdAt) {
         this.id = id;
         this.appointmentId = appointmentId;
         this.totalCash = totalCash;
         this.userId = userId;
-        this.doctorId = doctorId;
+        this.specialistId = specialistId;
         this.createdAt = createdAt;
+    }
+
+    public billingHistory() {
     }
 
     public String getId() {
@@ -55,12 +60,12 @@ public class BillingHistory {
         this.userId = userId;
     }
 
-    public String getDoctorId() {
-        return doctorId;
+    public String getSpecialistId() {
+        return specialistId;
     }
 
-    public void setDoctorId(String doctorId) {
-        this.doctorId = doctorId;
+    public void setSpecialistId(String specialistId) {
+        this.specialistId = specialistId;
     }
 
     public String getCreatedAt() {
@@ -70,7 +75,6 @@ public class BillingHistory {
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
-
     
     
 }

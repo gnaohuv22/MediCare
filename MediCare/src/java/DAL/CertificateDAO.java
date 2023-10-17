@@ -4,36 +4,31 @@
  */
 package DAL;
 
+import Models.Certificate;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import Models.AcademicRank;
-import Models.Certificate;
 
 /**
  *
- * @author hoang
+ * @author DELL
  */
 public class CertificateDAO extends DBContext{
-    public ArrayList<Certificate> getListCertificate() {
+    public ArrayList<Certificate> getAllCertificate() {
         ArrayList<Certificate> list = new ArrayList<>();
-        String SQL = "SELECT * FROM [Certificate]";
-
-        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Certificate c = new Certificate(String.valueOf(rs.getInt(1)),
-                        rs.getString(2),
-                        String.valueOf(rs.getFloat(3)));
-                list.add(c);
+        String SQL = "SELECT id,name,wage FROM Certificate";
+        try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()){
+                String id = rs.getString(1);
+                String name = rs.getString(2);
+                String wage = rs.getString(3);
+                Certificate obj = new Certificate(id,name,wage);
+                list.add(obj);
             }
-            return list;
-        } catch (SQLException e) {
-            System.out.println("getListCertificate: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("getAllCertificate " + e.getMessage());
         }
-        return null;
+        return list;
     }
-
-
 }

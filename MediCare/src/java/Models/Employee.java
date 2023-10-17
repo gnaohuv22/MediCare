@@ -9,25 +9,31 @@ package Models;
  * @author hoang
  */
 public class Employee {
-    private String id, email, password, branchId, name, birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, createAt;
+    private String id, email, password;
+    Branch branch;
+    String name, birthDate, gender, address, workplace;
+    Province province;
+    String phone, ethnic;
+    EmployeeRole employeeRole;
+    String createAt;
 
     public Employee() {
     }
 
-    public Employee(String id, String email, String password, String branchId, String name, String birthDate, String gender, String address, String workplace, String provinceId, String phone, String ethnic, String roleId, String createAt) {
+    public Employee(String id, String email, String password, Branch branch, String name, String birthDate, String gender, String address, String workplace, Province province, String phone, String ethnic, EmployeeRole employeeRole, String createAt) {
         this.id = id;
         this.email = email;
         this.password = password;
-        this.branchId = branchId;
+        this.branch = branch;
         this.name = name;
         this.birthDate = birthDate;
         this.gender = gender;
         this.address = address;
         this.workplace = workplace;
-        this.provinceId = provinceId;
+        this.province = province;
         this.phone = phone;
         this.ethnic = ethnic;
-        this.roleId = roleId;
+        this.employeeRole = employeeRole;
         this.createAt = createAt;
     }
 
@@ -55,12 +61,12 @@ public class Employee {
         this.password = password;
     }
 
-    public String getBranchId() {
-        return branchId;
+    public Branch getBranch() {
+        return branch;
     }
 
-    public void setBranchId(String branchId) {
-        this.branchId = branchId;
+    public void setBranch(Branch branch) {
+        this.branch = branch;
     }
 
     public String getName() {
@@ -103,12 +109,12 @@ public class Employee {
         this.workplace = workplace;
     }
 
-    public String getProvinceId() {
-        return provinceId;
+    public Province getProvince() {
+        return province;
     }
 
-    public void setProvinceId(String provinceId) {
-        this.provinceId = provinceId;
+    public void setProvince(Province province) {
+        this.province = province;
     }
 
     public String getPhone() {
@@ -127,12 +133,12 @@ public class Employee {
         this.ethnic = ethnic;
     }
 
-    public String getRoleId() {
-        return roleId;
+    public EmployeeRole getEmployeeRole() {
+        return employeeRole;
     }
 
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
+    public void setEmployeeRole(EmployeeRole employeeRole) {
+        this.employeeRole = employeeRole;
     }
 
     public String getCreateAt() {
@@ -142,6 +148,5 @@ public class Employee {
     public void setCreateAt(String createAt) {
         this.createAt = createAt;
     }
-    
     
 }

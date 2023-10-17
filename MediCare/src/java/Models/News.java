@@ -13,25 +13,26 @@ public class News {
     private String title;
     private String content;
     private String author;
-    private String categoryId;
+    private NewsCategory newsCategory;
     private String createdAt;
     private String lastModified;
     private String viewCount;
     private String coverImage;
-
+    private String subtitle;
     public News() {
     }
 
-    public News(String id, String title, String content, String author, String categoryId, String createdAt, String lastModified, String viewCount, String coverImage) {
+    public News(String id, String title, String content, String author, NewsCategory newsCategory, String createdAt, String lastModified, String viewCount, String coverImage, String subtitle) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.author = author;
-        this.categoryId = categoryId;
+        this.newsCategory = newsCategory;
         this.createdAt = createdAt;
         this.lastModified = lastModified;
         this.viewCount = viewCount;
         this.coverImage = coverImage;
+        this.subtitle = subtitle;
     }
 
     public String getId() {
@@ -66,12 +67,12 @@ public class News {
         this.author = author;
     }
 
-    public String getCategoryId() {
-        return categoryId;
+    public NewsCategory getNewsCategory() {
+        return newsCategory;
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+    public void setNewsCategory(NewsCategory newsCategory) {
+        this.newsCategory = newsCategory;
     }
 
     public String getCreatedAt() {
@@ -106,6 +107,12 @@ public class News {
         this.coverImage = coverImage;
     }
 
-    
-    
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
+
 }

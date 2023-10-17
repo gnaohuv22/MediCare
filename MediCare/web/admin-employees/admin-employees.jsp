@@ -23,21 +23,22 @@
                             <h4 class="page-title">Nhân Viên</h4>
                         </div>
                         <div class="col-sm-8 col-9 text-right m-b-20">
-                            <a href="${pageContext.request.contextPath}/admin-get-id-name" class="btn btn-primary float-right btn-rounded"><i class="fa fa-plus"></i> Thêm nhân viên</a>
+                            <a href="${pageContext.request.contextPath}/admin-list-employee?add-employee=true" class="btn btn-primary float-right btn-rounded"><i class="fa fa-plus"></i> Thêm nhân viên</a>
                         </div>
                     </div>
-                    <form action="${pageContext.request.contextPath}/DispatchController">
+                    <form action="${pageContext.request.contextPath}/admin-list-employee?">
+                        <input type="hidden" name="search-employee" value="true">
                     <div class="row filter-row">
                         <div class="col-sm-6 col-md-3">
                             <div class="form-group form-focus">
                                 <label class="focus-label">ID nhân viên</label>
-                                <input type="text" class="form-control floating" name="searchId">
+                                <input type="text" class="form-control floating" name="searchId" value="${searchId}">
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-3">
                             <div class="form-group form-focus">
                                 <label class="focus-label">Tên nhân viên</label>
-                                <input type="text" class="form-control floating" name ="searchName">
+                                <input type="text" class="form-control floating" name ="searchName" ${searchName}">
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-3">
@@ -46,7 +47,7 @@
                                 <select class="select floating" name="searchRole">
                                     <option value="Select Role">Chọn quyền</option>
                                     <c:forEach var="list" items="${ALL_EMPLOYEEROLE}">
-                                        <option>${list.getRole()}</option>
+                                        <option value="${list.getId()}" <c:if test="${list.getId() eq searchRole}">selected</c:if>>${list.getRole()}</option>
                                     </c:forEach>
                                 </select>
                             </div>
@@ -63,38 +64,38 @@
                                     <thead>
                                         <tr>
                                             <c:forEach var="title" items="${TITLE_EMPLOYEE}">
-                                                <c:if test="${title.toString() != 'Mật khẩu'}"><th>${title.toString()}</th></c:if>
+                                                ${title.toString()}
                                             </c:forEach>
-                                            <!--<th class="text-right">Hành động</th>-->
+                                            <th class="text-right">Hành động</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <c:forEach var="list" items="${ALL_EMPLOYEE}">
             <tr name="display-table-tr">
-                <td>${list.getEmployee().getId()}</td>
-                <td>${list.getEmployee().getEmail()}</td>
-                <!--<td>${list.getEmployee().getPassword()}</td>-->
+                <td>${list.getId()}</td>
+                <td>${list.getEmail()}</td>
+                <!--<td>${list.getPassword()}</td>-->
                 <td>${list.getBranch().getName()}</td>
-                <td>${list.getEmployee().getName()}</td>
-                <td>${list.getEmployee().getBirthDate()}</td>
+                <td>${list.getName()}</td>
+                <td>${list.getBirthDate()}</td>
                 <td>
-                    <c:if test="${list.getEmployee().getGender()==0}">Nam</c:if>
-                    <c:if test="${list.getEmployee().getGender()==1}">Nữ</c:if>
+                    <c:if test="${list.getGender()==0}">Nam</c:if>
+                    <c:if test="${list.getGender()==1}">Nữ</c:if>
                 </td>
-                <td>${list.getEmployee().getAddress()}</td>
-                <td>${list.getEmployee().getWorkplace()}</td>
+                <td>${list.getAddress()}</td>
+                <td>${list.getWorkplace()}</td>
                 <td>${list.getProvince().getName()}</td>
-                <td>${list.getEmployee().getPhone()}</td>
-                <td>${list.getEmployee().getEthnic()}</td>
+                <td>${list.getPhone()}</td>
+                <td>${list.getEthnic()}</td>
                 <td>${list.getEmployeeRole().getRole()}</td>
-                <td>${list.getEmployee().getCreateAt()}</td>
+                <td>${list.getCreateAt()}</td>
                 <td class="text-right">
                     <div class="dropdown dropdown-action">
                         <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-get-employee-to-edit?id=${list.getEmployee().getId()}"><i class="fa fa-pencil m-r-5"></i> Sửa</a>
-			<!--<a class="dropdown-item" href="${pageContext.request.contextPath}/admin-delete-employee-controller?id=${list.getEmployee().getId()}" ><i class="fa fa-trash-o m-r-5"></i> Xóa</a>-->
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-employee?edit-employee=true&id=${list.getId()}"><i class="fa fa-pencil m-r-5"></i> Sửa</a>
+			<!--<a class="dropdown-item" onclick="return confirm('Bạn có chắc chắn muốn xóa? (Khi xóa thì dữ liệu này cùng những dữ liệu liên kết sẽ biến mất hoàn toàn và không thể khôi phục lại)');" href="${pageContext.request.contextPath}/admin-delete-employee-controller?id=${list.getId()}" ><i class="fa fa-trash-o m-r-5"></i> Xóa</a>-->
                     </div>
                     </div>
 		</td>
@@ -109,6 +110,52 @@
                         </div>
                     </div>
                 </div>
+                    <!-- pagination section -->
+<nav aria-label="Pagination">
+    <ul class="pagination justify-content-center">
+        <c:if test="${currentPage != 1}">
+            <li class="page-item">
+                <c:if test="${IS_SEARCH==1}">
+                    <a class="page-link" href="admin-list-employee?search-employee=true&page=${currentPage - 1}&searchId=${searchId}&searchName=${searchName}&searchRole=${searchRole}"><<</a>
+                </c:if>
+                <c:if test="${IS_SEARCH==0}">
+                    <a class="page-link" href="admin-list-employee?page=${currentPage - 1}"><<</a>
+                </c:if>    
+            </li>
+        </c:if>
+
+        <c:forEach begin="1" end="${pageCount}" var="i">
+            <c:choose>
+                <c:when test="${currentPage eq i}">
+                    <li class="page-item active">
+                        <a class="page-link" href="#">${i}</a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li class="page-item">
+                        <c:if test="${IS_SEARCH==1}">
+                        <a class="page-link" href="admin-list-employee?search-employee=true&page=${i}&searchId=${searchId}&searchName=${searchName}&searchRole=${searchRole}">${i}</a>
+                        </c:if>
+                        <c:if test="${IS_SEARCH==0}">
+                            <a class="page-link" href="admin-list-employee?page=${i}">${i}</a>
+                        </c:if>    
+                    </li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+        <c:if test="${currentPage lt pageCount}">
+            <li class="page-item">
+                <c:if test="${IS_SEARCH==1}">
+                    <a class="page-link" href="admin-list-employee?search-employee=true&page=${currentPage + 1}&searchId=${searchId}&searchName=${searchName}&searchRole=${searchRole}">>></a>
+                </c:if>
+                <c:if test="${IS_SEARCH==0}">
+                    <a class="page-link" href="admin-list-employee?page=${currentPage + 1}">>></a>
+                </c:if>   
+            </li>
+        </c:if>
+    </ul>
+</nav>
+<!-- pagination section -->
                 <div><a href="admin-export-employee-list">Lấy file excel</a></div>
                 <jsp:include page="../admin-general/admin-notifications-box.jsp"/>
             </div>

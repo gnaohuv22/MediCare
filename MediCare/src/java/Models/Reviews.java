@@ -10,9 +10,9 @@ package Models;
  */
 public class Reviews {
     private String id;
-    private String userId;
-    private String doctorId;
-    private String appointmentId;
+    private User user;
+    private Doctor doctor;
+    private Appointments appointment;
     private String rating;
     private String reviewContent;
     private String createdAt;
@@ -20,11 +20,11 @@ public class Reviews {
     public Reviews() {
     }
 
-    public Reviews(String id, String userId, String doctorId, String appointmentId, String rating, String reviewContent, String createdAt) {
+    public Reviews(String id, User user, Doctor doctor, Appointments appointment, String rating, String reviewContent, String createdAt) {
         this.id = id;
-        this.userId = userId;
-        this.doctorId = doctorId;
-        this.appointmentId = appointmentId;
+        this.user = user;
+        this.doctor = doctor;
+        this.appointment = appointment;
         this.rating = rating;
         this.reviewContent = reviewContent;
         this.createdAt = createdAt;
@@ -38,28 +38,28 @@ public class Reviews {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getDoctorId() {
-        return doctorId;
+    public Doctor getDoctor() {
+        return doctor;
     }
 
-    public void setDoctorId(String doctorId) {
-        this.doctorId = doctorId;
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 
-    public String getAppointmentId() {
-        return appointmentId;
+    public Appointments getAppointment() {
+        return appointment;
     }
 
-    public void setAppointmentId(String appointmentId) {
-        this.appointmentId = appointmentId;
+    public void setAppointment(Appointments appointment) {
+        this.appointment = appointment;
     }
 
     public String getRating() {
@@ -85,6 +85,5 @@ public class Reviews {
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
-
     
 }

@@ -32,33 +32,26 @@
                                             <c:forEach var="title" items="${TITLE_REVIEWS}">
                                                 ${title.toString()}
                                             </c:forEach>
-<!--                                            <th>ID</th>
-                                            <th>Tên người dùng</th>
-                                            <th>Tên bác sĩ</th>
-                                            <th>ID đơn hàng</th>
-                                            <th>Điểm đánh giá</th>
-                                            <th>Nội dung</th>
-                                            <th>Ngày tạo</th>
-                                            <th class="text-right">Action</th>-->
+                                            <th class="text-right">Hành động</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <c:forEach var="list" items="${ALL_REVIEW}">
                                         <tr>
                                             <!--<td><img width="28" height="28" src="../assets/admin/img/user.jpg" class="rounded-circle m-r-5" alt=""> Linda Carpenter</td>-->
-                                            <td>${list.getReviews().getId()}</td>
+                                            <td>${list.getId()}</td>
                                             <td>${list.getUser().getName()}</td>
                                             <td>${list.getDoctor().getDisplayName()}</td>
-                                            <td>${list.getReviews().getAppointmentId()}</td>
-                                            <td>${list.getReviews().getRating()}</td>
-                                            <td>${list.getReviews().getReviewContent()}</td>
-                                            <td>${list.getReviews().getCreatedAt()}</td>
+                                            <td>${list.getAppointment().getId()}</td>
+                                            <td>${list.getRating()}</td>
+                                            <td>${list.getReviewContent()}</td>
+                                            <td>${list.getCreatedAt()}</td>
                                             <td class="text-right">
                                                 <div class="dropdown dropdown-action">
                                                     <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        <!--<a class="dropdown-item" href="${pageContext.request.contextPath}/admin-delete-review?id=${list.getReviews().getId()}" data-toggle="modal" data-target="#delete_patient"><i class="fa fa-trash-o m-r-5"></i> Xóa</a>-->
-                                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-delete-review?id=${list.getReviews().getId()}"><i class="fa fa-trash-o m-r-5"></i> Xóa</a>
+                                                        <!--<a class="dropdown-item" href="${pageContext.request.contextPath}/admin-delete-review?id=${list.getId()}" data-toggle="modal" data-target="#delete_patient"><i class="fa fa-trash-o m-r-5"></i> Xóa</a>-->
+                                                        <a class="dropdown-item" onclick="return confirm('Bạn có chắc chắn muốn xóa? (Khi xóa thì dữ liệu này cùng những dữ liệu liên kết sẽ biến mất hoàn toàn và không thể khôi phục lại)');" href="${pageContext.request.contextPath}/admin-delete-review?id=${list.getId()}"><i class="fa fa-trash-o m-r-5"></i> Xóa</a>
                                                     </div>
                                                 </div>
                                             </td>
@@ -71,23 +64,39 @@
                         </div>
                     </div>
                 </div>
+                <!-- pagination section -->
+<nav aria-label="Pagination">
+    <ul class="pagination justify-content-center">
+        <c:if test="${currentPage != 1}">
+            <li class="page-item">
+                <a class="page-link" href="admin-list-reviews?page=${currentPage - 1}"><<</a>
+            </li>
+        </c:if>
+
+        <c:forEach begin="1" end="${pageCount}" var="i">
+            <c:choose>
+                <c:when test="${currentPage eq i}">
+                    <li class="page-item active">
+                        <a class="page-link" href="#">${i}</a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li class="page-item">
+                        <a class="page-link" href="admin-list-reviews?page=${i}">${i}</a>
+                    </li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+        <c:if test="${currentPage lt pageCount}">
+            <li class="page-item">
+                <a class="page-link" href="admin-list-reviews?page=${currentPage + 1}">>></a>
+            </li>
+        </c:if>
+    </ul>
+</nav>
+<!-- pagination section -->
                 <jsp:include page="../admin-general/admin-notifications-box.jsp"/>
             </div>
-<!--            <div id="delete_patient" class="modal fade delete-modal" role="dialog">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-body text-center">
-                            <img src="../assets/admin/img/sent.png" alt="" width="50" height="46">
-                            <h3>Are you sure want to delete this Patient?</h3>
-                            <h3>Bạn có chắc chắn xóa đánh giá này không</h3>
-                            <div class="m-t-20"> <a href="#" class="btn btn-white" data-dismiss="modal">Close</a>
-                                <button type="submit" class="btn btn-danger">xóa</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>-->
         </div>
         <div class="sidebar-overlay" data-reff=""></div>
         <script src="${pageContext.request.contextPath}/assets/admin/js/jquery-3.2.1.min.js"></script>
@@ -99,6 +108,6 @@
         <script src="${pageContext.request.contextPath}/assets/admin/js/dataTables.bootstrap4.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/admin/js/moment.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/admin/js/bootstrap-datetimepicker.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/admin/js/app.js"></script>
+        <!--<script src="${pageContext.request.contextPath}/assets/admin/js/app.js"></script>-->
     </body>
 </html>

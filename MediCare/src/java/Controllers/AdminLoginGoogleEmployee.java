@@ -5,7 +5,7 @@
 
 package Controllers;
 
-import Models.GetEmployee;
+import Models.Employee;
 import Models.GooglePojo;
 import DAL.EmployeeDAO;
 import java.io.IOException;
@@ -27,7 +27,7 @@ import DAL.GoogleUtils;
 public class AdminLoginGoogleEmployee extends HttpServlet {
    private static final long serialVersionUID = 1L;
     private final String EMPLOYEE_LOGIN="admin-screen/admin-login.jsp";
-    private final String EMPLOYEE_PAGE="admin-employee-home";
+    private final String EMPLOYEE_PAGE="admin-home-page";
     private final String LOGIN_FAIL = "Đăng nhập không thành công!";
     private final String LOGIN_GOOGLE_EMAIL_ERROR = "Tài khoản google không khớp!";
     private final String LOGIN_GOOGLE_ERROR = "Không đăng nhập bằng google được!";
@@ -83,14 +83,15 @@ public class AdminLoginGoogleEmployee extends HttpServlet {
             request.setAttribute("email", googlePojo.getEmail());
             HttpSession session = request.getSession();
             EmployeeDAO dao = new EmployeeDAO();
-            GetEmployee emp = dao.getEmployeeByEmail(googlePojo.getEmail());
+            Employee emp = dao.getEmployeeByEmail(googlePojo.getEmail());
             if (emp == null){
                 request.setAttribute("MESSAGE",LOGIN_FAIL+" "+LOGIN_GOOGLE_EMAIL_ERROR);
                 request.getRequestDispatcher(EMPLOYEE_LOGIN).forward(request, response);
             }
             session.setAttribute("EMPLOYEE", emp);
-            RequestDispatcher dis = request.getRequestDispatcher(EMPLOYEE_PAGE);
-            dis.forward(request, response);
+            response.sendRedirect(EMPLOYEE_PAGE);
+//            RequestDispatcher dis = request.getRequestDispatcher(EMPLOYEE_PAGE);
+//            dis.forward(request, response);
         }
     } 
 
