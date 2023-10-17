@@ -14,12 +14,14 @@ import Models.Branch;
 import Models.Certificate;
 import Models.CertificateDoctor;
 import Models.Doctor;
+import Models.Employee;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,9 @@ import java.util.regex.Pattern;
  */
 public class AdminDoctorController extends HttpServlet {
 
+    private final String STATISTIC_REVIEW = "admin-reviews/admin-reviews.jsp";
+    private final String REVIEW_PAGE = "admin-list-review";
+    private final String NEED_EMPLOYEE = "admin-screen/admin-login.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -72,6 +77,13 @@ public class AdminDoctorController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Employee checkEmp = (Employee) session.getAttribute("EMPLOYEE");
+        //check login
+        if (checkEmp == null) {
+            request.setAttribute("MESSAGE", checkEmp);
+            request.getRequestDispatcher(NEED_EMPLOYEE).forward(request, response);
+        }
         String action = request.getParameter("action");
         System.out.println("DoGet Action : " + action);
         String id = request.getParameter("id");
