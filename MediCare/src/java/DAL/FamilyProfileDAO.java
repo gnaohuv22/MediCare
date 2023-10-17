@@ -31,11 +31,11 @@ public class FamilyProfileDAO extends DBContext {
                 RelationshipDAO rd = new RelationshipDAO();
                 Relationship r = rd.getRelationshipByRelationshipId(String.valueOf(rs.getInt("relationId")));
                 String[] names = rs.getString(3).split(" ");
-                String lastName = names[names.length-1];
+                String lastName = names[names.length - 1];
                 FamilyProfile fp = new FamilyProfile(
                         String.valueOf(rs.getInt(1)),
                         rs.getString(2),
-//                        rs.getString(3),
+                        //                        rs.getString(3),
                         lastName,
                         String.valueOf(rs.getDate(4)),
                         gender,
@@ -59,7 +59,7 @@ public class FamilyProfileDAO extends DBContext {
         return list;
     }
 
-public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
+    public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
         String SQL = "SELECT * FROM [FamilyProfile] where ownerid=? ORDER BY relationId";
         ArrayList<FamilyProfile> list = new ArrayList<>();
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
@@ -73,11 +73,11 @@ public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
                 RelationshipDAO rd = new RelationshipDAO();
                 Relationship r = rd.getRelationshipByRelationshipId(String.valueOf(rs.getInt("relationId")));
                 String[] names = rs.getString(3).split(" ");
-                String lastName = names[names.length-1];
+                String lastName = names[names.length - 1];
                 FamilyProfile fp = new FamilyProfile(
                         String.valueOf(rs.getInt(1)),
                         rs.getString(2),
-//                        rs.getString(3),
+                        //                        rs.getString(3),
                         lastName,
                         String.valueOf(rs.getDate(4)),
                         gender,
@@ -102,27 +102,24 @@ public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
         return null;
     }
 
-    public List<FamilyProfile> getFamilyProfileListByUserName(String name, String ownerId) {
-        String SQL = "SELECT * FROM [FamilyProfile] where ownerid=?";
+    public List<FamilyProfile> getFamilyProfileListByUserOwnerIdForBooking(String idByEmail) {
+        String SQL = "SELECT * FROM [FamilyProfile] where ownerid=? AND relationId IS NOT NULL ORDER BY relationId";
         ArrayList<FamilyProfile> list = new ArrayList<>();
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
-            ps.setString(1, ownerId);
+            ps.setString(1, String.valueOf(idByEmail));
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String gender = "Male";
                 if (rs.getInt(5) == 1) {
                     gender = "Female";
                 }
-
-                if (rs.getString(3).toLowerCase().contains(name.toLowerCase())) {
                 RelationshipDAO rd = new RelationshipDAO();
-                Relationship r = rd.getRelationshipByRelationshipId(String.valueOf(rs.getInt("relationId")));
                 String[] names = rs.getString(3).split(" ");
-                String lastName = names[names.length-1];
+                String lastName = names[names.length - 1];
                 FamilyProfile fp = new FamilyProfile(
                         String.valueOf(rs.getInt(1)),
                         rs.getString(2),
-//                        rs.getString(3),
+                        //                        rs.getString(3),
                         lastName,
                         String.valueOf(rs.getDate(4)),
                         gender,
@@ -136,7 +133,52 @@ public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
                         String.valueOf(rs.getDate(13)),
                         String.valueOf(rs.getInt(14)),
                         rs.getString(15),
-                        r);
+                        rd.getRelationshipByRelationshipId(String.valueOf(rs.getInt(14))));
+                System.out.println(fp.toString());
+                list.add(fp);
+            }
+            return list;
+        } catch (SQLException e) {
+            System.out.println("FamilyProfileDAO.getFamilyProfileListByUserOwnerIdForBooking: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public List<FamilyProfile> getFamilyProfileListByUserName(String name, String ownerId) {
+        String SQL = "SELECT * FROM [FamilyProfile] where ownerid=?";
+        ArrayList<FamilyProfile> list = new ArrayList<>();
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setString(1, ownerId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String gender = "Male";
+                if (rs.getInt(5) == 1) {
+                    gender = "Female";
+                }
+
+                if (rs.getString(3).toLowerCase().contains(name.toLowerCase())) {
+                    RelationshipDAO rd = new RelationshipDAO();
+                    Relationship r = rd.getRelationshipByRelationshipId(String.valueOf(rs.getInt("relationId")));
+                    String[] names = rs.getString(3).split(" ");
+                    String lastName = names[names.length - 1];
+                    FamilyProfile fp = new FamilyProfile(
+                            String.valueOf(rs.getInt(1)),
+                            rs.getString(2),
+                            //                        rs.getString(3),
+                            lastName,
+                            String.valueOf(rs.getDate(4)),
+                            gender,
+                            rs.getString(6),
+                            String.valueOf(rs.getInt(7)),
+                            rs.getString(8),
+                            rs.getString(9),
+                            rs.getString(10),
+                            rs.getString(11),
+                            rs.getString(12),
+                            String.valueOf(rs.getDate(13)),
+                            String.valueOf(rs.getInt(14)),
+                            rs.getString(15),
+                            r);
                     list.add(fp);
                 }
             }
@@ -161,11 +203,11 @@ public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
                 RelationshipDAO rd = new RelationshipDAO();
                 Relationship r = rd.getRelationshipByRelationshipId(String.valueOf(rs.getInt("relationId")));
                 String[] names = rs.getString(3).split(" ");
-                String lastName = names[names.length-1];
+                String lastName = names[names.length - 1];
                 FamilyProfile fp = new FamilyProfile(
                         String.valueOf(rs.getInt(1)),
                         rs.getString(2),
-//                        rs.getString(3),
+                        //                        rs.getString(3),
                         lastName,
                         String.valueOf(rs.getDate(4)),
                         gender,
@@ -188,7 +230,7 @@ public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
         }
         return null;
     }
-    
+
     public FamilyProfile getFamilyProfileByProfileId(String profileId) {
         String SQL = "SELECT * FROM [FamilyProfile] where profileId=?";
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
@@ -202,11 +244,11 @@ public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
                 RelationshipDAO rd = new RelationshipDAO();
                 Relationship r = rd.getRelationshipByRelationshipId(String.valueOf(rs.getInt("relationId")));
                 String[] names = rs.getString(3).split(" ");
-                String lastName = names[names.length-1];
+                String lastName = names[names.length - 1];
                 FamilyProfile fp = new FamilyProfile(
                         String.valueOf(rs.getInt(1)),
                         rs.getString(2),
-//                        rs.getString(3),
+                        //                        rs.getString(3),
                         lastName,
                         String.valueOf(rs.getDate(4)),
                         gender,
@@ -229,7 +271,7 @@ public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
         }
         return null;
     }
-    
+
     public FamilyProfile getFamilyProfileByInfo(String patientName, String gender, String birthDate, String phone, String emailPatient) {
         String sql = "SELECT * FROM FamilyProfile\n"
                 + "WHERE email = ? AND birthDate = ? AND gender = ? AND [name] =? AND phone = ?";
@@ -250,7 +292,7 @@ public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
         }
         return null;
     }
-    
+
     public FamilyProfile getFamilyProfileByInfoGuest(String patientName, String gender, String birthDate, String phone, String emailPatient, String ownerId) {
         String sql = "SELECT * FROM FamilyProfile\n"
                 + "WHERE email = ? AND birthDate = ? AND gender = ? AND [name] =? AND phone = ? AND ownerId = ?";
@@ -294,7 +336,7 @@ public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
         }
         return null;
     }
-    
+
     public boolean addNewProfile(String patientName, String gender, String birthDate, String phone, String emailPatient, String ownerId) {
         String sql = "INSERT INTO  [dbo].[FamilyProfile]\n"
                 + "           ([email]\n"
