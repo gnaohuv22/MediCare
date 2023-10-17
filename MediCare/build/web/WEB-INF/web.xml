@@ -1,38 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <filter>
-        <filter-name>JSPFilter</filter-name>
-        <filter-class>DAL.JSPFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>JSPFilter</filter-name>
-        <url-pattern>*.jsp</url-pattern>
-    </filter-mapping>
-    
      <servlet>
         <servlet-name>AdminDoctorController</servlet-name>
         <servlet-class>Controllers.AdminDoctorController</servlet-class>
     </servlet>
-     <servlet>
-        <servlet-name>AdminEditDoctorController</servlet-name>
-        <servlet-class>Controllers.AdminEditDoctorController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>AdminAddDoctorController</servlet-name>
-        <servlet-class>Controllers.AdminAddDoctorController</servlet-class>
-    </servlet>
+
     <servlet-mapping>
         <servlet-name>AdminDoctorController</servlet-name>
         <url-pattern>/admin-doctor</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>AdminEditDoctorController</servlet-name>
-        <url-pattern>/admin-editdoctor</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>AdminAddDoctorController</servlet-name>
-        <url-pattern>/admin-adddoctor</url-pattern>
-    </servlet-mapping>
+   
     <welcome-file-list>
         <welcome-file>admin-screen/admin-login.jsp</welcome-file>
     </welcome-file-list>

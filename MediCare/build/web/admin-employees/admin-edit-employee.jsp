@@ -39,22 +39,22 @@
                     <c:set var="edit" value="${EDIT_EMPLOYEE}"/>
                     <div class="row">
                         <div class="col-lg-8 offset-lg-2">
-                            <form action="${pageContext.request.contextPath}/DispatchController" method="POST"> 
+                            <form action="${pageContext.request.contextPath}/admin-list-employee?edit-employee=true" method="POST"> 
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>ID</label>
-                                            <input type="hidden" name="id" value="${edit.getEmployee().getId()}" />
-                                            <p class="form-control">${edit.getEmployee().getId()}</p>
+                                            <input type="hidden" name="id" value="${edit.getId()}" />
+                                            <p class="form-control">${edit.getId()}</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Email </label>
-                                            <input class="form-control" type="email" name="email" value="${edit.getEmployee().email}"><p class="error-notice">${error.getEmailError()}</p>
+                                            <input class="form-control" type="email" name="email" value="${edit.email}"><p class="error-notice">${error.getEmailError()}</p>
                                         </div>
                                     </div>
-                                    <input class="form-control" type="hidden" name="password" value="${edit.getEmployee().password}">
+                                    <input class="form-control" type="hidden" name="password" value="${edit.password}">
                             
                                     <div class="col-sm-12">
                                         <div class="form-group">
@@ -77,7 +77,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Tên </label>
-                                            <input class="form-control" type="text" name="name" value="${edit.getEmployee().name}">
+                                            <input class="form-control" type="text" name="name" value="${edit.name}">
                                             <p class="error-notice">${error.getNameError()}</p>
                                         </div>
                                     </div>
@@ -85,7 +85,7 @@
                                         <div class="form-group">
                                             <label>Ngày sinh</label>
                                             <div class="cal-icon">
-                                                <input class="form-control datetimepicker" type="date" name="birthDate" value="${edit.getEmployee().birthDate}">
+                                                <input class="form-control datetimepicker" type="date" name="birthDate" value="${edit.birthDate}">
                                                 <p class="error-notice">${error.getBirthDateError()}</p>
                                             </div>
                                         </div>
@@ -94,8 +94,8 @@
                                         <div class="form-group">
                                             <label>Giới tính </label>
                                                 <span style="font-size:20px;color:#000;margin-left:36px;padding:5px 5px;">
-                                                        <input type="radio" name="gender" value="0" <c:if test="${edit.getEmployee().gender == 0}">checked="checked"</c:if>/>Nam
-                                                        <input type="radio" name="gender" value="1" <c:if test="${edit.getEmployee().gender == 1}">checked="checked"</c:if>/>Nữ
+                                                        <input type="radio" name="gender" value="0" <c:if test="${edit.gender == 0}">checked="checked"</c:if>/>Nam
+                                                        <input type="radio" name="gender" value="1" <c:if test="${edit.gender == 1}">checked="checked"</c:if>/>Nữ
                                                     
                                                 </span>
                                         </div>
@@ -103,13 +103,13 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Địa chỉ </label>
-                                            <input class="form-control" type="text" name="address" value="${edit.getEmployee().address}" ><p class="error-notice">${error.getAddressError()}</p>
+                                            <input class="form-control" type="text" name="address" value="${edit.address}" ><p class="error-notice">${error.getAddressError()}</p>
                                         </div>
                                     </div>
                                         <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Nơi làm việc </label>
-                                            <input class="form-control" type="text" name="workplace" value="${edit.getEmployee().workplace}" ><p class="error-notice">${error.getWorkplaceError()}</p>
+                                            <input class="form-control" type="text" name="workplace" value="${edit.workplace}" ><p class="error-notice">${error.getWorkplaceError()}</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
@@ -125,13 +125,13 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Điện thoại </label>
-                                            <input class="form-control" type="text" name="phone" value="${edit.getEmployee().phone}" ><p class="error-notice">${error.getPhoneError()}</p>
+                                            <input class="form-control" type="text" name="phone" value="${edit.phone}" ><p class="error-notice">${error.getPhoneError()}</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Dân tộc </label>
-                                            <input class="form-control" type="text" name="ethnic" value="${edit.getEmployee().ethnic}" ><p class="error-notice">${error.getEthnicError()}</p>
+                                            <input class="form-control" type="text" name="ethnic" value="${edit.ethnic}" ><p class="error-notice">${error.getEthnicError()}</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">

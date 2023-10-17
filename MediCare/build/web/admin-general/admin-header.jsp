@@ -14,7 +14,7 @@
     <body>
         <div class="header">
             <div class="header-left">
-                <a href="admin-employee-home" class="logo">
+                <a href="admin-home-page" class="logo">
                     <img src="${pageContext.request.contextPath}/assets/admin/img/logo-dark.png" width="35" height="35" alt=""> <span>MediCare</span>
                 </a>
             </div>
@@ -100,7 +100,7 @@
                     <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
                         <span class="user-img"><img class="rounded-circle" src="${pageContext.request.contextPath}/assets/admin/img/user.jpg" width="40" alt="Admin">
                             <span class="status online"></span></span>
-                            <span>${EMPLOYEE.getEmployee().getEmail()}</span>
+                            <span>${EMPLOYEE.getEmail()}</span>
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-profile/admin-profile.jsp ">Hồ sơ</a>

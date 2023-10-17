@@ -6,12 +6,10 @@ package Models;
 
 /**
  *
- * @author DELL
+ * @author hoang
  */
 public class Certificate {
-    private String id;
-    private String name;
-    private String wage;
+    private String id, name, wage;
 
     public Certificate() {
     }
@@ -45,5 +43,6 @@ public class Certificate {
     public void setWage(String wage) {
         this.wage = wage;
     }
+    
     
 }

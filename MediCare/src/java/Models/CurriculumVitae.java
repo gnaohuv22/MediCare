@@ -6,14 +6,10 @@ package Models;
 
 /**
  *
- * @author DELL
+ * @author hoang
  */
 public class CurriculumVitae {
-    private String id;
-    private String introduce;
-    private String education;
-    private String workHistory;
-    private String startYear;
+    private String id, introduce, education, workHistory, startYear;
 
     public CurriculumVitae() {
     }
@@ -65,5 +61,6 @@ public class CurriculumVitae {
     public void setStartYear(String startYear) {
         this.startYear = startYear;
     }
+    
     
 }

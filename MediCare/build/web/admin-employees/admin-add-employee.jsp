@@ -33,10 +33,10 @@
                             <h4 class="page-title">Đăng kí nhân viên</h4>
                         </div>
                     </div>
-        <c:set var="error" value="${REGISTER_ERROR}"></c:set>
+                    <c:set var="error" value="${REGISTER_ERROR}"></c:set>
                     <div class="row">
                         <div class="col-lg-8 offset-lg-2">
-                            <form action="${pageContext.request.contextPath}/DispatchController" method="POST"> 
+                            <form action="${pageContext.request.contextPath}/admin-list-employee?add-employee=true" method="POST"> 
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
@@ -86,8 +86,8 @@
                                         <div class="form-group">
                                             <label>Giới tính </label>
                                                 <span style="font-size:20px;color:#000;margin-left:36px;padding:5px 5px;">
-                                                        <input type="radio" name="gender" value="0" checked="checked"/>Nam
-                                                        <input type="radio" name="gender" value="1" />Nu
+                                                        <input type="radio" name="gender" value="0" <c:if test="${edit.gender != 1}">checked="checked"</c:if>/>Nam
+                                                        <input type="radio" name="gender" value="1" <c:if test="${edit.gender == 1}">checked="checked"</c:if>/>Nu
                                                 </span>
                                         </div>
                                     </div>

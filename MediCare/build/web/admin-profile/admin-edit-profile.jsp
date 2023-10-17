@@ -41,43 +41,43 @@
                                             <div class="col-md-12">
                                                 <div class="form-group form-focus">
                                                     <label class="focus-label">Tên</label>
-                                                    <input type="text" class="form-control floating" value="${EMPLOYEE.getEmployee().getName()}" name="name">
+                                                    <input type="text" class="form-control floating" value="${EMPLOYEE.getName()}" name="name">
                                                 </div>
                                                     <p class="error-notice">${error.getNameError()}</p>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group form-focus">
                                                     <label class="focus-label">Email</label>
-                                                    <input type="text" class="form-control floating" value="${EMPLOYEE.getEmployee().getEmail()}" name="email">
+                                                    <input type="text" class="form-control floating" value="${EMPLOYEE.getEmail()}" name="email">
                                                 </div>
                                                     <p class="error-notice">${error.getEmailError()}</p>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group form-focus">
                                                     <label class="focus-label">Sinh nhật</label>
-                                                        <input class="form-control floating" type="date" value="${EMPLOYEE.getEmployee().getBirthDate()}" name="birthDate">
+                                                        <input class="form-control floating" type="date" value="${EMPLOYEE.getBirthDate()}" name="birthDate">
                                                 </div>
                                                         <p class="error-notice">${error.getBirthDateError()}</p>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group form-focus">
                                                     <label class="focus-label">Địa chỉ</label>
-                                                    <input type="text" class="form-control floating" value="${EMPLOYEE.getEmployee().getAddress()}" name="address">
+                                                    <input type="text" class="form-control floating" value="${EMPLOYEE.getAddress()}" name="address">
                                                 </div>
                                                     <p class="error-notice">${error.getAddressError()}</p>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group form-focus">
                                                     <label class="focus-label">Điện thoại</label>
-                                                    <input type="text" class="form-control floating" value="${EMPLOYEE.getEmployee().getPhone()}" name="phone">
+                                                    <input type="text" class="form-control floating" value="${EMPLOYEE.getPhone()}" name="phone">
                                                 </div>
                                                     <p class="error-notice">${error.getPhoneError()}</p>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group form-focus select-focus">
                                                     <!--<label class="focus-label">Giới tính</label>-->
-                                                    <input type="radio" name="gender" value="0" <c:if test="${EMPLOYEE.getEmployee().getGender() == 0}">checked="checked"</c:if>/>Nam
-                                                    <input type="radio" name="gender" value="1" <c:if test="${EMPLOYEE.getEmployee().getGender() == 1}">checked="checked"</c:if>/>Nữ
+                                                    <input type="radio" name="gender" value="0" <c:if test="${EMPLOYEE.getGender() == 0}">checked="checked"</c:if>/>Nam
+                                                    <input type="radio" name="gender" value="1" <c:if test="${EMPLOYEE.getGender() == 1}">checked="checked"</c:if>/>Nữ
                                                 </div>
                                             </div>
                                         <!--</div>-->
@@ -93,13 +93,13 @@
                                 <div class="col-md-12">
                                     <div class="form-group form-focus">
                                         <label class="focus-label">ID</label>
-                                        <p type="text" class="form-control floating" value="${EMPLOYEE.getEmployee().getId()}">${EMPLOYEE.getEmployee().getId()}</p>
+                                        <p type="text" class="form-control floating" value="${EMPLOYEE.getId()}">${EMPLOYEE.getId()}</p>
                                     </div>
                                 </div>
 <!--                                <div class="col-md-6">
                                     <div class="form-group form-focus">
                                         <label class="focus-label">Mật khẩu cũ</label>
-                                        <p type="text"class="form-control floating" value="${EMPLOYEE.getEmployee().getPassword()}"></p>
+                                        <p type="text"class="form-control floating" value="${EMPLOYEE.getPassword()}"></p>
                                     </div>
                                 </div>-->
                                 <div class="col-md-12">
@@ -127,7 +127,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group form-focus">
                                         <label class="focus-label">Địa chỉ</label>
-                                        <input type="text" class="form-control floating" value="${EMPLOYEE.getEmployee().getAddress()}">
+                                        <input type="text" class="form-control floating" value="${EMPLOYEE.getAddress()}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -145,7 +145,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group form-focus">
                                         <label class="focus-label">Nơi làm việc</label>
-                                        <input type="text" class="form-control floating" value="${EMPLOYEE.getEmployee().getWorkplace()}">
+                                        <input type="text" class="form-control floating" value="${EMPLOYEE.getWorkplace()}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -161,7 +161,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group form-focus">
                                         <label class="focus-label">Dân tộc</label>
-                                        <input type="text" class="form-control floating" value="${EMPLOYEE.getEmployee().getEthnic()}">
+                                        <input type="text" class="form-control floating" value="${EMPLOYEE.getEthnic()}">
                                     </div>
                                 </div>
                             </div>

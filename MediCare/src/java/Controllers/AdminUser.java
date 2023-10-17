@@ -30,7 +30,7 @@ import java.util.Date;
  *
  * @author DELL
  */
-@WebServlet(name = "User", urlPatterns = {"/admin-list-user"})
+//@WebServlet(name = "User", urlPatterns = {"/admin-list-user"})
 public class AdminUser extends HttpServlet {
 
     private final String REGISTER_USER = "admin-patients/admin-add-patient.jsp";
@@ -112,7 +112,7 @@ public class AdminUser extends HttpServlet {
             request.setAttribute("pageCount", pageCount);
             request.setAttribute("currentPage", page);
             request.setAttribute("TITLE_USER", titleList);
-            request.setAttribute("ALL_BRANCH", bdao.getAllBranch());
+            request.setAttribute("ALL_BRANCH", bdao.getAllBranches());
             request.setAttribute("ALL_USER", list);
             request.getRequestDispatcher(STATISTIC_USER).forward(request, response);
         } catch (AdminException.RedirecUrlException e) {

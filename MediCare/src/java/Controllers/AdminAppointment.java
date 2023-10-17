@@ -5,7 +5,6 @@
 package Controllers;
 
 import DAL.AppointmentDAO;
-import DAL.EmployeeDAO;
 import DAL.SubLevelMenuDAO;
 
 import Models.Appointments;
@@ -24,7 +23,7 @@ import java.util.ArrayList;
  *
  * @author DELL
  */
-@WebServlet(name = "Appointment", urlPatterns = {"/admin-list-appointments"})
+//@WebServlet(name = "Appointment", urlPatterns = {"/admin-list-appointments"})
 public class AdminAppointment extends HttpServlet {
 
     private final String STATISTIC_APPOINTMENT = "admin-appointments/admin-appointments.jsp";
@@ -42,18 +41,6 @@ public class AdminAppointment extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet StatisticAppointment</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet StatisticAppointment at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

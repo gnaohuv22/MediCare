@@ -32,7 +32,7 @@ import java.util.Date;
  *
  * @author DELL
  */
-@WebServlet(name = "Employee", urlPatterns = {"/admin-list-employee"})
+//@WebServlet(name = "Employee", urlPatterns = {"/admin-list-employee"})
 public class AdminEmployee extends HttpServlet {
 
     private final String STATISTIC_EMPLOYEE = "admin-employees/admin-employees.jsp";
@@ -130,7 +130,7 @@ public class AdminEmployee extends HttpServlet {
                 String id = request.getParameter("id");
                 Employee emp = edao.getEmployeeById(id);
                 request.setAttribute("EDIT_EMPLOYEE", emp);
-                request.setAttribute("ALL_BRANCH", bdao.getAllBranch());
+                request.setAttribute("ALL_BRANCH", bdao.getAllBranches());
                 request.setAttribute("ALL_PROVINCE", pdao.getAllProvinceId());
                 request.setAttribute("ALL_EMPLOYEEROLE", erdao.getAllEmployeeRole());
                 if (emp!=null){
@@ -383,7 +383,7 @@ public class AdminEmployee extends HttpServlet {
             EmployeeRoleDAO erdao = new EmployeeRoleDAO();
             BranchDAO bdao = new BranchDAO();
             ProvinceDAO pdao = new ProvinceDAO();
-            request.setAttribute("ALL_BRANCH", bdao.getAllBranch());
+            request.setAttribute("ALL_BRANCH", bdao.getAllBranches());
             request.setAttribute("ALL_PROVINCE", pdao.getAllProvinceId());
             request.setAttribute("ALL_EMPLOYEEROLE", erdao.getAllEmployeeRole());
             if (error) {

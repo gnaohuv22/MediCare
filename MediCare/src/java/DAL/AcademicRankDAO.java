@@ -4,31 +4,35 @@
  */
 package DAL;
 
-import Models.AcademicRank;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import Models.AcademicRank;
+import Models.WorkingSlot;
 
 /**
  *
- * @author DELL
+ * @author hoang
  */
-public class AcademicRankDAO extends DBContext{
-    public ArrayList<AcademicRank> getAllAcademicRank() {
+public class AcademicRankDAO extends DBContext {
+
+    public ArrayList<AcademicRank> getListAcademicRank() {
         ArrayList<AcademicRank> list = new ArrayList<>();
-        String SQL = "SELECT id,name,wage FROM AcademicRank";
-        try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
-            ResultSet rs = pstm.executeQuery();
-            while (rs.next()){
-                String id = rs.getString(1);
-                String name = rs.getString(2);
-                String wage = rs.getString(3);
-                AcademicRank obj = new AcademicRank(id,name,wage);
-                list.add(obj);
+        String SQL = "SELECT * FROM [AcademicRank]";
+
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                AcademicRank ar = new AcademicRank(String.valueOf(rs.getInt(1)),
+                        rs.getString(2),
+                        String.valueOf(rs.getFloat(3)));
+                list.add(ar);
             }
-        } catch (Exception e) {
-            System.out.println("getAllAcademicRank " + e.getMessage());
+            return list;
+        } catch (SQLException e) {
+            System.out.println("getListAcademicRank: " + e.getMessage());
         }
-        return list;
+        return null;
     }
 }

@@ -6,13 +6,10 @@ package Models;
 
 /**
  *
- * @author DELL
+ * @author hoang
  */
 public class Branch {
-    private String id;
-    private String name;
-    private String description;
-    private String locateId;
+    private String id, name, description, locateId;
 
     public Branch() {
     }
@@ -55,5 +52,6 @@ public class Branch {
     public void setLocateId(String locateId) {
         this.locateId = locateId;
     }
+    
     
 }
