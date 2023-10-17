@@ -43,7 +43,7 @@ public class RelationshipDAO extends DBContext{
             st.setInt(1, Integer.parseInt(relationshipId));
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                return new Relationship(rs.getInt("id")+"", rs.getString("relation"));
+                return new Relationship(String.valueOf(rs.getInt("id")), rs.getString("name"));
             }
         } catch (SQLException|NumberFormatException e) {
             System.out.println("getRelationshipByRelationshipId: " + e);

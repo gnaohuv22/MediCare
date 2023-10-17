@@ -34,6 +34,11 @@ public class Relationship {
     public void setRelation(String relation) {
         this.relation = relation;
     }
+
+    @Override
+    public String toString() {
+        return "Relationship{" + "id=" + id + ", relation=" + relation + '}';
+    }
     
     
 }
