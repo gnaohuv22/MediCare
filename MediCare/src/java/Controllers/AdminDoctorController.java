@@ -88,7 +88,7 @@ public class AdminDoctorController extends HttpServlet {
             request.setAttribute("listCert", listCert);
             request.getRequestDispatcher("admin-doctors/admin-add-doctor.jsp").forward(request, response);
         }
-        if ("edit".equals(action)) {
+        else if ("edit".equals(action)) {
             BranchDAO BranchDAO = new BranchDAO();
             DoctorDAO DocDAO = new DoctorDAO();
             AcademicRankDAO ARDAO = new AcademicRankDAO();
@@ -107,7 +107,7 @@ public class AdminDoctorController extends HttpServlet {
             request.setAttribute("listAR", listAR);
             request.getRequestDispatcher("admin-doctors/admin-edit-doctor.jsp").forward(request, response);
         }
-        if ("profile".equals(action)) {
+        else if ("profile".equals(action)) {
             DoctorDAO dao = new DoctorDAO();
             Doctor doc = dao.getDoctorByDoctorId(id);
             request.setAttribute("doc", doc);
