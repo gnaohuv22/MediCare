@@ -22,7 +22,7 @@ import java.util.ArrayList;
  *
  * @author DELL
  */
-//@WebServlet(name = "Review", urlPatterns = {"/admin-list-review"})
+@WebServlet(name = "Review", urlPatterns = {"/admin-list-review"})
 public class AdminReview extends HttpServlet {
 
     private final String STATISTIC_REVIEW = "admin-reviews/admin-reviews.jsp";

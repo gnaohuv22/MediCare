@@ -32,7 +32,7 @@ import java.util.Date;
  *
  * @author DELL
  */
-//@WebServlet(name = "Employee", urlPatterns = {"/admin-list-employee"})
+@WebServlet(name = "Employee", urlPatterns = {"/admin-list-employee"})
 public class AdminEmployee extends HttpServlet {
 
     private final String STATISTIC_EMPLOYEE = "admin-employees/admin-employees.jsp";
