@@ -47,6 +47,7 @@
 
     <div class="display-sidebar">
         <div class="container">
+            <%@include file="breadcrumb.jsp" %>
             <div class="row">
                 <div class="col-md-3 news-sidebar">
                     <c:forEach items="${topLevel}" var="top">
@@ -111,6 +112,21 @@
     <%@include file="user-footer.jsp" %>
 
     <%@include file="user-script.jsp" %>
+
+    <script>
+        $('.caret-icon').click(function (event) {
+            event.stopPropagation();
+            $(this).siblings('ul').toggle();
+            var i = $(this).children('i');
+            if (i.hasClass('rotated')) {
+                i.css('transform', 'rotate(0deg)');
+                i.removeClass('rotated');
+            } else {
+                i.css('transform', 'rotate(90deg)');
+                i.addClass('rotated');
+            }
+        });
+    </script>
     <script>
         $(document).ready(function () {
             $('.grid-news').each(function () {

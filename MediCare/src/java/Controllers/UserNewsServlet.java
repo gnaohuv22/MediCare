@@ -6,6 +6,7 @@ package Controllers;
 
 import DAL.NewsCategoryDAO;
 import DAL.NewsDAO;
+import Models.Breadcrumb;
 import Models.News;
 import Models.NewsCategory;
 import jakarta.servlet.RequestDispatcher;
@@ -15,6 +16,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -26,35 +28,22 @@ public class UserNewsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String pathInfo = request.getPathInfo();
-
-//        if (pathInfo == null) {
-//            response.sendError(HttpServletResponse.SC_NOT_FOUND);
-//            return;
-//        }
         System.out.println("pathInfo: " + pathInfo);
+        ArrayList<Breadcrumb> breadcrumbs = new ArrayList<>();
+        breadcrumbs.add(new Breadcrumb("news", "Tin tức"));
+        
         String[] pathParts;
         if (pathInfo != null) {
             pathParts = pathInfo.split("/");
-            if (pathParts.length == 3) {
+
+            if (pathParts.length > 1) {
                 NewsDAO nd = new NewsDAO();
-                //            String categorySlug = pathParts[1];
-                String newsSlug = pathParts[2];
-                News n = nd.getNewsFromSlug(newsSlug);
-                if (n == null) {
-                    response.sendError(HttpServletResponse.SC_NOT_FOUND);
-                    return;
-                }
-                ArrayList<News> related = nd.getNewestExcept(3, n.getId());
-                request.setAttribute("n", n);
-                request.setAttribute("related", related);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/user-news.jsp");
-                dispatcher.forward(request, response);
-            }
-            else if (pathParts.length == 2) {
-                NewsDAO nd = new NewsDAO();
-                
+
                 String categorySlug = pathParts[1];
                 NewsCategoryDAO ncd = new NewsCategoryDAO();
+                
+                breadcrumbs.add(new Breadcrumb("news/" + categorySlug, ncd.getCategoryBySlug(categorySlug).getName()));
+                
                 NewsCategory nc = ncd.getCategoryBySlug(categorySlug);
                 ArrayList<News> news = nd.getListNewsByCategory(Integer.parseInt(nc.getId()));
                 ArrayList<NewsCategory> topLevel = ncd.getTopLevelSideBar();
@@ -65,11 +54,31 @@ public class UserNewsServlet extends HttpServlet {
                 request.setAttribute("parentIds", ncd.getParentCategoryNumber());
                 request.setAttribute("news", news);
                 request.setAttribute("nc", nc);
+                request.setAttribute("breadcrumbs", breadcrumbs);
+            }
+            if (pathParts.length > 2) {
+                NewsDAO nd = new NewsDAO();
+                //            String categorySlug = pathParts[1];
+                String newsSlug = pathParts[2];
                 
+                breadcrumbs.add(new Breadcrumb("news/" + newsSlug, nd.getNewsFromSlug(newsSlug).getTitle()));
+                News n = nd.getNewsFromSlug(newsSlug);
+                if (n == null) {
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                    return;
+                }
+                ArrayList<News> related = nd.getNewestExcept(3, n.getId());
+                request.setAttribute("n", n);
+                request.setAttribute("related", related);
+                request.setAttribute("breadcrumbs", breadcrumbs);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/user-news.jsp");
+                dispatcher.forward(request, response);
+            } else {
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/user-category.jsp");
                 dispatcher.forward(request, response);
             }
         } else {
+            
             NewsDAO nd = new NewsDAO();
             NewsCategoryDAO ncd = new NewsCategoryDAO();
 
@@ -85,10 +94,10 @@ public class UserNewsServlet extends HttpServlet {
                 request.setAttribute("subLevel", subLevel);
                 request.setAttribute("parentIds", ncd.getParentCategoryNumber());
                 request.setAttribute("news", news);
-                
+                request.setAttribute("breadcrumbs", breadcrumbs);
+
                 request.getRequestDispatcher("/user-news-general.jsp").forward(request, response);
-            }
-            else {
+            } else {
                 response.sendError(HttpServletResponse.SC_NO_CONTENT);
             }
         }

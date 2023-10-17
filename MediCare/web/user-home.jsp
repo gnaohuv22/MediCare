@@ -284,7 +284,7 @@
             $(document).ready(function () {
 
                 // Tính toán chiều rộng của mỗi doctor-block
-                var doctorBlockWidth = 360 + 22.5;
+                var doctorBlockWidth = 430 + 22.5;
 
                 // Đặt chiều rộng cho mỗi doctor-block
                 $('.doctor-block').css('width', doctorBlockWidth + 'px');

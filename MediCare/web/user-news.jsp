@@ -33,47 +33,17 @@
         <!-- owl stylesheets -->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.carousel.min.css" />
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.theme.default.min.css" />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
-            media="screen"
-            />
+        <!-- Add Fancybox CSS -->
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
     </head>
     <body>
         <%@include file="user-header.jsp" %>
     </div>
-    <!-- banner section start -->
-    <c:forEach items="${sessionScope.bannerList}" var="banner">
-        <div class="banner_section layout_padding" style="background-image: url('${pageContext.request.contextPath}/${banner.getImage()}')">
-            <div class="container">
-                <div class="banner_main">
-                    <h1 class="banner_title">${banner.getTitle()}</h1>
-                    <p class="banner_text">
-                        ${banner.getDescription()}
-                    </p>
-                    <div class="row banner_bullet_points">
-                        <c:forEach items="${sessionScope.bannerDetailsList}" var="detail">
-                            <c:if test="${detail.getBannerId() eq banner.getId()}">
-                                <div class="col flex-grow-1 banner-number">${detail.getNumber()}</div>
-                            </c:if>
-                        </c:forEach>
-                    </div>
-                    <div class="row banner_bullet_points">
-                        <c:forEach items="${sessionScope.bannerDetailsList}" var="detail">
-                            <c:if test="${detail.getBannerId() eq banner.getId()}">
-                                <p class="col flex-grow-1 number-description">${detail.getInformation()}</p>
-                            </c:if>
-                        </c:forEach>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </c:forEach>
-    <!-- banner section end -->
 
     <!-- display news section -->
     <div class="display-news">
         <div class="container ">
+            <%@include file="breadcrumb.jsp" %>
             <div class="row">
                 <div class="news col-md-9">
                     <h1 class="display-title">${n.getTitle()}</h1>
@@ -127,16 +97,45 @@
     <!-- display news section -->
     <%@include file="user-footer.jsp" %>
     <!-- Javascript files-->
-    <script src="${pageContext.request.contextPath}/assets/client/js/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/client/js/popper.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/client/js/bootstrap.bundle.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/client/js/jquery-3.0.0.min.js"></script>
+    <!-- Add jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/client/js/plugin.js"></script>
     <!-- sidebar -->
     <script src="${pageContext.request.contextPath}/assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/client/js/custom.js"></script>
     <!-- javascript -->
     <script src="${pageContext.request.contextPath}/assets/client/js/owl.carousel.js"></script>
-    <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+    <script>
+        $(window).on('load', function() {
+            // Get all images from news content
+            var images = $('.news-content img');
+            console.log(images.length + ' images found');
+
+            // Wrap each image with a link to itself
+            images.each(function () {
+                var image = $(this);
+                image.wrap('<a data-fancybox="gallery" href="' + image.attr('src') + '"></a>');
+            });
+
+            // Initialize Fancybox
+            $('[data-fancybox="gallery"]').fancybox({
+                buttons: [
+                    "zoom",
+                    "slideShow",
+                    "fullScreen",
+                    "download",
+                    "thumbs",
+                    "close"
+                ],
+                animationEffect: "zoom",
+                transitionEffect: "slide",
+                loop: true
+            });
+            console.log('Fancybox initialized');
+        });
+    </script>
 </body>
 </html>

@@ -46,7 +46,7 @@ body {
 }
 
 a {
-    color: #1f1f1f;
+    color: #2C6975;
     text-decoration: none !important;
     outline: none !important;
     -webkit-transition: all .3s ease-in-out;
@@ -419,7 +419,7 @@ button {
 /* Style cho mỗi phần tử bác sĩ trong danh sách */
 .doctor-block {
     width: 32%; /* Kích thước của mỗi phần tử bác sĩ */
-    min-width: 360px;
+    min-width: 430px;
     height: fit-content;
     min-height: 420px;
     margin-right: 20px; /* Khoảng cách giữa các phần tử bác sĩ */
@@ -2258,4 +2258,14 @@ span.name-each-family-profile {
 
 .news-href:hover {
     color: #E0ECDE;
+}
+
+/*------------------------- Style for breadcrumb.jsp -------------------------*/
+.breadcrumb-item a {
+    color: #2C6975;
+    font-size: 18px;
+}
+
+.breadcrumb-item a:hover {
+    color: #68B2A0;
 }
