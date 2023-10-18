@@ -5,15 +5,18 @@
 package DAL;
 
 import Models.AdminSidebarMenu;
+import Models.SubLevelMenu;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author DELL
  */
 public class SubLevelMenuDAO extends DBContext {
+
 
     public ArrayList<AdminSidebarMenu> getSidebarMenu() {
         ArrayList<AdminSidebarMenu> list = new ArrayList<>();
@@ -32,6 +35,13 @@ public class SubLevelMenuDAO extends DBContext {
             System.out.println("getSidebarMenu " + e.getMessage());
         }
         return null;
+    }
+
+
+    public static void main(String[] args) {
+        SubLevelMenuDAO slv = new SubLevelMenuDAO();
+        ArrayList<AdminSidebarMenu> list = slv.getSidebarMenu();
+        System.out.println(list);
     }
 
     public ArrayList<String> getTitleTable(String table) {

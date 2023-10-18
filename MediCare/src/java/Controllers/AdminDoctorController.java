@@ -14,12 +14,14 @@ import Models.Branch;
 import Models.Certificate;
 import Models.CertificateDoctor;
 import Models.Doctor;
+import Models.Employee;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,10 @@ import java.util.regex.Pattern;
  * @author Asus
  */
 public class AdminDoctorController extends HttpServlet {
+
+    private final String STATISTIC_REVIEW = "admin-reviews/admin-reviews.jsp";
+    private final String REVIEW_PAGE = "admin-list-review";
+    private final String NEED_EMPLOYEE = "admin-screen/admin-login.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -72,14 +78,19 @@ public class AdminDoctorController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String action = request.getParameter("action");
-        System.out.println("DoGet Action : " + action);
+        BranchDAO BranchDAO = new BranchDAO();
+        AcademicRankDAO ARDAO = new AcademicRankDAO();
+        CertificateDAO CertDAO = new CertificateDAO();
+        HttpSession session = request.getSession();
+        Employee checkEmp = (Employee) session.getAttribute("EMPLOYEE");
+        //check login
+        if (checkEmp == null) {
+            request.setAttribute("MESSAGE", checkEmp);
+            request.getRequestDispatcher(NEED_EMPLOYEE).forward(request, response);
+        }
+        String action = request.getParameter("action"); 
         String id = request.getParameter("id");
-        System.out.println("DoGet ID : " + id);
         if ("add".equals(action)) {
-            BranchDAO BranchDAO = new BranchDAO();
-            AcademicRankDAO ARDAO = new AcademicRankDAO();
-            CertificateDAO CertDAO = new CertificateDAO();
             List<AcademicRank> listAR = ARDAO.getListAcademicRank();
             List<Branch> listBranch = BranchDAO.getAllBranches();
             List<Certificate> listCert = CertDAO.getListCertificate();
@@ -88,13 +99,10 @@ public class AdminDoctorController extends HttpServlet {
             request.setAttribute("listCert", listCert);
             request.getRequestDispatcher("admin-doctors/admin-add-doctor.jsp").forward(request, response);
         }
-        else if ("edit".equals(action)) {
-            BranchDAO BranchDAO = new BranchDAO();
+        if("edit".equals(action)){
             DoctorDAO DocDAO = new DoctorDAO();
-            AcademicRankDAO ARDAO = new AcademicRankDAO();
             List<AcademicRank> listAR = ARDAO.getListAcademicRank();
             List<Branch> listBranch = BranchDAO.getAllBranches();
-            CertificateDAO CertDAO = new CertificateDAO();
             CertificateDoctorDAO cdDao = new CertificateDoctorDAO();
             List<Certificate> listCert = CertDAO.getListCertificate();
             List<CertificateDoctor> listCertofDoc = cdDao.getCertificateByDoctorId(id);
@@ -114,13 +122,14 @@ public class AdminDoctorController extends HttpServlet {
             request.getRequestDispatcher("admin-doctors/admin-doctorprofile.jsp").forward(request, response);
         }
         DoctorDAO dao = new DoctorDAO();
-        ArrayList<Doctor> listDoc = dao.getAllDoctors();
+        ArrayList<Doctor> listDoc = dao.getAllDoctors("");
         String noti = (String) request.getSession().getAttribute("noti");
         request.setAttribute("noti", noti);
         request.setAttribute("listDoc", listDoc);
         request.getRequestDispatcher("admin-doctors/admin-doctors.jsp").forward(request, response);
     }
-
+        
+        
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -161,7 +170,7 @@ public class AdminDoctorController extends HttpServlet {
             }
 
             DoctorDAO dao = new DoctorDAO();
-            Doctor docCheck = dao.getDoctorById(id);
+            
             //check variable
             if (certificates == null || certificates.length == 0) {
                 request.setAttribute("certificateError", "You must choose at least one Certificate");
@@ -171,15 +180,8 @@ public class AdminDoctorController extends HttpServlet {
             if (!password.equals(confirmedPassword)) {
                 request.setAttribute("PasswordError", "Password is not equals to Confirmed password, please enter correct password");
                 bool = false;
-            }
-
-            if (docCheck != null) {
-                request.setAttribute("IdError", "ID Existed, input another one");
-                bool = false;
-            } else {
-                request.setAttribute("id", id);
-            }
-            docCheck = dao.getDoctorByEmail(email);
+            } 
+            Doctor docCheck = dao.getDoctorByEmail(email);
             if (!validateEmail(email)) {
                 request.setAttribute("EmailError", "Not a email, enter again");
                 bool = false;
@@ -215,6 +217,7 @@ public class AdminDoctorController extends HttpServlet {
             }
             if (bool == true) {
                 try {
+                    id = dao.autoGenerateID();
                     byte[] salt = PasswordEncryption.generateSalt();
                     String encPass = PasswordEncryption.encryptPassword(password, salt);
                     CertificateDoctorDAO CDDao = new CertificateDoctorDAO();
@@ -292,7 +295,7 @@ public class AdminDoctorController extends HttpServlet {
                 docError.setDisplayName(displayName);
             }
             Doctor docCheck = doc.getDoctorByEmail(id);
-            List<Doctor> list = doc.getAllDoctors();
+            List<Doctor> list = doc.getAllDoctors("");
             List<String> listEmail = new ArrayList<>();
 
             if (docCheck != null) {
@@ -367,7 +370,7 @@ public class AdminDoctorController extends HttpServlet {
             }
         }
     }
-
+        
     /**
      * Returns a short description of the servlet.
      *
@@ -437,3 +440,4 @@ public class AdminDoctorController extends HttpServlet {
     }
 
 }
+

@@ -40,8 +40,6 @@
                                         <a class="avatar" href="#" onclick="redirectToDoctorProfile(${doc.getId()})">
                                             <img alt="" src="${doc.getProfilePicture()}">
                                         </a>
-
-
                                     </div>
                                     <div class="dropdown profile-action">
                                         <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>

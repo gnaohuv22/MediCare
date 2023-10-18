@@ -12,10 +12,24 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/fpt/5/SWP391/admin-function/medicalserviceproject/MediCare/src/java/DAL/DBContext.java</file>
-            <file>file:/D:/fpt/5/SWP391/admin-function/medicalserviceproject/MediCare/web/admin-screen/admin-login.jsp</file>
-            <file>file:/D:/fpt/5/SWP391/admin-function/medicalserviceproject/MediCare/src/java/Controllers/AdminForgotPassword.java</file>
-            <file>file:/D:/fpt/5/SWP391/admin-function/medicalserviceproject/MediCare/src/java/Controllers/AdminSendEmailForgotPassword.java</file>
+            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/DAL/DoctorDAO.java</file>
+            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/Controllers/AdminReview.java</file>
+            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/web/admin-general/admin-sidebar.jsp</file>
+            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/Controllers/AdminAppointment.java</file>
+            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/DAL/DBContext.java</file>
+            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/Controllers/PasswordEncryption.java</file>
+            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/web/admin-doctors/admin-edit-doctor.jsp</file>
+            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/web/WEB-INF/web.xml</file>
+            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/DAL/SubLevelMenuDAO.java</file>
+            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/Controllers/AdminNews.java</file>
+            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/Controllers/AdminHomePage.java</file>
+            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/Controllers/AdminDoctorController.java</file>
+            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/Controllers/AdminEmployee.java</file>
+            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/web/admin-doctors/admin-add-doctor.jsp</file>
+            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/web/admin-doctors/admin-doctorprofile.jsp</file>
+            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/web/admin-screen/admin-home.jsp</file>
+            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/web/admin-doctors/admin-doctors.jsp</file>
+            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/Controllers/AdminUser.java</file>
         </group>
     </open-files>
 </project-private>
