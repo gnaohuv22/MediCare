@@ -87,17 +87,17 @@
                                             <p style="color: red">${requestScope.displayNameError}</p>
                                         </c:if>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label> Gender  <span class="text-danger">*</span></label>
-                                            <select name="gender"  required="" class="form-control">
-                                                <option  value="1" <% if ("1".equals(request.getAttribute("gender"))) { %>selected<% } %>>Male</option>
-                                                <option  value="2" <% if ("2".equals(request.getAttribute("gender"))) { %>selected<% } %>>Female </option>  
-                                                <option  value="3" <% if ("3".equals(request.getAttribute("gender"))) { %>selected<% } %>>Others </option>  
-                                            </select>
-                                        </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label> Gender  <span class="text-danger">*</span></label>
+                                                    <select name="gender"  required="" class="form-control">
+                                                        <option  value="1" <% if ("1".equals(request.getAttribute("gender"))) { %>selected<% } %>>Male</option>
+                                                        <option  value="2" <% if ("2".equals(request.getAttribute("gender"))) { %>selected<% } %>>Female </option>  
+                                                        <option  value="3" <% if ("3".equals(request.getAttribute("gender"))) { %>selected<% } %>>Others </option>  
+                                                    </select>
+                                                </div>
 
-                                    </div>
+                                            </div>
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Certificates <span class="text-danger">*</span></label> <br>

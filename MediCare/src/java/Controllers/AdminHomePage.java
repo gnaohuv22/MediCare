@@ -75,7 +75,7 @@ public class AdminHomePage extends HttpServlet {
             UserDAO uDao = new UserDAO();
             EmployeeDAO eDao = new EmployeeDAO();
             SubLevelMenuDAO slmDao = new SubLevelMenuDAO();
-            ArrayList<Doctor> Doctorlist = dDao.getAllDoctors("");
+            ArrayList<Doctor> Doctorlist = dDao.getAllDoctors(" ", " ");
             session.setAttribute("ADMIN_SIDEBAR_MENU", slmDao.getSidebarMenu());
             request.setAttribute("DOCTOR_NUMBER", dDao.countAllDoctor());
             request.setAttribute("USER_NUMBER", uDao.countAllUser());

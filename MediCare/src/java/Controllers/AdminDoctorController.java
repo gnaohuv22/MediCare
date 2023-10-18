@@ -121,11 +121,31 @@ public class AdminDoctorController extends HttpServlet {
             request.setAttribute("doc", doc);
             request.getRequestDispatcher("admin-doctors/admin-doctorprofile.jsp").forward(request, response);
         }
+        String isDelete = request.getParameter("isDelete") == null ? "": request.getParameter("isDelete");
+        String search = request.getParameter("search") == null ? "": request.getParameter("search");
         DoctorDAO dao = new DoctorDAO();
-        ArrayList<Doctor> listDoc = dao.getAllDoctors("");
+        System.out.println("Search :" + search);
+        System.out.println("Is delete Status :" + isDelete);
+        ArrayList<Doctor> listDoc = dao.getAllDoctors(isDelete, search);
+        int count = dao.doctorCount(listDoc);
+        System.out.println("Doctor count : " + count);
+        String indexRaw = request.getParameter("index") == null ? "1": request.getParameter("index");
+        int index = Integer.parseInt(indexRaw);
+        System.out.println("Index Paging : " + index);
+        int endPage = (count/8);
+        if(count % 8 != 0){
+            endPage++;
+        }
+        List<Doctor> listPaging = dao.pagingDoctor(search, index, isDelete);
+        System.out.println("List paging : " + listPaging);
         String noti = (String) request.getSession().getAttribute("noti");
         request.setAttribute("noti", noti);
+        request.setAttribute("previous", index - 1);
+        request.setAttribute("after", index + 1);
+        request.setAttribute("isDelete", isDelete);
         request.setAttribute("listDoc", listDoc);
+        request.setAttribute("listPaging", listPaging);
+        request.setAttribute("endPage", endPage);
         request.getRequestDispatcher("admin-doctors/admin-doctors.jsp").forward(request, response);
     }
         
@@ -295,7 +315,7 @@ public class AdminDoctorController extends HttpServlet {
                 docError.setDisplayName(displayName);
             }
             Doctor docCheck = doc.getDoctorByEmail(id);
-            List<Doctor> list = doc.getAllDoctors("");
+            List<Doctor> list = doc.getAllDoctors("", "");
             List<String> listEmail = new ArrayList<>();
 
             if (docCheck != null) {
