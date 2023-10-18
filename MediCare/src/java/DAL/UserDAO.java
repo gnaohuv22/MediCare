@@ -23,7 +23,7 @@ public class UserDAO extends DBContext {
     }
 
     public int countAllUser() {
-        String SQL = "select COUNT(id) from [User]";
+        String SQL = "select COUNT(id) from [User] WHERE id IS NOT NULL";
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
@@ -153,7 +153,7 @@ public class UserDAO extends DBContext {
         String SQL = "SELECT [User].id[uId],email,password, [User].name[uName],birthDate,gender,address,provinceId,[identity],medicalId,ethnic,phone,profilePicture,createdAt "
                 + " , Province.name[pName]"
                 + " FROM [User]"
-                + " JOIN Province on [User].provinceId = Province.id"
+                + " LEFT JOIN Province on [User].provinceId = Province.id"
                 + " GROUP BY [User].id,email,password, [User].name,birthDate,gender,address,provinceId,[identity],medicalId,ethnic,phone,profilePicture,createdAt "
                 + " , Province.name"
                 + " HAVING [User].id IS NOT NULL"
@@ -361,5 +361,17 @@ public class UserDAO extends DBContext {
             System.out.println("setUserById " + e.getMessage());
         }
         return false;
+    }
+    public String generateId(){
+        String SQL = "select top(1) id from [User] order by id DESC";
+        try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            ResultSet rs = pstm.executeQuery();
+            String number = rs.getString(1);
+            number = Integer.parseInt(number)+1+"";
+            return number;
+        }catch (Exception e) {
+            System.out.println("generateId " + e.getMessage());
+        }
+        return null;
     }
 }

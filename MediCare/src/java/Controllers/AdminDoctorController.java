@@ -99,8 +99,7 @@ public class AdminDoctorController extends HttpServlet {
             request.setAttribute("listCert", listCert);
             request.getRequestDispatcher("admin-doctors/admin-add-doctor.jsp").forward(request, response);
         }
-        if ("edit".equals(action)) {
-
+        if("edit".equals(action)){
             DoctorDAO DocDAO = new DoctorDAO();
             List<AcademicRank> listAR = ARDAO.getListAcademicRank();
             List<Branch> listBranch = BranchDAO.getAllBranches();
@@ -116,7 +115,7 @@ public class AdminDoctorController extends HttpServlet {
             request.setAttribute("listAR", listAR);
             request.getRequestDispatcher("admin-doctors/admin-edit-doctor.jsp").forward(request, response);
         }
-        if ("profile".equals(action)) {
+        else if ("profile".equals(action)) {
             DoctorDAO dao = new DoctorDAO();
             Doctor doc = dao.getDoctorByDoctorId(id);
             request.setAttribute("doc", doc);
@@ -129,7 +128,8 @@ public class AdminDoctorController extends HttpServlet {
         request.setAttribute("listDoc", listDoc);
         request.getRequestDispatcher("admin-doctors/admin-doctors.jsp").forward(request, response);
     }
-
+        
+        
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -370,7 +370,7 @@ public class AdminDoctorController extends HttpServlet {
             }
         }
     }
-
+        
     /**
      * Returns a short description of the servlet.
      *
@@ -440,3 +440,4 @@ public class AdminDoctorController extends HttpServlet {
     }
 
 }
+

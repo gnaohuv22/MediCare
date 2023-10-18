@@ -51,14 +51,14 @@ public class NewsDAO extends DBContext{
     }
     public ArrayList<News> getListNews(int offset, int fetch) {
         ArrayList<News> list = new ArrayList<>();
-        String SQL = "SELECT [News].[id][newsId],[title],[content],[author],[categoryId],[createdAt],[lastModified],[viewCount],[coverImage], [subtitle], " +
-"        [NewsCategory].name[cName] " +
-"        FROM [News] " +
-"        JOIN [NewsCategory] on [News].categoryId = [NewsCategory].id" +
-"        GROUP BY [News].[id],[title],[content],[author],[categoryId],[createdAt],[lastModified],[viewCount],[coverImage], [subtitle], " +
-"        [NewsCategory].name " +
-"        HAVING [News].id IS NOT NULL" +
-"        ORDER BY COUNT([News].id) DESC" +
+        String SQL = "SELECT [News].[id][newsId],[title],[content],[author],[categoryId],[createdAt],[lastModified],[viewCount],[coverImage], [subtitle],  \n" +
+"        [NewsCategory].name[cName],type\n" +
+"        FROM [News]  \n" +
+"        LEFT JOIN [NewsCategory] on [News].categoryId = [NewsCategory].id \n" +
+"        GROUP BY [News].[id],[title],[content],[author],[categoryId],[createdAt],[lastModified],[viewCount],type,[coverImage], [subtitle],  \n" +
+"        [NewsCategory].name  \n" +
+"        HAVING [News].id IS NOT NULL AND type IS NULL\n" +
+"        ORDER BY COUNT([News].id) DESC " +
 "        OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
             pstm.setInt(1, offset);
@@ -259,7 +259,10 @@ public class NewsDAO extends DBContext{
         return false;
     }
     public int countAllNews(){
-        String SQL = "select COUNT(id) from [News]";
+        String SQL = "SELECT count([News].id)\n" +
+"        FROM [News]  \n" +
+"        LEFT JOIN [NewsCategory] on [News].categoryId = [NewsCategory].id \n" +
+"        WHERE type IS NULL";
         try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
             ResultSet rs = pstm.executeQuery();
             while (rs.next()){
@@ -270,5 +273,17 @@ public class NewsDAO extends DBContext{
             System.out.println("countAllNews " + e.getMessage());
         }
         return -1;
+    }
+    public String generateId(){
+        String SQL = "select top(1) id from [News] order by id DESC";
+        try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            ResultSet rs = pstm.executeQuery();
+            String number = rs.getString(1);
+            number = Integer.parseInt(number)+1+"";
+            return number;
+        }catch (Exception e) {
+            System.out.println("generateId news " + e.getMessage());
+        }
+        return null;
     }
 }

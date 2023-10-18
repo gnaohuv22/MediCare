@@ -195,4 +195,16 @@ public class ReviewDAO extends DBContext{
         }
         return -1;
     }
+    public String generateId(){
+        String SQL = "select top(1) id from Reviews order by id DESC";
+        try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            ResultSet rs = pstm.executeQuery();
+            String number = rs.getString(1);
+            number = Integer.parseInt(number)+1+"";
+            return number;
+        }catch (Exception e) {
+            System.out.println("generateId review " + e.getMessage());
+        }
+        return null;
+    }
 }

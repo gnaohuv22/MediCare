@@ -135,8 +135,9 @@ public class AdminEmployee extends HttpServlet {
                 request.setAttribute("ALL_EMPLOYEEROLE", erdao.getAllEmployeeRole());
                 if (emp!=null){
                     request.getRequestDispatcher(EDIT_EMPLOYEE_PAGE).forward(request, response);
-                }
+                }else{
                 request.getRequestDispatcher(REGISTER_EMPLOYEE).forward(request, response);
+                }
             } catch (AdminException.RedirecUrlException ex) {
                 String keyId = request.getParameter("searchId");
                 request.setAttribute("searchId", keyId);

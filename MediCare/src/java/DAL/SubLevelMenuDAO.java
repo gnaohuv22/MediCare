@@ -5,9 +5,11 @@
 package DAL;
 
 import Models.AdminSidebarMenu;
+import Models.SubLevelMenu;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -15,13 +17,14 @@ import java.util.ArrayList;
  */
 public class SubLevelMenuDAO extends DBContext {
 
+
     public ArrayList<AdminSidebarMenu> getSidebarMenu() {
         ArrayList<AdminSidebarMenu> list = new ArrayList<>();
-        String SQL = "SELECT content,href,icon FROM SubLevelMenu WHERE parentId = (select id from SubLevelMenu Where content like 'AdminSidebarMenu')";
+        String SQL = "SELECT name,href,icon FROM NewsCategory WHERE parentId = (select id from NewsCategory Where name like 'AdminSidebarMenu')";
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
-                String name = rs.getString("content");
+                String name = rs.getString("name");
                 String link = rs.getString("href");
                 String icon = rs.getString("icon");
                 AdminSidebarMenu obj = new AdminSidebarMenu(name, link, icon);
@@ -29,19 +32,26 @@ public class SubLevelMenuDAO extends DBContext {
             }
             return list;
         } catch (Exception e) {
-            System.out.println("getHeaderSidebar " + e.getMessage());
+            System.out.println("getSidebarMenu " + e.getMessage());
         }
         return null;
     }
 
+
+    public static void main(String[] args) {
+        SubLevelMenuDAO slv = new SubLevelMenuDAO();
+        ArrayList<AdminSidebarMenu> list = slv.getSidebarMenu();
+        System.out.println(list);
+    }
+
     public ArrayList<String> getTitleTable(String table) {
         ArrayList<String> list = new ArrayList<>();
-        String SQL = "SELECT content FROM SubLevelMenu WHERE parentId = (select id from SubLevelMenu Where content like ?)";
+        String SQL = "SELECT name FROM NewsCategory WHERE parentId = (select id from NewsCategory Where name like ?)";
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
             pstm.setString(1, table);
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
-                String title = rs.getString("content");
+                String title = rs.getString("name");
                 list.add(title);
             }
             return list;

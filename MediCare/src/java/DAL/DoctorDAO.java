@@ -134,54 +134,54 @@ public class DoctorDAO extends DBContext {
 
     public ArrayList<Doctor> getAllTimeDoctor() {
         ArrayList<Doctor> list = new ArrayList<>();
-        String sql = "SELECT\n"
-                + "    d.*,\n"
-                + "    b.[name] AS branchName,\n"
-                + "    a.[name] AS ARName,\n"
-                + "    DC.Certificates AS Certificates,\n"
-                + "    Department.id AS DepartmentId,\n"
-                + "    Department.[name] AS departmentName,\n"
-                + "    CV.education,\n"
-                + "    CV.introduce,\n"
-                + "    CV.workHistory,\n"
-                + "    CV.startYear\n"
-                + "FROM\n"
-                + "    Doctor AS d\n"
-                + "FULL JOIN Branch AS b ON b.id = d.branchId\n"
-                + "FULL JOIN AcademicRank AS a ON a.id = d.ARId\n"
-                + "FULL JOIN DoctorCertificates DC ON d.id = DC.DoctorId\n"
-                + "FULL JOIN DoctorService AS DS ON DS.doctorId = d.id\n"
-                + "FULL JOIN ServiceTag AS ST ON ST.id = DS.serviceId\n"
-                + "FULL JOIN Department ON Department.id = ST.departmentId\n"
-                + "FULL JOIN CurriculumVitae AS CV ON CV.id = d.CVId\n"
-                + "WHERE\n"
-                + "    d.id IS NOT NULL\n"
-                + "    \n"
-                + "GROUP BY\n"
-                + "    d.ARId,\n"
-                + "    d.branchId,\n"
-                + "    d.CVId,\n"
-                + "    d.displayName,\n"
-                + "    d.email,\n"
-                + "    d.id,\n"
-                + "    d.password,\n"
-                + "    d.phone,\n"
-                + "    d.profilePicture,\n"
-                + "    d.salary,\n"
-                + "    d.status,\n"
-                + "    d.workplace,\n"
-                + "    d.birthDate,\n"
-                + "    d.gender,\n"
-                + "    d.isDelete,\n"
-                + "    b.name,\n"
-                + "    a.name,\n"
-                + "    Certificates,\n"
-                + "    Department.id,\n"
-                + "    Department.name,\n"
-                + "    CV.education,\n"
-                + "    CV.introduce,\n"
-                + "    CV.workHistory,\n"
-                + "    CV.startYear;";
+        String sql = "SELECT \n" +
+"                     d.*, \n" +
+"                     b.[name] AS branchName, \n" +
+"                     a.[name] AS ARName, \n" +
+"                     DC.Certificates AS Certificates, \n" +
+"                     Department.id AS DepartmentId, \n" +
+"                     Department.[name] AS departmentName, \n" +
+"                     CV.education, \n" +
+"                     CV.introduce, \n" +
+"                     CV.workHistory, \n" +
+"                     CV.startYear \n" +
+"                 FROM \n" +
+"                     Doctor AS d \n" +
+"                 LEFT JOIN Branch AS b ON b.id = d.branchId \n" +
+"                 LEFT JOIN AcademicRank AS a ON a.id = d.ARId \n" +
+"                 LEFT JOIN DoctorCertificates DC ON d.id = DC.DoctorId \n" +
+"                 LEFT JOIN DoctorService AS DS ON DS.doctorId = d.id \n" +
+"                 LEFT JOIN ServiceTag AS ST ON ST.id = DS.serviceId \n" +
+"                 LEFT JOIN Department ON Department.id = ST.departmentId \n" +
+"                 LEFT JOIN CurriculumVitae AS CV ON CV.id = d.CVId \n" +
+"                 WHERE \n" +
+"                     d.id IS NOT NULL \n" +
+"                     AND d.isDelete = 0 or d.isDelete is null\n" +
+"                 GROUP BY \n" +
+"                     d.ARId, \n" +
+"                     d.branchId, \n" +
+"                     d.CVId, \n" +
+"                     d.displayName, \n" +
+"                     d.email, \n" +
+"                     d.id, \n" +
+"                     d.password, \n" +
+"                     d.phone, \n" +
+"                     d.profilePicture, \n" +
+"                     d.salary, \n" +
+"                     d.status, \n" +
+"                     d.workplace, \n" +
+"                     d.birthDate, \n" +
+"                     d.gender, \n" +
+"                     d.isDelete, \n" +
+"                     b.name, \n" +
+"                     a.name, \n" +
+"                     Certificates, \n" +
+"                     Department.id, \n" +
+"                     Department.name, \n" +
+"                     CV.education, \n" +
+"                     CV.introduce, \n" +
+"                     CV.workHistory, \n" +
+"                     CV.startYear";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();

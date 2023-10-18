@@ -448,5 +448,16 @@ public class EmployeeDAO extends DBContext {
         }
         return null;
     }
-    
+    public String generateId(){
+        String SQL = "select top(1) id from Employee order by id DESC";
+        try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            ResultSet rs = pstm.executeQuery();
+            String number = rs.getString(1);
+            number = Integer.parseInt(number)+1+"";
+            return number;
+        }catch (Exception e) {
+            System.out.println("generateId employee " + e.getMessage());
+        }
+        return null;
+    }
 }

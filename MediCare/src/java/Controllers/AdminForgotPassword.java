@@ -1,27 +1,27 @@
-package Controllers;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
+package Controllers;
 
+import DAL.AdminEmailContext;
 import DAL.EmployeeDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Random;
-import DAL.AdminEmailContext;
 
 /**
  *
  * @author DELL
  */
-@WebServlet(name="AdminSendEmailForgotPassword", urlPatterns={"/admin-send-email-forgot-password"})
-public class AdminSendEmailForgotPassword extends HttpServlet {
+@WebServlet(name="AdminForgotPassword", urlPatterns={"/admin-forgot-password"})
+public class AdminForgotPassword extends HttpServlet {
     private final String LOGIN_PAGE = "admin-screen/admin-login.jsp";
    
     /** 
@@ -34,7 +34,6 @@ public class AdminSendEmailForgotPassword extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -47,19 +46,6 @@ public class AdminSendEmailForgotPassword extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
-    } 
-
-    /** 
-     * Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         EmployeeDAO eDao = new EmployeeDAO();
         Random generator = new Random();
@@ -85,6 +71,19 @@ public class AdminSendEmailForgotPassword extends HttpServlet {
             request.getRequestDispatcher(LOGIN_PAGE).forward(request, response);
         }
         }
+    } 
+
+    /** 
+     * Handles the HTTP <code>POST</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /** 
