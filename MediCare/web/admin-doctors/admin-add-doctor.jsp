@@ -28,7 +28,7 @@
                             <form action="admin-doctor" method="post">
                                 <input type="hidden" value="add" name="action">
                                 <div class="row">
-                                    <div class="col-sm-6">
+<!--                                    <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>ID <span class="text-danger">*</span></label>
                                             <input name="id" class="form-control" type="text" required="" value="${requestScope.id}">
@@ -36,7 +36,7 @@
                                         <c:if test="${not empty requestScope.IdError}">
                                             <p style="color: red">${requestScope.IdError}</p>
                                         </c:if>
-                                    </div>
+                                    </div>-->
 
                                     <!-- comment 
                                     <div class="col-sm-6">
@@ -132,7 +132,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label> Birthdate  <span class="text-danger">*</span></label>
-                                            <input name="birthDate" class="form-control" type="date" required="" value="${requestScope.birthDate}">
+                                            <input name="birthDate" class="form-control" type="date" required="" value="${requestScope.birthDate}" oninput="changeDateFormat(this)">
                                         </div>
 
                                     </div>
@@ -239,7 +239,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>Salary  <span class="text-danger">*</span></label>
-                                            <input name="salary" class="form-control" type="text" required="" value="${requestScope.salary}" >
+                                            <input name="salary" class="form-control" type="text" required="" value="${requestScope.salary}" oninput="formatSalaryInput(this)" >
                                         </div>
                                         <c:if test="${not empty requestScope.SalaryError}">
                                             <p style="color: red">${requestScope.SalaryError}</p>
@@ -303,5 +303,22 @@
         </div>
         <div class="sidebar-overlay" data-reff=""></div>
         <jsp:include page="../admin-general/admin-script.jsp"/>
+         <script>
+        function formatSalaryInput(input) {
+            let value = input.value.replace(/\D/g, ''); // Lọc ra chỉ còn số
+            value = parseInt(value, 10); // Chuyển giá trị thành số nguyên
+            input.value = value.toLocaleString('vi-VN'); // Định dạng và hiển thị giá trị
+        }
+    </script>
+    <script>
+        function changeDateFormat(input) {
+            // Chuyển định dạng từ mm/dd/YYYY sang dd/mm/YYYY
+            let dateParts = input.value.split("-");
+            if (dateParts.length === 3) {
+                let newDate = dateParts[1] + "/" + dateParts[2] + "/" + dateParts[0];
+                input.value = newDate;
+            }
+        }
+    </script>
     </body>
 </html>

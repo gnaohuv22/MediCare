@@ -9,6 +9,7 @@ import DAL.DoctorDAO;
 import DAL.EmployeeDAO;
 import DAL.SubLevelMenuDAO;
 import DAL.UserDAO;
+import Models.Doctor;
 import Models.Employee;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,6 +19,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 /**
  *
@@ -73,10 +75,12 @@ public class AdminHomePage extends HttpServlet {
             UserDAO uDao = new UserDAO();
             EmployeeDAO eDao = new EmployeeDAO();
             SubLevelMenuDAO slmDao = new SubLevelMenuDAO();
+            ArrayList<Doctor> Doctorlist = dDao.getAllDoctors("");
             session.setAttribute("ADMIN_SIDEBAR_MENU", slmDao.getSidebarMenu());
             request.setAttribute("DOCTOR_NUMBER", dDao.countAllDoctor());
             request.setAttribute("USER_NUMBER", uDao.countAllUser());
             request.setAttribute("EMPLOYEE_NUMBER", eDao.countAllEmployee());
+            request.setAttribute("Doctorlist", Doctorlist);
             request.getRequestDispatcher(EMPLOYEE_PAGE).forward(request, response);
         }
     } 

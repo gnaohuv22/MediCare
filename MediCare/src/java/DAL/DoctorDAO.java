@@ -130,8 +130,9 @@ public class DoctorDAO extends DBContext {
         }
         return null;
     }
+    //display doctor deleted + null + active
 
-    public ArrayList<Doctor> getAllDoctors() {
+    public ArrayList<Doctor> getAllTimeDoctor() {
         ArrayList<Doctor> list = new ArrayList<>();
         String sql = "SELECT\n"
                 + "    d.*,\n"
@@ -155,7 +156,7 @@ public class DoctorDAO extends DBContext {
                 + "FULL JOIN CurriculumVitae AS CV ON CV.id = d.CVId\n"
                 + "WHERE\n"
                 + "    d.id IS NOT NULL\n"
-                + "    AND d.isDelete = 0\n"
+                + "    \n"
                 + "GROUP BY\n"
                 + "    d.ARId,\n"
                 + "    d.branchId,\n"
@@ -210,32 +211,185 @@ public class DoctorDAO extends DBContext {
                 doc.setBirthDate(String.valueOf(rs.getDate("birthDate")));
                 doc.setGender(String.valueOf(rs.getInt("gender")));
                 doc.setIsDelete(String.valueOf(rs.getInt("isDelete")));
-//                Doctor d = new Doctor(
-//                        rs.getString("id"),
-//                        rs.getString("email"),
-//                        rs.getString("displayName"),
-//                        String.valueOf(rs.getInt("branchId")),
-//                        rs.getString("phone"),
-//                        String.valueOf(rs.getInt("ARId")),
-//                        String.valueOf(rs.getInt("CVId")),
-//                        String.valueOf(rs.getFloat("salary")),
-//                        rs.getString("workplace"),
-//                        rs.getString("profilePicture"),
-//                        String.valueOf(rs.getInt("status")),
-//                         rs.getString("Certificates"),
-//                          rs.getString("branchName"),
-//                        rs.getString("ARName"),
-//                        rs.getString("DepartmentId"),
-//                        rs.getString("DepartmentName"),
-//                         rs.getString("education"),
-//                        rs.getString("introduce"),
-//                        rs.getString("workHistory"),
-//                        rs.getString("startYear"),
-//                        rs.getString("password"),
-//                        String.valueOf(rs.getDate("birthDate")),
-//                        String.valueOf(rs.getInt("gender")),
-//                        String.valueOf(rs.getInt("isDelete")));
+                list.add(doc);
+            }
+        } catch (SQLException e) {
+            System.out.println("getAllDoctors: " + e);
+        }
+        return list;
+    }
 
+    //display doctor null + active
+    public ArrayList<Doctor> getAllDoctors(String search) {
+        ArrayList<Doctor> list = new ArrayList<>();
+        String sql = "SELECT\n"
+                + "    d.*,\n"
+                + "    b.[name] AS branchName,\n"
+                + "    a.[name] AS ARName,\n"
+                + "    DC.Certificates AS Certificates,\n"
+                + "    Department.id AS DepartmentId,\n"
+                + "    Department.[name] AS departmentName,\n"
+                + "    CV.education,\n"
+                + "    CV.introduce,\n"
+                + "    CV.workHistory,\n"
+                + "    CV.startYear\n"
+                + "FROM\n"
+                + "    Doctor AS d\n"
+                + "LEFT JOIN Branch AS b ON b.id = d.branchId\n"
+                + "LEFT JOIN AcademicRank AS a ON a.id = d.ARId\n"
+                + "LEFT JOIN DoctorCertificates DC ON d.id = DC.DoctorId\n"
+                + "LEFT JOIN DoctorService AS DS ON DS.doctorId = d.id\n"
+                + "LEFT JOIN ServiceTag AS ST ON ST.id = DS.serviceId\n"
+                + "LEFT JOIN Department ON Department.id = ST.departmentId\n"
+                + "LEFT JOIN CurriculumVitae AS CV ON CV.id = d.CVId\n"
+                + "WHERE\n"
+                + "    d.id IS NOT NULL\n"
+                + "    AND d.isDelete = 0 or d.isDelete is null \n"
+                + "	AND d.displayName LIKE ?\n"
+                + "GROUP BY\n"
+                + "    d.ARId,\n"
+                + "    d.branchId,\n"
+                + "    d.CVId,\n"
+                + "    d.displayName,\n"
+                + "    d.email,\n"
+                + "    d.id,\n"
+                + "    d.password,\n"
+                + "    d.phone,\n"
+                + "    d.profilePicture,\n"
+                + "    d.salary,\n"
+                + "    d.status,\n"
+                + "    d.workplace,\n"
+                + "    d.birthDate,\n"
+                + "    d.gender,\n"
+                + "    d.isDelete,\n"
+                + "    b.name,\n"
+                + "    a.name,\n"
+                + "    Certificates,\n"
+                + "    Department.id,\n"
+                + "    Department.name,\n"
+                + "    CV.education,\n"
+                + "    CV.introduce,\n"
+                + "    CV.workHistory,\n"
+                + "    CV.startYear;";
+        try {
+          
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, search);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Doctor doc = new Doctor();
+                doc.setId(rs.getString("id"));
+                doc.setEmail(rs.getString("email"));
+                doc.setDisplayName(rs.getString("displayName"));
+                doc.setBranchId(String.valueOf(rs.getInt("branchId")));
+                doc.setPhone(rs.getString("phone"));
+                doc.setARId(String.valueOf(rs.getInt("ARId")));
+                doc.setCVId(String.valueOf(rs.getInt("CVId")));
+                doc.setSalary(String.valueOf(rs.getFloat("salary")));
+                doc.setWorkplace(rs.getString("workplace"));
+                doc.setProfilePicture(rs.getString("profilePicture"));
+                doc.setStatus(String.valueOf(rs.getInt("status")));
+                doc.setCertificates(rs.getString("Certificates"));
+                doc.setBranchName(rs.getString("branchName"));
+                doc.setARName(rs.getString("ARName"));
+                doc.setDepartmentId(rs.getString("DepartmentId"));
+                doc.setDepartmentName(rs.getString("DepartmentName"));
+                doc.setEducation(rs.getString("education"));
+                doc.setIntroduce(rs.getString("introduce"));
+                doc.setWorkHistory(rs.getString("workHistory"));
+                doc.setStartYear(rs.getString("startYear"));
+                doc.setPassword(rs.getString("password"));
+                doc.setBirthDate(String.valueOf(rs.getDate("birthDate")));
+                doc.setGender(String.valueOf(rs.getInt("gender")));
+                doc.setIsDelete(String.valueOf(rs.getInt("isDelete")));
+                list.add(doc);
+            }
+        } catch (SQLException e) {
+            System.out.println("getAllDoctors: " + e);
+        }
+        return list;
+    }
+//display doctor deleted
+
+    public ArrayList<Doctor> getAllDeletedDoctor() {
+        ArrayList<Doctor> list = new ArrayList<>();
+        String sql = "SELECT\n"
+                + "    d.*,\n"
+                + "    b.[name] AS branchName,\n"
+                + "    a.[name] AS ARName,\n"
+                + "    DC.Certificates AS Certificates,\n"
+                + "    Department.id AS DepartmentId,\n"
+                + "    Department.[name] AS departmentName,\n"
+                + "    CV.education,\n"
+                + "    CV.introduce,\n"
+                + "    CV.workHistory,\n"
+                + "    CV.startYear\n"
+                + "FROM\n"
+                + "    Doctor AS d\n"
+                + "LEFT JOIN Branch AS b ON b.id = d.branchId\n"
+                + "LEFT JOIN AcademicRank AS a ON a.id = d.ARId\n"
+                + "LEFT JOIN DoctorCertificates DC ON d.id = DC.DoctorId\n"
+                + "LEFT JOIN DoctorService AS DS ON DS.doctorId = d.id\n"
+                + "LEFT JOIN ServiceTag AS ST ON ST.id = DS.serviceId\n"
+                + "LEFT JOIN Department ON Department.id = ST.departmentId\n"
+                + "LEFT JOIN CurriculumVitae AS CV ON CV.id = d.CVId\n"
+                + "WHERE\n"
+                + "    d.id IS NOT NULL\n"
+                + "    AND d.isDelete = 1"
+                + "GROUP BY\n"
+                + "    d.ARId,\n"
+                + "    d.branchId,\n"
+                + "    d.CVId,\n"
+                + "    d.displayName,\n"
+                + "    d.email,\n"
+                + "    d.id,\n"
+                + "    d.password,\n"
+                + "    d.phone,\n"
+                + "    d.profilePicture,\n"
+                + "    d.salary,\n"
+                + "    d.status,\n"
+                + "    d.workplace,\n"
+                + "    d.birthDate,\n"
+                + "    d.gender,\n"
+                + "    d.isDelete,\n"
+                + "    b.name,\n"
+                + "    a.name,\n"
+                + "    Certificates,\n"
+                + "    Department.id,\n"
+                + "    Department.name,\n"
+                + "    CV.education,\n"
+                + "    CV.introduce,\n"
+                + "    CV.workHistory,\n"
+                + "    CV.startYear;";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Doctor doc = new Doctor();
+                doc.setId(rs.getString("id"));
+                doc.setEmail(rs.getString("email"));
+                doc.setDisplayName(rs.getString("displayName"));
+                doc.setBranchId(String.valueOf(rs.getInt("branchId")));
+                doc.setPhone(rs.getString("phone"));
+                doc.setARId(String.valueOf(rs.getInt("ARId")));
+                doc.setCVId(String.valueOf(rs.getInt("CVId")));
+                doc.setSalary(String.valueOf(rs.getFloat("salary")));
+                doc.setWorkplace(rs.getString("workplace"));
+                doc.setProfilePicture(rs.getString("profilePicture"));
+                doc.setStatus(String.valueOf(rs.getInt("status")));
+                doc.setCertificates(rs.getString("Certificates"));
+                doc.setBranchName(rs.getString("branchName"));
+                doc.setARName(rs.getString("ARName"));
+                doc.setDepartmentId(rs.getString("DepartmentId"));
+                doc.setDepartmentName(rs.getString("DepartmentName"));
+                doc.setEducation(rs.getString("education"));
+                doc.setIntroduce(rs.getString("introduce"));
+                doc.setWorkHistory(rs.getString("workHistory"));
+                doc.setStartYear(rs.getString("startYear"));
+                doc.setPassword(rs.getString("password"));
+                doc.setBirthDate(String.valueOf(rs.getDate("birthDate")));
+                doc.setGender(String.valueOf(rs.getInt("gender")));
+                doc.setIsDelete(String.valueOf(rs.getInt("isDelete")));
                 list.add(doc);
             }
         } catch (SQLException e) {
@@ -391,12 +545,102 @@ public class DoctorDAO extends DBContext {
 
     }
 
+    //search doctor : 
+    public ArrayList<Doctor> searchDoctorByDisplayName() {
+        ArrayList<Doctor> list = new ArrayList<>();
+        String sql = "SELECT\n"
+                + "    d.*,\n"
+                + "    b.[name] AS branchName,\n"
+                + "    a.[name] AS ARName,\n"
+                + "    DC.Certificates AS Certificates,\n"
+                + "    Department.id AS DepartmentId,\n"
+                + "    Department.[name] AS departmentName,\n"
+                + "    CV.education,\n"
+                + "    CV.introduce,\n"
+                + "    CV.workHistory,\n"
+                + "    CV.startYear\n"
+                + "FROM\n"
+                + "    Doctor AS d\n"
+                + "FULL JOIN Branch AS b ON b.id = d.branchId\n"
+                + "FULL JOIN AcademicRank AS a ON a.id = d.ARId\n"
+                + "FULL JOIN DoctorCertificates DC ON d.id = DC.DoctorId\n"
+                + "FULL JOIN DoctorService AS DS ON DS.doctorId = d.id\n"
+                + "FULL JOIN ServiceTag AS ST ON ST.id = DS.serviceId\n"
+                + "FULL JOIN Department ON Department.id = ST.departmentId\n"
+                + "FULL JOIN CurriculumVitae AS CV ON CV.id = d.CVId\n"
+                + "WHERE\n"
+                + "    d.id IS NOT NULL\n"
+                + "    AND d.displayName LIKE  '%n%' \n"
+                + "GROUP BY\n"
+                + "    d.ARId,\n"
+                + "    d.branchId,\n"
+                + "    d.CVId,\n"
+                + "    d.displayName,\n"
+                + "    d.email,\n"
+                + "    d.id,\n"
+                + "    d.password,\n"
+                + "    d.phone,\n"
+                + "    d.profilePicture,\n"
+                + "    d.salary,\n"
+                + "    d.status,\n"
+                + "    d.workplace,\n"
+                + "    d.birthDate,\n"
+                + "    d.gender,\n"
+                + "    d.isDelete,\n"
+                + "    b.name,\n"
+                + "    a.name,\n"
+                + "    Certificates,\n"
+                + "    Department.id,\n"
+                + "    Department.name,\n"
+                + "    CV.education,\n"
+                + "    CV.introduce,\n"
+                + "    CV.workHistory,\n"
+                + "    CV.startYear;";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Doctor doc = new Doctor();
+                doc.setId(rs.getString("id"));
+                doc.setEmail(rs.getString("email"));
+                doc.setDisplayName(rs.getString("displayName"));
+                doc.setBranchId(String.valueOf(rs.getInt("branchId")));
+                doc.setPhone(rs.getString("phone"));
+                doc.setARId(String.valueOf(rs.getInt("ARId")));
+                doc.setCVId(String.valueOf(rs.getInt("CVId")));
+                doc.setSalary(String.valueOf(rs.getFloat("salary")));
+                doc.setWorkplace(rs.getString("workplace"));
+                doc.setProfilePicture(rs.getString("profilePicture"));
+                doc.setStatus(String.valueOf(rs.getInt("status")));
+                doc.setCertificates(rs.getString("Certificates"));
+                doc.setBranchName(rs.getString("branchName"));
+                doc.setARName(rs.getString("ARName"));
+                doc.setDepartmentId(rs.getString("DepartmentId"));
+                doc.setDepartmentName(rs.getString("DepartmentName"));
+                doc.setEducation(rs.getString("education"));
+                doc.setIntroduce(rs.getString("introduce"));
+                doc.setWorkHistory(rs.getString("workHistory"));
+                doc.setStartYear(rs.getString("startYear"));
+                doc.setPassword(rs.getString("password"));
+                doc.setBirthDate(String.valueOf(rs.getDate("birthDate")));
+                doc.setGender(String.valueOf(rs.getInt("gender")));
+                doc.setIsDelete(String.valueOf(rs.getInt("isDelete")));
+                list.add(doc);
+            }
+        } catch (SQLException e) {
+            System.out.println("getAllDoctors: " + e);
+        }
+        return list;
+    }
+
     public static void main(String[] args) {
         DoctorDAO dd = new DoctorDAO();
-        List<Doctor> list = dd.getAllDoctors();
+        List<Doctor> list = dd.getAllDoctors(" ");
         for (Doctor doc : list) {
             System.out.println(doc);
         }
+        String maxID = dd.autoGenerateID();
+        System.out.println("MAX ID IN THE LIST :" + maxID);
 
 //        System.out.println("concat: " + concatenateNames(""));
     }
@@ -498,6 +742,22 @@ public class DoctorDAO extends DBContext {
             System.out.println("Delete success");
         } catch (SQLException ex) {
         }
+    }
+
+    public String autoGenerateID() {
+        String id = null;
+        DoctorDAO doc = new DoctorDAO();
+        List<Doctor> list = doc.getAllTimeDoctor();
+        int maxId = 0, existedId;
+        for (Doctor d : list) {
+            existedId = Integer.parseInt(d.getId());
+            if (existedId > maxId) {
+                maxId = existedId;
+            }
+        }
+        maxId++;
+        id = String.valueOf(maxId);
+        return id;
     }
 
 }
