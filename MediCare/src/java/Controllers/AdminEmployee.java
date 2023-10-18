@@ -34,7 +34,7 @@ import java.util.Random;
  *
  * @author DELL
  */
-//@WebServlet(name = "Employee", urlPatterns = {"/admin-list-employee"})
+@WebServlet(name = "Employee", urlPatterns = {"/admin-list-employee"})
 public class AdminEmployee extends HttpServlet {
 
     private final String STATISTIC_EMPLOYEE = "admin-employees/admin-employees.jsp";
@@ -135,10 +135,10 @@ public class AdminEmployee extends HttpServlet {
                 request.setAttribute("ALL_BRANCH", bdao.getAllBranches());
                 request.setAttribute("ALL_PROVINCE", pdao.getAllProvinceId());
                 request.setAttribute("ALL_EMPLOYEEROLE", erdao.getAllEmployeeRole());
-                if (emp!=null){
+                if (emp != null) {
                     request.setAttribute("edit_employee", true);
                     request.getRequestDispatcher(REGISTER_EMPLOYEE).forward(request, response);
-                }else{
+                } else {
                     request.setAttribute("add_employee", true);
                     request.getRequestDispatcher(REGISTER_EMPLOYEE).forward(request, response);
                 }
@@ -230,9 +230,8 @@ public class AdminEmployee extends HttpServlet {
                 }
                 //generate id if duplicate
                 while (edao.getEmployeeById(id) != null) {
-                    id = Integer.parseInt(id)+1+"";
+                    id = Integer.parseInt(id) + 1 + "";
                 }
-                request.setAttribute("id", id);
             } catch (AdminException.EmptyStringException e) {
                 error = true;
                 msg.setIdError(e.getMessage());
@@ -266,20 +265,19 @@ public class AdminEmployee extends HttpServlet {
             } catch (AdminException.DuplicateException e) {
                 error = true;
                 msg.setEmailError(e.getMessage());
-            }catch(Exception e){
+            } catch (Exception e) {
                 error = true;
                 msg.setEmailError(e.toString());
             }
             try {
                 Random random = new Random();
-                password = ""+CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
-                +CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
-                +CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
-                +CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
-                +CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
-                +CHARACTERS.charAt(random.nextInt(CHARACTERS.length()));
-                sendPassword=password;
-                request.setAttribute("password", password);
+                password = "" + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
+                        + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
+                        + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
+                        + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
+                        + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
+                        + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()));
+                sendPassword = password;
                 //check if input is empty
                 if (password.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
@@ -364,18 +362,18 @@ public class AdminEmployee extends HttpServlet {
             try {
                 phone = request.getParameter("phone");
                 request.setAttribute("phone", phone);
-                String parttern="[0-9]/10";
-                //check if phone is number
-                if(!phone.matches(parttern))
-                    throw new NumberFormatException();
                 //check length of phone
                 if (phone.trim().length() != 10) {
                     throw new AdminException.LackLengthException(10);
                 }
+                String pattern = "^\\d{10}$";
+                //check if phone is number
+                if (!phone.matches(pattern)) {
+                    throw new NumberFormatException();
+                }
             } catch (NumberFormatException e) {
                 error = true;
                 msg.setPhoneError("Số điện thoại phải là số");
-//                    msg.setPhoneError("The phone number must be number");
             } catch (AdminException.LackLengthException e) {
                 error = true;
                 msg.setPhoneError(e.getMessage());
@@ -402,11 +400,11 @@ public class AdminEmployee extends HttpServlet {
             request.setAttribute("ALL_BRANCH", bdao.getAllBranches());
             request.setAttribute("ALL_PROVINCE", pdao.getAllProvinceId());
             request.setAttribute("ALL_EMPLOYEEROLE", erdao.getAllEmployeeRole());
-                Branch branch = new Branch(branchId, "", "", "");
-                Province province = new Province(provinceId, "");
-                EmployeeRole employeeRole = new EmployeeRole(roleId, "");
-                Employee emp = new Employee(id, email, password, branch, name, birthDate, gender, address, workplace, province, phone, ethnic, employeeRole, createAt);
-                request.setAttribute("ADD_EMPLOYEE", emp);
+            Branch branch = new Branch(branchId, "", "", "");
+            Province province = new Province(provinceId, "");
+            EmployeeRole employeeRole = new EmployeeRole(roleId, "");
+            Employee emp = new Employee(id, email, password, branch, name, birthDate, gender, address, workplace, province, phone, ethnic, employeeRole, createAt);
+            request.setAttribute("ADD_EMPLOYEE", emp);
             if (error) {
                 request.setAttribute("MESSAGE", "Không đăng kí được!");
                 request.setAttribute("REGISTER_ERROR", msg);
@@ -443,9 +441,7 @@ public class AdminEmployee extends HttpServlet {
             boolean error = false;
             RegisterError msg = new RegisterError();
             id = request.getParameter("id");
-            request.setAttribute("id", id);
             email = request.getParameter("email");
-            request.setAttribute("email", email);
             String checkId = eDao.getEmployeeIdByEmail(email);
             //check if user change email
             if (checkId != null && !checkId.equals(id)) {
@@ -476,10 +472,8 @@ public class AdminEmployee extends HttpServlet {
             }
             password = request.getParameter("password");
             branchId = request.getParameter("branchId");
-            request.setAttribute("branchId", branchId);
             try {
                 name = request.getParameter("name");
-                request.setAttribute("name", name);
                 if (name.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
@@ -489,7 +483,6 @@ public class AdminEmployee extends HttpServlet {
             }
             try {
                 birthDate = request.getParameter("birthDate");
-                request.setAttribute("birthDate", birthDate);
                 if (birthDate.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
@@ -510,10 +503,8 @@ public class AdminEmployee extends HttpServlet {
                 msg.setBirthDateError(ex.getMessage());
             }
             gender = request.getParameter("gender");
-            request.setAttribute("gender", gender);
             try {
                 address = request.getParameter("address");
-                request.setAttribute("address", address);
                 if (address.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
@@ -523,7 +514,6 @@ public class AdminEmployee extends HttpServlet {
             }
             try {
                 workplace = request.getParameter("workplace");
-                request.setAttribute("workplace", workplace);
                 if (workplace.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
@@ -532,14 +522,13 @@ public class AdminEmployee extends HttpServlet {
                 msg.setWorkplaceError(ex.getMessage());
             }
             provinceId = request.getParameter("provinceId");
-            request.setAttribute("provinceId", provinceId);
             try {
                 phone = request.getParameter("phone");
-                request.setAttribute("phone", phone);
-                String parttern="[0-9]/10";
+                String pattern = "^\\d{10}$";
                 //check if phone is number
-                if(!phone.matches(parttern))
+                if (!phone.matches(pattern)) {
                     throw new NumberFormatException();
+                }
                 //check length of phone
                 if (phone.trim().length() != 10) {
                     throw new AdminException.LackLengthException(10);

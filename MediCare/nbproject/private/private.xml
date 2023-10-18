@@ -1,43 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
-        <file>
-            <url>src/java/Entities/Employee.java</url>
-            <bookmark id="1">
-                <name/>
-                <line>13</line>
-                <key/>
-            </bookmark>
-        </file>
-    </editor-bookmarks>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< Updated upstream
-            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/DAL/DoctorDAO.java</file>
-            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/Controllers/AdminReview.java</file>
-            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/web/admin-general/admin-sidebar.jsp</file>
-            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/Controllers/AdminAppointment.java</file>
-            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/DAL/DBContext.java</file>
-            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/Controllers/PasswordEncryption.java</file>
-            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/web/admin-doctors/admin-edit-doctor.jsp</file>
-            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/web/WEB-INF/web.xml</file>
-            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/DAL/SubLevelMenuDAO.java</file>
-            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/Controllers/AdminNews.java</file>
-            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/Controllers/AdminHomePage.java</file>
-            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/Controllers/AdminDoctorController.java</file>
-            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/Controllers/AdminEmployee.java</file>
-            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/web/admin-doctors/admin-add-doctor.jsp</file>
-            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/web/admin-doctors/admin-doctorprofile.jsp</file>
-            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/web/admin-screen/admin-home.jsp</file>
-            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/web/admin-doctors/admin-doctors.jsp</file>
-            <file>file:/E:/Learn/Semester_5/swp391/merge-thu/medicalserviceproject/MediCare/src/java/Controllers/AdminUser.java</file>
-=======
-            <file>file:/D:/fpt/5/SWP391/admin-function/medicalserviceproject/MediCare/src/java/Controllers/AdminEmployee.java</file>
-            <file>file:/D:/fpt/5/SWP391/admin-function/medicalserviceproject/MediCare/src/java/DAL/AdminEmailContext.java</file>
-            <file>file:/D:/fpt/5/SWP391/admin-function/medicalserviceproject/MediCare/web/admin-employees/admin-add-employee.jsp</file>
+            <file>file:/D:/fpt/5/SWP391/admin-function/medicalserviceproject/MediCare/web/admin-news/admin-add-news.jsp</file>
+            <file>file:/D:/fpt/5/SWP391/admin-function/medicalserviceproject/MediCare/web/newjsp.jsp</file>
             <file>file:/D:/fpt/5/SWP391/admin-function/medicalserviceproject/MediCare/src/java/DAL/DBContext.java</file>
             <file>file:/D:/fpt/5/SWP391/admin-function/medicalserviceproject/MediCare/web/admin-employees/admin-employees.jsp</file>
->>>>>>> Stashed changes
+            <file>file:/D:/fpt/5/SWP391/admin-function/medicalserviceproject/MediCare/src/java/Controllers/AdminNews.java</file>
+            <file>file:/D:/fpt/5/SWP391/admin-function/medicalserviceproject/MediCare/src/java/Controllers/AdminUser.java</file>
         </group>
     </open-files>
 </project-private>

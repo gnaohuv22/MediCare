@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Đăng kí nhân viên</title>
+        <title>Quản lý nhân viên</title>
         <jsp:include page="../admin-general/admin-head.jsp" />
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/admin/css/admin-employee.css">
     </head>
@@ -168,11 +168,11 @@
                                 </div>-->
                                 <div class="m-t-20 text-center">
                                     <c:if test="${add_employee}">
-                                    <button class="btn btn-primary submit-btn" value="true" name="add-employee">Đăng kí</button>
+                                    <button class="btn btn-primary submit-btn" >Đăng kí</button>
                                     </c:if>
                                     
                                     <c:if test="${edit_employee}">
-                                        <button class="btn btn-primary submit-btn" value="Edit Employee" name="btAction">Lưu</button>
+                                        <button class="btn btn-primary submit-btn">Lưu</button>
                                     </c:if>
                                 </div>
                                 <div class="m-t-20 text-center">

@@ -25,14 +25,14 @@ import java.util.ArrayList;
  *
  * @author DELL
  */
-//@WebServlet(name = "News", urlPatterns = {"/admin-list-news"})
+@WebServlet(name = "News", urlPatterns = {"/admin-list-news"})
 public class AdminNews extends HttpServlet {
 
     private final String STATISTIC_NEWS = "admin-news/admin-news.jsp";
     private final String NEED_EMPLOYEE = "admin-screen/admin-login.jsp";
     private final String NEED_LOGIN = "Bạn cần đăng nhập để truy cập vào nội dung này";
-    private final String ADD_NEWS = "admin-news/admin-add-news.jsp";
-    private final String EDIT_NEWS_PAGE = "admin-news/admin-edit-news.jsp";
+    private final String ADD_NEWS = "admin-news/admin-edit-news.jsp";
+    private final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -122,9 +122,11 @@ public class AdminNews extends HttpServlet {
                 request.setAttribute("edit", edit);
                 request.setAttribute("EDIT_NEWS", getNews);
                 request.setAttribute("ALL_NEWSCATEGORY", ncdao.getAllNewsCategory());
-                if (getNews != null) {
-                    request.getRequestDispatcher(EDIT_NEWS_PAGE).forward(request, response);
+                if (getNews == null) {
+                    request.setAttribute("add_news", true);
+                    request.getRequestDispatcher(ADD_NEWS).forward(request, response);
                 } else {
+                    request.setAttribute("edit_news", true);
                     request.getRequestDispatcher(ADD_NEWS).forward(request, response);
                 }
             } catch (AdminException.RedirecUrlException e2) {
@@ -179,6 +181,7 @@ public class AdminNews extends HttpServlet {
             if (request.getParameter("edit-news") != null) {
                 throw new AdminException.RedirecUrlException();
             }
+            request.setAttribute("add_news", true);
             String id = null;
             String title = null;
             String content = null;
@@ -192,25 +195,13 @@ public class AdminNews extends HttpServlet {
             RegisterError msg = new RegisterError();
             try {
                 id = request.getParameter("id");
-                request.setAttribute("id", id);
-                //check empty string
-                if (id.trim().isEmpty()) {
-                    throw new AdminException.EmptyStringException();
+                //generate id if duplicate
+                while (newsdao.checkNews(id)) {
+                    id = Integer.parseInt(id) + 1 + "";
                 }
-                //check duplicate
-                if (newsdao.checkNews(id)) {
-                    throw new AdminException.DuplicateException();
-                }
-            } catch (AdminException.EmptyStringException e) {
+            } catch (Exception e) {
                 error = true;
-                msg.setIdError(e.getMessage());
-            } catch (NumberFormatException e) {
-                error = true;
-//              msg.setIdError("The ID must be number");
-                msg.setIdError("ID phải là số");
-            } catch (AdminException.DuplicateException e) {
-                error = true;
-                msg.setIdError(e.getMessage());
+                msg.setIdError("Lỗi");
             }
             try {
                 title = request.getParameter("title");
@@ -278,6 +269,7 @@ public class AdminNews extends HttpServlet {
             }
 
         } catch (AdminException.RedirecUrlException e) {
+            request.setAttribute("edit_news", true);
             String id;
             String author;
             String title = null;
@@ -362,7 +354,7 @@ public class AdminNews extends HttpServlet {
             if (error) {
                 request.setAttribute("MESSAGE", "Không sửa được!");
                 request.setAttribute("REGISTER_ERROR", msg);
-                request.getRequestDispatcher(EDIT_NEWS_PAGE).forward(request, response);
+                request.getRequestDispatcher(ADD_NEWS).forward(request, response);
             } else {
                 NewsCategory newCategory = new NewsCategory(newsCategoryId, "");
                 News news = new News(id, title, content, getNews.getAuthor(), newCategory, "", "", "", coverImage, subtitle);
@@ -370,10 +362,10 @@ public class AdminNews extends HttpServlet {
                 if (newsdao.setNewsById(news)) {
                     request.setAttribute("EDIT_NEWS", news);
                     request.setAttribute("MESSAGE", "Sửa thành công!");
-                    request.getRequestDispatcher(EDIT_NEWS_PAGE).forward(request, response);
+                    request.getRequestDispatcher(ADD_NEWS).forward(request, response);
                 } else {
                     request.setAttribute("MESSAGE", "Sửa không thành công!");
-                    request.getRequestDispatcher(EDIT_NEWS_PAGE).forward(request, response);
+                    request.getRequestDispatcher(ADD_NEWS).forward(request, response);
                 }
             }
         }

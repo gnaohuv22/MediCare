@@ -280,10 +280,10 @@ public class UserDAO extends DBContext {
     }
 
     public User getUserById(String id) {
-        String SQL = "SELECT email,password, [User].name[uName],birthDate,gender,address,provinceId,[identity],medicalId,ethnic,phone,profilePicture,createdAt "
+        String SQL = "SELECT [User].id[uId],email,password, [User].name[uName],birthDate,gender,address,provinceId,[identity],medicalId,ethnic,phone,profilePicture,createdAt "
                 + " , Province.name[pName]"
                 + " FROM [User]"
-                + " JOIN Province on [User].provinceId = Province.id"
+                + " LEFT JOIN Province on [User].provinceId = Province.id"
                 + " WHERE [User].id = ?";
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
             pstm.setString(1, id);
@@ -366,11 +366,14 @@ public class UserDAO extends DBContext {
         String SQL = "select top(1) id from [User] order by id DESC";
         try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
             ResultSet rs = pstm.executeQuery();
-            String number = rs.getString(1);
+            String number = null;
+            while(rs.next()){
+                number = rs.getString(1);
+            }
             number = Integer.parseInt(number)+1+"";
             return number;
         }catch (Exception e) {
-            System.out.println("generateId " + e.getMessage());
+            System.out.println("generateId user" + e.getMessage());
         }
         return null;
     }

@@ -73,9 +73,8 @@
                                         <tr>
                                             <c:forEach var="list" items="${ALL_EMPLOYEE}">
             <tr name="display-table-tr">
-                <td>${list.getId()}</td>
+                <td >${list.getId()}</td>
                 <td>${list.getEmail()}</td>
-                <!--<td>${list.getPassword()}</td>-->
                 <td>${list.getBranch().getName()}</td>
                 <td>${list.getName()}</td>
                 <td>${list.getBirthDate()}</td>
@@ -159,27 +158,8 @@
                 <div><a href="admin-export-employee-list">Lấy file excel</a></div>
                 <jsp:include page="../admin-general/admin-notifications-box.jsp"/>
             </div>
-<!--            <div id="delete_employee" class="modal fade delete-modal" role="dialog">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-body text-center">
-                            <img src="../assets/admin/img/sent.png" alt="" width="50" height="46">
-                            <h3>Are you sure want to delete this Employee?</h3>
-                            <div class="m-t-20"> <a href="#" class="btn btn-white" data-dismiss="modal">Close</a>
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
         </div>
-<!--        <div>
-            <a href="${pageContext.request.contextPath}/admin-export-excel-controller" class="btn btn-success btn-block"> Xuất file Excel (thử nghiệm) </a>
-            <input type="text" id="linkExcel" name="linkExcel" value=""/>
-            <button onclick="setDomain()">Gán giá trị</button>
-        </div>-->
-        
-        <script>//
+        <script>
 //            function setDomain(){
 //                let person = prompt("Mời bạn nhập tên của mình", "Harry Potter");
 //                let linkExcel = person;
@@ -190,12 +170,5 @@
         <script src="${pageContext.request.contextPath}/assets/admin/js/jquery-3.2.1.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/admin/js/popper.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/admin/js/bootstrap.min.js"></script>
-<!--        <script src="${pageContext.request.contextPath}/assets/admin/js/jquery.dataTables.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/admin/js/dataTables.bootstrap4.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/admin/js/jquery.slimscroll.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/admin/js/select2.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/admin/js/moment.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/admin/js/bootstrap-datetimepicker.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/admin/js/app.js"></script>-->
     </body>
 </html>
