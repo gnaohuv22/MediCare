@@ -4,6 +4,7 @@
  */
 package Controllers;
 
+import DAL.AdminEmailContext;
 import DAL.BranchDAO;
 import DAL.EmployeeDAO;
 import DAL.ProvinceDAO;
@@ -173,9 +174,9 @@ public class AdminUser extends HttpServlet {
             boolean error = false;
             RegisterError msg = new RegisterError();
             try {
-                id = edao.generateId();
+                id = udao.generateId();
                 //generate id if duplicate
-                while (edao.getEmployeeById(id) != null) {
+                while (udao.getUserById(id) != null) {
                     id = Integer.parseInt(id) + 1 + "";
                 }
             } catch (Exception e) {
@@ -348,6 +349,7 @@ public class AdminUser extends HttpServlet {
             } else {
                 //return massage
                 if (udao.addUser(user)) {
+                    AdminEmailContext.sendEmailnewPassword(email, sendPassword, name);
                     request.setAttribute("MESSAGE", "Đăng kí thành công!");
                     request.getRequestDispatcher(REGISTER_USER).forward(request, response);
                 } else {

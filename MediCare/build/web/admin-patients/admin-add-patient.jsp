@@ -164,12 +164,15 @@
                                                                         </label>
                                                                     </div>
                                                                 </div>-->
-                                <c:if test="${add_user}">
-                                    <button class="btn btn-primary submit-btn" >Đăng kí</button>
-                                </c:if>
-                                <c:if test="${edit_user}">
-                                    <button class="btn btn-primary submit-btn" >Lưu</button>
-                                </c:if>
+
+                                <div class="m-t-20 text-center">
+                                    <c:if test="${add_user}">
+                                        <button class="btn btn-primary submit-btn" >Đăng kí</button>
+                                    </c:if>
+                                    <c:if test="${edit_user}">
+                                        <button class="btn btn-primary submit-btn" >Lưu</button>
+                                    </c:if>
+                                </div>
                                 <div class="m-t-20 text-center">
                                     <h3 style="color: red">${MESSAGE}</h3>
                                 </div>

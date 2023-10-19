@@ -89,13 +89,7 @@ public class AdminProfile extends HttpServlet {
             String newPassword;
             String confirmPassword;
             String phone;
-//        String branchId = "";
             String address = "";
-//        String workplace = "";
-//        String provinceId = "";
-//        String ethnic = "";
-//        String roleId = "";
-//        String createAt ="";
             boolean error = false;
             RegisterError msg = new RegisterError();
             email = request.getParameter("email");
@@ -145,7 +139,7 @@ public class AdminProfile extends HttpServlet {
                         }
                         byte[] salt = PasswordEncryption.generateSalt();
                         String encryptedPassword = PasswordEncryption.encryptPassword(newPassword, salt);
-                        if (currentEmp.getPassword().equals(newPassword)) {
+                        if (currentEmp.getPassword()!=null&&currentEmp.getPassword().equals(newPassword)) {
                             throw new AdminException.PasswordNotChange();
                         }
                         password = encryptedPassword;
