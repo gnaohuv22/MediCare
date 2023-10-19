@@ -74,7 +74,7 @@ public class AdminHomePage extends HttpServlet {
             DoctorDAO dDao = new DoctorDAO();
             UserDAO uDao = new UserDAO();
             EmployeeDAO eDao = new EmployeeDAO();
-            ArrayList<Doctor> Doctorlist = dDao.getAllDoctors("");
+            ArrayList<Doctor> Doctorlist = dDao.getAllDoctors("false", "");
             request.setAttribute("DOCTOR_NUMBER", dDao.countAllDoctor());
             request.setAttribute("USER_NUMBER", uDao.countAllUser());
             request.setAttribute("EMPLOYEE_NUMBER", eDao.countAllEmployee());

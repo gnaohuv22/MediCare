@@ -27,36 +27,26 @@
                                 <p>${requestScope.noti}</p>
                             </c:if>
                         </div>
-                        <div class="col-sm-5">
-                            <form id="myForm" action="admin-doctor">
-
+                        <form id="myForm" action="admin-doctor">
+                            <div class="col-sm-5">
                                 <div class="form-group">
                                     <label>Doctor Status <span class="text-danger">*</span></label>
                                     <select id="isDelete" name="isDelete" required class="form-control">
-                                        <option value="0" <% if ("0".equals(request.getParameter("isDelete"))) { %>selected<% } %>>Active</option>
-                                        <option value="1"<% if ("1".equals(request.getParameter("isDelete"))) { %>selected<% } %>>Deleted</option>
-                                        <option value=""<% if ("".equals(request.getParameter("isDelete"))) { %>selected<% } %>>All</option>
+                                        <option value="0" <% if ("0".equals(request.getAttribute("isDelete"))) { %>selected<% } %>>Active</option>
+                                        <option value="1"<% if ("1".equals(request.getAttribute("isDelete"))) { %>selected<% } %>>Deleted</option>
+                                        <option value=""<% if ("2".equals(request.getAttribute("isDelete"))) { %>selected<% } %>>All</option>
                                     </select>
                                 </div>
-
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                     <div class="col-sm-6 col-6 text-right m-b-20">
                         <a href="admin-doctor?action=add" class="btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Doctor</a>
                     </div>
                 </div>
-                <div class="container">
-                    <div class="row">
-                        <form action="admin-doctor" method="get" class="col-sm-6 col-5">
-                            <div class="input-group mb-3">
-                                <label for="search-input" class="sr-only">Search doctor:</label>
-                                <input type="text" id="search-input" name="search" value="${requestScope.search}" class="form-control" placeholder="Search doctor">
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-primary">Search</button>
-                                </div>
-                            </div>
-                        </form>
+                <div class ="row">
+                    <div class="col-sm-6 col-5">
+                        Search doctor: <input type="text" name="search">
                     </div>
                 </div>
                 <div class="row doctor-grid">
@@ -84,11 +74,11 @@
                     </c:forEach>
                     <div class="col-lg-12" style="display: flex ;flex-direction: row; justify-content: center">
                         <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="admin-doctor?search=${requestScope.search}&isDelete=${requestScope.isDelete}&index=${requestScope.previous}">Previous</a></li>
+                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
                                 <c:forEach begin="1" end="${requestScope.endPage}" var="i">
-                                <li class="page-item"><a class="page-link" href="admin-doctor?search=${requestScope.search}&isDelete=${requestScope.isDelete}&index=${i}">${i}</a></li>
+                                <li class="page-item"><a class="page-link" href="admin-doctor?index=${i}&isDelete=0">${i}</a></li>
                                 </c:forEach>
-                            <li class="page-item"><a class="page-link" href="admin-doctor?search=${requestScope.search}&isDelete=${requestScope.isDelete}&index=${requestScope.after}">Next</a></li>
+                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
                         </ul> 
                     </div>
                 </div>
@@ -159,14 +149,14 @@
         }
     </script>
     <script>
-        // Lắng nghe sự kiện khi thay đổi giá trị trong thẻ select
-        document.getElementById("isDelete").addEventListener("change", function () {
-            // Lấy giá trị đã chọn
-            var selectedValue = this.value;
+    // Lắng nghe sự kiện khi thay đổi giá trị trong thẻ select
+    document.getElementById("isDelete").addEventListener("change", function() {
+        // Lấy giá trị đã chọn
+        var selectedValue = this.value;
 
-            // Tự động gửi biểu mẫu khi có sự thay đổi
-            document.getElementById("myForm").submit();
-        });
-    </script>
+        // Tự động gửi biểu mẫu khi có sự thay đổi
+        document.getElementById("myForm").submit();
+    });
+</script>
 </body>
 </html>
