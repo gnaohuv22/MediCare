@@ -83,28 +83,26 @@ public class AdminDoctorController extends HttpServlet {
         CertificateDAO CertDAO = new CertificateDAO();
         HttpSession session = request.getSession();
         Employee checkEmp = (Employee) session.getAttribute("EMPLOYEE");
+        
         //check login
         if (checkEmp == null) {
             request.setAttribute("MESSAGE", checkEmp);
             request.getRequestDispatcher(NEED_EMPLOYEE).forward(request, response);
         }
+         List<AcademicRank> listAR = ARDAO.getListAcademicRank();
+            List<Branch> listBranch = BranchDAO.getAllBranches();
+            List<Certificate> listCert = CertDAO.getListCertificate();
         String action = request.getParameter("action"); 
         String id = request.getParameter("id");
         if ("add".equals(action)) {
-            List<AcademicRank> listAR = ARDAO.getListAcademicRank();
-            List<Branch> listBranch = BranchDAO.getAllBranches();
-            List<Certificate> listCert = CertDAO.getListCertificate();
             request.setAttribute("listBranch", listBranch);
             request.setAttribute("listAR", listAR);
             request.setAttribute("listCert", listCert);
             request.getRequestDispatcher("admin-doctors/admin-add-doctor.jsp").forward(request, response);
         }
-        if("edit".equals(action)){
-            DoctorDAO DocDAO = new DoctorDAO();
-            List<AcademicRank> listAR = ARDAO.getListAcademicRank();
-            List<Branch> listBranch = BranchDAO.getAllBranches();
+        else if("edit".equals(action)){
+            DoctorDAO DocDAO = new DoctorDAO();       
             CertificateDoctorDAO cdDao = new CertificateDoctorDAO();
-            List<Certificate> listCert = CertDAO.getListCertificate();
             List<CertificateDoctor> listCertofDoc = cdDao.getCertificateByDoctorId(id);
             Doctor doc = DocDAO.getDoctorByDoctorId(id);
             System.out.println("Doctor : " + doc);
@@ -129,6 +127,11 @@ public class AdminDoctorController extends HttpServlet {
         ArrayList<Doctor> listDoc = dao.getAllDoctors(isDelete, search);
         int count = dao.doctorCount(listDoc);
         System.out.println("Doctor count : " + count);
+       
+        String branch = request.getParameter("branch")== null ? "": request.getParameter("branch");
+        System.out.println("Branch status : " + branch);
+        String academicRank = request.getParameter("academicRank")== null ? "": request.getParameter("academicRank");
+        System.out.println("AcademicRank status : " + academicRank);
         String indexRaw = request.getParameter("index") == null ? "1": request.getParameter("index");
         int index = Integer.parseInt(indexRaw);
         System.out.println("Index Paging : " + index);
@@ -136,9 +139,14 @@ public class AdminDoctorController extends HttpServlet {
         if(count % 8 != 0){
             endPage++;
         }
-        List<Doctor> listPaging = dao.pagingDoctor(search, index, isDelete);
+        List<Doctor> listPaging = dao.pagingDoctor(search, branch,academicRank ,isDelete ,index);
+        System.out.println("listPaging site : " + listPaging.size());
         System.out.println("List paging : " + listPaging);
         String noti = (String) request.getSession().getAttribute("noti");
+        request.setAttribute("listAR", listAR);
+        request.setAttribute("branch", branch);
+        request.setAttribute("academicRank", academicRank);
+        request.setAttribute("listBranch", listBranch);
         request.setAttribute("search",search);
         request.setAttribute("noti", noti);
         request.setAttribute("previous", index - 1);
@@ -239,6 +247,7 @@ public class AdminDoctorController extends HttpServlet {
             if (bool == true) {
                 try {
                     id = dao.autoGenerateID();
+                    System.out.println("ID : " + id);
                     byte[] salt = PasswordEncryption.generateSalt();
                     String encPass = PasswordEncryption.encryptPassword(password, salt);
                     CertificateDoctorDAO CDDao = new CertificateDoctorDAO();
@@ -247,7 +256,7 @@ public class AdminDoctorController extends HttpServlet {
                     for (String c : certificates) {
                         CDDao.addCertificateForDoctor(c, id);
                     }
-                    request.getSession().setAttribute("noti", "Update doctor informations success");
+                    request.getSession().setAttribute("noti", "Add doctor success");
                     response.sendRedirect("admin-doctor");
                 } catch (ParseException ex) {
                     Logger.getLogger(AdminDoctorController.class.getName()).log(Level.SEVERE, null, ex);
@@ -275,7 +284,7 @@ public class AdminDoctorController extends HttpServlet {
             }
         }
         //delete doctor function
-        if ("delete".equals(action)) {
+        else if ("delete".equals(action)) {
             id = request.getParameter("id");
             System.out.println("doctorId" + id);
             DoctorDAO dao = new DoctorDAO();
@@ -283,7 +292,7 @@ public class AdminDoctorController extends HttpServlet {
             dao.deleteDoctor(doc);
             response.sendRedirect("admin-doctor");
         }
-        if ("edit".equals(action)) {
+        else if ("edit".equals(action)) {
             id = request.getParameter("id");
             email = request.getParameter("email");
             displayName = request.getParameter("displayName");

@@ -28,15 +28,15 @@
                             <form action="admin-doctor" method="post">
                                 <input type="hidden" value="add" name="action">
                                 <div class="row">
-<!--                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label>ID <span class="text-danger">*</span></label>
-                                            <input name="id" class="form-control" type="text" required="" value="${requestScope.id}">
-                                        </div>
-                                        <c:if test="${not empty requestScope.IdError}">
-                                            <p style="color: red">${requestScope.IdError}</p>
-                                        </c:if>
-                                    </div>-->
+                                    <!--                                    <div class="col-sm-6">
+                                                                            <div class="form-group">
+                                                                                <label>ID <span class="text-danger">*</span></label>
+                                                                                <input name="id" class="form-control" type="text" required="" value="${requestScope.id}">
+                                                                            </div>
+                                    <c:if test="${not empty requestScope.IdError}">
+                                        <p style="color: red">${requestScope.IdError}</p>
+                                    </c:if>
+                                </div>-->
 
                                     <!-- comment 
                                     <div class="col-sm-6">
@@ -63,7 +63,7 @@
                                         </c:if>
 
                                     </div>
-                                    <div class="col-sm-6">
+                                        <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>Password <span class="text-danger">*</span></label>
                                             <input name="password" class="form-control" type="password" required="" >
@@ -78,6 +78,7 @@
                                             <p style="color: red">${requestScope.PasswordError}</p>
                                         </c:if>
                                     </div>
+
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>Display name <span class="text-danger">*</span></label>
@@ -87,17 +88,17 @@
                                             <p style="color: red">${requestScope.displayNameError}</p>
                                         </c:if>
                                     </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label> Gender  <span class="text-danger">*</span></label>
-                                                    <select name="gender"  required="" class="form-control">
-                                                        <option  value="1" <% if ("1".equals(request.getAttribute("gender"))) { %>selected<% } %>>Male</option>
-                                                        <option  value="2" <% if ("2".equals(request.getAttribute("gender"))) { %>selected<% } %>>Female </option>  
-                                                        <option  value="3" <% if ("3".equals(request.getAttribute("gender"))) { %>selected<% } %>>Others </option>  
-                                                    </select>
-                                                </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label> Gender  <span class="text-danger">*</span></label>
+                                            <select name="gender"  required="" class="form-control">
+                                                <option  value="1" <% if ("1".equals(request.getAttribute("gender"))) { %>selected<% } %>>Male</option>
+                                                <option  value="2" <% if ("2".equals(request.getAttribute("gender"))) { %>selected<% } %>>Female </option>  
+                                                <option  value="3" <% if ("3".equals(request.getAttribute("gender"))) { %>selected<% } %>>Others </option>  
+                                            </select>
+                                        </div>
 
-                                            </div>
+                                    </div>
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Certificates <span class="text-danger">*</span></label> <br>
@@ -132,11 +133,9 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label> Birthdate  <span class="text-danger">*</span></label>
-                                            <input name="birthDate" class="form-control" type="date" required="" value="${requestScope.birthDate}" oninput="changeDateFormat(this)">
+                                            <input name="birthDate" class="form-control" type="date" required="" value="${requestScope.birthDate}" oninput="myDate1(this)">
                                         </div>
-
                                     </div>
-
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             <label>Academic Rank <span class="text-danger">*</span></label>
@@ -194,7 +193,7 @@
                                             <label>Branch <span class="text-danger">*</span></label>
                                             <select name="branch" class="form-control" required="" >
                                                 <c:forEach  var="br" items="${listBranch}">
-                                                   <option value="${br.getId()}" 
+                                                    <option value="${br.getId()}" 
                                                             <c:if test="${br.getId() == requestScope.branch}">
                                                                 selected
                                                             </c:if>
@@ -303,22 +302,24 @@
         </div>
         <div class="sidebar-overlay" data-reff=""></div>
         <jsp:include page="../admin-general/admin-script.jsp"/>
-         <script>
-        function formatSalaryInput(input) {
-            let value = input.value.replace(/\D/g, ''); // Lọc ra chỉ còn số
-            value = parseInt(value, 10); // Chuyển giá trị thành số nguyên
-            input.value = value.toLocaleString('vi-VN'); // Định dạng và hiển thị giá trị
-        }
-    </script>
-    <script>
-        function changeDateFormat(input) {
-            // Chuyển định dạng từ mm/dd/YYYY sang dd/mm/YYYY
-            let dateParts = input.value.split("-");
-            if (dateParts.length === 3) {
-                let newDate = dateParts[1] + "/" + dateParts[2] + "/" + dateParts[0];
-                input.value = newDate;
+        <script>
+            function formatSalaryInput(input) {
+                let value = input.value.replace(/\D/g, ''); // Lọc ra chỉ còn số
+                value = parseInt(value, 10); // Chuyển giá trị thành số nguyên
+                input.value = value.toLocaleString('vi-VN'); // Định dạng và hiển thị giá trị
             }
-        }
-    </script>
+        </script>
+        <script>
+            function mydate1() {
+                d = new Date(document.getElementById("dt").value);
+                dt = d.getDate();
+                mn = d.getMonth();
+                mn++;
+                yy = d.getFullYear();
+                document.getElementById("ndt").value = dt + "/" + mn + "/" + yy
+                document.getElementById("ndt").hidden = false;
+                document.getElementById("dt").hidden = true;
+            }
+        </script>
     </body>
 </html>

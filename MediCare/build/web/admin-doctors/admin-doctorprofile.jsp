@@ -40,7 +40,7 @@
                                                 <div class="profile-info-left">
                                                     <h3 class="user-name m-t-0 mb-0">${requestScope.doc.getDisplayName()}</h3>
                                                     <small class="text-muted">${requestScope.doc.getARName()}</small>
-                                                    <div class="staff-id">Employee ID : ${requestScope.doc.getId()}</div>
+                                                    <div class="staff-id">Doctor ID : ${requestScope.doc.getId()}</div>
 
                                                 </div>
                                             </div>
@@ -48,15 +48,15 @@
                                                 <ul class="personal-info">
                                                     <li>
                                                         <span class="title">Phone:</span>
-                                                        <span class="text"><a href="#">${requestScope.doc.getPhone()}</a></span>
+                                                        <span class="text"><a href="tel:${requestScope.doc.getPhone()}">${requestScope.doc.getPhone()}</a></span>
                                                     </li>
                                                     <li>
                                                         <span class="title">Email:</span>
-                                                        <span class="text"><a href="#">${requestScope.doc.getEmail()}</a></span>
+                                                        <span class="text"><a href="mailto:${requestScope.doc.getEmail()}">${requestScope.doc.getEmail()}</a></span>
                                                     </li>
                                                     <li>
                                                         <span class="title">Birthday:</span>
-                                                        <span class="text">${requestScope.doc.getBirthDate()}</span>
+                                                        <span class="text" id="birthDateText">${requestScope.doc.getBirthDate()}</span>
                                                     </li>
                                                     <li>
                                                         <span class="title">Work place : </span>
@@ -64,9 +64,7 @@
                                                     </li>
                                                     <li>
                                                         <span class="title">Gender:</span>
-                                                        <span class="text">
-                                                            ${requestScope.doc.getGender()}
-                                                        </span>
+                                                        <span class="text" id="genderText">${requestScope.doc.getGender()}</span>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -79,8 +77,6 @@
                     <div class="profile-tabs">
                         <ul class="nav nav-tabs nav-tabs-bottom">
                             <li class="nav-item"><a class="nav-link active" href="#about-cont" data-toggle="tab">About</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#bottom-tab2" data-toggle="tab">Profile</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#bottom-tab3" data-toggle="tab">Messages</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -176,14 +172,44 @@
                 <input type="hidden" name="id" value="">
                 <input type="hidden" name="action" value="edit">
             </form>
-             <script>
-            function setDoctorId(doctorId) {
-                var editForm = document.getElementById('editForm');
-                var idInput = editForm.querySelector('input[name="id"]');
-                idInput.value = doctorId;
-                editForm.submit();
-            }
-        </script>
+            <script>
+                function setDoctorId(doctorId) {
+                    var editForm = document.getElementById('editForm');
+                    var idInput = editForm.querySelector('input[name="id"]');
+                    idInput.value = doctorId;
+                    editForm.submit();
+                }
+            </script>
+            <script>
+
+                // Lấy phần tử chứa giới tính dựa trên ID "genderText"
+                var genderElement = document.getElementById("genderText");
+
+                // Lấy giá trị giới tính
+                var genderValue = genderElement.textContent;
+
+                // Chuyển đổi giá trị giới tính
+                if (genderValue === "1") {
+                    genderElement.textContent = "Male";
+                } else if (genderValue === "2") {
+                    genderElement.textContent = "Female";
+                } else if (genderValue === "3") {
+                    genderElement.textContent = "Others";
+                }
+                // Lấy phần tử chứa ngày tháng dựa trên ID "birthDateText"
+                var birthDateElement = document.getElementById("birthDateText");
+
+                // Lấy giá trị ngày tháng
+                var birthDateValue = birthDateElement.textContent;
+
+                // Chuyển đổi định dạng từ "YYYY-MM-DD" sang "DD-MM-YYYY"
+                var dateParts = birthDateValue.split("-");
+                if (dateParts.length === 3) {
+                    var newDate = dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0];
+                    birthDateElement.textContent = newDate;
+                }
+
+            </script>
         </div>
         <div class="sidebar-overlay" data-reff=""></div>
         <script src="assets/js/jquery-3.2.1.min.js"></script>

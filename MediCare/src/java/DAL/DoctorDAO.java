@@ -132,8 +132,6 @@ public class DoctorDAO extends DBContext {
     }
     //display doctor deleted + null + active
 
-  
-
     //display doctor null + active
     public ArrayList<Doctor> getAllDoctors(String isDelete, String search) {
         ArrayList<Doctor> list = new ArrayList<>();
@@ -226,8 +224,6 @@ public class DoctorDAO extends DBContext {
         return list;
     }
 //display doctor deleted
-
-   
 
     public Doctor getDoctorById(String Id) {
         String SQL = "select id, email, displayName, branchId, phone, ARId, CVId, salary, workplace, profilePicture, [status], [password], birthDate, gender, isDelete from Doctor where id = ?";
@@ -471,8 +467,10 @@ public class DoctorDAO extends DBContext {
             System.out.println(doc);
         }
         int Count = dd.doctorCount(list);
+        String id = dd.autoGenerateID();
+        System.out.println("ID :" + id);
         System.out.println("Number Doctor IN THE LIST :" + Count);
-        List<Doctor> paging = dd.pagingDoctor(" ", 1," ");
+        List<Doctor> paging = dd.pagingDoctor("","","","1",1);
         System.out.println("Paging doctor : ");
         for (Doctor d : paging) {
             System.out.println(d);
@@ -503,13 +501,13 @@ public class DoctorDAO extends DBContext {
             statement.setString(13, d.getBirthDate());
             statement.setInt(14, Integer.parseInt(d.getGender()));
             statement.setString(15, d.getIsDelete());
-            statement.executeUpdate();
+            statement.executeUpdate(); // Use executeUpdate to perform INSERT
         } catch (SQLException ex) {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex);
         } catch (NumberFormatException e) {
             System.out.println(e);
-            System.out.println("pasre fail");
+            System.out.println("parse fail");
         }
     }
 
@@ -620,53 +618,64 @@ public class DoctorDAO extends DBContext {
     public String autoGenerateID() {
         String id = null;
         DoctorDAO doc = new DoctorDAO();
-        List<Doctor> list = doc.getAllDoctors(" ", " ");
-        int maxId = 0, existedId;
+        List<Doctor> list = doc.getAllDoctors("", "");
+        int maxId = 0;
+
         for (Doctor d : list) {
-            existedId = Integer.parseInt(d.getId());
-            if (existedId > maxId) {
-                maxId = existedId;
+            try {
+                int existedId = Integer.parseInt(d.getId());
+                if (existedId > maxId) {
+                    maxId = existedId;
+                }
+            } catch (NumberFormatException e) {
+                // Handle invalid IDs here (e.g., log or ignore)
+                System.err.println("Invalid ID: " + d.getId());
             }
         }
+
         maxId++;
         id = String.valueOf(maxId);
         return id;
     }
 
-    public ArrayList<Doctor> pagingDoctor(String search, int index, String isDelete) {
+    public ArrayList<Doctor> pagingDoctor(String search,String BranchId , String  ARId, String isDelete, int index) {
         ArrayList<Doctor> list = new ArrayList<>();
 
-        String sql = "SELECT    \n"
-                + "    d.*,    \n"
-                + "    b.[name] AS branchName,    \n"
-                + "    a.[name] AS ARName,    \n"
-                + "    DC.Certificates AS Certificates,    \n"
-                + "    Department.id AS DepartmentId,    \n"
-                + "    Department.[name] AS departmentName,    \n"
-                + "    CV.education,    \n"
-                + "    CV.introduce,    \n"
-                + "    CV.workHistory,    \n"
-                + "    CV.startYear    \n"
-                + "FROM    \n"
-                + "    Doctor AS d    \n"
-                + "LEFT JOIN Branch AS b ON b.id = d.branchId    \n"
-                + "LEFT JOIN AcademicRank AS a ON a.id = d.ARId    \n"
-                + "LEFT JOIN DoctorCertificates AS DC ON d.id = DC.DoctorId    \n"
-                + "LEFT JOIN DoctorService AS DS ON DS.doctorId = d.id    \n"
-                + "LEFT JOIN ServiceTag AS ST ON ST.id = DS.serviceId    \n"
-                + "LEFT JOIN Department ON Department.id = ST.departmentId    \n"
-                + "LEFT JOIN CurriculumVitae AS CV ON CV.id = d.CVId    \n"
-                + "WHERE    \n"
-                + "    d.id IS NOT NULL    \n"
-                + "    AND d.isDelete like ?   \n"
-                + "  AND d.displayName LIKE ? \n"
+        String sql = "SELECT\n"
+                + "    d.*,\n"
+                + "    b.[name] AS branchName,\n"
+                + "    a.[name] AS ARName,\n"
+                + "    DC.Certificates AS Certificates,\n"
+                + "    Department.id AS DepartmentId,\n"
+                + "    Department.[name] AS departmentName,\n"
+                + "    CV.education,\n"
+                + "    CV.introduce,\n"
+                + "    CV.workHistory,\n"
+                + "    CV.startYear\n"
+                + "FROM\n"
+                + "    Doctor AS d\n"
+                + "LEFT JOIN Branch AS b ON b.id = d.branchId\n"
+                + "LEFT JOIN AcademicRank AS a ON a.id = d.ARId\n"
+                + "LEFT JOIN DoctorCertificates AS DC ON d.id = DC.DoctorId\n"
+                + "LEFT JOIN DoctorService AS DS ON DS.doctorId = d.id\n"
+                + "LEFT JOIN ServiceTag AS ST ON ST.id = DS.serviceId\n"
+                + "LEFT JOIN Department ON Department.id = ST.departmentId\n"
+                + "LEFT JOIN CurriculumVitae AS CV ON CV.id = d.CVId\n"
+                + "WHERE\n"
+                + "    d.id IS NOT NULL\n"
+                + "    AND d.isDelete LIKE ?\n"
+                + "    AND d.displayName LIKE ?\n"
+                + "	AND d.branchId like ?\n"
+                + "	AND d.ARId LIKE ?\n"
                 + "ORDER BY d.id\n"
-                + "OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY;";                          
+                + "OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, "%" + isDelete + "%");
             st.setString(2, "%" + search + "%");
-            st.setInt(3, (index - 1) * 8);
+            st.setString(3, "%" + BranchId + "%");
+            st.setString(4, "%" + ARId + "%");
+            st.setInt(5, (index - 1) * 8);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Doctor doc = new Doctor();

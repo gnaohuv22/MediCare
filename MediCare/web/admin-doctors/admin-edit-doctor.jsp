@@ -151,7 +151,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label> Birthdate  <span class="text-danger">*</span></label>
-                                            <input name="birthDate" class="form-control" type="date" required="" value="${requestScope.doc.getBirthDate()}" oninput="changeDateFormat(this)">
+                                            <input name="birthDate" class="form-control" type="date" required="" value="${requestScope.doc.getBirthDate()}" oninput="mydate1(this)">
                                         </div>
 
                                     </div>
@@ -315,14 +315,16 @@
             }
         </script>
         <script>
-        function changeDateFormat(input) {
-            // Chuyển định dạng từ mm/dd/YYYY sang dd/mm/YYYY
-            let dateParts = input.value.split("-");
-            if (dateParts.length === 3) {
-                let newDate = dateParts[1] + "/" + dateParts[2] + "/" + dateParts[0];
-                input.value = newDate;
+           function mydate1() {
+                d = new Date(document.getElementById("dt").value);
+                dt = d.getDate();
+                mn = d.getMonth();
+                mn++;
+                yy = d.getFullYear();
+                document.getElementById("ndt").value = dt + "/" + mn + "/" + yy
+                document.getElementById("ndt").hidden = false;
+                document.getElementById("dt").hidden = true;
             }
-        }
-    </script>
+        </script>
     </body>
 </html>

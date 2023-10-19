@@ -21,15 +21,14 @@
             <div class="page-wrapper">
                 <div class="content">
                     <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <h4 class="page-title">Doctors</h4>
                             <c:if test="${not empty requestScope.noti}">
                                 <p>${requestScope.noti}</p>
                             </c:if>
                         </div>
-                        <div class="col-sm-5">
+                        <div class="col-sm-4">
                             <form id="myForm" action="admin-doctor">
-
                                 <div class="form-group">
                                     <label>Doctor Status <span class="text-danger">*</span></label>
                                     <select id="isDelete" name="isDelete" required class="form-control">
@@ -38,27 +37,49 @@
                                         <option value=""<% if ("".equals(request.getParameter("isDelete"))) { %>selected<% } %>>All</option>
                                     </select>
                                 </div>
+                                <div class="form-group">
+                                    <label for="search-input" class="sr-only">Search doctor:</label>
+                                    <input type="text" id="search-input" name="search" value="${requestScope.search}" class="form-control" placeholder="Search doctor">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-primary">Search</button>
+                                    </div>
+                                </div>
 
+                                <div class="form-group">
+                                    <label>Branch <span class="text-danger">*</span></label>
+                                    <select id="branch" name="branch" class="form-control" required="" >
+                                        <c:forEach  var="br" items="${listBranch}">
+                                            <option value="${br.getId()}" 
+                                                    <c:if test="${br.getId() == requestScope.branch}">
+                                                        selected
+                                                    </c:if>
+                                                    >${br.getName()}</option>
+                                        </c:forEach> 
+                                            <option value="" <% if ("".equals(request.getParameter("branch"))) { %>selected<% } %>>All</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Academic Rank <span class="text-danger">*</span></label>
+                                    <select id="academicRank" name="academicRank" required="" class="form-control">
+                                        <c:forEach var="a" items="${listAR}">
+                                            <option value="${a.getId()}" 
+                                                    <c:if test="${a.getId() == requestScope.academicRank}">
+                                                        selected
+                                                    </c:if>
+                                                    >${a.getName()}</option>
+                                            
+                                        </c:forEach> 
+                                            <option value="" <% if ("".equals(request.getParameter("academicRank"))){ %>selected<% } %> >ALL</option>
+                                    </select>
+                                </div>
                             </form>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-6 text-right m-b-20">
+                    <div class="col-sm-4 col-4 text-right m-b-20">
                         <a href="admin-doctor?action=add" class="btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Doctor</a>
                     </div>
                 </div>
-                <div class="container">
-                    <div class="row">
-                        <form action="admin-doctor" method="get" class="col-sm-6 col-5">
-                            <div class="input-group mb-3">
-                                <label for="search-input" class="sr-only">Search doctor:</label>
-                                <input type="text" id="search-input" name="search" value="${requestScope.search}" class="form-control" placeholder="Search doctor">
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-primary">Search</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+
                 <div class="row doctor-grid">
                     <c:forEach var="doc" items="${listPaging}">
                         <div class="col-md-4 col-sm-4  col-lg-3">
@@ -84,11 +105,11 @@
                     </c:forEach>
                     <div class="col-lg-12" style="display: flex ;flex-direction: row; justify-content: center">
                         <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="admin-doctor?search=${requestScope.search}&isDelete=${requestScope.isDelete}&index=${requestScope.previous}">Previous</a></li>
+                            <li class="page-item"><a class="page-link" href=""admin-doctor?isDelete=${requestScope.isDelete}&search=${requestScope.search}&branch=${requestScope.branch}&academicRank=${requestScope.academicRank}&index=${requestScope.previous}">Previous</a></li>
                                 <c:forEach begin="1" end="${requestScope.endPage}" var="i">
-                                <li class="page-item"><a class="page-link" href="admin-doctor?search=${requestScope.search}&isDelete=${requestScope.isDelete}&index=${i}">${i}</a></li>
+                                <li class="page-item"><a class="page-link" href="admin-doctor?isDelete=${requestScope.isDelete}&search=${requestScope.search}&branch=${requestScope.branch}&academicRank=${requestScope.academicRank}&index=${i}">${i}</a></li>
                                 </c:forEach>
-                            <li class="page-item"><a class="page-link" href="admin-doctor?search=${requestScope.search}&isDelete=${requestScope.isDelete}&index=${requestScope.after}">Next</a></li>
+                            <li class="page-item"><a class="page-link" href=""admin-doctor?isDelete=${requestScope.isDelete}&search=${requestScope.search}&branch=${requestScope.branch}&academicRank=${requestScope.academicRank}&index=${requestScope.after}">Next</a></li>
                         </ul> 
                     </div>
                 </div>
@@ -161,6 +182,20 @@
     <script>
         // Lắng nghe sự kiện khi thay đổi giá trị trong thẻ select
         document.getElementById("isDelete").addEventListener("change", function () {
+            // Lấy giá trị đã chọn
+            var selectedValue = this.value;
+
+            // Tự động gửi biểu mẫu khi có sự thay đổi
+            document.getElementById("myForm").submit();
+        });
+         document.getElementById("branch").addEventListener("change", function () {
+            // Lấy giá trị đã chọn
+            var selectedValue = this.value;
+
+            // Tự động gửi biểu mẫu khi có sự thay đổi
+            document.getElementById("myForm").submit();
+        });
+         document.getElementById("academicRank").addEventListener("change", function () {
             // Lấy giá trị đã chọn
             var selectedValue = this.value;
 
