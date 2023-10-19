@@ -63,11 +63,11 @@ public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
         String SQL = "SELECT * FROM [FamilyProfile] where ownerid=? ORDER BY relationId";
         ArrayList<FamilyProfile> list = new ArrayList<>();
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
-            ps.setString(1, String.valueOf(idByEmail));
+            ps.setString(1, idByEmail);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String gender = "Male";
-                if (rs.getInt(5) == 1) {
+                if (Integer.parseInt(rs.getString("gender")) == 1) {
                     gender = "Female";
                 }
                 RelationshipDAO rd = new RelationshipDAO();
@@ -75,22 +75,19 @@ public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
                 String[] names = rs.getString(3).split(" ");
                 String lastName = names[names.length-1];
                 FamilyProfile fp = new FamilyProfile(
-                        String.valueOf(rs.getInt(1)),
-                        rs.getString(2),
+                        String.valueOf(rs.getInt("profileId")),
+                        rs.getString("email"),
 //                        rs.getString(3),
                         lastName,
-                        String.valueOf(rs.getDate(4)),
+                        String.valueOf(rs.getDate("birthDate")),
                         gender,
-                        rs.getString(6),
-                        String.valueOf(rs.getInt(7)),
-                        rs.getString(8),
-                        rs.getString(9),
-                        rs.getString(10),
-                        rs.getString(11),
-                        rs.getString(12),
-                        String.valueOf(rs.getDate(13)),
-                        String.valueOf(rs.getInt(14)),
-                        rs.getString(15),
+                        rs.getString("address"),
+                        rs.getString("identity"),
+                        rs.getString("medicalId"),
+                        rs.getString("ethnic"),
+                        rs.getString("phone"),
+                        rs.getString("profilePicture"),
+                        rs.getString("ownerId"),
                         r);
                 System.out.println(fp.toString());
                 list.add(fp);
@@ -354,10 +351,14 @@ public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
+            String gender = "0";
+            if(fp.getGender().equals("Female")){
+            gender = "1";
+            }
             st.setString(1, fp.getEmail());
             st.setString(2, fp.getName());
             st.setString(3, fp.getBirthDate());
-            st.setString(4, fp.getGender());
+            st.setString(4, gender);
             st.setString(5, fp.getAddress());
             st.setString(6, fp.getIdentity());
             st.setString(7, fp.getMedicalId());

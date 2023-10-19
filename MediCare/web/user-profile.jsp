@@ -37,7 +37,7 @@
                 <div class="search-box">
                     <form action="" method="post" class="search-bar">
                         <input placeholder="Tìm nhanh hồ sơ" type="search" name="search-profile" id="search-profile">
-                        <input type="hidden" name="method" name="search" value="search"/>
+                        <input type="hidden" name="method" value="search"/>
                     </form>
                     <div class="profile-list">
                         <ul>
