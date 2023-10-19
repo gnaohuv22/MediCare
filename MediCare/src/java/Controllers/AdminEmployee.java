@@ -5,6 +5,7 @@
 package Controllers;
 
 import Controllers.AdminException.EmailValidation;
+import DAL.AdminEmailContext;
 import DAL.BranchDAO;
 import Models.Employee;
 import DAL.EmployeeDAO;
@@ -27,16 +28,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 /**
  *
  * @author DELL
  */
-//@WebServlet(name = "Employee", urlPatterns = {"/admin-list-employee"})
+@WebServlet(name = "Employee", urlPatterns = {"/admin-list-employee"})
 public class AdminEmployee extends HttpServlet {
 
     private final String STATISTIC_EMPLOYEE = "admin-employees/admin-employees.jsp";
-    private final String EDIT_EMPLOYEE_PAGE = "admin-employees/admin-edit-employee.jsp";
+    private final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private final String REGISTER_EMPLOYEE = "admin-employees/admin-add-employee.jsp";
     private final String NEED_EMPLOYEE = "admin-screen/admin-login.jsp";
 //    private final String ROLE = "1";
@@ -133,10 +135,12 @@ public class AdminEmployee extends HttpServlet {
                 request.setAttribute("ALL_BRANCH", bdao.getAllBranches());
                 request.setAttribute("ALL_PROVINCE", pdao.getAllProvinceId());
                 request.setAttribute("ALL_EMPLOYEEROLE", erdao.getAllEmployeeRole());
-                if (emp!=null){
-                    request.getRequestDispatcher(EDIT_EMPLOYEE_PAGE).forward(request, response);
-                }else{
-                request.getRequestDispatcher(REGISTER_EMPLOYEE).forward(request, response);
+                if (emp != null) {
+                    request.setAttribute("edit_employee", true);
+                    request.getRequestDispatcher(REGISTER_EMPLOYEE).forward(request, response);
+                } else {
+                    request.setAttribute("add_employee", true);
+                    request.getRequestDispatcher(REGISTER_EMPLOYEE).forward(request, response);
                 }
             } catch (AdminException.RedirecUrlException ex) {
                 String keyId = request.getParameter("searchId");
@@ -200,9 +204,11 @@ public class AdminEmployee extends HttpServlet {
             if (action == null) {
                 throw new AdminException.RedirecUrlException();
             }
+            request.setAttribute("add_employee", true);
             String id = null;
             String email = null;
             String password = null;
+            String sendPassword = null;
             String branchId;
             String name = null;
             String birthDate = null;
@@ -217,16 +223,14 @@ public class AdminEmployee extends HttpServlet {
             boolean error = false;
             RegisterError msg = new RegisterError();
             try {
-                id = request.getParameter("id");
-                request.setAttribute("id", id);
+                id = edao.generateId();
                 //check if input is empty
                 if (id.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
-                Employee emp = edao.getEmployeeById(id);
-                //check if id is duplicate
-                if (emp != null) {
-                    throw new AdminException.DuplicateException();
+                //generate id if duplicate
+                while (edao.getEmployeeById(id) != null) {
+                    id = Integer.parseInt(id) + 1 + "";
                 }
             } catch (AdminException.EmptyStringException e) {
                 error = true;
@@ -235,9 +239,6 @@ public class AdminEmployee extends HttpServlet {
                 error = true;
 //                    msg.setIdError("The ID must be number");
                 msg.setIdError("ID phải là số");
-            } catch (AdminException.DuplicateException e) {
-                error = true;
-                msg.setIdError(e.getMessage());
             }
             try {
                 email = request.getParameter("email");
@@ -264,10 +265,19 @@ public class AdminEmployee extends HttpServlet {
             } catch (AdminException.DuplicateException e) {
                 error = true;
                 msg.setEmailError(e.getMessage());
+            } catch (Exception e) {
+                error = true;
+                msg.setEmailError(e.toString());
             }
             try {
-                password = request.getParameter("password");
-                request.setAttribute("password", password);
+                Random random = new Random();
+                password = "" + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
+                        + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
+                        + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
+                        + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
+                        + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
+                        + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()));
+                sendPassword = password;
                 //check if input is empty
                 if (password.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
@@ -352,15 +362,18 @@ public class AdminEmployee extends HttpServlet {
             try {
                 phone = request.getParameter("phone");
                 request.setAttribute("phone", phone);
-                Long.parseLong(phone);
                 //check length of phone
                 if (phone.trim().length() != 10) {
                     throw new AdminException.LackLengthException(10);
                 }
+                String pattern = "^\\d{10}$";
+                //check if phone is number
+                if (!phone.matches(pattern)) {
+                    throw new NumberFormatException();
+                }
             } catch (NumberFormatException e) {
                 error = true;
                 msg.setPhoneError("Số điện thoại phải là số");
-//                    msg.setPhoneError("The phone number must be number");
             } catch (AdminException.LackLengthException e) {
                 error = true;
                 msg.setPhoneError(e.getMessage());
@@ -387,18 +400,20 @@ public class AdminEmployee extends HttpServlet {
             request.setAttribute("ALL_BRANCH", bdao.getAllBranches());
             request.setAttribute("ALL_PROVINCE", pdao.getAllProvinceId());
             request.setAttribute("ALL_EMPLOYEEROLE", erdao.getAllEmployeeRole());
+            Branch branch = new Branch(branchId, "", "", "");
+            Province province = new Province(provinceId, "");
+            EmployeeRole employeeRole = new EmployeeRole(roleId, "");
+            Employee emp = new Employee(id, email, password, branch, name, birthDate, gender, address, workplace, province, phone, ethnic, employeeRole, createAt);
+            request.setAttribute("ADD_EMPLOYEE", emp);
             if (error) {
                 request.setAttribute("MESSAGE", "Không đăng kí được!");
                 request.setAttribute("REGISTER_ERROR", msg);
                 request.getRequestDispatcher(REGISTER_EMPLOYEE).forward(request, response);
             } else {
-                Branch branch = new Branch(branchId, "", "", "");
-                Province province = new Province(provinceId, "");
-                EmployeeRole employeeRole = new EmployeeRole(roleId, "");
-                Employee emp = new Employee(id, email, password, branch, name, birthDate, gender, address, workplace, province, phone, ethnic, employeeRole, createAt);
                 EmployeeDAO eDao = new EmployeeDAO();
                 //return massage
                 if (eDao.addEmployee(emp)) {
+                    AdminEmailContext.sendEmailnewPassword(email, sendPassword, name);
                     request.setAttribute("MESSAGE", "Đăng kí thành công!");
                     request.getRequestDispatcher(REGISTER_EMPLOYEE).forward(request, response);
                 } else {
@@ -407,10 +422,10 @@ public class AdminEmployee extends HttpServlet {
                 }
             }
         } catch (AdminException.RedirecUrlException e) {
+            request.setAttribute("edit_employee", true);
             String id = null;
             String email = null;
             String password = null;
-            String newPassword = null;
             String branchId;
             String name = null;
             String birthDate = null;
@@ -427,18 +442,23 @@ public class AdminEmployee extends HttpServlet {
             RegisterError msg = new RegisterError();
             id = request.getParameter("id");
             email = request.getParameter("email");
-            String checkEmail = eDao.getEmployeeIdByEmail(email);
-            if (checkEmail != null && !checkEmail.equals(id)) {
+            String checkId = eDao.getEmployeeIdByEmail(email);
+            //check if user change email
+            if (checkId != null && !checkId.equals(id)) {
                 try {
+                    //check empty email
                     if (email.trim().isEmpty()) {
                         throw new AdminException.EmptyStringException();
                     }
+                    //example@abc
                     String regexPattern = "/^([a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z]{2,})+)*$/";
+                    //check pattern
                     if (EmailValidation.patternMatches(email, regexPattern)) {
                         error = true;
                         msg.setEmailError(EmailValidation.getMessage("Không hợp lệ! ", "Thử theo mẫu: email@fpt.edu.vn"));
                     }
                     Models.Employee emp = edao.getEmployeeByEmail(email);
+                    //check duplicate
                     if (emp != null) {
                         throw new AdminException.DuplicateException();
                     }
@@ -450,29 +470,7 @@ public class AdminEmployee extends HttpServlet {
                     msg.setEmailError(ex.getMessage());
                 }
             }
-
-            newPassword = request.getParameter("newPassword");
-            if (!newPassword.isEmpty()) {
-                try {
-                    if (newPassword.trim().isEmpty()) {
-                        throw new AdminException.EmptyStringException();
-                    }
-                    if (newPassword.length() < 6 || newPassword.length() > 20) {
-                        throw new AdminException.LengthException(6, 20);
-                    }
-                    byte[] salt = PasswordEncryption.generateSalt();
-                    String encryptedPassword = PasswordEncryption.encryptPassword(newPassword, salt);
-                    password = encryptedPassword;
-                } catch (AdminException.EmptyStringException ex) {
-                    error = true;
-                    msg.setPasswordError(ex.getMessage());
-                } catch (AdminException.LengthException ex) {
-                    error = true;
-                    msg.setPasswordError(ex.getMessage());
-                }
-            } else {
-                password = request.getParameter("password");
-            }
+            password = request.getParameter("password");
             branchId = request.getParameter("branchId");
             try {
                 name = request.getParameter("name");
@@ -516,7 +514,6 @@ public class AdminEmployee extends HttpServlet {
             }
             try {
                 workplace = request.getParameter("workplace");
-                request.setAttribute("workplace", workplace);
                 if (workplace.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
@@ -527,7 +524,12 @@ public class AdminEmployee extends HttpServlet {
             provinceId = request.getParameter("provinceId");
             try {
                 phone = request.getParameter("phone");
-                Integer.parseInt(phone);
+                String pattern = "^\\d{10}$";
+                //check if phone is number
+                if (!phone.matches(pattern)) {
+                    throw new NumberFormatException();
+                }
+                //check length of phone
                 if (phone.trim().length() != 10) {
                     throw new AdminException.LackLengthException(10);
                 }
@@ -540,6 +542,7 @@ public class AdminEmployee extends HttpServlet {
             }
             try {
                 ethnic = request.getParameter("ethnic");
+                request.setAttribute("ethnic", ethnic);
                 if (ethnic.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
@@ -548,24 +551,30 @@ public class AdminEmployee extends HttpServlet {
                 msg.setEthnicError(ex.getMessage());
             }
             roleId = request.getParameter("roleId");
+            request.setAttribute("roleId", roleId);
+            EmployeeRoleDAO erdao = new EmployeeRoleDAO();
+            BranchDAO bdao = new BranchDAO();
+            ProvinceDAO pdao = new ProvinceDAO();
+            request.setAttribute("ALL_BRANCH", bdao.getAllBranches());
+            request.setAttribute("ALL_PROVINCE", pdao.getAllProvinceId());
+            request.setAttribute("ALL_EMPLOYEEROLE", erdao.getAllEmployeeRole());
             Branch branch = new Branch(branchId, "", "", "");
             Province province = new Province(provinceId, "");
             EmployeeRole employeeRole = new EmployeeRole(roleId, "");
             Employee emp = new Employee(id, email, password, branch, name, birthDate, gender, address, workplace, province, phone, ethnic, employeeRole, createAt);
-
             request.setAttribute("EDIT_EMPLOYEE", emp);
             if (error) {
                 request.setAttribute("MESSAGE", "Không sửa được!");
                 request.setAttribute("EDIT_ERROR", msg);
-                request.getRequestDispatcher(EDIT_EMPLOYEE_PAGE + "?id=" + id).forward(request, response);
+                request.getRequestDispatcher(REGISTER_EMPLOYEE + "?id=" + id).forward(request, response);
             } else {
                 //return massage
                 if (eDao.setEmployeeById(emp)) {
                     request.setAttribute("MESSAGE", "Sửa thành công!");
-                    request.getRequestDispatcher(EDIT_EMPLOYEE_PAGE + "?id=" + id).forward(request, response);
+                    request.getRequestDispatcher(REGISTER_EMPLOYEE + "?id=" + id).forward(request, response);
                 } else {
                     request.setAttribute("MESSAGE", "Sửa không thành công!");
-                    request.getRequestDispatcher(EDIT_EMPLOYEE_PAGE + "?id=" + id).forward(request, response);
+                    request.getRequestDispatcher(REGISTER_EMPLOYEE + "?id=" + id).forward(request, response);
                 }
             }
         }

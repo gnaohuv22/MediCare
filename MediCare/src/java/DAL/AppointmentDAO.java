@@ -215,7 +215,10 @@ public class AppointmentDAO extends DBContext {
         String SQL = "select top(1) id from Appointments order by id DESC";
         try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
             ResultSet rs = pstm.executeQuery();
-            String number = rs.getString(1);
+            String number = null;
+            while(rs.next()){
+                number = rs.getString(1);
+            }
             number = Integer.parseInt(number)+1+"";
             return number;
         }catch (Exception e) {

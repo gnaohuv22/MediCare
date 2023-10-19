@@ -9,9 +9,9 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <title>Quản lý tin tức</title>
         <jsp:include page="../admin-general/admin-head.jsp"/>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/admin/css/admin-employee.css">
-        <!--<script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>-->
         <script src="${pageContext.request.contextPath}/assets/admin/ckeditor/ckeditor.js"></script>
     </head>
     <body>
@@ -22,7 +22,12 @@
                 <div class="content">
                     <div class="row">
                         <div class="col-lg-8 offset-lg-2">
-                            <h4 class="page-title">Viết tin</h4>
+                            <c:if test="${add_news}">
+                                <h4 class="page-title">Viết tin</h4>
+                            </c:if>
+                            <c:if test="${edit_news}">
+                                <h4 class="page-title">Sửa tin</h4>
+                            </c:if>
                         </div>
                     </div>
 
@@ -30,12 +35,22 @@
                         <div class="row">
                             <div class="col-lg-8 offset-lg-2">
                                 <form action="${pageContext.request.contextPath}/admin-list-news" method="POST"> 
+                                <c:if test="${add_news}">
+                                    <input type="hidden" name="add-news" value="true">
+                                    <c:set var="news" value="${ADD_NEWS}"/>
+                                    <c:set var="error" value="${REGISTER_ERROR}"></c:set>
+                                </c:if>
+                                <c:if test="${edit_news}">
+                                    <input type="hidden" name="edit-news" value="true">
+                                    <c:set var="news" value="${EDIT_NEWS}"/>
+                                    <c:set var="error" value="${EDIT_ERROR}"></c:set>
+                                </c:if>
                                 <input type="hidden" name="add-news" value="true">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>ID</label>
-                                            <input class="form-control" type="text" name="id" value="${id}">
+                                            <input class="form-control" type="text" name="id" value="${news.id}">
                                         </div>
                                         <p class="error-notice">${error.getIdError()}</p>
                                     </div>
@@ -43,7 +58,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Tiêu đề </label>
-                                            <input class="form-control" type="text" name="title" value="${title}">
+                                            <input class="form-control" type="text" name="title" value="${news.title}">
                                         </div>
                                         <p class="error-notice">${error.getTitleError()}</p>
                                     </div>
@@ -51,7 +66,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Nội dung </label>
-                                            <textarea class="form-control" id="content" name="content" value="${content}" rows="10">${content}</textarea>
+                                            <textarea class="form-control" id="content" name="content" value="${news.content}" rows="10">${content}</textarea>
                                         </div>
                                         <p class="error-notice">${error.getContentError()}</p>
                                     </div>
@@ -60,7 +75,7 @@
                                             <label>Thẻ</label>
                                             <select class="select" name="newsCategoryId">
                                                 <c:forEach var="list" items="${ALL_NEWSCATEGORY}">
-                                                    <option value="${list.getId()}" <c:if test="${list.getId() eq newsCategoryId}">selected</c:if>>${list.getName()}</option>
+                                                    <option value="${list.getId()}" <c:if test="${list.getId() eq news.newsCategory.Id}">selected</c:if>>${list.getName()}</option>
                                                 </c:forEach>
                                             </select>
                                         </div>
@@ -69,14 +84,14 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Ảnh</label>
-                                            <input class="form-control" type="text" name="coverImage" value="${coverImage}" >
+                                            <input class="form-control" type="text" name="coverImage" value="${news.coverImage}" >
                                         </div>
                                         <p class="error-notice">${error.getCoverImageError()}</p>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Subtitle </label>
-                                            <input class="form-control" type="text" name="subtitle" value="${subtitle}" >
+                                            <input class="form-control" type="text" name="subtitle" value="${news.subtitle}" >
                                         </div>
                                         <p class="error-notice">${error.getSubtitleError()}</p>
                                     </div>
@@ -85,6 +100,13 @@
                                 </div>
 
                                 <div class="m-t-20 text-center">
+                                    <c:if test="${add_news}">
+                                    <button class="btn btn-primary submit-btn" >Đăng kí</button>
+                                    </c:if>
+                                    
+                                    <c:if test="${edit_news}">
+                                        <button class="btn btn-primary submit-btn">Lưu</button>
+                                    </c:if>
                                     <button class="btn btn-primary submit-btn" value="Add News" name="btAction">Đăng bài</button>
                                 </div>
                                 <div class="m-t-20 text-center">

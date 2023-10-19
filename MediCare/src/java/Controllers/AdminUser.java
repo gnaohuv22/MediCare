@@ -25,18 +25,19 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 /**
  *
  * @author DELL
  */
-//@WebServlet(name = "User", urlPatterns = {"/admin-list-user"})
+@WebServlet(name = "User", urlPatterns = {"/admin-list-user"})
 public class AdminUser extends HttpServlet {
 
     private final String REGISTER_USER = "admin-patients/admin-add-patient.jsp";
     private final String STATISTIC_USER = "admin-patients/admin-patients.jsp";
-    private final String EDIT_USER_PAGE = "admin-patients/admin-edit-patient.jsp";
     private final String NEED_EMPLOYEE = "admin-screen/admin-login.jsp";
+    private final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 //    private final String ROLE = "1";
 //    private final String NEED_LOGIN = "Bạn cần đăng nhập để truy cập vào nội dung này";
 //    private final String NEED_ROLE = "Bạn cần quyền để truy cập vào nội dung này";
@@ -122,10 +123,13 @@ public class AdminUser extends HttpServlet {
             User user = udao.getUserById(id);
             request.setAttribute("EDIT_USER", user);
             request.setAttribute("ALL_PROVINCE", pdao.getAllProvinceId());
-            if (user!=null){
-                request.getRequestDispatcher(EDIT_USER_PAGE).forward(request, response);
-            }else{
-            request.getRequestDispatcher(REGISTER_USER).forward(request, response);
+            if (user == null) {
+                request.setAttribute("add_user", true);
+                request.getRequestDispatcher(REGISTER_USER).forward(request, response);
+            } else {
+                System.out.println(user.getName());
+                request.setAttribute("edit_user", true);
+                request.getRequestDispatcher(REGISTER_USER).forward(request, response);
             }
         }
     }
@@ -146,9 +150,11 @@ public class AdminUser extends HttpServlet {
             if (request.getParameter("edit-user") != null) {
                 throw new AdminException.RedirecUrlException();
             }
+            request.setAttribute("add_user", true);
             String id = null;
             String email = null;
             String password = null;
+            String sendPassword;
             String name = null;
             String birthDate = null;
             String gender;
@@ -158,7 +164,7 @@ public class AdminUser extends HttpServlet {
             String medicalId = null;
             String ethnic = null;
             String phone = null;
-            String profilePicture;
+            String profilePicture = null;
             String createdAt = "";
             EmployeeDAO edao = new EmployeeDAO();
             UserDAO udao = new UserDAO();
@@ -167,27 +173,14 @@ public class AdminUser extends HttpServlet {
             boolean error = false;
             RegisterError msg = new RegisterError();
             try {
-                id = request.getParameter("id");
-                request.setAttribute("id", id);
-                //check if input is empty
-                if (id.trim().isEmpty()) {
-                    throw new AdminException.EmptyStringException();
+                id = edao.generateId();
+                //generate id if duplicate
+                while (edao.getEmployeeById(id) != null) {
+                    id = Integer.parseInt(id) + 1 + "";
                 }
-                String checkUser = udao.getUserEmailById(id);
-                //check if id is duplicate
-                if (checkUser != null) {
-                    throw new AdminException.DuplicateException();
-                }
-            } catch (AdminException.EmptyStringException e) {
+            } catch (Exception e) {
                 error = true;
-                msg.setIdError(e.getMessage());
-            } catch (NumberFormatException e) {
-                error = true;
-//                    msg.setIdError("The ID must be number");
-                msg.setIdError("ID phải là số");
-            } catch (AdminException.DuplicateException e) {
-                error = true;
-                msg.setIdError(e.getMessage());
+                msg.setIdError("Lỗi");
             }
             try {
                 email = request.getParameter("email");
@@ -213,27 +206,18 @@ public class AdminUser extends HttpServlet {
                 error = true;
                 msg.setEmailError(e.getMessage());
             }
-            try {
-                password = request.getParameter("password");
-                request.setAttribute("password", password);
-                //check if input is empty
-                if (password.trim().isEmpty()) {
-                    throw new AdminException.EmptyStringException();
-                }
-                //check length of password
-                if (password.length() < 6 || password.length() > 20) {
-                    throw new AdminException.LengthException(6, 20);
-                }
-                byte[] salt = PasswordEncryption.generateSalt();
-                String encryptedPassword = PasswordEncryption.encryptPassword(password, salt);
-                password = encryptedPassword;
-            } catch (AdminException.EmptyStringException e) {
-                error = true;
-                msg.setPasswordError(e.getMessage());
-            } catch (AdminException.LengthException e) {
-                error = true;
-                msg.setPasswordError(e.getMessage());
-            }
+            Random random = new Random();
+            password = "" + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
+                    + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
+                    + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
+                    + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
+                    + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
+                    + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()));
+            sendPassword = password;
+            byte[] salt = PasswordEncryption.generateSalt();
+            String encryptedPassword = PasswordEncryption.encryptPassword(password, salt);
+            password = encryptedPassword;
+
             try {
                 name = request.getParameter("name");
                 request.setAttribute("name", name);
@@ -301,7 +285,6 @@ public class AdminUser extends HttpServlet {
             } catch (NumberFormatException e) {
                 error = true;
                 msg.setIdentityError("CCCD phải là số");
-//                    msg.setPhoneError("The phone number must be number");
             } catch (AdminException.LackLengthException e) {
                 error = true;
                 msg.setIdentityError(e.getMessage());
@@ -314,19 +297,13 @@ public class AdminUser extends HttpServlet {
                     throw new AdminException.EmptyStringException();
                 }
                 Long.parseLong(medicalId);
-//                    if (medicalId.trim().length()!=10) throw new AdminException.LackLengthException(10);
             } catch (NumberFormatException e) {
                 error = true;
                 msg.setMedicalIdError("Số BHYT phải là số");
-//                    msg.setPhoneError("The phone number must be number");
             } catch (AdminException.EmptyStringException e) {
                 error = true;
                 msg.setMedicalIdError(e.getMessage());
             }
-//                catch(AdminException.LackLengthException e){
-//                    error = true;
-//                    msg.setPhoneError(e.getMessage());
-//                }
             try {
                 ethnic = request.getParameter("ethnic");
                 request.setAttribute("ethnic", ethnic);
@@ -346,15 +323,21 @@ public class AdminUser extends HttpServlet {
                 if (phone.trim().length() != 10) {
                     throw new AdminException.LackLengthException(10);
                 }
+                String pattern = "^\\d{10}$";
+                //check if phone is number
+                if (!phone.matches(pattern)) {
+                    throw new NumberFormatException();
+                }
             } catch (NumberFormatException e) {
                 error = true;
                 msg.setPhoneError("Số điện thoại phải là số");
-//                    msg.setPhoneError("The phone number must be number");
             } catch (AdminException.LackLengthException e) {
                 error = true;
                 msg.setPhoneError(e.getMessage());
             }
-
+            Province province = new Province(provinceId, "");
+            User user = new User(id, email, password, name, birthDate, gender, address, province, identity, medicalId, ethnic, phone, profilePicture, createdAt);
+            request.setAttribute("ADD_USER", user);
             profilePicture = request.getParameter("profilePicture");
             request.setAttribute("profilePicture", profilePicture);
             //validate
@@ -363,8 +346,6 @@ public class AdminUser extends HttpServlet {
                 request.setAttribute("REGISTER_ERROR", msg);
                 request.getRequestDispatcher(REGISTER_USER).forward(request, response);
             } else {
-                Province province = new Province(provinceId, "");
-                User user = new User(id, email, password, name, birthDate, gender, address, province, identity, medicalId, ethnic, phone, profilePicture, createdAt);
                 //return massage
                 if (udao.addUser(user)) {
                     request.setAttribute("MESSAGE", "Đăng kí thành công!");
@@ -375,6 +356,7 @@ public class AdminUser extends HttpServlet {
                 }
             }
         } catch (AdminException.RedirecUrlException e) {
+            request.setAttribute("edit_user", true);
             ProvinceDAO pdao = new ProvinceDAO();
             request.setAttribute("ALL_PROVINCE", pdao.getAllProvinceId());
             String id = null;
@@ -423,28 +405,7 @@ public class AdminUser extends HttpServlet {
                     msg.setEmailError(ex.getMessage());
                 }
             }
-            newPassword = request.getParameter("newPassword");
-            if (!newPassword.isEmpty()) {
-                try {
-                    if (newPassword.trim().isEmpty()) {
-                        throw new AdminException.EmptyStringException();
-                    }
-                    if (newPassword.length() < 6 || newPassword.length() > 20) {
-                        throw new AdminException.LengthException(6, 20);
-                    }
-                    byte[] salt = PasswordEncryption.generateSalt();
-                    String encryptedPassword = PasswordEncryption.encryptPassword(newPassword, salt);
-                    password = encryptedPassword;
-                } catch (AdminException.EmptyStringException ex) {
-                    error = true;
-                    msg.setPasswordError(ex.getMessage());
-                } catch (AdminException.LengthException ex) {
-                    error = true;
-                    msg.setPasswordError(ex.getMessage());
-                }
-            } else {
-                password = request.getParameter("password");
-            }
+            
             try {
                 name = request.getParameter("name");
 //                    request.setAttribute("name", name);
@@ -507,7 +468,6 @@ public class AdminUser extends HttpServlet {
             } catch (NumberFormatException ex) {
                 error = true;
                 msg.setIdentityError("CCCD phải là số");
-//                    msg.setPhoneError("The phone number must be number");
             } catch (AdminException.LackLengthException ex) {
                 error = true;
                 msg.setIdentityError(ex.getMessage());
@@ -519,7 +479,6 @@ public class AdminUser extends HttpServlet {
                     throw new AdminException.EmptyStringException();
                 }
                 Long.parseLong(medicalId);
-//                    if (medicalId.trim().length()!=10) throw new AdminException.LackLengthException(10);
             } catch (NumberFormatException ex) {
                 error = true;
                 msg.setMedicalIdError("Số BHYT phải là số");
@@ -544,10 +503,13 @@ public class AdminUser extends HttpServlet {
             }
             try {
                 phone = request.getParameter("phone");
-//                    request.setAttribute("phone", phone);
-                Long.parseLong(phone);
                 if (phone.trim().length() != 10) {
                     throw new AdminException.LackLengthException(10);
+                }
+                String pattern = "^\\d{10}$";
+                //check if phone is number
+                if (!phone.matches(pattern)) {
+                    throw new NumberFormatException();
                 }
             } catch (NumberFormatException ex) {
                 error = true;
@@ -559,7 +521,6 @@ public class AdminUser extends HttpServlet {
             }
 
             profilePicture = request.getParameter("profilePicture");
-//                    request.setAttribute("profilePicture", profilePicture);
             request.setAttribute("ALL_PROVINCE", pdao.getAllProvinceId());
             Province province = new Province(provinceId, "");
             User user = new User(id, email, password, name, birthDate, gender, address, province, identity, medicalId, ethnic, phone, profilePicture, createdAt);
@@ -567,15 +528,15 @@ public class AdminUser extends HttpServlet {
             if (error) {
                 request.setAttribute("MESSAGE", "Không sửa được!");
                 request.setAttribute("EDIT_ERROR", msg);
-                request.getRequestDispatcher(EDIT_USER_PAGE).forward(request, response);
+                request.getRequestDispatcher(REGISTER_USER).forward(request, response);
             } else {
                 //return massage
                 if (udao.setUserById(user)) {
                     request.setAttribute("MESSAGE", "Sửa thành công!");
-                    request.getRequestDispatcher(EDIT_USER_PAGE).forward(request, response);
+                    request.getRequestDispatcher(REGISTER_USER).forward(request, response);
                 } else {
                     request.setAttribute("MESSAGE", "Sửa không thành công!");
-                    request.getRequestDispatcher(EDIT_USER_PAGE).forward(request, response);
+                    request.getRequestDispatcher(REGISTER_USER).forward(request, response);
                 }
             }
         }

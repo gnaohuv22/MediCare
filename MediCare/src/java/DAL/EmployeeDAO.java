@@ -450,9 +450,12 @@ public class EmployeeDAO extends DBContext {
     }
     public String generateId(){
         String SQL = "select top(1) id from Employee order by id DESC";
+        String number = null;
         try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
             ResultSet rs = pstm.executeQuery();
-            String number = rs.getString(1);
+            while(rs.next()){
+                number = rs.getString(1);
+            }
             number = Integer.parseInt(number)+1+"";
             return number;
         }catch (Exception e) {

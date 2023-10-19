@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Đăng kí nhân viên</title>
+        <title>Quản lý nhân viên</title>
         <jsp:include page="../admin-general/admin-head.jsp" />
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/admin/css/admin-employee.css">
     </head>
@@ -30,38 +30,53 @@
                 <div class="content">
                     <div class="row">
                         <div class="col-lg-8 offset-lg-2">
-                            <h4 class="page-title">Đăng kí nhân viên</h4>
+                            <c:if test="${add_employee}">
+                                <h4 class="page-title">Đăng kí nhân viên</h4>
+                            </c:if>
+                            <c:if test="${edit_employee}">
+                                <h4 class="page-title">Sửa nhân viên</h4>
+                            </c:if>
                         </div>
                     </div>
-                    <c:set var="error" value="${REGISTER_ERROR}"></c:set>
                     <div class="row">
                         <div class="col-lg-8 offset-lg-2">
-                            <form action="${pageContext.request.contextPath}/admin-list-employee?add-employee=true" method="POST"> 
+                            <form action="${pageContext.request.contextPath}/admin-list-employee" method="POST"> 
+                                <c:if test="${add_employee}">
+                                    <input type="hidden" name="add-employee" value="true">
+                                    <c:set var="emp" value="${ADD_EMPLOYEE}"/>
+                                    <c:set var="error" value="${REGISTER_ERROR}"></c:set>
+                                </c:if>
+                                <c:if test="${edit_employee}">
+                                    <input type="hidden" name="edit-employee" value="true">
+                                    <c:set var="emp" value="${EDIT_EMPLOYEE}"/>
+                                    <c:set var="error" value="${EDIT_ERROR}"></c:set>
+                                </c:if>
                                 <div class="row">
-                                    <div class="col-sm-12">
+<!--                                    <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>ID</label>
                                             <input class="form-control" type="text" name="id" value="${id}"><p class="error-notice">${error.getIdError()}</p>
                                         </div>
-                                    </div>
+                                    </div>-->
+                                    <input type="hidden" name="id" value="${emp.id}">
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Email </label>
-                                            <input class="form-control" type="email" name="email" value="${email}"><p class="error-notice">${error.getEmailError()}</p>
+                                            <input class="form-control" type="email" name="email" value="${emp.email}"><p class="error-notice">${error.getEmailError()}</p>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
+<!--                                    <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Mật khẩu</label>
-                                            <input class="form-control" type="password" name="password" value="${password}"><p class="error-notice">${error.getPasswordError()}</p>
+                                            <input class="form-control" type="password" name="password" value="${emp.password}"><p class="error-notice">${error.getPasswordError()}</p>
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Chi nhánh</label>
-                                            <select name="branchId" value="${branchId}" class="select">
+                                            <select name="branchId" class="select">
                                                 <c:forEach var="list" items="${ALL_BRANCH}" >
-                                                    <option value="${list.getId()}" <c:if test="${list.getId() eq branchId}">selected</c:if>>${list.getName()}</option>
+                                                    <option value="${list.getId()}" <c:if test="${list.getId() eq emp.getBranch().getId()}">selected</c:if>>${list.getName()}</option>
                                                 </c:forEach>
                                             </select>
                                         </div>
@@ -69,7 +84,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Tên </label>
-                                            <input class="form-control" type="text" name="name" value="${name}"><p class="error-notice">${error.getNameError()}</p>
+                                            <input class="form-control" type="text" name="name" value="${emp.name}"><p class="error-notice">${error.getNameError()}</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
@@ -77,7 +92,7 @@
                                             <label>Ngày sinh</label>
                                             <!--<div class="cal-icon">-->
                                             <div class="form-group">
-                                                <input class="form-control datetimepicker" type="date" name="birthDate" value="${birthDate}">
+                                                <input class="form-control datetimepicker" type="date" name="birthDate" value="${emp.birthDate}">
                                                        <p class="error-notice">${error.getBirthDateError()}</p>
                                             </div>
                                         </div>
@@ -86,29 +101,29 @@
                                         <div class="form-group">
                                             <label>Giới tính </label>
                                                 <span style="font-size:20px;color:#000;margin-left:36px;padding:5px 5px;">
-                                                        <input type="radio" name="gender" value="0" <c:if test="${edit.gender != 1}">checked="checked"</c:if>/>Nam
-                                                        <input type="radio" name="gender" value="1" <c:if test="${edit.gender == 1}">checked="checked"</c:if>/>Nu
+                                                        <input type="radio" name="gender" value="0" <c:if test="${emp.gender != 1}">checked="checked"</c:if>/>Nam
+                                                        <input type="radio" name="gender" value="1" <c:if test="${emp.gender == 1}">checked="checked"</c:if>/>Nu
                                                 </span>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Địa chỉ </label>
-                                            <input class="form-control" type="text" name="address" value="${address}" ><p class="error-notice">${error.getAddressError()}</p>
+                                            <input class="form-control" type="text" name="address" value="${emp.address}" ><p class="error-notice">${error.getAddressError()}</p>
                                         </div>
                                     </div>
                                         <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Nơi làm việc </label>
-                                            <input class="form-control" type="text" name="workplace" value="${workplace}" ><p class="error-notice">${error.getWorkplaceError()}</p>
+                                            <input class="form-control" type="text" name="workplace" value="${emp.workplace}" ><p class="error-notice">${error.getWorkplaceError()}</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Tỉnh</label>
-                                            <select class="select" name="provinceId" value="${provinceId}">
+                                            <select class="select" name="provinceId" ">
                                                 <c:forEach var="list" items="${ALL_PROVINCE}">
-                                                    <option value="${list.getId()}" <c:if test="${list.getId() eq provinceId}">selected</c:if>>${list.getName()}</option>
+                                                    <option value="${list.getId()}" <c:if test="${list.getId() eq emp.getProvince().getId()}">selected</c:if>>${list.getName()}</option>
                                                 </c:forEach>
                                             </select>
                                         </div>
@@ -116,13 +131,13 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Điện thoại </label>
-                                            <input class="form-control" type="text" name="phone" value="${phone}" ><p class="error-notice">${error.getPhoneError()}</p>
+                                            <input class="form-control" type="text" name="phone" value="${emp.phone}" ><p class="error-notice">${error.getPhoneError()}</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Dân tộc </label>
-                                            <input class="form-control" type="text" name="ethnic" value="${ethnic}" ><p class="error-notice">${error.getEthnicError()}</p>
+                                            <input class="form-control" type="text" name="ethnic" value="${emp.ethnic}" ><p class="error-notice">${error.getEthnicError()}</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
@@ -130,7 +145,7 @@
                                             <label>Quyền</label>
                                             <select class="select" name="roleId">
                                                 <c:forEach var="list" items="${ALL_EMPLOYEEROLE}">
-                                                    <option value="${list.getId()}" <c:if test="${list.getId() eq roleId}">selected</c:if>>${list.getRole()}</option>
+                                                    <option value="${list.getId()}" <c:if test="${list.getId() eq emp.getEmployeeRole().getId()}">selected</c:if>>${list.getRole()}</option>
                                                 </c:forEach>
                                             </select>
                                         </div>
@@ -152,7 +167,13 @@
                                     </div>
                                 </div>-->
                                 <div class="m-t-20 text-center">
-                                    <button class="btn btn-primary submit-btn" value="Register Employee" name="btAction">Đăng kí</button>
+                                    <c:if test="${add_employee}">
+                                    <button class="btn btn-primary submit-btn" >Đăng kí</button>
+                                    </c:if>
+                                    
+                                    <c:if test="${edit_employee}">
+                                        <button class="btn btn-primary submit-btn">Lưu</button>
+                                    </c:if>
                                 </div>
                                 <div class="m-t-20 text-center">
                                     <h3 style="color: red">${MESSAGE}</h3>

@@ -8,8 +8,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-
-    <jsp:include page="../admin-general/admin-head.jsp" />
+    <head>    
+        <jsp:include page="../admin-general/admin-head.jsp" />
+    </head>
 
     <body>
         <div class="main-wrapper account-wrapper">
