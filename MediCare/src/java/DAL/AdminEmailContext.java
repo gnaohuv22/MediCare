@@ -47,10 +47,10 @@ public class AdminEmailContext {
         Session session = Session.getInstance(props, auth);
         MimeMessage msg = new MimeMessage(session);
         try {
-            msg.addHeader("Content-type", "text/HTML; charset = UTF-8");
+            msg.addHeader("Content-type", "text/html;charset=UTF-8");
             msg.setFrom(new InternetAddress(from));
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
-            msg.setSubject(subject);
+            msg.setSubject(subject, "text/html;charset=UTF-8");
             msg.setSentDate(new Date());
             msg.setContent(mailContent, "text/html;charset=UTF-8");
             Transport.send(msg);

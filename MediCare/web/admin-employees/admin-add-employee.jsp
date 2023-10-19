@@ -52,12 +52,6 @@
                                     <c:set var="error" value="${EDIT_ERROR}"></c:set>
                                 </c:if>
                                 <div class="row">
-<!--                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <label>ID</label>
-                                            <input class="form-control" type="text" name="id" value="${id}"><p class="error-notice">${error.getIdError()}</p>
-                                        </div>
-                                    </div>-->
                                     <input type="hidden" name="id" value="${emp.id}">
                                     <div class="col-sm-12">
                                         <div class="form-group">
@@ -65,12 +59,7 @@
                                             <input class="form-control" type="email" name="email" value="${emp.email}"><p class="error-notice">${error.getEmailError()}</p>
                                         </div>
                                     </div>
-<!--                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <label>Mật khẩu</label>
-                                            <input class="form-control" type="password" name="password" value="${emp.password}"><p class="error-notice">${error.getPasswordError()}</p>
-                                        </div>
-                                    </div>-->
+                                    <input type="hidden" name="id" value="${emp.password}">
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Chi nhánh</label>

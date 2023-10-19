@@ -31,8 +31,7 @@ public class AdminNews extends HttpServlet {
     private final String STATISTIC_NEWS = "admin-news/admin-news.jsp";
     private final String NEED_EMPLOYEE = "admin-screen/admin-login.jsp";
     private final String NEED_LOGIN = "Bạn cần đăng nhập để truy cập vào nội dung này";
-    private final String ADD_NEWS = "admin-news/admin-edit-news.jsp";
-    private final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    private final String ADD_NEWS = "admin-news/admin-add-news.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -194,7 +193,7 @@ public class AdminNews extends HttpServlet {
             boolean error = false;
             RegisterError msg = new RegisterError();
             try {
-                id = request.getParameter("id");
+                id = newsdao.generateId();
                 //generate id if duplicate
                 while (newsdao.checkNews(id)) {
                     id = Integer.parseInt(id) + 1 + "";

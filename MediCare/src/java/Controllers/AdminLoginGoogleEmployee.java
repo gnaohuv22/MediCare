@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import DAL.GoogleUtils;
+import DAL.SubLevelMenuDAO;
 
 /**
  *
@@ -27,10 +28,23 @@ import DAL.GoogleUtils;
 public class AdminLoginGoogleEmployee extends HttpServlet {
    private static final long serialVersionUID = 1L;
     private final String EMPLOYEE_LOGIN="admin-screen/admin-login.jsp";
-    private final String EMPLOYEE_PAGE="admin-home-page";
+    private final String EMPLOYEE_HOME_PAGE="admin-home-page";
     private final String LOGIN_FAIL = "Đăng nhập không thành công!";
     private final String LOGIN_GOOGLE_EMAIL_ERROR = "Tài khoản google không khớp!";
     private final String LOGIN_GOOGLE_ERROR = "Không đăng nhập bằng google được!";
+    private final String ADMIN_ROLE = "1";
+    private final String EMPLOYEE_MANAGER = "3";
+    private final String EMPLOYEE_PAGE = "admin-list-employee";
+    private final String USER_MANAGER = "4";
+    private final String USER_PAGE = "admin-list-user";
+    private final String APPOINTMENT_MANAGER = "5";
+    private final String APPOINTMENT_PAGE = "admin-list-appointments";
+    private final String REVIEW_MANAGER = "6";
+    private final String REVIEW_PAGE = "admin-list-review";
+    private final String NEWS_MANAGER = "7";
+    private final String NEWS_PAGE = "admin-list-news";
+    private final String DOCTOR_MANAGER = "8";
+    private final String DOCTOR_PAGE = "admin-doctors";
 
     public AdminLoginGoogleEmployee() {
         super();
@@ -89,9 +103,34 @@ public class AdminLoginGoogleEmployee extends HttpServlet {
                 request.getRequestDispatcher(EMPLOYEE_LOGIN).forward(request, response);
             }
             session.setAttribute("EMPLOYEE", emp);
-            response.sendRedirect(EMPLOYEE_PAGE);
-//            RequestDispatcher dis = request.getRequestDispatcher(EMPLOYEE_PAGE);
-//            dis.forward(request, response);
+            SubLevelMenuDAO slmDao = new SubLevelMenuDAO();
+            session.setAttribute("ADMIN_SIDEBAR_MENU", slmDao.getSidebarMenu());
+            switch (emp.getEmployeeRole().getId()) {
+                    case ADMIN_ROLE:
+                        response.sendRedirect(EMPLOYEE_HOME_PAGE);
+                        break;
+                    case EMPLOYEE_MANAGER:
+                        response.sendRedirect(EMPLOYEE_PAGE);
+                        break;
+                    case USER_MANAGER:
+                        response.sendRedirect(USER_PAGE);
+                        break;
+                    case APPOINTMENT_MANAGER:
+                        response.sendRedirect(APPOINTMENT_PAGE);
+                        break;
+                    case REVIEW_MANAGER:
+                        response.sendRedirect(REVIEW_PAGE);
+                        break;
+                    case NEWS_MANAGER:
+                        response.sendRedirect(NEWS_PAGE);
+                        break;
+                    case DOCTOR_MANAGER:
+                        response.sendRedirect(DOCTOR_PAGE);
+                        break;
+                    default:
+                        response.sendRedirect(EMPLOYEE_HOME_PAGE);
+                        
+                }
         }
     } 
 
