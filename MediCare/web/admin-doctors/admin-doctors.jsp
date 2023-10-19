@@ -27,8 +27,9 @@
                                 <p>${requestScope.noti}</p>
                             </c:if>
                         </div>
-                        <form id="myForm" action="admin-doctor">
-                            <div class="col-sm-5">
+                        <div class="col-sm-5">
+                            <form id="myForm" action="admin-doctor">
+
                                 <div class="form-group">
                                     <label>Doctor Status <span class="text-danger">*</span></label>
                                     <select id="isDelete" name="isDelete" required class="form-control">
@@ -37,22 +38,26 @@
                                         <option value=""<% if ("".equals(request.getParameter("isDelete"))) { %>selected<% } %>>All</option>
                                     </select>
                                 </div>
-                            </div>
-                        </form>
+
+                            </form>
+                        </div>
                     </div>
                     <div class="col-sm-6 col-6 text-right m-b-20">
                         <a href="admin-doctor?action=add" class="btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Doctor</a>
                     </div>
                 </div>
-                <div class ="row">
-                    <form action="admin-doctor" method="get">
-                        <div class="col-sm-6 col-5">
-                            Search doctor: <input type="text" name="search">
-                            <input type="submit" value="search">
-                        </div>
-
-                    </form>
-
+                <div class="container">
+                    <div class="row">
+                        <form action="admin-doctor" method="get" class="col-sm-6 col-5">
+                            <div class="input-group mb-3">
+                                <label for="search-input" class="sr-only">Search doctor:</label>
+                                <input type="text" id="search-input" name="search" value="${requestScope.search}" class="form-control" placeholder="Search doctor">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
                 <div class="row doctor-grid">
                     <c:forEach var="doc" items="${listPaging}">
@@ -79,11 +84,11 @@
                     </c:forEach>
                     <div class="col-lg-12" style="display: flex ;flex-direction: row; justify-content: center">
                         <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="admin-doctor?isDelete=${requestScope.isDelete}&index=${requestScope.previous}">Previous</a></li>
+                            <li class="page-item"><a class="page-link" href="admin-doctor?search=${requestScope.search}&isDelete=${requestScope.isDelete}&index=${requestScope.previous}">Previous</a></li>
                                 <c:forEach begin="1" end="${requestScope.endPage}" var="i">
-                                <li class="page-item"><a class="page-link" href="admin-doctor?isDelete=${requestScope.isDelete}&index=${i}">${i}</a></li>
+                                <li class="page-item"><a class="page-link" href="admin-doctor?search=${requestScope.search}&isDelete=${requestScope.isDelete}&index=${i}">${i}</a></li>
                                 </c:forEach>
-                            <li class="page-item"><a class="page-link" href="admin-doctor?isDelete=${requestScope.isDelete}&index=${requestScope.after}">Next</a></li>
+                            <li class="page-item"><a class="page-link" href="admin-doctor?search=${requestScope.search}&isDelete=${requestScope.isDelete}&index=${requestScope.after}">Next</a></li>
                         </ul> 
                     </div>
                 </div>

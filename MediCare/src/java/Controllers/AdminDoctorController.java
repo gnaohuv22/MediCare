@@ -139,6 +139,7 @@ public class AdminDoctorController extends HttpServlet {
         List<Doctor> listPaging = dao.pagingDoctor(search, index, isDelete);
         System.out.println("List paging : " + listPaging);
         String noti = (String) request.getSession().getAttribute("noti");
+        request.setAttribute("search",search);
         request.setAttribute("noti", noti);
         request.setAttribute("previous", index - 1);
         request.setAttribute("after", index + 1);
