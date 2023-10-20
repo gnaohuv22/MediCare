@@ -6,29 +6,17 @@ package Models;
 
 /**
  *
- * @author hoang
+ * @author DELL
  */
 public class Appointments {
-    private String id, userId, doctorId, serviceId, plannedAt, status, branchId, createdAt, symptoms, profileId;
+    private String id;
+    private User user;
+    private Doctor doctor;
+    private ServiceTag serviceTag;
+    private String plannedAt;
+    private String status;
 
     public Appointments() {
-    }
-
-    public Appointments(String id, String userId, String doctorId, String serviceId, String plannedAt, String status) {
-        this.id = id;
-        this.userId = userId;
-        this.doctorId = doctorId;
-        this.serviceId = serviceId;
-        this.plannedAt = plannedAt;
-        this.status = status;
-    }
-    
-    public Appointments(String doctorId, String serviceId, String plannedAt,String branchId, String symptoms) {
-        this.doctorId = doctorId;
-        this.serviceId = serviceId;
-        this.plannedAt = plannedAt;
-        this.branchId = branchId;
-        this.symptoms = symptoms;
     }
 
     public String getId() {
@@ -39,28 +27,28 @@ public class Appointments {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getDoctorId() {
-        return doctorId;
+    public Doctor getDoctor() {
+        return doctor;
     }
 
-    public void setDoctorId(String doctorId) {
-        this.doctorId = doctorId;
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 
-    public String getServiceId() {
-        return serviceId;
+    public ServiceTag getServiceTag() {
+        return serviceTag;
     }
 
-    public void setServiceId(String serviceId) {
-        this.serviceId = serviceId;
+    public void setServiceTag(ServiceTag serviceTag) {
+        this.serviceTag = serviceTag;
     }
 
     public String getPlannedAt() {
@@ -79,41 +67,13 @@ public class Appointments {
         this.status = status;
     }
 
-    public String getBranchId() {
-        return branchId;
+    public Appointments(String id, User user, Doctor doctor, ServiceTag serviceTag, String plannedAt, String status) {
+        this.id = id;
+        this.user = user;
+        this.doctor = doctor;
+        this.serviceTag = serviceTag;
+        this.plannedAt = plannedAt;
+        this.status = status;
     }
 
-    public void setBranchId(String branchId) {
-        this.branchId = branchId;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getSymptoms() {
-        return symptoms;
-    }
-
-    public void setSymptoms(String symptoms) {
-        this.symptoms = symptoms;
-    }
-
-    public String getProfileId() {
-        return profileId;
-    }
-
-    public void setProfileId(String profileId) {
-        this.profileId = profileId;
-    }
-
-    @Override
-    public String toString() {
-        return "Appointments{" + "id=" + id + ", userId=" + userId + ", doctorId=" + doctorId + ", serviceId=" + serviceId + ", plannedAt=" + plannedAt + ", status=" + status + ", branchId=" + branchId + ", createdAt=" + createdAt + ", symptoms=" + symptoms + ", profileId=" + profileId + '}';
-    }
-    
 }

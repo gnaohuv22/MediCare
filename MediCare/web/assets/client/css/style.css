@@ -2209,6 +2209,21 @@ span.name-each-family-profile {
     width: 100%;
     height: 5vh;
 }
+#editProfileButton{
+    margin-top: 10px;
+    background-color: #68B2A0;
+    width: 100%;
+    height: 5vh;
+}
+
+#deleteProfileButton{
+    font-size: 1.5rem;
+    color: #e93535;
+    margin-top: 10px;
+    width: 100%;
+    height: 5vh;
+    background-color: unset;
+}
 
 #female,#male{
     width: auto;

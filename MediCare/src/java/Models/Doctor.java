@@ -12,34 +12,85 @@ public class Doctor {
 
     private String id, email, displayName, branchId, phone, ARId, CVId, salary, workplace, profilePicture, status, certificates;
     private String branchName, ARName, departmentId, departmentName, education, introduce, workHistory, startYear, password;
-    private String gender, isDelete, birthDate;
+    private String birthDate, gender, isDelete;
+    private Branch branch;
+    private AcademicRank academicRank;
+    private Certificate cetificate;
+
+    public Doctor(String string, String string0, String string1, String valueOf, String string2, String valueOf0, String valueOf1, String valueOf2, String string3, String string4, String valueOf3, String string5, String string6, String string7, String concatenateNames, String valueOf4, String string8, String string9, String string10, String string11, String valueOf5) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public AcademicRank getAcademicRank() {
+        return academicRank;
+    }
+
+    public void setAcademicRank(AcademicRank academicRank) {
+        this.academicRank = academicRank;
+    }
+
+    public Certificate getCetificate() {
+        return cetificate;
+    }
+
+    public void setCetificate(Certificate cetificate) {
+        this.cetificate = cetificate;
+    }
+
     public Doctor() {
     }
 
-    public Doctor(String id, String email, String password, String displayName, String branchName, String phone, String ARName, String certificates, String departmentId, String departmentName, String education, String introduce, String workHistory, String startYear, String salary, String workplace, String profilePicture, String status) {
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(String isDelete) {
+        this.isDelete = isDelete;
+    }
+
+    public Doctor(String id, String email, String password, String displayName, Branch branch, String phone, AcademicRank academicRank, Certificate cetificate, String salary, String workplace, String profilePicture, String status, String birthDate, String gender, String isDelete) {
         this.id = id;
         this.email = email;
-        this.displayName = displayName;
-        this.phone = phone;
-        this.salary = salary;
-        this.workplace = workplace;
-        this.profilePicture = profilePicture;
-        this.status = status;
-        this.certificates = certificates;
-        this.branchName = branchName;
-        this.ARName = ARName;
-        this.departmentId = departmentId;
-        this.departmentName = departmentName;
-        this.education = education;
-        this.introduce = introduce;
-        this.workHistory = workHistory;
-        this.startYear = startYear;
         this.password = password;
+        this.displayName = displayName;
+        this.branch = branch;
+        this.phone = phone;
+        this.academicRank = academicRank;
+        this.cetificate = cetificate;
+        this.salary = salary;
+        this.workplace = workplace;
+        this.profilePicture = profilePicture;
+        this.status = status;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.isDelete = isDelete;
     }
-    
-    
 
-    public Doctor(String id, String email, String displayName, String branchId, String phone, String ARId, String CVId, String salary, String workplace, String profilePicture, String status) {
+    public Doctor(String id, String email, String displayName, String branchId, String phone, String ARId, String CVId, String salary, String workplace, String profilePicture, String status, String birthDate, String gender, String isDelete) {
         this.id = id;
         this.email = email;
         this.displayName = displayName;
@@ -51,9 +102,13 @@ public class Doctor {
         this.workplace = workplace;
         this.profilePicture = profilePicture;
         this.status = status;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.isDelete = isDelete;
+
     }
 
-    public Doctor(String id, String email, String displayName, String branchId, String phone, String ARId, String CVId, String salary, String workplace, String profilePicture, String status, String certificates) {
+    public Doctor(String id, String email, String displayName, String branchId, String phone, String ARId, String CVId, String salary, String workplace, String profilePicture, String status, String password, String birthDate, String gender, String isDelete) {
         this.id = id;
         this.email = email;
         this.displayName = displayName;
@@ -65,24 +120,10 @@ public class Doctor {
         this.workplace = workplace;
         this.profilePicture = profilePicture;
         this.status = status;
-        this.certificates = certificates;
-    }
-
-    public Doctor(String id, String email, String displayName, String branchId, String phone, String ARId, String CVId, String salary, String workplace, String profilePicture, String status, String branchName, String ARName, String certificates) {
-        this.id = id;
-        this.email = email;
-        this.displayName = displayName;
-        this.branchId = branchId;
-        this.phone = phone;
-        this.ARId = ARId;
-        this.CVId = CVId;
-        this.salary = salary;
-        this.workplace = workplace;
-        this.profilePicture = profilePicture;
-        this.status = status;
-        this.branchName = branchName;
-        this.ARName = ARName;
-        this.certificates = certificates;
+        this.password = password;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.isDelete = isDelete;
     }
 
     public Doctor(String id, String email, String displayName, String branchId, String phone, String ARId, String CVId, String salary, String workplace, String profilePicture, String status, String branchName, String ARName, String certificates, String departmentId, String departmentName) {
@@ -104,9 +145,9 @@ public class Doctor {
         this.departmentName = departmentName;
     }
 
-    public Doctor(String id, String email, String displayName, String branchId, 
-            String phone, String ARId, String CVId, String salary, String workplace, String profilePicture, 
-            String status, String branchName, String ARName, String certificates, String departmentId, String departmentName, 
+    public Doctor(String id, String email, String displayName, String branchId,
+            String phone, String ARId, String CVId, String salary, String workplace, String profilePicture,
+            String status, String birthDate, String gender, String isDelete, String branchName, String ARName, String certificates, String departmentId, String departmentName,
             String education, String introduce, String workHistory, String startYear) {
         this.id = id;
         this.email = email;
@@ -119,6 +160,9 @@ public class Doctor {
         this.workplace = workplace;
         this.profilePicture = profilePicture;
         this.status = status;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.isDelete = isDelete;
         this.certificates = certificates;
         this.branchName = branchName;
         this.ARName = ARName;
@@ -128,43 +172,38 @@ public class Doctor {
         this.introduce = introduce;
         this.workHistory = workHistory;
         this.startYear = startYear;
-    }
-    public Doctor(String id, String email, String displayName, String branchId, 
-            String phone, String ARId, String CVId, String salary, String workplace, String profilePicture, 
-            String status, String password, String branchName, String ARName, String certificates, String departmentId, String departmentName, 
-            String education, String introduce, String workHistory, String startYear) {
-        this.id = id;
-        this.email = email;
-        this.displayName = displayName;
-        this.branchId = branchId;
-        this.phone = phone;
-        this.ARId = ARId;
-        this.CVId = CVId;
-        this.salary = salary;
-        this.workplace = workplace;
-        this.profilePicture = profilePicture;
-        this.status = status;
-        this.certificates = certificates;
-        this.branchName = branchName;
-        this.ARName = ARName;
-        this.departmentId = departmentId;
-        this.departmentName = departmentName;
-        this.education = education;
-        this.introduce = introduce;
-        this.workHistory = workHistory;
-        this.startYear = startYear;
-        this.password = password;
     }
 
-    public Doctor(String id, String displayName) {
+    public Doctor(String id, String email, String displayName, String branchId,
+            String phone, String ARId, String CVId, String salary, String workplace, String profilePicture,
+            String status, String password, String branchName, String ARName, String certificates, String departmentId, String departmentName,
+            String education, String introduce, String workHistory, String startYear, String birthDate, String gender, String isDelete) {
         this.id = id;
+        this.email = email;
+        this.password = password;
         this.displayName = displayName;
+        this.branchId = branchId;
+        this.phone = phone;
+        this.ARId = ARId;
+        this.CVId = CVId;
+        this.salary = salary;
+        this.workplace = workplace;
+        this.profilePicture = profilePicture;
+        this.status = status;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.isDelete = isDelete;
+        this.branchName = branchName;
+        this.ARName = ARName;
+        this.certificates = certificates;
+        this.departmentId = departmentId;
+        this.departmentName = departmentName;
+        this.education = education;
+        this.introduce = introduce;
+        this.workHistory = workHistory;
+        this.startYear = startYear;
+
     }
-    
-    
-    
-    
-    
 
     public String getId() {
         return id;
@@ -334,43 +373,9 @@ public class Doctor {
         this.startYear = startYear;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(String isDelete) {
-        this.isDelete = isDelete;
-    }
-
-    public String getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
-    }
-    
     @Override
     public String toString() {
-        return "Doctor{" + "id=" + id + ", email=" + email + ", displayName=" + displayName + ", branchId=" + branchId + ", phone=" + phone + ", ARId=" + ARId + ", CVId=" + CVId + ", salary=" + salary + ", workplace=" + workplace + ", profilePicture=" + profilePicture + ", status=" + status + ", certificates=" + certificates + ", branchName=" + branchName + ", ARName=" + ARName + ", departmentId=" + departmentId + ", departmentName=" + departmentName + ", education=" + education + ", introduce=" + introduce + ", workHistory=" + workHistory + ", startYear=" + startYear + ", password=" + password + '}';
+        return "Doctor{" + "id=" + id + ", email=" + email + ", displayName=" + displayName + ", branchId=" + branchId + ", phone=" + phone + ", ARId=" + ARId + ", CVId=" + CVId + ", salary=" + salary + ", workplace=" + workplace + ", profilePicture=" + profilePicture + ", status=" + status + ", certificates=" + certificates + ", branchName=" + branchName + ", ARName=" + ARName + ", departmentId=" + departmentId + ", departmentName=" + departmentName + ", education=" + education + ", introduce=" + introduce + ", workHistory=" + workHistory + ", startYear=" + startYear + ", password=" + password + ", birthDate=" + birthDate + ", gender=" + gender + ", isDelete=" + isDelete + '}';
     }
-
-
-    
-
-    
-
-
-    
-    
-
 
 }

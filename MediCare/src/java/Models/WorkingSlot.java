@@ -6,10 +6,12 @@ package Models;
 
 /**
  *
- * @author hoang
+ * @author DELL
  */
 public class WorkingSlot {
-    private String id, startTime, endTime;
+    private String id;
+    private String startTime;
+    private String endTime;
 
     public WorkingSlot() {
     }
@@ -43,6 +45,5 @@ public class WorkingSlot {
     public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
-    
     
 }

@@ -2,24 +2,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package Models;
 
 /**
  *
- * @author tubinh
+ * @author hoang
  */
 public class Branch {
-    private String id, name, description, localId;
+    private String id, name, description, locateId;
 
     public Branch() {
     }
 
-    public Branch(String id, String name, String description, String localId) {
+    public Branch(String id, String name, String description, String locateId) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.localId = localId;
+        this.locateId = locateId;
     }
 
     public String getId() {
@@ -46,17 +45,13 @@ public class Branch {
         this.description = description;
     }
 
-    public String getLocalId() {
-        return localId;
+    public String getLocateId() {
+        return locateId;
     }
 
-    public void setLocalId(String localId) {
-        this.localId = localId;
+    public void setLocateId(String locateId) {
+        this.locateId = locateId;
     }
-
-    @Override
-    public String toString() {
-        return "Branch{" + "id=" + id + ", name=" + name + ", description=" + description + ", localId=" + localId + '}';
-    }
+    
     
 }

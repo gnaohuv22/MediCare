@@ -6,10 +6,11 @@ package Models;
 
 /**
  *
- * @author hoang
+ * @author DELL
  */
 public class EmployeeRole {
-    private String id, role;
+    private String id;
+    private String role;
 
     public EmployeeRole() {
     }

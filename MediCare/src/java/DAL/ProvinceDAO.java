@@ -4,43 +4,46 @@
  */
 package DAL;
 
+import Models.Province;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import Models.Province;
 
 /**
  *
- * @author tubinh
+ * @author DELL
  */
-public class ProvinceDAO extends DBContext {
-
-    public ArrayList<Province> getAllProvinces() {
-        String SQL = "SELECT * FROM [Province]";
+public class ProvinceDAO extends DBContext{
+    
+    public ArrayList<Province> getAllProvinceId() {
         ArrayList<Province> list = new ArrayList<>();
-        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                Province p = new Province(
-                        String.valueOf(rs.getInt(1)),
-                        rs.getString(2)
-                );
-                list.add(p);
+        String SQL = "SELECT id,name FROM Province";
+        try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()){
+                String id = rs.getString(1);
+                String name = rs.getString(2);
+                Province obj = new Province(id,name);
+                list.add(obj);
             }
-            return list;
-        } catch (SQLException e) {
-            System.out.println("getProvinceList: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("getAllProvinceId" + e.getMessage());
         }
         return list;
     }
-
-    public static void main(String[] args) {
-        ProvinceDAO pd = new ProvinceDAO();
-        ArrayList<Province> list = pd.getAllProvinces();
-        for (Province province : list) {
-            System.out.println(province);
+    public Province getProvinceById(String id) {
+        String SQL = "SELECT name FROM Province WHERE id = ?";
+        try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            pstm.setString(1,id);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()){
+                String name = rs.getString(2);
+                Province obj = new Province(id,name);
+                return obj;
+            }
+        }catch (Exception e) {
+            System.out.println("getProvinceById " + e.getMessage());
         }
+        return null;
     }
 }

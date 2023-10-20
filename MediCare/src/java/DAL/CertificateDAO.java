@@ -8,15 +8,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import Models.AcademicRank;
 import Models.Certificate;
 
 /**
  *
- * @author tubinh
+ * @author hoang
  */
-public class CertificateDAO extends DBContext {
-
-    public ArrayList<Certificate> getAllCertificates() {
+public class CertificateDAO extends DBContext{
+    public ArrayList<Certificate> getListCertificate() {
         ArrayList<Certificate> list = new ArrayList<>();
         String SQL = "SELECT * FROM [Certificate]";
 
@@ -35,12 +35,5 @@ public class CertificateDAO extends DBContext {
         return null;
     }
 
-    public static void main(String[] args) {
-        CertificateDAO cd = new CertificateDAO();
-        ArrayList<Certificate> certs = cd.getAllCertificates();
-        for (Certificate cert : certs) {
-            System.out.println(cert);
-        }
-    }
 
 }

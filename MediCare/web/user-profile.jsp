@@ -103,7 +103,7 @@
                     <!-- Add more input fields as needed -->
                     <input type="hidden" name="method" id="method" value=""/><br/>
                     <button class="button-container" id="submit-button" type="submit"></button>
-                    <button type="button" id="close-button" onclick="closeAddProfileForm()">Close</button>
+                    <button type="button" id="close-button" onclick="closeProfileForm()">Close</button>
                 </form>
             </div>
 
@@ -147,13 +147,26 @@
                 };
             }
 
-            function closeAddProfileForm() {
+            function closeProfileForm() {
                 var modal = document.getElementById("profileForm");
                 modal.style.display = "none";
                 document.getElementById("method").value = "";
                 document.getElementById("submit-button").innerHTML = "";
             }
+            function openEditProfileForm() {
+                var modal = document.getElementById("profileForm");
+                modal.style.display = "block";
+                document.getElementById("method").value = "edit";
+                document.getElementById("submit-button").innerHTML = "Edit";
 
+                // Close the modal if the user clicks outside of it
+                window.onclick = function (event) {
+                    if (event.target === modal) {
+                        modal.style.display = "none";
+                        document.getElementById("method").value = "edit";
+                    }
+                };
+            }
 
         </script>
     </body>

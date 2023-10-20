@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import Models.User;
 import java.sql.Date;
+import Models.Province;
 
 /**
  *
@@ -213,10 +214,52 @@ public class UserDAO extends DBContext {
             }
         } catch (NumberFormatException | SQLException e) {
             System.out.println("getLastUserId: " + e);
+
+
+    private int numberRecord;
+
+    public int getNumberRecord() {
+        return this.numberRecord;
+    }
+
+    public int countAllUser() {
+        String SQL = "select COUNT(id) from [User] WHERE id IS NOT NULL";
+        try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                String number = rs.getString(1);
+                return Integer.parseInt(number);
+            }
+        } catch (Exception e) {
+            System.out.println("countAllUser " + e.getMessage());
         }
         return -1;
     }
 
+    public boolean createUser(User obj) {
+        String SQL = "INSERT INTO User VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE())";
+        try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            pstm.setInt(1, Integer.parseInt(obj.getId()));
+            pstm.setString(2, obj.getEmail());
+            pstm.setString(3, obj.getPassword());
+            pstm.setString(4, obj.getName());
+            pstm.setString(5, obj.getBirthDate());
+            pstm.setString(6, obj.getGender());
+            pstm.setString(7, obj.getAddress());
+            pstm.setInt(8, Integer.parseInt(obj.getProvince().getId()));
+            pstm.setString(9, obj.getIdentity());
+            pstm.setInt(10, Integer.parseInt(obj.getMedicalId()));
+            pstm.setString(11, obj.getEthnic());
+            pstm.setString(12, obj.getPhone());
+            pstm.setString(13, obj.getProfilePicture());
+            pstm.execute();
+            return true;
+        } catch (Exception e) {
+            System.out.println("createUser " + e.getMessage());
+            
+        }
+        return false;
+    }
     public User getUserNotRegistered(String email) {
         String sql = "SELECT id FROM [User]\n"
                 + "WHERE password IS NULL AND email = ?";
@@ -257,45 +300,7 @@ public class UserDAO extends DBContext {
         return false;
     }
 
-    public User getUserRegistered(String email, String password) {
-        String sql = "SELECT id FROM [User]\n"
-                + "WHERE password = ? AND email = ?";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, password);
-            st.setString(2, email);
-            ResultSet rs = st.executeQuery();
-            if (rs.next()) {
-                return new User(rs.getString("id"));
-            }
-        } catch (SQLException e) {
-            System.out.println("getUserRegistered: " + e);
         }
         return null;
     }
-
-    public String getIdByEmail(String email) {
-        System.out.println("UserDAO.getIdByEmail: email:" + email);
-        String sql = "SELECT id FROM [User] WHERE email=?";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, email);
-            ResultSet rs = st.executeQuery();
-            if (rs.next()) {
-                return rs.getString(1);
-            }
-        } catch (NumberFormatException | SQLException e) {
-            System.out.println("UserDAO.getIdByEmail: " + e);
-        }
-        return "";
-    }
-
-    public static void main(String[] args) {
-        UserDAO ud = new UserDAO();
-        ArrayList<User> list = ud.getAllUsers();
-        for (User user : list) {
-            System.out.println(user);
-        }
-    }
-
 }

@@ -6,10 +6,9 @@ package Models;
 
 /**
  *
- * @author tubinh
+ * @author DELL
  */
 public class User {
-
     private String id;
     private String email;
     private String password;
@@ -17,17 +16,18 @@ public class User {
     private String birthDate;
     private String gender;
     private String address;
+    private Province province;
     private String identity;
     private String medicalId;
-    private String ethinic;
+    private String ethnic;
     private String phone;
     private String profilePicture;
-    private String createdAt, provinceId;
+    private String createdAt;
 
     public User() {
     }
 
-    public User(String id, String email, String password, String name, String birthDate, String gender, String address, String identity, String medicalId, String ethinic, String phone, String profilePicture, String createdAt) {
+    public User(String id, String email, String password, String name, String birthDate, String gender, String address, Province province, String identity, String medicalId, String ethnic, String phone, String profilePicture, String createdAt) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -35,9 +35,10 @@ public class User {
         this.birthDate = birthDate;
         this.gender = gender;
         this.address = address;
+        this.province = province;
         this.identity = identity;
         this.medicalId = medicalId;
-        this.ethinic = ethinic;
+        this.ethnic = ethnic;
         this.phone = phone;
         this.profilePicture = profilePicture;
         this.createdAt = createdAt;
@@ -51,23 +52,6 @@ public class User {
         this.gender = gender;
         this.address = address;
         this.phone = phone;
-        this.createdAt = createdAt;
-    }
-
-    public User(String id, String email, String password, String name, String birthDate, String gender, String address, String provinceId, String identity, String medicalId, String ethinic, String phone, String profilePicture, String createdAt) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.birthDate = birthDate;
-        this.gender = gender;
-        this.address = address;
-        this.provinceId = provinceId;
-        this.identity = identity;
-        this.medicalId = medicalId;
-        this.ethinic = ethinic;
-        this.phone = phone;
-        this.profilePicture = profilePicture;
         this.createdAt = createdAt;
     }
 
@@ -136,6 +120,14 @@ public class User {
         this.address = address;
     }
 
+    public Province getProvince() {
+        return province;
+    }
+
+    public void setProvince(Province province) {
+        this.province = province;
+    }
+
     public String getIdentity() {
         return identity;
     }
@@ -152,12 +144,12 @@ public class User {
         this.medicalId = medicalId;
     }
 
-    public String getEthinic() {
-        return ethinic;
+    public String getEthnic() {
+        return ethnic;
     }
 
-    public void setEthinic(String ethinic) {
-        this.ethinic = ethinic;
+    public void setEthnic(String ethnic) {
+        this.ethnic = ethnic;
     }
 
     public String getPhone() {
@@ -186,7 +178,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", email=" + email + ", password=" + password + ", name=" + name + ", birthDate=" + birthDate + ", gender=" + gender + ", address=" + address + ", identity=" + identity + ", medicalId=" + medicalId + ", ethinic=" + ethinic + ", phone=" + phone + ", profilePicture=" + profilePicture + ", createdAt=" + createdAt + '}';
+        return "User{" + "id=" + id + ", email=" + email + ", password=" + password + ", name=" + name + ", birthDate=" + birthDate + ", gender=" + gender + ", address=" + address + ", identity=" + identity + ", medicalId=" + medicalId + ", ethinic=" + ethnic + ", phone=" + phone + ", profilePicture=" + profilePicture + ", createdAt=" + createdAt + '}';
     }
 
 }

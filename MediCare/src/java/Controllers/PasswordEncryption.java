@@ -10,11 +10,11 @@ import java.security.SecureRandom;
 
 /**
  *
- * @author tubinh
+ * @author hoang
  */
 public class PasswordEncryption {
 
-    // Generate a random salt value:
+    //Generate a random salt value
     public static byte[] generateSalt() {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
@@ -30,8 +30,8 @@ public class PasswordEncryption {
         }
         return bytes;
     }
-
-    // Convert a byte array to a hexadecimal string:
+    
+    //Convert a byte array to a hexadecimal string
     public static String byteToHex(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
         for (byte b : bytes) {

@@ -130,11 +130,11 @@ public class DoctorDAO extends DBContext {
                         String.valueOf(rs.getInt("startYear")));
                 list.add(d);
             }
-
+        return list;
         } catch (SQLException e) {
             System.out.println("getAllDoctors: " + e);
         }
-        return list;
+        return null;
     }
 
     public ArrayList<Doctor> getAllDoctorPaginated(int offset, int noOfRecords) {
