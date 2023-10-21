@@ -9,7 +9,10 @@ import DAL.DoctorDAO;
 import DAL.ScheduleDetailDAO;
 import DAL.ServiceTagDAO;
 import Models.Appointments;
+import Models.Branch;
+import Models.Doctor;
 import Models.ScheduleDetail;
+import Models.ServiceTag;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -96,7 +99,8 @@ public class UserLoadInfoOfAppointmentServlet extends HttpServlet {
         System.out.println("birthDate = " + birthDate + " | gender = " + gender);
         System.out.println("phone = " + phone + " | email = " + email + " | description = " + description);
 
-        Appointments a = new Appointments(doctorId, serviceId, slotStart + ", " + date, branchId, description);
+        // Ca Servlet nay TU BINH fix:
+        Appointments a = new Appointments(new Doctor(doctorId), new ServiceTag(serviceId), slotStart + ", " + date, new Branch(branchId), description);
         if (gender.equals("1")) {
             gender = "Nam";
         } else {
@@ -104,7 +108,7 @@ public class UserLoadInfoOfAppointmentServlet extends HttpServlet {
         }
 
         BranchDAO bd = new BranchDAO();
-        a.setBranchId(bd.getBranchByBranchId(a.getBranchId()).getName());
+        a.setBranch(new Branch(bd.getBranchByBranchId(a.getBranch().getId()).getName()));
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -181,11 +185,11 @@ public class UserLoadInfoOfAppointmentServlet extends HttpServlet {
                     System.out.println("doctorId = null");
                 } else {
                     DoctorDAO dd = new DoctorDAO();
-                    a.setDoctorId(dd.getDoctorByDoctorId(a.getDoctorId()).getDisplayName());
+                    a.setDoctor(new Doctor(dd.getDoctorByDoctorId(a.getDoctor().getId()).getDisplayName()));
                     out.println(
                             "                            <tr>\n"
                             + "                                <td>Bác sĩ</td>\n"
-                            + "                                <td>" + a.getDoctorId() + "</td>\n"
+                            + "                                <td>" + a.getDoctor().getId()+ "</td>\n"
                             + "                            </tr>\n");
                 }
             } catch (NumberFormatException e) {
@@ -199,18 +203,18 @@ public class UserLoadInfoOfAppointmentServlet extends HttpServlet {
             out.println(
                     "                            <tr>\n"
                     + "                                <td>Địa điểm</td>\n"
-                    + "                                <td>" + a.getBranchId() + "</td>\n"
+                    + "                                <td>" + a.getBranch().getId()+ "</td>\n"
                     + "                            </tr>\n");
             try {
-                if (a.getServiceId() == null || Integer.parseInt(a.getServiceId()) <= 0) {
+                if (a.getServiceTag().getId()== null || Integer.parseInt(a.getServiceTag().getId()) <= 0) {
                     System.out.println("serviceId = null");
                 } else {
                     ServiceTagDAO std = new ServiceTagDAO();
-                    a.setServiceId(std.getServiceTagByServiceTagId(a.getServiceId()).getNametag());
+                    a.setServiceTag(new ServiceTag(std.getServiceTagByServiceTagId(a.getServiceTag().getId()).getNametag()));
                     out.println(
                             "                            <tr>\n"
                             + "                                <td>Chuyên khoa</td>\n"
-                            + "                                <td>" + a.getServiceId() + "</td>\n"
+                            + "                                <td>" + a.getServiceTag().getId()+ "</td>\n"
                             + "                            </tr>\n");
                 }
             } catch (NumberFormatException e) {

@@ -27,6 +27,7 @@ public class User {
     public User() {
     }
 
+    
     public User(String id, String email, String password, String name, String birthDate, String gender, String address, Province province, String identity, String medicalId, String ethnic, String phone, String profilePicture, String createdAt) {
         this.id = id;
         this.email = email;

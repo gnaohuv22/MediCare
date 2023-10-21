@@ -24,7 +24,7 @@ public class DoctorDAO extends DBContext {
         return noOfRecords;
     }
 
-    public ArrayList<Doctor> getListDoctor() {
+    public ArrayList<Doctor> getListDoctor() { // KHONG PHAI FUNCTION CUA TU BINH
         ArrayList<Doctor> list = new ArrayList<>();
         String SQL = "SELECT * FROM [Doctor]";
 
@@ -288,7 +288,8 @@ public class DoctorDAO extends DBContext {
         return false;
     }
 
-    public Doctor getDoctorByEmail(String email) {
+    
+    public Doctor getDoctorByEmail(String email) { // KHONG PHAI FUNCTION CUA TU BINH
         String SQL = "SELECT * FROM [Doctor] WHERE email = ?";
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, email);
@@ -358,7 +359,7 @@ public class DoctorDAO extends DBContext {
 
     }
 
-    public ArrayList<Doctor> getTrendingDoctors() {
+    public ArrayList<Doctor> getTrendingDoctors() {// KHONG PHAI FUNCTION CUA TU BINH
         ArrayList<Doctor> list = new ArrayList<>();
         String sql = "SELECT TOP(5) d.id, d.email, d.password, d.displayName, b.[name] AS branchName, d.phone, a.[name] AS ARName, "
                 + "COUNT(r.id) AS ReviewCount, DC.Certificates AS Certificates, Department.id as DepartmentId, "
@@ -412,7 +413,7 @@ public class DoctorDAO extends DBContext {
         return list;
     }
 
-    public ArrayList<Doctor> getDoctorsByPattern(String pattern, int offset, int noOfRecords) {
+    public ArrayList<Doctor> getDoctorsByPattern(String pattern, int offset, int noOfRecords) {// KHONG PHAI FUNCTION CUA TU BINH
         ArrayList<Doctor> list = new ArrayList<>();
         String searchValue = "%" + pattern + "%";
         String SQL = "SELECT d.*, b.[name] AS branchName, a.[name] AS ARName, \n"

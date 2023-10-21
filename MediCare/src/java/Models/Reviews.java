@@ -11,7 +11,9 @@ package Models;
  */
 public class Reviews {
     private String id, userId, doctorId, appointmentId, rating, reviewContent, createdAt;
-
+    User user;
+    Doctor doctor;
+    Appointments appointment;
     public Reviews() {
     }
 
@@ -25,6 +27,18 @@ public class Reviews {
         this.createdAt = createdAt;
     }
 
+    public Reviews(String id, User user, Doctor doctor, Appointments appointment, String rating, String reviewContent, String createdAt) {
+        this.id = id;
+        this.rating = rating;
+        this.reviewContent = reviewContent;
+        this.createdAt = createdAt;
+        this.user = user;
+        this.doctor = doctor;
+        this.appointment = appointment;
+    }
+
+    
+    
     public String getId() {
         return id;
     }
@@ -81,6 +95,30 @@ public class Reviews {
         this.createdAt = createdAt;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public Appointments getAppointment() {
+        return appointment;
+    }
+
+    public void setAppointment(Appointments appointment) {
+        this.appointment = appointment;
+    }
+    
     @Override
     public String toString() {
         return "Reviews{" + "id=" + id + ", userId=" + userId + ", doctorId=" + doctorId + ", appointmentId=" + appointmentId + ", rating=" + rating + ", reviewContent=" + reviewContent + ", createdAt=" + createdAt + '}';
