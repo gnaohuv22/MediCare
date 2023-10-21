@@ -36,6 +36,10 @@
         <servlet-name>UserAppointmentController</servlet-name>
         <servlet-class>Controllers.UserAppointmentController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DoctorHomeServlet</servlet-name>
+        <servlet-class>Controllers.DoctorHomeServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserLoginServlet</servlet-name>
         <url-pattern>/user-login</url-pattern>
@@ -145,17 +149,18 @@
         <servlet-name>LoadHtmlServlet</servlet-name>
         <url-pattern>/load-html</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>UserLoadEachFamilyProfile</servlet-name>
         <servlet-class>Controllers.UserLoadEachFamilyProfile</servlet-class>
     </servlet>
-    
     <servlet-mapping>
         <servlet-name>UserLoadEachFamilyProfile</servlet-name>
         <url-pattern>/load-each-family-profile</url-pattern>
     </servlet-mapping>
-    
+    <servlet-mapping>
+        <servlet-name>DoctorHomeServlet</servlet-name>
+        <url-pattern>/doctor-home</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

@@ -91,7 +91,7 @@ public class UserLoginServlet extends HttpServlet {
             User u = ud.login(email, password);
             if (u == null) {
                 System.out.println("Login fail!");
-                error = "Email or password is wrong!";
+                error = "Email hoặc mật khẩu không đúng!";
                 request.setAttribute("error", error);
                 session.setAttribute("loginValue", "false");
                 request.getRequestDispatcher("user-login.jsp").forward(request, response);
@@ -106,7 +106,7 @@ public class UserLoginServlet extends HttpServlet {
             // Case 2: Login with Google Account:
             // Case 3: One or both of inputs are invalid -> (return to the login page): 
         } else {
-            error = "Email and password must be valid!";
+            error = "Email hoặc mật khẩu nhập vào không hợp lệ!";
             request.setAttribute("error", error);
             session.setAttribute("loginValue", "false");
             request.getRequestDispatcher("user-login.jsp").forward(request, response);

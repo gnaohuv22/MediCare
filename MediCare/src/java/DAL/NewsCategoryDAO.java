@@ -124,7 +124,7 @@ public class NewsCategoryDAO extends DBContext {
         }
         return null;
     }
-    
+
     public NewsCategory getParentCategoryOf(NewsCategory nc) {
         String SQL = "SELECT id, name, href, icon, locateId FROM [NewsCategory]"
                 + "WHERE id = ?";
@@ -189,6 +189,28 @@ public class NewsCategoryDAO extends DBContext {
             }
         } catch (SQLException e) {
             System.out.println("getNavigationBar: " + e.getMessage());
+        }
+        return list;
+    }
+
+    public ArrayList<NewsCategory> getDoctorNavigationBar() {
+        String SQL = "SELECT id, name, href FROM [NewsCategory]"
+                + "WHERE locateId = 11";
+        ArrayList<NewsCategory> list = new ArrayList<>();
+
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                list.add(new NewsCategory(
+                        String.valueOf(rs.getInt("id")),
+                        rs.getString("name"),
+                        rs.getString("href")
+                ));
+            }
+        } catch (SQLException e) {
+            System.out.println("getDoctorNavigationBar: " + e.getMessage());
+
         }
         return list;
     }
@@ -308,5 +330,4 @@ public class NewsCategoryDAO extends DBContext {
         return list;
     }
 
-    
 }

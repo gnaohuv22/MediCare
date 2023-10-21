@@ -140,7 +140,7 @@
         <!-- news section start -->
         <div class="news_section layout_padding">
             <div class="container">
-                <h1 class="health_taital">Bài viết nổi bật từ các Chuyên gia</h1>
+                <h1 class="health_taital" style="font-weight: bold">Bài viết nổi bật</h1>
                 <p class="health_text">
                     “Đi sâu vào các bài viết sâu sắc từ các chuyên gia chăm sóc sức khỏe hàng đầu, đưa ra những quan điểm mới mẻ về sức khỏe và thể chất.”
                 </p>
