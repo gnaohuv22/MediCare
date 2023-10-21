@@ -610,4 +610,8 @@ public class UserDAO extends DBContext {
         }
         return null;
     }
+
+    public String getIdByEmail(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
