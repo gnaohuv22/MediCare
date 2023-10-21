@@ -15,12 +15,28 @@ public class Employee {
     Province province;
     String phone, ethnic;
     EmployeeRole employeeRole;
-    String createAt;
+    String createAt,createBy,modifyAt,modifyBy;
 
     public Employee() {
     }
 
-    public Employee(String id, String email, String password, Branch branch, String name, String birthDate, String gender, String address, String workplace, Province province, String phone, String ethnic, EmployeeRole employeeRole, String createAt) {
+    public Employee(String id, String email, String password, Branch branch, String name, String birthDate, String gender, String address, String workplace, Province province, String phone, String ethnic, EmployeeRole employeeRole) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.branch = branch;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.address = address;
+        this.workplace = workplace;
+        this.province = province;
+        this.phone = phone;
+        this.ethnic = ethnic;
+        this.employeeRole = employeeRole;
+    }
+
+    public Employee(String id, String email, String password, Branch branch, String name, String birthDate, String gender, String address, String workplace, Province province, String phone, String ethnic, EmployeeRole employeeRole, String createAt, String createBy, String modifyAt, String modifyBy) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -35,6 +51,9 @@ public class Employee {
         this.ethnic = ethnic;
         this.employeeRole = employeeRole;
         this.createAt = createAt;
+        this.createBy = createBy;
+        this.modifyAt = modifyAt;
+        this.modifyBy = modifyBy;
     }
 
     public String getId() {
@@ -147,6 +166,30 @@ public class Employee {
 
     public void setCreateAt(String createAt) {
         this.createAt = createAt;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public String getModifyAt() {
+        return modifyAt;
+    }
+
+    public void setModifyAt(String modifyAt) {
+        this.modifyAt = modifyAt;
+    }
+
+    public String getModifyBy() {
+        return modifyBy;
+    }
+
+    public void setModifyBy(String modifyBy) {
+        this.modifyBy = modifyBy;
     }
     
 }
