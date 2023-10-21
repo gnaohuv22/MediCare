@@ -326,7 +326,7 @@ public class AppointmentsDAO extends DBContext {
         return false;
     }
 
-    public List<Appointments> getListAppointmentsByOwnerId(String ownerId) {// Khong phai cua TU BINH
+    public List<Appointments> getListAppointmentsByOwnerId(String ownerId) {// Khong phai cua TU BINH //khong phai cua THU
         ArrayList<Appointments> list = new ArrayList<>();
         String SQL = "SELECT * FROM [Appointments] where userId=?";
         
