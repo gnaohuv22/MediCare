@@ -42,7 +42,7 @@ public class LoadHtmlServlet extends HttpServlet {
         String method = request.getParameter("method");
         switch (method) {
             case "profile":
-                String ownerId = uDAO.getIdByEmail((String) session.getAttribute("email"));
+                String ownerId = uDAO.getUserIdByEmail((String) session.getAttribute("email"));
                 if (request.getParameter("id") == null || request.getParameter("id").isEmpty()) {
                     id = String.valueOf(1);
                 } else {

@@ -326,26 +326,26 @@ public class AppointmentsDAO extends DBContext {
         return false;
     }
 
-    public List<Appointments> getListAppointmentsByOwnerId(String ownerId) {// Khong phai cua TU BINH //khong phai cua THU
-        ArrayList<Appointments> list = new ArrayList<>();
-        String SQL = "SELECT * FROM [Appointments] where userId=?";
-        
-        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Appointments a = new Appointments(
-                    String.valueOf(rs.getInt(1)),
-                    rs.getString(2),
-                    rs.getString(3),
-                    String.valueOf(rs.getInt(4)),
-                    String.valueOf(rs.getDate(5)),
-                    String.valueOf(rs.getInt(6)));
-                list.add(a);
-            }
-            return list;
-        } catch (SQLException e) {
-            System.out.println("AppointmentsDAO.getListAppointments: " + e.getMessage());
-        } 
-        return null;
-    }
+//    public List<Appointments> getListAppointmentsByOwnerId(String ownerId) {// Khong phai cua TU BINH //khong phai cua THU
+//        ArrayList<Appointments> list = new ArrayList<>();
+//        String SQL = "SELECT * FROM [Appointments] where userId=?";
+//        
+//        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+//            ResultSet rs = ps.executeQuery();
+//            while (rs.next()) {
+//                Appointments a = new Appointments(
+//                    String.valueOf(rs.getInt(1)),
+//                    rs.getString(2),
+//                    rs.getString(3),
+//                    String.valueOf(rs.getInt(4)),
+//                    String.valueOf(rs.getDate(5)),
+//                    String.valueOf(rs.getInt(6)));
+//                list.add(a);
+//            }
+//            return list;
+//        } catch (SQLException e) {
+//            System.out.println("AppointmentsDAO.getListAppointments: " + e.getMessage());
+//        } 
+//        return null;
+//    }
 }

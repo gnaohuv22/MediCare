@@ -105,6 +105,8 @@ public class AdminDoctorController extends HttpServlet {
             CertificateDoctorDAO cdDao = new CertificateDoctorDAO();
             List<CertificateDoctor> listCertofDoc = cdDao.getCertificateByDoctorId(id);
             Doctor doc = DocDAO.getDoctorByDoctorId(id);
+            System.out.println("Doctor status : " + doc.getStatus());
+            System.out.println("Doctor birthDate : " + doc.getBirthDate());
             System.out.println("Doctor : " + doc);
             request.setAttribute("doc", doc);
             request.setAttribute("listCert", listCert);
@@ -124,7 +126,7 @@ public class AdminDoctorController extends HttpServlet {
         DoctorDAO dao = new DoctorDAO();
         System.out.println("Search :" + search);
         System.out.println("Is delete Status :" + isDelete);
-        ArrayList<Doctor> listDoc = dao.getAllDoctors(isDelete, search);
+        ArrayList<Doctor> listDoc = dao.getAllDoctorsByCondition(isDelete, search);
         int count = dao.doctorCount(listDoc);
         System.out.println("Doctor count : " + count);
        
@@ -325,7 +327,7 @@ public class AdminDoctorController extends HttpServlet {
                 docError.setDisplayName(displayName);
             }
             Doctor docCheck = doc.getDoctorByEmail(id);
-            List<Doctor> list = doc.getAllDoctors("", "");
+            List<Doctor> list = doc.getAllDoctorsByCondition("", "");
             List<String> listEmail = new ArrayList<>();
 
             if (docCheck != null) {

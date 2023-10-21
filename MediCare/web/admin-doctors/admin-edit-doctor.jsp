@@ -214,12 +214,12 @@
                                         <label>Status <span class="text-danger">*</span></label>
                                         <select name="status" required="" class="form-control">
                                             <option value="1" 
-                                                    <c:if test="${doc.getStatus() == 1}">
+                                                    <c:if test="${requestScope.doc.getStatus() eq String.valueOf(1)}">
                                                         selected
                                                     </c:if>
                                                     >contract</option>
                                             <option value="2" 
-                                                    <c:if test="${doc.getStatus() == 2}">
+                                                    <c:if test="${requestScope.doc.getStatus() eq String.valueOf(2)}">
                                                         selected
                                                     </c:if>
                                                     >Official</option>
