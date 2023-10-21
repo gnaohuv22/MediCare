@@ -28,7 +28,6 @@ public class UserNewsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String pathInfo = request.getPathInfo();
-        System.out.println("pathInfo: " + pathInfo);
         ArrayList<Breadcrumb> breadcrumbs = new ArrayList<>();
         breadcrumbs.add(new Breadcrumb("news", "Tin tức"));
 
@@ -45,7 +44,6 @@ public class UserNewsServlet extends HttpServlet {
 
         if (pathInfo != null) {
             String[] pathParts = pathInfo.split("/");
-            System.out.println("pathParts' length: " + pathParts.length);
 
             if (pathParts.length > 1) {
                 String categorySlug = pathParts[1];
@@ -73,12 +71,12 @@ public class UserNewsServlet extends HttpServlet {
             if (pathParts.length > 2) {
                 String slug = pathParts[2];
                 System.out.println("slug: " + slug);
-                System.out.println("ncd.getCategoryBySlug(slug): " + String.valueOf((ncd.getCategoryBySlug(slug) == null)));
                 if (ncd.getCategoryBySlug(slug) == null) { //day la mot tin thuoc category khong co category con
                     News n = nd.getNewsFromSlug(slug);
                     if (n != null) {
                         breadcrumbs.add(new Breadcrumb("news/" + slug, n.getTitle()));
-                        ArrayList<News> related = nd.getNNewestExcept(3, n.getId());
+                        ArrayList<News> related = nd.getNRelated(3, n);
+                        System.out.println("Parent category ID: " + n.getCategory().getLocateId());
 
                         request.setAttribute("n", n);
                         request.setAttribute("related", related);
@@ -101,11 +99,11 @@ public class UserNewsServlet extends HttpServlet {
                     //if pathParts.length > 3
                     if (pathParts.length > 3) { //day la mot tin tuc trong mot category con thuoc mot category cha
                         slug = pathParts[3];
-                        System.out.println("slug: " + slug);
                         
                         News selectedNews = nd.getNewsFromSlug(slug);
                         breadcrumbs.add(new Breadcrumb("news/" + pathParts[1] + "/" + pathParts[2] + "/" + pathParts[3], selectedNews.getTitle()));
-                        ArrayList<News> related = nd.getNNewestExcept(3, selectedNews.getId());
+                        ArrayList<News> related = nd.getNRelated(3, selectedNews);
+                        System.out.println("Parent category ID: " + selectedNews.getCategory().getLocateId());
                         
                         request.setAttribute("n", selectedNews);
                         request.setAttribute("related", related);

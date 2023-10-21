@@ -66,7 +66,7 @@
                     </div>
                     <p>
                         <i class="fas fa-tags"></i> 
-                        Categories: 
+                        Danh mục:
                         <c:forEach items="${topLevel}" var="top">
                             <c:set var="isParent" value="false"></c:set>
                             <c:forEach items="${parentIds}" var="id">
@@ -92,18 +92,43 @@
                     </p>
                 </div>
                 <div class="col-md-3 bordered-news">
-                    <h3 class="related-news" style="font-weight: bold; font-size: 22px; color: #2C6975">Có thể bạn quan tâm</h3>
+                    <h3 class="related-news" style="font-weight: bold; font-size: 22px; color: #2C6975">Tin cùng chuyên mục</h3>
                     <!-- Replace this forEach with your actual data -->
-                    <c:forEach var="news" items="${related}">
-                        <div class="card mb-4">
-                            <img src="${news.getCoverImage()}" alt="${news.getTitle()}" class="card-img-top">
-                            <div class="card-body">
-                                <h5 class="card-title">${news.getTitle()}</h5>
-                                <div class=" d-flex flex-column justify-content-center align-items-center">
-                                    <a href="${pageContext.request.contextPath}/news/${news.getCategory().getHref()}/${news.getSlug()}" class="btn btn-primary btn-read-more">Read More</a>
-                                </div>
-                            </div>
-                        </div>
+                    <c:forEach items="${topLevel}" var="top">
+                        <c:set var="isParent" value="false"></c:set>
+                        <c:forEach items="${parentIds}" var="id">
+                            <c:if test="${top.getId() eq id}">
+                                <c:set var="isParent" value="true"></c:set>
+                            </c:if>
+                        </c:forEach>
+                        <c:forEach var="news" items="${related}">
+                            <c:choose>
+                                <c:when test="${isParent and news.getCategory().getLocateId() eq top.getId()}">
+                                    <div class="card mb-4">
+                                        <img src="${news.getCoverImage()}" alt="${news.getTitle()}" class="card-img-top">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${news.getTitle()}</h5>
+                                            <div class=" d-flex flex-column justify-content-center align-items-center">
+                                                <a href="${pageContext.request.contextPath}/news/${top.getHref()}/${news.getCategory().getHref()}/${news.getSlug()}" class="btn btn-primary btn-read-more">Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:if test="${news.getCategory().getId() eq top.getId()}">
+                                        <div class="card mb-4">
+                                            <img src="${news.getCoverImage()}" alt="${news.getTitle()}" class="card-img-top">
+                                            <div class="card-body">
+                                                <h5 class="card-title">${news.getTitle()}</h5>
+                                                <div class=" d-flex flex-column justify-content-center align-items-center">
+                                                    <a href="${pageContext.request.contextPath}/news/${news.getCategory().getHref()}/${news.getSlug()}" class="btn btn-primary btn-read-more">Read More</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:if>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
                     </c:forEach>
                 </div>
             </div>
@@ -139,14 +164,11 @@
             $('[data-fancybox="gallery"]').fancybox({
                 buttons: [
                     "zoom",
-                    "slideShow",
                     "fullScreen",
                     "download",
                     "thumbs",
                     "close"
                 ],
-                animationEffect: "zoom",
-                transitionEffect: "slide",
                 loop: true
             });
             console.log('Fancybox initialized');

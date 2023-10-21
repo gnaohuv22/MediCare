@@ -310,15 +310,18 @@ public class NewsDAO extends DBContext {
         return list;
     }
 
-    public ArrayList<News> getNNewestExcept(int num, String id) {
+    public ArrayList<News> getNRelated(int num, News news) {
         String SQL = "SELECT TOP(" + num + ") n.id, n.title, n.subtitle, n.content, n.author, nc.id as categoryId, nc.name AS category, nc.href AS categorySlug, nc.parentId AS categoryParentId, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n \n"
                 + "LEFT JOIN [NewsCategory] nc ON n.categoryId = nc.id\n"
-                + "WHERE n.id != ? AND type IS NULL\n"
+                + "WHERE n.id != ? AND type IS NULL AND (n.categoryId = ? OR nc.parentId = ? OR n.categoryId = ?)\n"
                 + "ORDER BY n.createdAt DESC, n.viewCount DESC";
         ArrayList<News> list = new ArrayList<>();
 
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
-            ps.setInt(1, Integer.parseInt(id));
+            ps.setInt(1, Integer.parseInt(news.getId()));
+            ps.setInt(2, Integer.parseInt(news.getCategory().getId()));
+            ps.setInt(3, Integer.parseInt(news.getCategory().getId()));
+            ps.setInt(4, Integer.parseInt(news.getCategory().getLocateId()));
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -345,7 +348,7 @@ public class NewsDAO extends DBContext {
 
             }
         } catch (SQLException e) {
-            System.out.println("getNewestExcept: " + e.getMessage());
+            System.out.println("getNRelated: " + e.getMessage());
         }
         return list;
     }
