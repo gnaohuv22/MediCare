@@ -85,7 +85,7 @@ public class UserBookAppointmentServlet extends HttpServlet {
         User u = ud.login(email);
         if (u != null) {
             FamilyProfileDAO fpd = new FamilyProfileDAO();
-            ArrayList<FamilyProfile> profiles = (ArrayList<FamilyProfile>) fpd.getFamilyProfileListByUserOwnerId(u.getId());
+            ArrayList<FamilyProfile> profiles = (ArrayList<FamilyProfile>) fpd.getFamilyProfileListByUserOwnerIdForBooking(u.getId());
             
             System.out.println("doGET - to Booking Appointment:");
             for (FamilyProfile profile : profiles) {

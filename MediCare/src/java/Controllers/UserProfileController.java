@@ -57,10 +57,7 @@ public class UserProfileController extends HttpServlet {
         ArrayList<Relationship> rList = rDAO.getRelationshipList();
 
         String ownerId = uDAO.getIdByEmail(String.valueOf(session.getAttribute("email")));
-        fpList = (List<FamilyProfile>) request.getAttribute("fpList");
-        if (request.getAttribute("fpList") == null) {
-            fpList = fpDAO.getFamilyProfileListByUserOwnerId(ownerId);
-        }
+        fpList = fpDAO.getFamilyProfileListByUserOwnerId(ownerId);
         if (session.getAttribute("email") == null) {
             response.sendRedirect("user-login");
         } else {

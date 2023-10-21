@@ -79,7 +79,7 @@ public class UserLoadEachFamilyProfile extends HttpServlet {
         FamilyProfileDAO fpd = new FamilyProfileDAO();
         FamilyProfile profile = fpd.getFamilyProfileByProfileId(profileId);
 
-        ArrayList<FamilyProfile> profiles = (ArrayList<FamilyProfile>) fpd.getFamilyProfileListByUserOwnerId(ownerId);
+        ArrayList<FamilyProfile> profiles = (ArrayList<FamilyProfile>) fpd.getFamilyProfileListByUserOwnerIdForBooking(ownerId);
 
         System.out.println("Ajax - doPOST - Load Family Profile:");
         response.setContentType("text/html;charset=UTF-8");
