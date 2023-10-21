@@ -5,8 +5,6 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
     <head>
         <!-- basic -->
         <meta charset="utf-8" />
@@ -42,5 +40,3 @@
             media="screen"
             />
     </head>
-
-</html>

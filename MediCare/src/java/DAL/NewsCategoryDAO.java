@@ -19,7 +19,7 @@ import java.util.List;
 public class NewsCategoryDAO extends DBContext {
 
     public ArrayList<NewsCategory> getTopLevelSideBar() {
-        String SQL = "SELECT id, name, parentId, href FROM [NewsCategory]" 
+        String SQL = "SELECT id, name, parentId, href FROM [NewsCategory]"
                 + "WHERE locateId = 10";
         ArrayList<NewsCategory> list = new ArrayList<>();
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
@@ -86,8 +86,9 @@ public class NewsCategoryDAO extends DBContext {
     }
 
     public List<Integer> getParentCategoryNumber() {
-        String SQL = "SELECT DISTINCT parentId FROM [NewsCategory]\n"
-                + "WHERE parentId IS NOT NULL";
+        String SQL = "SELECT DISTINCT nc1.id FROM [NewsCategory] nc1\n"
+                + "RIGHT JOIN [NewsCategory] nc2 ON nc1.id = nc2.parentId\n"
+                + "WHERE nc1.locateId = 10";
         List<Integer> list = new ArrayList();
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
@@ -105,39 +106,63 @@ public class NewsCategoryDAO extends DBContext {
         String SQL = "SELECT id, name, parentId, href FROM [NewsCategory]\n"
                 + "WHERE href LIKE ?";
         NewsCategory nc = new NewsCategory();
-        
-        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, categorySlug);
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 nc = new NewsCategory(
-                        String.valueOf(rs.getInt("id")), 
-                        rs.getString("name"), 
-                        String.valueOf(rs.getInt("parentId")), 
+                        String.valueOf(rs.getInt("id")),
+                        rs.getString("name"),
+                        String.valueOf(rs.getInt("parentId")),
                         rs.getString("href"));
+                return nc;
             }
         } catch (SQLException e) {
             System.out.println("getCategoryBySlug: " + e.getMessage());
         }
-        return nc;
+        return null;
     }
     
+    public NewsCategory getParentCategoryOf(NewsCategory nc) {
+        String SQL = "SELECT id, name, href, icon, locateId FROM [NewsCategory]"
+                + "WHERE id = ?";
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setInt(1, Integer.parseInt(nc.getParentId()));
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                return new NewsCategory(
+                        String.valueOf(rs.getInt("id")),
+                        rs.getString("name"),
+                        rs.getString("href"),
+                        rs.getString("icon"),
+                        rs.getString("locateId")
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("getParentCategoryOf: " + e.getMessage());
+        }
+        return null;
+    }
+
     public ArrayList<NewsCategory> getAllSubMenu() {
         String SQL = "SELECT id, name, parentId, href, icon, locateId FROM [NewsCategory]"
                 + "WHERE parentId IS NOT NULL";
         ArrayList<NewsCategory> list = new ArrayList<>();
-        
-        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 list.add(new NewsCategory(
-                        String.valueOf(rs.getInt("id")), 
-                        rs.getString("name"), 
-                        String.valueOf(rs.getInt("parentId")), 
-                        rs.getString("href"), 
-                        rs.getString("icon"), 
+                        String.valueOf(rs.getInt("id")),
+                        rs.getString("name"),
+                        String.valueOf(rs.getInt("parentId")),
+                        rs.getString("href"),
+                        rs.getString("icon"),
                         String.valueOf(rs.getInt("locateId")))
                 );
             }
@@ -146,19 +171,19 @@ public class NewsCategoryDAO extends DBContext {
         }
         return list;
     }
-    
+
     public ArrayList<NewsCategory> getNavigationBar() {
         String SQL = "SELECT id, name, href FROM [NewsCategory]"
                 + "WHERE locateId = 1";
         ArrayList<NewsCategory> list = new ArrayList<>();
-        
-        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 list.add(new NewsCategory(
-                        String.valueOf(rs.getInt("id")), 
-                        rs.getString("name"), 
+                        String.valueOf(rs.getInt("id")),
+                        rs.getString("name"),
                         rs.getString("href")
                 ));
             }
@@ -167,19 +192,19 @@ public class NewsCategoryDAO extends DBContext {
         }
         return list;
     }
-    
+
     public ArrayList<NewsCategory> getContacts() {
         String SQL = "SELECT id, name, href, icon, locateId FROM [NewsCategory]"
                 + "WHERE locateId = 4";
         ArrayList<NewsCategory> list = new ArrayList<>();
-        
-        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 list.add(new NewsCategory(
-                        String.valueOf(rs.getInt("id")), 
-                        rs.getString("name"), 
+                        String.valueOf(rs.getInt("id")),
+                        rs.getString("name"),
                         rs.getString("href"),
                         rs.getString("icon"),
                         rs.getString("locateId")
@@ -190,19 +215,19 @@ public class NewsCategoryDAO extends DBContext {
         }
         return list;
     }
-    
+
     public ArrayList<NewsCategory> getReferences() {
         String SQL = "SELECT id, name, href, icon, locateId FROM [NewsCategory]"
                 + "WHERE locateId = 5";
         ArrayList<NewsCategory> list = new ArrayList<>();
-        
-        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 list.add(new NewsCategory(
-                        String.valueOf(rs.getInt("id")), 
-                        rs.getString("name"), 
+                        String.valueOf(rs.getInt("id")),
+                        rs.getString("name"),
                         rs.getString("href"),
                         rs.getString("icon"),
                         rs.getString("locateId")
@@ -213,19 +238,19 @@ public class NewsCategoryDAO extends DBContext {
         }
         return list;
     }
-    
+
     public ArrayList<NewsCategory> getSocial() {
         String SQL = "SELECT id, name, href, icon, locateId FROM [NewsCategory]"
                 + "WHERE locateId = 6";
         ArrayList<NewsCategory> list = new ArrayList<>();
-        
-        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 list.add(new NewsCategory(
-                        String.valueOf(rs.getInt("id")), 
-                        rs.getString("name"), 
+                        String.valueOf(rs.getInt("id")),
+                        rs.getString("name"),
                         rs.getString("href"),
                         rs.getString("icon"),
                         rs.getString("locateId")
@@ -236,19 +261,19 @@ public class NewsCategoryDAO extends DBContext {
         }
         return list;
     }
-    
+
     public ArrayList<NewsCategory> getProfileMenu() {
         String SQL = "SELECT id, name, href, icon, locateId FROM [NewsCategory]"
                 + "WHERE locateId = 8";
         ArrayList<NewsCategory> list = new ArrayList<>();
-        
-        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 list.add(new NewsCategory(
-                        String.valueOf(rs.getInt("id")), 
-                        rs.getString("name"), 
+                        String.valueOf(rs.getInt("id")),
+                        rs.getString("name"),
                         rs.getString("href"),
                         rs.getString("icon"),
                         rs.getString("locateId")
@@ -259,19 +284,19 @@ public class NewsCategoryDAO extends DBContext {
         }
         return list;
     }
-    
+
     public ArrayList<NewsCategory> getProfileSidebar() {
         String SQL = "SELECT id, name, href, icon, locateId FROM [NewsCategory]"
                 + "WHERE locateId = 9";
         ArrayList<NewsCategory> list = new ArrayList<>();
-        
-        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 list.add(new NewsCategory(
-                        String.valueOf(rs.getInt("id")), 
-                        rs.getString("name"), 
+                        String.valueOf(rs.getInt("id")),
+                        rs.getString("name"),
                         rs.getString("href"),
                         rs.getString("icon"),
                         rs.getString("locateId")
@@ -282,4 +307,6 @@ public class NewsCategoryDAO extends DBContext {
         }
         return list;
     }
+
+    
 }

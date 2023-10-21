@@ -146,7 +146,7 @@
                 </p>
                 <div class="news_section_3 layout_padding">
                     <c:forEach items="${topNews}" var="news">
-                        <a class="news-block" href="${pageContext.request.contextPath}/news/${news.getCategorySlug()}/${news.getSlug()}">
+                        <a class="news-block" href="${pageContext.request.contextPath}/news/${news.getCategory().getHref()}/${news.getSlug()}">
                             <div class="news-cover">
                                 <img src="${news.getCoverImage()}" alt="Cover image of ${news.getTitle()}"/>
                             </div>
@@ -162,10 +162,10 @@
                             </c:forEach>
 
                             <div class="news-create-time">
-                                <i class="fas fa-calendar"> ${news.getCreatedAt()}</i>
+                                <i class="fas fa-calendar"> </i> <span>${news.getCreatedAt()}</span>
                             </div>
                             <div class="news-view-count">
-                                <i class="fas fa-eye"> ${news.getViewCount()}</i>
+                                <i class="fas fa-eye"> </i> <span>${news.getViewCount()}</span>
                             </div>
                         </a>
                     </c:forEach>

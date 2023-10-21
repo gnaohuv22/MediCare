@@ -67,12 +67,27 @@
                     <p>
                         <i class="fas fa-tags"></i> 
                         Categories: 
-                        <c:forEach var="category" items="${categories}">
-                            <c:if test="${category.getId() eq n.getCategoryId()}">
-                                <a href="${pageContext.request.contextPath}/news/${category.getHref()}" class="category-box">
-                                    ${category.getName()}
-                                </a>
-                            </c:if>
+                        <c:forEach items="${topLevel}" var="top">
+                            <c:set var="isParent" value="false"></c:set>
+                            <c:forEach items="${parentIds}" var="id">
+                                <c:if test="${top.getId() eq id}">
+                                    <c:set var="isParent" value="true"></c:set>
+                                </c:if>
+                            </c:forEach>
+                            <c:choose>
+                                <c:when test="${isParent and n.getCategory().getLocateId() eq top.getId()}">
+                                    <a href="${pageContext.request.contextPath}/news/${top.getHref()}/${n.getCategory().getHref()}" class="category-box">
+                                        ${n.getCategory().getName()}
+                                    </a>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:if test="${n.getCategory().getId() eq top.getId()}">
+                                        <a href="${pageContext.request.contextPath}/news/${n.getCategory().getHref()}" class="category-box">
+                                            ${n.getCategory().getName()}
+                                        </a>
+                                    </c:if>
+                                </c:otherwise>
+                            </c:choose>
                         </c:forEach>
                     </p>
                 </div>
@@ -85,7 +100,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">${news.getTitle()}</h5>
                                 <div class=" d-flex flex-column justify-content-center align-items-center">
-                                    <a href="${pageContext.request.contextPath}/news/${news.getCategorySlug()}/${news.getSlug()}" class="btn btn-primary btn-read-more">Read More</a>
+                                    <a href="${pageContext.request.contextPath}/news/${news.getCategory().getHref()}/${news.getSlug()}" class="btn btn-primary btn-read-more">Read More</a>
                                 </div>
                             </div>
                         </div>
@@ -109,7 +124,7 @@
     <script src="${pageContext.request.contextPath}/assets/client/js/owl.carousel.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
     <script>
-        $(window).on('load', function() {
+        $(window).on('load', function () {
             // Get all images from news content
             var images = $('.news-content img');
             console.log(images.length + ' images found');

@@ -2227,6 +2227,36 @@ span.name-each-family-profile {
     margin-bottom: 300px;
 }
 
+.category-content {
+    background-color: #E0ECDE;
+    padding: 20px;
+    margin: 20px;
+}
+
+.category-content .main-category a {
+    color: #2C6975;
+    font-weight: bolder;
+    font-size: 1.5em;
+    border-bottom: 1px solid #2C6975;
+}
+
+.category-content .main-category a:hover {
+    color: #68B2A0;
+    border-bottom: 1px solid #68B2A0;
+}
+
+/* Add styles for the sub-categories */
+.category-content .sub-categories a {
+    color: #2C6975;
+    font-weight: normal; /* Make the sub-category text not bold */
+    font-size: 1em; /* Make the sub-category text smaller */
+    margin-right: 20px;
+}
+
+.category-content .sub-categories a:hover {
+    color: #68B2A0;
+}
+
 .news-sidebar {
     height: fit-content;
     border-right: 1px solid #68B2A0;
@@ -2280,6 +2310,20 @@ span.name-each-family-profile {
 
 .news-sidebar li ul a {
     color: #68B2A0;
+}
+
+.news-sidebar li ul a.active {
+    color: black; /* Đặt màu chữ thành đen */
+    font-weight: bold; /* In đậm chữ */
+    pointer-events: none; /* Ngăn chặn sự kiện click */
+    cursor: default; /* Thay đổi con trỏ chuột để không hiển thị như một liên kết */
+}
+
+.news-sidebar a.active {
+    color: black; /* Đặt màu chữ thành đen */
+    font-weight: bold; /* In đậm chữ */
+    pointer-events: none; /* Ngăn chặn sự kiện click */
+    cursor: default; /* Thay đổi con trỏ chuột để không hiển thị như một liên kết */
 }
 
 .news-sidebar li ul a:hover {
