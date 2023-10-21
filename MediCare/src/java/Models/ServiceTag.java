@@ -15,6 +15,10 @@ public class ServiceTag {
     public ServiceTag() {
     }
 
+    public ServiceTag(String id) { // tubinh add
+        this.id = id;
+    }
+
     public ServiceTag(String id, String nametag, String description, String departmentId) {
         this.id = id;
         this.nametag = nametag;

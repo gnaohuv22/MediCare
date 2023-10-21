@@ -17,8 +17,40 @@ public class Doctor {
     private AcademicRank academicRank;
     private Certificate cetificate;
 
-    public Doctor(String string, String string0, String string1, String valueOf, String string2, String valueOf0, String valueOf1, String valueOf2, String string3, String string4, String valueOf3, String string5, String string6, String string7, String concatenateNames, String valueOf4, String string8, String string9, String string10, String string11, String valueOf5) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Doctor(String id, String displayName) {
+        this.id = id;
+        this.displayName = displayName;
+    }
+    public Doctor(String id) {
+        this.id = id;
+    }
+    
+    // Tu binh vua fix
+    public Doctor(String id, String email, String displayName, String branchId,
+            String phone, String ARId, String CVId, String salary, String workplace, String profilePicture,
+            String status, String password, String branchName, String ARName, String certificates, String departmentId, String departmentName,
+            String education, String introduce, String workHistory, String startYear) {
+        this.id = id;
+        this.email = email;
+        this.displayName = displayName;
+        this.branchId = branchId;
+        this.phone = phone;
+        this.ARId = ARId;
+        this.CVId = CVId;
+        this.salary = salary;
+        this.workplace = workplace;
+        this.profilePicture = profilePicture;
+        this.status = status;
+        this.certificates = certificates;
+        this.branchName = branchName;
+        this.ARName = ARName;
+        this.departmentId = departmentId;
+        this.departmentName = departmentName;
+        this.education = education;
+        this.introduce = introduce;
+        this.workHistory = workHistory;
+        this.startYear = startYear;
+        this.password = password;
     }
 
     public AcademicRank getAcademicRank() {

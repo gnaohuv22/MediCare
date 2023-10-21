@@ -14,6 +14,11 @@ public class Branch {
     public Branch() {
     }
 
+    public Branch(String id) { // tubinh add
+        this.id = id;
+    }
+
+    
     public Branch(String id, String name, String description, String locateId) {
         this.id = id;
         this.name = name;

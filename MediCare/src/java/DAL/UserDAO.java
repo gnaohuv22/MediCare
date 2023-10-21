@@ -19,7 +19,7 @@ import Models.Province;
  */
 public class UserDAO extends DBContext {
 
-    public ArrayList<User> getAllUsers() {
+    public ArrayList<User> getAllUsers() { // TU BINH
         ArrayList<User> list = new ArrayList<>();
         String sql = "SELECT * FROM [User]";
         try {
@@ -27,6 +27,7 @@ public class UserDAO extends DBContext {
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
+            Province p = new Province(String.valueOf(rs.getInt(8)));
                 User u = new User(rs.getString(1),
                         rs.getString(2),
                         rs.getString(3),
@@ -34,7 +35,7 @@ public class UserDAO extends DBContext {
                         String.valueOf(rs.getDate(5)),
                         String.valueOf(rs.getInt(6)),
                         rs.getString(7),
-                        String.valueOf(rs.getInt(8)),
+                        p,
                         rs.getString(9),
                         rs.getString(10),
                         rs.getString(11),
@@ -49,42 +50,41 @@ public class UserDAO extends DBContext {
         return list;
     }
 
-    // Function: get object of user by username and password:
-    public User login1(String email, String password) {
-        String sql = "SELECT * FROM [User] WHERE email = ?";
-
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, email);
-            byte[] salt = PasswordEncryption.generateSalt();
-            String encryptedPassword = PasswordEncryption.encryptPassword(password, salt).substring(0, 64);
-            ResultSet rs = st.executeQuery();
-            if (rs.next()) {
-                if (PasswordEncryption.comparePasswords(password, rs.getString("password"))) {
-                    User u = new User(rs.getString(1),
-                            rs.getString(2),
-                            rs.getString(3),
-                            rs.getString(4),
-                            String.valueOf(rs.getDate(5)),
-                            String.valueOf(rs.getInt(6)),
-                            rs.getString(7),
-                            String.valueOf(rs.getInt(8)),
-                            rs.getString(9),
-                            rs.getString(10),
-                            rs.getString(11),
-                            rs.getString(12),
-                            rs.getString(13),
-                            String.valueOf(rs.getDate(14)));
-                    System.out.println(u);
-                    return u;
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("login: " + e);
-        }
-        return null;
-    }
-
+    // Function: get object of user by username and password: - TU BINH
+//    public User login1(String email, String password) {
+//        String sql = "SELECT * FROM [User] WHERE email = ?";
+//
+//        try {
+//            PreparedStatement st = connection.prepareStatement(sql);
+//            st.setString(1, email);
+//            byte[] salt = PasswordEncryption.generateSalt();
+//            String encryptedPassword = PasswordEncryption.encryptPassword(password, salt).substring(0, 64);
+//            ResultSet rs = st.executeQuery();
+//            if (rs.next()) {
+//                if (PasswordEncryption.comparePasswords(password, rs.getString("password"))) {
+//                    User u = new User(rs.getString(1),
+//                            rs.getString(2),
+//                            rs.getString(3),
+//                            rs.getString(4),
+//                            String.valueOf(rs.getDate(5)),
+//                            String.valueOf(rs.getInt(6)),
+//                            rs.getString(7),
+//                            String.valueOf(rs.getInt(8)),
+//                            rs.getString(9),
+//                            rs.getString(10),
+//                            rs.getString(11),
+//                            rs.getString(12),
+//                            rs.getString(13),
+//                            String.valueOf(rs.getDate(14)));
+//                    System.out.println(u);
+//                    return u;
+//                }
+//            }
+//        } catch (SQLException e) {
+//            System.out.println("login: " + e);
+//        }
+//        return null;
+//    }
     public User login(String email, String password) {
         String sql = "SELECT u.name, u.email, u.password from [user] as u WHERE u.email = ?";
         try {
@@ -109,27 +109,15 @@ public class UserDAO extends DBContext {
 
     // Function: get object of user by email - GOOGLE ACCOUNT:
     public User login(String email) {
-        String sql = "SELECT * FROM [User] WHERE email = ?";
+        String sql = "SELECT u.name, u.email FROM [User] WHERE email = ?";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, email);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                User u = new User(rs.getString(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        String.valueOf(rs.getDate(5)),
-                        String.valueOf(rs.getInt(6)),
-                        rs.getString(7),
-                        String.valueOf(rs.getInt(8)),
-                        rs.getString(9),
-                        rs.getString(10),
-                        rs.getString(11),
-                        rs.getString(12),
-                        rs.getString(13),
-                        String.valueOf(rs.getDate(14)));
+                User u = new User(rs.getString("email"),
+                        rs.getString("email"));
                 System.out.println(u);
                 return u;
             }
@@ -215,7 +203,6 @@ public class UserDAO extends DBContext {
         } catch (NumberFormatException | SQLException e) {
             System.out.println("getLastUserId: " + e);
 
-
         }
         return 0;
     }
@@ -260,10 +247,11 @@ public class UserDAO extends DBContext {
             return true;
         } catch (Exception e) {
             System.out.println("createUser " + e.getMessage());
-            
+
         }
         return false;
     }
+
     public User getUserNotRegistered(String email) {
         String sql = "SELECT id FROM [User]\n"
                 + "WHERE password IS NULL AND email = ?";
@@ -303,6 +291,7 @@ public class UserDAO extends DBContext {
         }
         return false;
     }
+
     public boolean editUserById(User obj) {
         String SQL = "UPDATE User SET email = ?, password = ?, name = ?, birthDate = ?, gender = ?, address = ?, provinceId = ?, [identity] = ?, medicalId = ?, ethnic = ?, phone = ?, profilePicture = ? WHERE id = ? ";
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
@@ -326,6 +315,7 @@ public class UserDAO extends DBContext {
         }
         return false;
     }
+
     public String getUserEmailById(String id) {
         String SQL = "SELECT email FROM [User] WHERE id = ?";
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
@@ -355,6 +345,7 @@ public class UserDAO extends DBContext {
         }
         return null;
     }
+
     public ArrayList<User> getAllUser() {
         ArrayList<User> list = new ArrayList<>();
         String SQL = "SELECT [User].id[uId],email,password, [User].name[uName],birthDate,gender,address,provinceId,[identity],medicalId,ethnic,phone,profilePicture,createdAt "
@@ -445,51 +436,51 @@ public class UserDAO extends DBContext {
                 + " HAVING [User].id IS NOT NULL"
                 + " ORDER BY COUNT([User].id) DESC"
                 + " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-        String SQL2 = "SELECT count(*) " +
-                " FROM [User]"
+        String SQL2 = "SELECT count(*) "
+                + " FROM [User]"
                 + " JOIN Province on [User].provinceId = Province.id"
                 + " WHERE [User].id[uId] like ? AND email like ? AND password like ? AND [User].name[uName] like ? "
                 + " AND birthDate like ? AND gender like ? AND address like ? AND provinceId like ? AND [identity] like ? "
                 + " AND medicalId like ? AND ethnic like ? AND phone like ? AND profilePicture like ? AND createdAt like ?"
                 + " like ? AND Province.name[pName]";
-        try (PreparedStatement pstm = connection.prepareStatement(SQL2)){
-            pstm.setString(1, "%%"); 
-            pstm.setString(2, "%%"); 
-            pstm.setString(3, "%%"); 
-            pstm.setString(4, "%%"); 
-            pstm.setString(5, "%%"); 
-            pstm.setString(6, "%%"); 
-            pstm.setString(7, "%%"); 
-            pstm.setString(8, "%%"); 
-            pstm.setString(9, "%%"); 
-            pstm.setString(10, "%%"); 
-            pstm.setString(11, "%%"); 
-            pstm.setString(12, "%%"); 
-            pstm.setString(13, "%%"); 
-            pstm.setString(14, "%%"); 
+        try ( PreparedStatement pstm = connection.prepareStatement(SQL2)) {
+            pstm.setString(1, "%%");
+            pstm.setString(2, "%%");
+            pstm.setString(3, "%%");
+            pstm.setString(4, "%%");
+            pstm.setString(5, "%%");
+            pstm.setString(6, "%%");
+            pstm.setString(7, "%%");
+            pstm.setString(8, "%%");
+            pstm.setString(9, "%%");
+            pstm.setString(10, "%%");
+            pstm.setString(11, "%%");
+            pstm.setString(12, "%%");
+            pstm.setString(13, "%%");
+            pstm.setString(14, "%%");
             pstm.setString(15, "%%");
             ResultSet rs = pstm.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 numberRecord = rs.getInt(1);
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("search user " + e.getMessage());
         }
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
-            pstm.setString(1, "%%"); 
-            pstm.setString(2, "%%"); 
-            pstm.setString(3, "%%"); 
-            pstm.setString(4, "%%"); 
-            pstm.setString(5, "%%"); 
-            pstm.setString(6, "%%"); 
-            pstm.setString(7, "%%"); 
-            pstm.setString(8, "%%"); 
-            pstm.setString(9, "%%"); 
-            pstm.setString(10, "%%"); 
-            pstm.setString(11, "%%"); 
-            pstm.setString(12, "%%"); 
-            pstm.setString(13, "%%"); 
-            pstm.setString(14, "%%"); 
+            pstm.setString(1, "%%");
+            pstm.setString(2, "%%");
+            pstm.setString(3, "%%");
+            pstm.setString(4, "%%");
+            pstm.setString(5, "%%");
+            pstm.setString(6, "%%");
+            pstm.setString(7, "%%");
+            pstm.setString(8, "%%");
+            pstm.setString(9, "%%");
+            pstm.setString(10, "%%");
+            pstm.setString(11, "%%");
+            pstm.setString(12, "%%");
+            pstm.setString(13, "%%");
+            pstm.setString(14, "%%");
             pstm.setString(15, "%%");
             pstm.setInt(16, offset);
             pstm.setInt(17, fetch);
@@ -519,6 +510,7 @@ public class UserDAO extends DBContext {
         }
         return list;
     }
+
     public User getUserById(String id) {
         String SQL = "SELECT [User].id[uId],email,password, [User].name[uName],birthDate,gender,address,provinceId,[identity],medicalId,ethnic,phone,profilePicture,createdAt "
                 + " , Province.name[pName]"
@@ -578,6 +570,7 @@ public class UserDAO extends DBContext {
         }
         return false;
     }
+
     public Boolean setUserById(User user) {
         String SQL = "UPDATE [User] SET email = ?, password = ?, name = ?, birthDate = ?, gender = ?, address = ?, provinceId = ?, [identity] = ?, medicalId = ?, ethnic = ?, phone = ?, profilePicture = ? WHERE id = ? ";
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
@@ -601,17 +594,18 @@ public class UserDAO extends DBContext {
         }
         return false;
     }
-    public String generateId(){
+
+    public String generateId() {
         String SQL = "select top(1) id from [User] order by id DESC";
-        try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
+        try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
             ResultSet rs = pstm.executeQuery();
             String number = null;
-            while(rs.next()){
+            while (rs.next()) {
                 number = rs.getString(1);
             }
-            number = Integer.parseInt(number)+1+"";
+            number = Integer.parseInt(number) + 1 + "";
             return number;
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("generateId user" + e.getMessage());
         }
         return null;

@@ -4,12 +4,18 @@
  */
 package DAL;
 
+import Models.AcademicRank;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import Models.Appointments;
+import Models.Branch;
+import Models.Certificate;
+import Models.Doctor;
 import Models.FamilyProfile;
+import Models.Province;
+import Models.ServiceTag;
 import Models.User;
 import java.util.List;
 
@@ -19,26 +25,37 @@ import java.util.List;
  */
 public class AppointmentsDAO extends DBContext {
 
-    public ArrayList<Appointments> getListAppointments() {
+    public ArrayList<Appointments> getAllAppointment() {
         ArrayList<Appointments> list = new ArrayList<>();
-        String SQL = "SELECT * FROM [Appointments]";
-
-        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
-            ResultSet rs = ps.executeQuery();
+        String SQL = "SELECT Appointments.id, userId, doctorId, serviceId, plannedAt, Appointments.status,\n"
+                + "    [User].name AS uName, Doctor.displayName AS dName, ServiceTag.nametag AS nameTag\n"
+                + "FROM Appointments\n"
+                + "JOIN [User] ON userId = [User].id\n"
+                + "LEFT JOIN Doctor ON doctorId = Doctor.id\n"
+                + "JOIN ServiceTag ON serviceId = ServiceTag.id;";
+        try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
-                Appointments a = new Appointments(
-                        String.valueOf(rs.getInt(1)),
-                        rs.getString(2),
-                        rs.getString(3),
-                        String.valueOf(rs.getInt(4)),
-                        String.valueOf(rs.getDate(5)),
-                        String.valueOf(rs.getInt(6)));
-                list.add(a);
+                String id = rs.getString("id");
+                String userId = rs.getString("userId");
+                String doctorId = rs.getString("doctorId");
+                String serviceId = rs.getString("serviceId");
+                String plannedAt = rs.getString("plannedAt");
+                String status = rs.getString("status");
+                String userName = rs.getString("uName");
+                String doctorName = rs.getString("dName");
+                String serviceName = rs.getString("nameTag");
+
+                User user = new User(userId, "", "", userName, "", "", "", new Province(), "", "", "", "", "", "");
+                Doctor doctor = new Doctor(doctorId, "", "", doctorName, new Branch(), "", new AcademicRank(), new Certificate(), "", "", "", "", "", "", "");
+                ServiceTag serviceTag = new ServiceTag(serviceId, serviceName, "", "");
+                Appointments appointments = new Appointments(id, user, doctor, serviceTag, plannedAt, status);
+                list.add(appointments);
             }
             return list;
-        } catch (SQLException e) {
-            System.out.println("AppointmentsDAO.getListAppointments: " + e.getMessage());
-        } 
+        } catch (Exception e) {
+            System.out.println("getAllAppointment " + e.getMessage());
+        }
         return null;
     }
 
@@ -309,7 +326,7 @@ public class AppointmentsDAO extends DBContext {
         return false;
     }
 
-    public List<Appointments> getListAppointmentsByOwnerId(String ownerId) {
+    public List<Appointments> getListAppointmentsByOwnerId(String ownerId) {// Khong phai cua TU BINH
         ArrayList<Appointments> list = new ArrayList<>();
         String SQL = "SELECT * FROM [Appointments] where userId=?";
         
