@@ -218,7 +218,7 @@
                                         <li>
                                             <div class="contact-cont">
                                                 <div class="float-left user-img m-r-10">
-                                                    <a href="profile " title="<%=doc.getDisplayName()%>"><img src="<%=doc.getProfilePicture()%>" alt="" class="w-40 rounded-circle"><span class="status online"></span></a>
+                                                    <a href="profile " title="<%=doc.getDisplayName()%>"><img src="uploads/<%=doc.getProfilePicture()%>" alt="" class="w-40 rounded-circle" style="height: 40px"><span class="status online"></span></a>
                                                 </div>
                                                 <div class="contact-info">
                                                     <span class="contact-name text-ellipsis"><%=doc.getDisplayName()%></span>

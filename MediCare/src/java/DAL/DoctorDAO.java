@@ -229,7 +229,7 @@ public class DoctorDAO extends DBContext {
     public String autoGenerateID() {
         String id = null;
         DoctorDAO doc = new DoctorDAO();
-        List<Doctor> list = doc.getAllDoctorsByCondition("", "");
+        List<Doctor> list = doc.getAllDoctorsByCondition("", "","","");
         int maxId = 0;
         for (Doctor d : list) {
             try {
@@ -320,7 +320,8 @@ public class DoctorDAO extends DBContext {
         }
         return list;
     }
-     public ArrayList<Doctor> getAllDoctorsByCondition(String isDelete, String search) {
+
+    public ArrayList<Doctor> getAllDoctorsByCondition(String isDelete, String search, String BranchId, String ARId) {
         ArrayList<Doctor> list = new ArrayList<>();
         String sql = "SELECT\n"
                 + "    d.*,\n"
@@ -346,6 +347,8 @@ public class DoctorDAO extends DBContext {
                 + "    d.id IS NOT NULL\n"
                 + "    AND d.isDelete LIKE ? \n"
                 + "	AND d.displayName LIKE ?\n"
+                + "	AND d.branchId like ?\n"
+                + "	AND d.ARId LIKE ?\n"
                 + "GROUP BY\n"
                 + "    d.ARId,\n"
                 + "    d.branchId,\n"
@@ -376,6 +379,8 @@ public class DoctorDAO extends DBContext {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, "%" + isDelete + "%");
             st.setString(2, "%" + search + "%");
+            st.setString(3, "%" + BranchId + "%");
+            st.setString(4, "%" + ARId + "%");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Doctor doc = new Doctor();
@@ -410,7 +415,7 @@ public class DoctorDAO extends DBContext {
         }
         return list;
     }
-     
+
     public Doctor getDoctorById(String Id) {
         String SQL = "select id, email, displayName, branchId, phone, ARId, CVId, salary, workplace, profilePicture, [status], [password], birthDate, gender, isDelete from Doctor where id = ?";
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
@@ -441,13 +446,11 @@ public class DoctorDAO extends DBContext {
         return null;
     }
 
-
-
     //display doctor deleted + null + active
 //method của Tu Binh
     public ArrayList<Doctor> getAllDoctors() {
         ArrayList<Doctor> list = new ArrayList<>();
-       String sql = "SELECT\n"
+        String sql = "SELECT\n"
                 + "    d.*,\n"
                 + "    b.[name] AS branchName,\n"
                 + "    a.[name] AS ARName,\n"
@@ -530,7 +533,7 @@ public class DoctorDAO extends DBContext {
         return null;
     }
 
-   public ArrayList<Doctor> getAllDoctorPaginated(int offset, int noOfRecords) {
+    public ArrayList<Doctor> getAllDoctorPaginated(int offset, int noOfRecords) {
         ArrayList<Doctor> list = new ArrayList<>();
         String sql = "SELECT d.*, b.[name] AS branchName, a.[name] AS ARName, \n"
                 + "DC.Certificates AS Certificates, Department.id as DepartmentId, Department.[name] AS departmentName, CV.education, CV.introduce, CV.workHistory, CV.startYear\n"
@@ -895,7 +898,7 @@ public class DoctorDAO extends DBContext {
     }
 
     public static void main(String[] args) {
-         DoctorDAO dd = new DoctorDAO();
+        DoctorDAO dd = new DoctorDAO();
         List<Doctor> list = dd.getAllDoctors();
         for (Doctor doc : list) {
             System.out.println(doc);
@@ -904,12 +907,11 @@ public class DoctorDAO extends DBContext {
         String id = dd.autoGenerateID();
         System.out.println("ID :" + id);
         System.out.println("Number Doctor IN THE LIST :" + Count);
-        List<Doctor> paging = dd.pagingDoctor("","","","1",1);
+        List<Doctor> paging = dd.pagingDoctor("", "", "", "1", 1);
         System.out.println("Paging doctor : ");
         for (Doctor d : paging) {
             System.out.println(d);
         }
 
-
-}
+    }
 }

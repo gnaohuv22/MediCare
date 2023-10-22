@@ -25,7 +25,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-8 offset-lg-2">
-                            <form action="admin-doctor" method="post">
+                            <form action="admin-doctor" method="post" enctype="multipart/form-data">
                                 <input type="hidden" value="add" name="action">
                                 <div class="row">
                                     <!--                                    <div class="col-sm-6">
@@ -63,7 +63,7 @@
                                         </c:if>
 
                                     </div>
-                                        <div class="col-sm-6">
+                                    <!--    <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>Password <span class="text-danger">*</span></label>
                                             <input name="password" class="form-control" type="password" required="" >
@@ -77,7 +77,7 @@
                                         <c:if test="${not empty requestScope.PasswordError}">
                                             <p style="color: red">${requestScope.PasswordError}</p>
                                         </c:if>
-                                    </div>
+                                    </div>-->
 
                                     <div class="col-sm-6">
                                         <div class="form-group">
@@ -259,7 +259,7 @@
                                             <label>Avatar</label>
                                             <div class="profile-upload">
                                                 <div class="upload-img">
-                                                    <img alt="" src="${pageContext.request.contextPath}/assets/img/user.jpg">
+                                                    <img alt="" src="${pageContext.request.contextPath}/uploads/default-img.jpg"> 
                                                 </div>
                                                 <div class="upload-input">
                                                     <input name="avatarUpload" type="file" class="form-control">

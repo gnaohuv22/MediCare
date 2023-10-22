@@ -5,6 +5,7 @@
 package Controllers;
 
 import DAL.AcademicRankDAO;
+import DAL.AdminEmailContext;
 import DAL.BranchDAO;
 import DAL.CertificateDAO;
 import DAL.CertificateDoctorDAO;
@@ -18,10 +19,13 @@ import Models.Employee;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +38,13 @@ import java.util.regex.Pattern;
  *
  * @author Asus
  */
+@MultipartConfig
 public class AdminDoctorController extends HttpServlet {
 
     private final String STATISTIC_REVIEW = "admin-reviews/admin-reviews.jsp";
     private final String REVIEW_PAGE = "admin-list-review";
     private final String NEED_EMPLOYEE = "admin-screen/admin-login.jsp";
+    private final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -83,25 +89,24 @@ public class AdminDoctorController extends HttpServlet {
         CertificateDAO CertDAO = new CertificateDAO();
         HttpSession session = request.getSession();
         Employee checkEmp = (Employee) session.getAttribute("EMPLOYEE");
-        
+
         //check login
         if (checkEmp == null) {
             request.setAttribute("MESSAGE", checkEmp);
             request.getRequestDispatcher(NEED_EMPLOYEE).forward(request, response);
         }
-         List<AcademicRank> listAR = ARDAO.getListAcademicRank();
-            List<Branch> listBranch = BranchDAO.getAllBranches();
-            List<Certificate> listCert = CertDAO.getListCertificate();
-        String action = request.getParameter("action"); 
+        List<AcademicRank> listAR = ARDAO.getListAcademicRank();
+        List<Branch> listBranch = BranchDAO.getAllBranches();
+        List<Certificate> listCert = CertDAO.getListCertificate();
+        String action = request.getParameter("action");
         String id = request.getParameter("id");
         if ("add".equals(action)) {
             request.setAttribute("listBranch", listBranch);
             request.setAttribute("listAR", listAR);
             request.setAttribute("listCert", listCert);
             request.getRequestDispatcher("admin-doctors/admin-add-doctor.jsp").forward(request, response);
-        }
-        else if("edit".equals(action)){
-            DoctorDAO DocDAO = new DoctorDAO();       
+        } else if ("edit".equals(action)) {
+            DoctorDAO DocDAO = new DoctorDAO();
             CertificateDoctorDAO cdDao = new CertificateDoctorDAO();
             List<CertificateDoctor> listCertofDoc = cdDao.getCertificateByDoctorId(id);
             Doctor doc = DocDAO.getDoctorByDoctorId(id);
@@ -114,34 +119,42 @@ public class AdminDoctorController extends HttpServlet {
             request.setAttribute("listBranch", listBranch);
             request.setAttribute("listAR", listAR);
             request.getRequestDispatcher("admin-doctors/admin-edit-doctor.jsp").forward(request, response);
-        }
-        else if ("profile".equals(action)) {
+        } else if ("profile".equals(action)) {
             DoctorDAO dao = new DoctorDAO();
             Doctor doc = dao.getDoctorByDoctorId(id);
             request.setAttribute("doc", doc);
             request.getRequestDispatcher("admin-doctors/admin-doctorprofile.jsp").forward(request, response);
         }
-        String isDelete = request.getParameter("isDelete") == null ? "": request.getParameter("isDelete");
-        String search = request.getParameter("search") == null ? "": request.getParameter("search");
+        String isDelete = request.getParameter("isDelete") == null ? "" : request.getParameter("isDelete");
+        String search = request.getParameter("search") == null ? "" : request.getParameter("search");
         DoctorDAO dao = new DoctorDAO();
         System.out.println("Search :" + search);
         System.out.println("Is delete Status :" + isDelete);
-        ArrayList<Doctor> listDoc = dao.getAllDoctorsByCondition(isDelete, search);
-        int count = dao.doctorCount(listDoc);
-        System.out.println("Doctor count : " + count);
        
-        String branch = request.getParameter("branch")== null ? "": request.getParameter("branch");
+      
+        String branch = request.getParameter("branch") == null ? "" : request.getParameter("branch");
         System.out.println("Branch status : " + branch);
-        String academicRank = request.getParameter("academicRank")== null ? "": request.getParameter("academicRank");
+        String academicRank = request.getParameter("academicRank") == null ? "" : request.getParameter("academicRank");
         System.out.println("AcademicRank status : " + academicRank);
-        String indexRaw = request.getParameter("index") == null ? "1": request.getParameter("index");
+         ArrayList<Doctor> listDoc = dao.getAllDoctorsByCondition(isDelete, search,branch, academicRank);
+        int count = dao.doctorCount(listDoc);
+        System.out.println("Count doctor  = " + count);
+        String indexRaw = request.getParameter("index") == null ? "1" : request.getParameter("index");
         int index = Integer.parseInt(indexRaw);
         System.out.println("Index Paging : " + index);
-        int endPage = (count/8);
-        if(count % 8 != 0){
+        int endPage = (count / 8);
+        if (count % 8 != 0) {
             endPage++;
         }
-        List<Doctor> listPaging = dao.pagingDoctor(search, branch,academicRank ,isDelete ,index);
+        int previous, after;
+        if(endPage == 1){
+            previous = after = 1;
+        }
+        else{
+            previous = index + 1;
+            after = index - 1;
+        }
+        List<Doctor> listPaging = dao.pagingDoctor(search, branch, academicRank, isDelete, index);
         System.out.println("listPaging site : " + listPaging.size());
         System.out.println("List paging : " + listPaging);
         String noti = (String) request.getSession().getAttribute("noti");
@@ -149,18 +162,17 @@ public class AdminDoctorController extends HttpServlet {
         request.setAttribute("branch", branch);
         request.setAttribute("academicRank", academicRank);
         request.setAttribute("listBranch", listBranch);
-        request.setAttribute("search",search);
+        request.setAttribute("search", search);
         request.setAttribute("noti", noti);
-        request.setAttribute("previous", index - 1);
-        request.setAttribute("after", index + 1);
+        request.setAttribute("previous", previous);
+        request.setAttribute("after", after);
         request.setAttribute("isDelete", isDelete);
         request.setAttribute("listDoc", listDoc);
         request.setAttribute("listPaging", listPaging);
         request.setAttribute("endPage", endPage);
         request.getRequestDispatcher("admin-doctors/admin-doctors.jsp").forward(request, response);
     }
-        
-        
+
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -177,8 +189,8 @@ public class AdminDoctorController extends HttpServlet {
         String id = request.getParameter("id");
         String email = request.getParameter("email");
         String displayName = request.getParameter("displayName");
-        String password = request.getParameter("password");
-        String confirmedPassword = request.getParameter("confirmedpassword");
+        String password = null;
+        String sendPassword = null;
         String academicRank = request.getParameter("academicRank");
         String branch = request.getParameter("branch");
         String phone = request.getParameter("phone");
@@ -189,6 +201,28 @@ public class AdminDoctorController extends HttpServlet {
         String[] certificates = request.getParameterValues("certificates");
         String birthDate = request.getParameter("birthDate");
         String gender = request.getParameter("gender");
+        //file handle : 
+        String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads"; // Đường dẫn lưu trữ tệp
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdir();
+        }
+
+        Part filePart = request.getPart("avatarUpload");
+        String fileName = getFileName(filePart); // Lấy tên tệp
+        System.out.println("Path " + fileName.isEmpty());
+        String imageFileName = null;
+        if (!fileName.isEmpty()) {
+            // Lưu tệp lên máy chủ
+            System.out.println("Upload " + uploadPath);
+            filePart.write(uploadPath + File.separator + fileName);
+
+            response.getWriter().println("File uploaded successfully.");
+            imageFileName = getFileName(filePart);
+            System.out.println("File name : " + imageFileName);
+        }
+
+//--------------------------------------------------------------------------------------------
         //add doctor function : 
         if ("add".equals(action)) {
 
@@ -201,17 +235,22 @@ public class AdminDoctorController extends HttpServlet {
             }
 
             DoctorDAO dao = new DoctorDAO();
-            
+
             //check variable
             if (certificates == null || certificates.length == 0) {
                 request.setAttribute("certificateError", "You must choose at least one Certificate");
                 bool = false;
             }
 
-            if (!password.equals(confirmedPassword)) {
-                request.setAttribute("PasswordError", "Password is not equals to Confirmed password, please enter correct password");
-                bool = false;
-            } 
+            java.util.Random random = new java.util.Random();
+            password = "" + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
+                    + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
+                    + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
+                    + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
+                    + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))
+                    + CHARACTERS.charAt(random.nextInt(CHARACTERS.length()));
+            sendPassword = password;
+            System.out.println("Send password : " + sendPassword);
             Doctor docCheck = dao.getDoctorByEmail(email);
             if (!validateEmail(email)) {
                 request.setAttribute("EmailError", "Not a email, enter again");
@@ -253,7 +292,7 @@ public class AdminDoctorController extends HttpServlet {
                     byte[] salt = PasswordEncryption.generateSalt();
                     String encPass = PasswordEncryption.encryptPassword(password, salt);
                     CertificateDoctorDAO CDDao = new CertificateDoctorDAO();
-                    Doctor doctor = new Doctor(id, email, displayName, branch, phone, academicRank, "1", salary, workplace, "../assets/img/doctor-03.jpg", status, encPass, birthDate, gender, "0");
+                    Doctor doctor = new Doctor(id, email, displayName, branch, phone, academicRank, "1", salary, workplace, imageFileName, status, encPass, birthDate, gender, "0");
                     dao.addDoctor(doctor);
                     for (String c : certificates) {
                         CDDao.addCertificateForDoctor(c, id);
@@ -284,8 +323,7 @@ public class AdminDoctorController extends HttpServlet {
                 request.setAttribute("error", "Add doctor failed, try again!");
                 request.getRequestDispatcher("admin-doctors/admin-add-doctor.jsp").forward(request, response);
             }
-        }
-        //delete doctor function
+        } //delete doctor function
         else if ("delete".equals(action)) {
             id = request.getParameter("id");
             System.out.println("doctorId" + id);
@@ -293,8 +331,7 @@ public class AdminDoctorController extends HttpServlet {
             Doctor doc = dao.getDoctorById(id);
             dao.deleteDoctor(doc);
             response.sendRedirect("admin-doctor");
-        }
-        else if ("edit".equals(action)) {
+        } else if ("edit".equals(action)) {
             id = request.getParameter("id");
             email = request.getParameter("email");
             displayName = request.getParameter("displayName");
@@ -327,7 +364,7 @@ public class AdminDoctorController extends HttpServlet {
                 docError.setDisplayName(displayName);
             }
             Doctor docCheck = doc.getDoctorByEmail(id);
-            List<Doctor> list = doc.getAllDoctorsByCondition("", "");
+            List<Doctor> list = doc.getAllDoctorsByCondition("", "", "","");
             List<String> listEmail = new ArrayList<>();
 
             if (docCheck != null) {
@@ -370,11 +407,12 @@ public class AdminDoctorController extends HttpServlet {
                 for (CertificateDoctor ClearCd : ClearListCd) {
                     cdDao.deleteCertificateForDoctor(ClearCd);
                 }
-                Doctor doctor = new Doctor(id, email, displayName, branch, phone, academicRank, certId, salary, workplace, "../assets/img/doctor-03.jpg", status, birthDate, gender, "0");
+                Doctor doctor = new Doctor(id, email, displayName, branch, phone, academicRank, certId, salary, workplace, imageFileName, status, birthDate, gender, "0");
                 doc.updateDoctor(doctor);
                 for (String cNew : certificates) {
                     cdDao.addCertificateForDoctor(cNew, id);
                 }
+                AdminEmailContext.sendEmailnewPassword(email, sendPassword, displayName);
                 request.getSession().setAttribute("noti", "Update doctor informations success");
                 response.sendRedirect("admin-doctor");
             } else {
@@ -402,7 +440,7 @@ public class AdminDoctorController extends HttpServlet {
             }
         }
     }
-        
+
     /**
      * Returns a short description of the servlet.
      *
@@ -471,5 +509,15 @@ public class AdminDoctorController extends HttpServlet {
         return matcher.matches();
     }
 
-}
+    private String getFileName(Part part) {
+        String contentDisposition = part.getHeader("content-disposition");
+        String[] tokens = contentDisposition.split(";");
+        for (String token : tokens) {
+            if (token.trim().startsWith("filename")) {
+                return token.substring(token.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return "";
+    }
 
+}

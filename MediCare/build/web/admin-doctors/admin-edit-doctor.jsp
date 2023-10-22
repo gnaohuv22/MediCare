@@ -26,7 +26,7 @@
 
                     <div class="row">
                         <div class="col-lg-8 offset-lg-2">
-                            <form action="admin-doctor" method="post">
+                            <form action="admin-doctor" method="post" enctype="multipart/form-data">
                                 <input type="hidden" value="edit" name="action">
                                 <input type="hidden" name="id" value="${requestScope.doc.getId()}">
                                 <div class="row">
@@ -264,7 +264,7 @@
                                             <label>Avatar</label>
                                             <div class="profile-upload">
                                                 <div class="upload-img">
-                                                    <img alt="" src="${pageContext.request.contextPath}assets/img/user.jpg">
+                                                    <img alt="" src="${pageContext.request.contextPath}/uploads/default-img.jpg"> 
                                                 </div>
                                                 <div class="upload-input">
                                                     <input name="avatarUpload" type="file" class="form-control">

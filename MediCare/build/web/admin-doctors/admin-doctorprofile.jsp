@@ -31,7 +31,7 @@
                                 <div class="profile-view">
                                     <div class="profile-img-wrap">
                                         <div class="profile-img">
-                                            <a href="#"><img class="avatar" src="${requestScope.doc.getProfilePicture()}" alt=""></a>
+                                            <a href="#"><img class="avatar" src="uploads/${requestScope.doc.getProfilePicture()}" alt=""></a>
                                         </div>
                                     </div>
                                     <div class="profile-basic">

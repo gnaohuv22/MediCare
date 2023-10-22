@@ -407,7 +407,7 @@ public class Doctor {
     }
 
     public String getProfilePicture() {
-        return profilePicture;
+        return profilePicture == null ? "default-img.jpg": profilePicture;
     }
 
     public void setProfilePicture(String profilePicture) {
