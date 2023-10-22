@@ -1,0 +1,1142 @@
+/*--------------------------------------------------------------------- File Name: style.css ---------------------------------------------------------------------*/
+
+
+/*--------------------------------------------------------------------- import Fonts ---------------------------------------------------------------------*/
+
+@import url('https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700');
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+
+/*****---------------------------------------- 1) font-family: 'Rajdhani', sans-serif;
+ 2) font-family: 'Poppins', sans-serif;
+ ----------------------------------------*****/
+
+
+/*--------------------------------------------------------------------- import Files ---------------------------------------------------------------------*/
+
+@import url(animate.min.css);
+@import url(normalize.css);
+@import url(icomoon.css);
+@import url(css/font-awesome.min.css);
+@import url(meanmenu.css);
+@import url(owl.carousel.min.css);
+@import url(swiper.min.css);
+@import url(slick.css);
+@import url(jquery.fancybox.min.css);
+@import url(jquery-ui.css);
+@import url(nice-select.css);
+
+/*--------------------------------------------------------------------- skeleton ---------------------------------------------------------------------*/
+
+* {
+    box-sizing: border-box !important;
+    transition: ease all 0.5s;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    color: #666666;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.80857;
+    font-weight: normal;
+    overflow-x: hidden;
+}
+
+a {
+    color: #2C6975;
+    text-decoration: none !important;
+    outline: none !important;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -ms-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    letter-spacing: 0;
+    font-weight: normal;
+    position: relative;
+    padding: 0 0 10px 0;
+    font-weight: normal;
+    line-height: normal;
+    color: #111111;
+    margin: 0
+}
+
+h1 {
+    font-size: 24px
+}
+
+h2 {
+    font-size: 22px
+}
+
+h3 {
+    font-size: 18px
+}
+
+h4 {
+    font-size: 16px
+}
+
+h5 {
+    font-size: 14px
+}
+
+h6 {
+    font-size: 13px
+}
+
+*,
+*::after,
+*::before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a {
+    color: #212121;
+    text-decoration: none!important;
+    opacity: 1
+}
+
+button:focus {
+    outline: none;
+}
+
+ul,
+li,
+ol {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+p {
+    margin: 20px;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 24px;
+}
+
+a {
+    color: #222222;
+    text-decoration: none;
+    outline: none !important;
+}
+
+a,
+.btn {
+    text-decoration: none !important;
+    outline: none !important;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -ms-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+:focus {
+    outline: 0;
+}
+
+.paddind_bottom_0 {
+    padding-bottom: 0 !important;
+}
+
+.btn-custom {
+    margin-top: 20px;
+    background-color: transparent !important;
+    border: 2px solid #ddd;
+    padding: 12px 40px;
+    font-size: 16px;
+}
+
+.lead {
+    font-size: 18px;
+    line-height: 30px;
+    color: #767676;
+    margin: 0;
+    padding: 0;
+}
+
+.form-control:focus {
+    border-color: #ffffff !important;
+    box-shadow: 0 0 0 .2rem rgba(255, 255, 255, .25);
+}
+
+.navbar-form input {
+    border: none !important;
+}
+
+.navbar-nav {
+    margin: 0 auto;
+}
+
+.badge {
+    font-weight: 500;
+}
+
+blockquote {
+    margin: 20px 0 20px;
+    padding: 30px;
+}
+
+button {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.full {
+    float: left;
+    width: 100%;
+}
+
+.layout_padding {
+    padding-top: 90px;
+    padding-bottom: 0px;
+}
+
+.header_section {
+    width: 100%;
+    float: left;
+    background-image: url(../images/banner-bg.png);
+    height: auto;
+    background-size: 100%;
+    padding: 10px 0px 25px 0px;
+    background-repeat: no-repeat;
+}
+
+.logo {
+    width: 15%;
+    float: left;
+}
+
+.bg-light {
+    background-color: transparent !important;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link {
+    padding-right: 20px;
+    padding-left: 20px;
+    color: #2C6975; /* Dark blue color from the palette */
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover {
+    color: #68B2A0; /* Light green color from the palette */
+}
+
+.navbar {
+    padding: .5rem 70px;
+}
+.navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show>.nav-link {
+    color: #15e4d0;
+}
+
+.form-inline .form-control {
+    transition: all 0.5s ease-in-out; /* Thêm hiệu ứng chuyển đổi */
+    width: 200px;
+}
+
+.form-inline .form-control:focus {
+    transition: all 0.5s ease-in-out; /* Thêm hiệu ứng chuyển đổi */
+    width: 350px; /* Thay đổi kích thước khi thanh tìm kiếm được focus */
+}
+
+.form-control {
+    border-radius: 10px;
+    height: 45px;
+}
+
+.btn-outline-success {
+    background-color: #2C6975;
+    color: #E0ECDE;
+    border: 1px solid #E0ECDE;
+    border-radius: 180px;
+    width: 45px;
+    height: 45px;
+}
+
+.btn-outline-success:hover {
+    background-color: #E0ECDE;
+    color: #2C6975;
+    border: 1px solid #2C6975;
+}
+
+.banner_section {
+    width: 100%;
+    float: left;
+    padding-bottom: 105px;
+}
+
+.images_1 {
+    width: 80%;
+    float: right;
+    padding-top: 50px;
+}
+
+.banner-taital {
+    width: 100%;
+    float: left;
+    font-size: 60px;
+    color: #68B2A0;
+    font-weight: bold;
+    line-height: 60px;
+    padding-top: 120px;
+}
+
+.banner-text {
+    width: 100%;
+    float: left;
+    font-size: 16px;
+    margin: 0px;
+    color: #2C6975;
+}
+
+.btn_main {
+    width: 100%;
+    float: left;
+    margin-top: 30px;
+}
+
+.more_bt {
+    width: 170px;
+    float: left;
+}
+
+.more_bt a {
+    width: 100%;
+    float: left;
+    font-size: 18px;
+    color: #f6f8f8;
+    background-color: #68B2A0;
+    text-align: center;
+    padding: 10px 0px;
+}
+
+.more_bt a:hover {
+    background-color: #68B2A0;
+}
+
+.contact_bt {
+    width: 170px;
+    float: left;
+    margin-left: 15px;
+}
+
+.contact_bt a {
+    width: 100%;
+    float: left;
+    font-size: 18px;
+    color: #f6f8f8;
+    background-color: #333333;
+    text-align: center;
+    padding: 10px 0px;
+}
+
+.contact_bt a:hover {
+    color: #f6f8f8;
+    background-color: #2C6975;
+}
+
+.image_1 img {
+    margin-top: 25px;
+}
+
+#doctor-carousel .carousel-control-prev:hover,
+#doctor-carousel .carousel-control-next:hover {
+    background-color: #E0ECDE;
+    color: #2C6975;
+}
+
+#doctor-carousel .carousel-control-prev,
+#doctor-carousel .carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #2C6975;
+    opacity: 1;
+    font-size: 30px;
+    color: #E0ECDE;
+    border-radius: 100%;
+    width: 65px;
+    height: 65px;
+}
+
+#doctor-carousel .carousel-control-prev {
+    left: 10%;
+}
+
+#doctor-carousel .carousel-control-next {
+    right: 10%;
+}
+
+.trend-container {
+    margin-top: 300px;
+    margin-bottom: 100px;
+}
+
+.trend-doctor-title {
+    text-align: center; /* Căn giữa tiêu đề */
+    margin-top: 20px; /* Khoảng cách từ trên xuống */
+    font-size: 36px; /* Kích thước tiêu đề */
+    font-weight: bold; /* In đậm */
+    color: #2C6975; /* Màu chữ tiêu đề */
+}
+
+/* Style cho danh sách bác sĩ theo chiều ngang */
+.horizontal-doctor-list {
+    display: flex; /* Hiển thị các phần tử con theo chiều ngang */
+    flex-wrap: nowrap; /* Ngăn các phần tử con tràn xuống hàng dưới khi không đủ không gian */
+    overflow-x: auto; /* Hiển thị thanh cuộn ngang nếu danh sách quá rộng */
+
+}
+
+/* Style cho mỗi phần tử bác sĩ trong danh sách */
+.doctor-block {
+    width: 32%; /* Kích thước của mỗi phần tử bác sĩ */
+    min-width: 430px;
+    height: fit-content;
+    min-height: 420px;
+    margin-right: 20px; /* Khoảng cách giữa các phần tử bác sĩ */
+    display: flex; /* Hiển thị các phần tử con bên trong theo chiều ngang */
+    flex-direction: column; /* Sắp xếp các phần tử con bên trong theo chiều dọc */
+    box-shadow: 0px 0px 6px #2C6975;
+    border-radius: 20px;
+    padding: 20px;
+    line-height: 1.2;
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #FFFFFF;
+}
+
+/* Style cho hình ảnh đại diện */
+.doctor-img img {
+    margin-right: 20px; /* Giảm khoảng cách giữa hình ảnh và thông tin bác sĩ */
+}
+
+.doctor-img {
+    min-height: 125px;
+    min-width: 125px;
+    padding-right: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Style cho thông tin bác sĩ */
+.doctor-information {
+    flex-grow: 1; /* Để phần thông tin bác sĩ mở rộng để lấp đầy khoảng trống còn lại */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Style cho phần giới thiệu */
+.doctor-intro {
+    color: gray;
+    max-height: 100px; /* Điều này giới hạn chiều cao của phần giới thiệu */
+}
+
+.doctor-introduce {
+    padding-right: 20px;
+    flex-grow: 1;
+}
+
+.find-more {
+    align-items: center;
+    padding-top: 40px;
+    background-color: white;
+}
+
+/* Style cho nút 'Tìm hiểu thêm' */
+.find-more a {
+    position: static;
+    transform: translateX(-50%);
+    background-color: #2C6975;
+    color: #E0ECDE;
+    border-radius: 10px;
+    margin-right: 5px;
+    padding: 10px;
+}
+
+.find-more a:hover {
+    background-color: #E0ECDE;
+    color: #2C6975;
+    border: 1px solid #2C6975;
+}
+
+.banner_section {
+    /*    width: 100%;
+        float: left;
+        background-image: url(../images/knowledge-bg.png);
+        background-size: 100%;
+        height: auto;
+        background-repeat: no-repeat;
+        padding-top: 180px;
+        padding-bottom: 240px;*/
+    color: #E0ECDE;
+    padding: 20px;
+}
+
+
+.banner_main {
+    width: 100%;
+    float: left;
+}
+
+.banner_title {
+    /*    width: 100%;
+        float: left;*/
+    font-size: 40px;
+    color: #E0ECDE;
+    font-weight: bold;
+}
+
+.banner_text {
+    /*    width: 100%;
+        float: left;*/
+    font-size: 20px;
+    color: #E0ECDE;
+    /*margin: 0px;*/
+}
+
+.banner_bullet_points .col {
+    display: flex; /* Sử dụng flexbox để căn giữa nội dung theo cả hai hướng */
+    flex-direction: column; /* Sắp xếp nội dung theo hàng dọc */
+    justify-content: center; /* Căn giữa nội dung theo hướng dọc */
+    align-items: center; /* Căn giữa nội dung theo hướng ngang */
+    padding: 10px; /* Thêm khoảng cách giữa các bộ (number-description) */
+}
+
+.banner-number {
+    font-size: 64px;
+    font-weight: bold;
+    margin-top: 60px;
+}
+
+.number-description {
+    font-size: 16px;
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+@keyframes fadeEffect {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0;
+    }
+}
+
+.news_section {
+    width: 100%;
+    float: left;
+    padding-bottom: 90px;
+}
+
+
+.news_section_2 {
+    width: 100%;
+    float: left;
+}
+
+.news_section_3 {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.news-block {
+    min-width: 31.8%;
+    min-height: 450px;
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 1px 2px 1px #cccccc;
+    border-radius: 20px;
+    padding: 20px;
+    line-height: 1.3;
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.news-cover img {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    padding-bottom: 20px;
+}
+
+.news-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2C6975;
+}
+
+.news-author {
+    color: gray;
+    font-size: 14px;
+}
+
+.news-create-time, .news-view-count {
+    color: gray;
+    font-size: 12px;
+}
+
+.news-create-time {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+}
+
+.news-view-count {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+}
+
+.box_main {
+    width: 100%;
+    float: left;
+    background-color: #252525;
+    height: auto;
+    border-radius: 15px;
+    padding: 40px;
+}
+
+.box_main:hover {
+    background-color: #1becde;
+}
+
+.box_main.active {
+    background-color: #1becde;
+}
+
+.icon_1 {
+    width: 100%;
+    float: left;
+    text-align: center;
+    padding-bottom: 20px;
+    line-height: 95px;
+}
+
+.contact_section {
+    width: 100%;
+    float: left;
+    background-image: url(../images/contact-bg.png);
+    color: #E0ECDE;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    padding-bottom: 150px;
+}
+
+.contact_taital {
+    width: 100%;
+    float: left;
+    font-size: 50px;
+    color: #030202;
+    font-weight: bold;
+}
+
+.icon_main {
+    width: 100%;
+    display: flex;
+    padding-top: 50px;
+    filter: brightness(0) saturate(100%) invert(34%) sepia(46%) saturate(518%) hue-rotate(142deg) brightness(95%) contrast(91%);
+}
+
+.icon_7 {
+    width: 20%;
+    float: left;
+}
+
+.diabetes_text {
+    width: 70%;
+    float: left;
+    font-size: 30px;
+    color: #040101;
+    font-weight: 500;
+}
+
+.contact_box {
+    width: 100%;
+    float: left;
+    background-color: #f1fafb;
+    height: auto;
+    padding: 30px;
+}
+
+.book_text {
+    width: 100%;
+    float: left;
+    font-size: 30px;
+    color: #252525;
+    text-align: center;
+    font-weight: 500;
+}
+
+.Email_text {
+    width: 100%;
+    float: left;
+    font-size: 18px;
+    color: #bebebe;
+    background-color: #ffffff;
+    padding: 5px 15px;
+    border: 0px;
+    margin-top: 30px;
+}
+
+.massage-bt {
+    width: 100%;
+    float: left;
+    color: #bebebe;
+    height: 110px;
+    font-size: 18px;
+    padding: 36px 20px 10px 20px;
+    background-color: #ffffff;
+    border: 0px;
+    margin-top: 30px;
+}
+
+.send_bt {
+    width: 140px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.send_bt a {
+    width: 100%;
+    float: left;
+    font-size: 18px;
+    color: #ffffff;
+    background-color: #1becde;
+    padding: 7px 0px;
+    text-align: center;
+    margin-top: 50px;
+    text-transform: uppercase;
+}
+
+.send_bt a:hover {
+    background-color: #252525;
+}
+
+.client_section {
+    width: 100%;
+    float: left;
+    padding-bottom: 90px;
+}
+
+.client_taital {
+    width: 100%;
+    float: left;
+    font-size: 40px;
+    text-align: center;
+    color: #111010;
+    font-weight: bold;
+}
+
+.client_text {
+    width: 100%;
+    float: left;
+    font-size: 16px;
+    color: #444443;
+    text-align: center;
+    margin: 0px;
+}
+
+.client_section_2 {
+    width: 100%;
+    float: left;
+    padding-top: 60px;
+}
+
+.client_left {
+    width: 40%;
+    float: left;
+}
+
+.client_right {
+    width: 60%;
+    float: left;
+    padding-top: 100px;
+}
+
+.client_img {
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+    object-fit: cover;
+}
+
+.carousel-indicators li {
+    background-color: #E0ECDE !important;
+}
+.carousel-indicators .active {
+    background-color: #2C6975 !important;
+}
+
+.distracted_text {
+    width: 100%;
+    float: left;
+    font-size: 40px;
+    color: #080808;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.review-content {
+    min-height: 300px;
+}
+
+.lorem_text {
+    width: 100%;
+    float: left;
+    font-size: 16px;
+    color: #444443;
+    margin: 0px;
+    overflow: auto; /* Thêm thanh cuộn nếu nội dung vượt quá chiều cao tối đa */
+}
+
+.quote_icon {
+    width: 100%;
+    float: left;
+    padding-top: 20px;
+}
+
+#my_slider .carousel-control-prev:hover,
+#my_slider .carousel-control-next:hover,
+#my_slider .carousel-control-prev:focus,
+#my_slider .carousel-control-next:focus {
+    background-color: #19e9d9;
+    color: #ffffff;
+}
+
+#my_slider a.carousel-control-next {
+    position: absolute;
+    left: 490px;
+    top: 70%;
+    background-color: #19e9d9;
+    color: #ffffff;
+}
+
+#my_slider a.carousel-control-prev {
+    position: absolute;
+    left: 490px;
+    top: 84%;
+    background-color: #252525;
+}
+
+#my_slider .carousel-control-prev,
+#my_slider .carousel-control-next {
+    width: 65px;
+    height: 65px;
+    background-color: #252525;
+    opacity: 1;
+    font-size: 30px;
+    color: #ffffff;
+}
+
+.footer_section {
+    width: 100%;
+    float: left;
+    background-color: #252525;
+    height: auto;
+    padding-bottom: 50px;
+    box-shadow: 0px 24px 19px -1px #222223;
+    position: relative;
+}
+
+.footer_logo {
+    width: 80%;
+    float: left;
+    padding: 0px 0px 30px 0px;
+}
+
+.adderss_text {
+    width: 100%;
+    float: left;
+    font-size: 24px;
+    color: #ffffff;
+    padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.map_icon {
+    width: 100%;
+    float: left;
+    font-size: 16px;
+    color: #E0ECDE;
+    padding-bottom: 10px;
+}
+
+.paddlin_left_0 {
+    padding-left: 15px;
+}
+
+.hiphop_text_1 {
+    width: 90%;
+    color: #E0ECDE;
+    font-size: 16px;
+    margin-left: 0px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.hiphop_text_1 a {
+    color: #E0ECDE;
+}
+
+.hiphop_text_1 a:hover {
+    color: #68B2A0;
+}
+
+.Useful_text {
+    width: 50%;
+    color: #E0ECDE;
+    font-size: 16px;
+    margin-left: 0px;
+}
+
+.Useful_text a {
+    color: #E0ECDE;
+}
+
+.Useful_text a:hover {
+    color: #68B2A0;
+}
+
+.social_icon {
+    width: 100%;
+    float: left;
+}
+
+.social_icon ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+.social_icon li {
+    float: left;
+    padding-right: 10px;
+    padding-top: 20px;
+}
+
+.copyright_section {
+    width: 100%;
+    float: left;
+    background-color: #252525;
+    height: auto;
+}
+
+.copyright_text {
+    width: 100%;
+    float: left;
+    font-size: 16px;
+    margin-left: 0px;
+    color: #fff;
+    text-align: center;
+}
+
+.copyright_text a {
+    color: #ffffff;
+}
+
+.copyright_text a:hover {
+    color: #19e9d9;
+}
+
+.margin_90 {
+    margin: 90px 0px;
+}
+
+/*Css for the list box:*/
+.list-parent {
+    position: relative;
+}
+
+.list-child {
+    display: none;
+    width: max-content;
+}
+
+.list-parent:hover .list-child {
+    display: block;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 5;
+    padding: 10px;
+    top: 100%;
+    left: 50%; /* Adjust the left position to be 50% of the parent's width */
+    transform: translateX(-50%); /* Shift the submenu back by half of its own width */
+}
+
+.list-child li {
+    border-bottom: 1px solid #ccc; /* Change color as needed */
+    padding: 5px 0; /* Add some vertical padding to space out the items */
+}
+
+.list-child li:last-child {
+    border-bottom: none; /* Remove border from the last item */
+}
+/*Css for the user register:*/
+
+.main-wrapper-register {
+    display: flex;
+    flex-direction: column; /* Xếp các phần tử theo cột dọc */
+    position: relative;
+    height: fit-content;
+
+}
+
+.account-image-register {
+    width: 100%; /* Bao phủ toàn bộ chiều rộng của main-wrapper */
+    position: absolute;
+}
+
+.account-image-register img {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    width: 100vw;
+    height: 100vh;
+}
+
+.account-page-register {
+    background-color: #fff;
+    /*overflow: hidden;*/
+    box-sizing: border-box;
+    position: relative;
+    top: 0; /* Đặt vị trí ở đầu trên của main-wrapper */
+    left: 0; /* Đặt vị trí ở bên trái của main-wrapper */
+    width: 50%; /* Chiếm toàn bộ chiều rộng của main-wrapper */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    /*text-align: center;*/
+    z-index: 1;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+/*Css for the doctor information in a list of doctors:*/
+.doctors-container {
+    /* Sử dụng flexbox để căn giữa các doctor-card theo chiều ngang */
+    display: flex;
+    flex-wrap: wrap; /* Cho phép các doctor-card xuống dòng khi không đủ chỗ */
+    justify-content: flex-start; /* Canh giữa giữa các doctor-card */
+    margin-left: 10vw;
+}
+
+.doctor-card {
+    display: flex;
+    margin-bottom: 20px;
+    margin-right: 10px;
+    background: #fff;
+    margin: 1%;
+    width: 27%; /* Độ rộng của mỗi doctor-card, để hiển thị 3 trên cùng một dòng */
+    box-sizing: border-box; /* Đảm bảo kích thước tính bao gồm cả padding và border */
+    float: left; /* Đặt căn lề bên trái */
+    padding: 10px;
+    border-radius: 20px;
+    box-shadow: 1px 2px 2px 1px;
+    /*border: 1px solid gray;*/
+    transition: border 0.3s;
+}
+.doctor-card:hover {
+    border: 1px solid #888;
+}
+.doctor-card img {
+    max-width: 100%;
+    height: fit-content;
+    margin: 5%;
+}
+
+.doctor-image {
+    /* Định dạng cho ảnh bác sĩ */
+    width: 100px; /* Chiều rộng cố định */
+    height: 100px; /* Chiều cao cố định */
+    margin-right: 20px; /* Khoảng cách giữa ảnh và thông tin cá nhân */
+}
+
+.doctor-info {
+    /* Định dạng cho thông tin cá nhân */
+    text-align: left;
+    margin-left: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.doctor-name {
+    font-size: 1.2em; /* Kích thước tên bác sĩ lớn hơn */
+    font-weight: bold; /* In đậm */
+}
+
+
+/*------------------------- Style for breadcrumb.jsp -------------------------*/
+.breadcrumb-item a {
+    color: #2C6975;
+    font-size: 18px;
+}
+
+.breadcrumb-item a:hover {
+    color: #68B2A0;
+}
+
+/*------------------------- Style for doctor-home.jsp -------------------------*/
+#back-to-top {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    z-index: 9999;
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    line-height: 30px;
+    background: #f5f5f5;
+    color: #444;
+    cursor: pointer;
+    border: 0;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: opacity 0.2s ease-out;
+    opacity: 0;
+}
+#back-to-top:hover {
+    background: #e9ebec;
+}
+#back-to-top.show {
+    opacity: 1;
+}
