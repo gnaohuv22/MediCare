@@ -26,7 +26,7 @@
     </servlet>
     <servlet>
         <servlet-name>LoadHtmlServlet</servlet-name>
-        <servlet-class>Controllers.LoadHtmlServlet</servlet-class>
+        <servlet-class>Controllers.LoadFamilyProfileByOwnerIdServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UserPaymentHistoryServlet</servlet-name>
@@ -145,10 +145,6 @@
         <servlet-name>UserLoadDoctorsByServiceId</servlet-name>
         <url-pattern>/load-doctors-by-serviceid</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>LoadHtmlServlet</servlet-name>
-        <url-pattern>/load-html</url-pattern>
-    </servlet-mapping>
     <servlet>
         <servlet-name>UserLoadEachFamilyProfile</servlet-name>
         <servlet-class>Controllers.UserLoadEachFamilyProfile</servlet-class>
@@ -160,6 +156,10 @@
     <servlet-mapping>
         <servlet-name>DoctorHomeServlet</servlet-name>
         <url-pattern>/doctor-home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadHtmlServlet</servlet-name>
+        <url-pattern>/load-html</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

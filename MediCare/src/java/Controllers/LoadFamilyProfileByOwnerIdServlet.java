@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author phuon
  */
-public class LoadHtmlServlet extends HttpServlet {
+public class LoadFamilyProfileByOwnerIdServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -65,26 +65,28 @@ public class LoadHtmlServlet extends HttpServlet {
                 + "                            <img src=\"https://www.svgrepo.com/show/497407/profile-circle.svg\" width=\"50px\" height=\"50px\" alt=\"client-img\"/> \n"
                 + "                        </div>\n"
                 + "                        <div class=\"profile-display-info\">\n"
-                + "                            <h2>" + fp.getName() + "</h2>\n"
+                + "                            <h2>" + (fp.getName() != null ? fp.getName() : "--") + "</h2>\n"
                 + "                            <span>Patient Code: " + fp.getProfileId() + "</span>\n"
                 + "                        </div>\n"
                 + "                    </div>\n"
                 + "                    <div class=\"profile-display-body\">\n"
                 + "                        <h3>Thông tin cơ bản</h3>\n"
                 + "                        <div class=\"profile-display-basic\">\n"
-                + "                            <span>Họ và tên:</span><span>" + fp.getName() + "</span>\n"
-                + "                            <span>Điện thoại:</span><span>" + fp.getPhone() + "</span>\n"
-                + "                            <span>Ngày sinh:</span><span>" + fp.getBirthDate() + "</span>\n"
-                + "                            <span>Giới tính:</span><span>" + fp.getGender() + "</span>\n"
-                + "                            <span>Địa chỉ:</span><span>" + fp.getAddress() + "</span>\n"
+                + "                            <span>Họ và tên:</span><span>" + (fp.getName() != null ? fp.getName() : "--") + "</span>\n"
+                + "                            <span>Điện thoại:</span><span>" + (fp.getPhone() != null ? fp.getPhone() : "--") + "</span>\n"
+                + "                            <span>Ngày sinh:</span><span>" + (fp.getBirthDate() != null ? fp.getBirthDate() : "--") + "</span>\n"
+                + "                            <span>Giới tính:</span><span>" + (fp.getGender() != null ? fp.getGender() : "--") + "</span>\n"
+                + "                            <span>Địa chỉ:</span><span>" + (fp.getAddress() != null ? fp.getAddress() : "--") + "</span>\n"
                 + "                        </div>\n"
                 + "                        <h3>Thông tin bổ sung</h3>\n"
                 + "                        <div class=\"profile-display-addition\">\n"
-                + "                            <span>Mã BHYT:</span><span>" + fp.getMedicalId() + "</span>\n"
-                + "                            <span>Số CMND/CCCD:</span><span>" + fp.getIdentity() + "</span>\n"
-                + "                            <span>Dân tộc:</span><span>" + fp.getEthnic() + "</span>\n"
-                + "                            <span>Email:</span><span>" + fp.getEmail() + "</span>\n"
+                + "                            <span>Mã BHYT:</span><span>" + (fp.getMedicalId() != null ? fp.getMedicalId() : "--") + "</span>\n"
+                + "                            <span>Số CMND/CCCD:</span><span>" + (fp.getIdentity() != null ? fp.getIdentity() : "--") + "</span>\n"
+                + "                            <span>Dân tộc:</span><span>" + (fp.getEthnic() != null ? fp.getEthnic() : "--") + "</span>\n"
+                + "                            <span>Email:</span><span>" + (fp.getEmail() != null ? fp.getEmail() : "--") + "</span>\n"
                 + "                        </div>\n"
+                + (fp.getRelationship().getId().equals("0")? "<div></div>":"<button id=\"deleteProfileButton\" onclick=\"openDeleteProfileForm()\">Delete Profile</button>\n")
+                + "                        <button id=\"editProfileButton\" onclick=\"openEditProfileForm()\">Edit Profile</button>"
                 + "                    </div>";
         return html;
     }
