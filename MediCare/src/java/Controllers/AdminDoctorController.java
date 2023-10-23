@@ -104,20 +104,19 @@ public class AdminDoctorController extends HttpServlet {
             request.setAttribute("listBranch", listBranch);
             request.setAttribute("listAR", listAR);
             request.setAttribute("listCert", listCert);
-            request.getRequestDispatcher("admin-doctors/admin-add-doctor.jsp").forward(request, response);
+            request.setAttribute("action", action);
+            request.getRequestDispatcher("admin-doctors/admin-edit-doctor.jsp").forward(request, response);
         } else if ("edit".equals(action)) {
             DoctorDAO DocDAO = new DoctorDAO();
             CertificateDoctorDAO cdDao = new CertificateDoctorDAO();
             List<CertificateDoctor> listCertofDoc = cdDao.getCertificateByDoctorId(id);
             Doctor doc = DocDAO.getDoctorByDoctorId(id);
-            System.out.println("Doctor status : " + doc.getStatus());
-            System.out.println("Doctor birthDate : " + doc.getBirthDate());
-            System.out.println("Doctor : " + doc);
             request.setAttribute("doc", doc);
             request.setAttribute("listCert", listCert);
             request.setAttribute("listCertofDoc", listCertofDoc);
             request.setAttribute("listBranch", listBranch);
             request.setAttribute("listAR", listAR);
+            request.setAttribute("action", action);
             request.getRequestDispatcher("admin-doctors/admin-edit-doctor.jsp").forward(request, response);
         } else if ("profile".equals(action)) {
             DoctorDAO dao = new DoctorDAO();
@@ -129,9 +128,7 @@ public class AdminDoctorController extends HttpServlet {
         String search = request.getParameter("search") == null ? "" : request.getParameter("search");
         DoctorDAO dao = new DoctorDAO();
         System.out.println("Search :" + search);
-        System.out.println("Is delete Status :" + isDelete);
-       
-      
+        System.out.println("Is delete Status :" + isDelete);   
         String branch = request.getParameter("branch") == null ? "" : request.getParameter("branch");
         System.out.println("Branch status : " + branch);
         String academicRank = request.getParameter("academicRank") == null ? "" : request.getParameter("academicRank");
@@ -332,21 +329,8 @@ public class AdminDoctorController extends HttpServlet {
             dao.deleteDoctor(doc);
             response.sendRedirect("admin-doctor");
         } else if ("edit".equals(action)) {
-            id = request.getParameter("id");
-            email = request.getParameter("email");
-            displayName = request.getParameter("displayName");
-            academicRank = request.getParameter("academicRank");
-            certId = request.getParameter("certID");
-            branch = request.getParameter("branch");
-            phone = request.getParameter("phone");
-            workplace = null;
-            status = request.getParameter("status");
-            salary = request.getParameter("salary");
             CertificateDoctorDAO cdDao = new CertificateDoctorDAO();
             List<CertificateDoctor> ClearListCd = cdDao.getCertificateByDoctorId(id);
-            gender = request.getParameter("gender");
-            birthDate = request.getParameter("birthDate");
-            System.out.println("Birthdate Input : " + birthDate);
             certificates = request.getParameterValues("certificates");
             boolean bool = true;
             if (certificates == null || certificates.length == 0) {
