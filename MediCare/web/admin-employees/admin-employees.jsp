@@ -9,9 +9,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-       <jsp:include page="../admin-general/admin-head.jsp" />
-       <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/admin/css/admin-display-table.css">
-       <style>
+        <jsp:include page="../admin-general/admin-head.jsp" />
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/admin/css/admin-display-table.css">
+        <style>
             .search-button {
                 background-color: white;
                 border: 2px solid #009ce7;
@@ -82,11 +82,11 @@
                                 <div class="col-sm-6 col-md-3">
                                     <div class="form-group form-focus">
                                         <label class="focus-label">Nhân viên không còn làm</label>
-                                        <input type="checkbox" name="isDelete" id="isDelete" value="1" <c:if test="${isDelete}">checked="checked"</c:if> />
+                                        <input type="checkbox" name="isDelete" id="isDelete" <c:if test="${isDelete}">checked="checked"</c:if> />
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-md-3">
-                                    <button class="btn btn-success btn-block" name="btAction" value="Search Employee"> Tìm kiếm </button>
+                                    <button class="btn btn-success btn-block"> Tìm kiếm </button>
                                 </div>
                             </div>
                         </form>
@@ -137,7 +137,7 @@
                                                                 <a class="dropdown-item" href="" id="link">Xem danh sách chi tiết</a>
                                                             </c:if>
                                                             <c:if test="${view_detail}">
-                                                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-employee?">Ẩn danh sách chi tiết</a>
+                                                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-employee?<c:if test="${IS_SEARCH==1}">search-employee=true&</c:if>searchBranch=${searchBranch}<c:if test="${IS_SEARCH==1}">&searchId=${searchId}&searchName=${searchName}&searchRole=${searchRole}</c:if>&isDelete=${isDelete}">Ẩn danh sách chi tiết</a>
                                                             </c:if>
                                                             <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-employee?delete-employee=true&id=${list.getId()}&<c:if test="${view_detail}">view-detail=true&</c:if><c:if test="${IS_SEARCH==1}">search-employee=true&</c:if>searchBranch=${searchBranch}<c:if test="${IS_SEARCH==1}">&searchId=${searchId}&searchName=${searchName}&searchRole=${searchRole}</c:if>&isDelete=${isDelete}" ><i class="fa fa-trash-o m-r-5"></i> Xóa</a>
                                                             <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-employee?restore-employee=true&id=${list.getId()}&<c:if test="${view_detail}">view-detail=true&</c:if><c:if test="${IS_SEARCH==1}">search-employee=true&</c:if>searchBranch=${searchBranch}<c:if test="${IS_SEARCH==1}">&searchId=${searchId}&searchName=${searchName}&searchRole=${searchRole}</c:if>&isDelete=${isDelete}" >Khôi phục</a>
