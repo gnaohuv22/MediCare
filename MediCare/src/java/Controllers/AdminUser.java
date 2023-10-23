@@ -5,10 +5,8 @@
 package Controllers;
 
 import DAL.AdminEmailContext;
-import DAL.BranchDAO;
 import DAL.EmployeeDAO;
 import DAL.ProvinceDAO;
-import DAL.SubLevelMenuDAO;
 import DAL.UserDAO;
 import Models.Province;
 import Models.RegisterError;
@@ -42,6 +40,10 @@ public class AdminUser extends HttpServlet {
     private final String NEED_LOGIN = "Bạn cần đăng nhập truy cập vào trang này";
     private final String NEED_ROLE = "Bạn cần có quyền để truy cập vào trang này";
     private final String[] ROLE = {"1", "2", "4"};
+//    private final String ROLE = "1";
+//    private final String NEED_LOGIN = "Bạn cần đăng nhập để truy cập vào nội dung này";
+//    private final String NEED_ROLE = "Bạn cần quyền để truy cập vào nội dung này";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

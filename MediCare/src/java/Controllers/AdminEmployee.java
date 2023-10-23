@@ -11,7 +11,6 @@ import Models.Employee;
 import DAL.EmployeeDAO;
 import DAL.EmployeeRoleDAO;
 import DAL.ProvinceDAO;
-import DAL.SubLevelMenuDAO;
 import Models.Branch;
 import Models.EmployeeRole;
 import Models.Province;
@@ -24,6 +23,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,6 +45,9 @@ public class AdminEmployee extends HttpServlet {
     private final String NEED_LOGIN = "Bạn cần đăng nhập truy cập vào trang này";
     private final String NEED_ROLE = "Bạn cần có quyền để truy cập vào trang này";
     private final String[] ROLE = {"1", "2", "3"};
+//    private final String ROLE = "1";
+//    private final String NEED_LOGIN = "Bạn cần đăng nhập để truy cập vào nội dung này";
+//    private final String NEED_ROLE = "Bạn cần quyền để truy cập vào nội dung này";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -208,7 +212,7 @@ public class AdminEmployee extends HttpServlet {
                         if (isDelete == null) {
                             isDelete = "0";
                         } else {
-                            if (isDelete.equals("true")) {
+                            if (isDelete.equals("true")||isDelete.equals("1")) {
                                 isDelete = "1";
                             } else {
                                 isDelete = "0";
@@ -222,7 +226,6 @@ public class AdminEmployee extends HttpServlet {
                         if (request.getParameter("page") != null) {
                             page = Integer.parseInt(request.getParameter("page"));
                         }
-                        SubLevelMenuDAO slmDao = new SubLevelMenuDAO();
                         BranchDAO bdao = new BranchDAO();
                         ArrayList<Employee> list;
                         ArrayList<String> titleList;
@@ -255,130 +258,13 @@ public class AdminEmployee extends HttpServlet {
                             if (request.getParameter("restore-employee") != null) {
                                 throw new AdminException.RedirecUrlException();
                             }
-                            ArrayList<Employee> list;
-                            ArrayList<String> titleList;
-                            String search_employee = request.getParameter("search-employee");
-                            //if list is in state search then return search
-                            if (search_employee != null) {
-                                String keyId = request.getParameter("searchId");
-                                request.setAttribute("searchId", keyId);
-                                String keyName = request.getParameter("searchName");
-                                request.setAttribute("searchName", keyName);
-                                String keyRole = request.getParameter("searchRole");
-                                //search all role
-                                if (keyRole.equals("Select Role")) {
-                                    keyRole = "";
-                                }
-                                request.setAttribute("searchRole", keyRole);
-                                String keyBranch = request.getParameter("searchBranch");
-                                // search all branch
-                                if (keyBranch == null) {
-                                    keyBranch = "1";
-                                }
-                                request.setAttribute("searchBranch", keyBranch);
-                                String isDelete = request.getParameter("isDelete");
-                                //display employee are working
-                                if (isDelete == null) {
-                                    isDelete = "0";
-                                } else {
-                                    if (isDelete.equals("true")) {
-                                        isDelete = "1";
-                                    } else {
-                                        isDelete = "0";
-                                    }
-                                }
-                                request.setAttribute("isDelete", isDelete);
-                                EmployeeDAO eDao = new EmployeeDAO();
-                                EmployeeRoleDAO erdao = new EmployeeRoleDAO();
-                                int page = 1;
-                                final int recordsPerPage = 5;
-                                if (request.getParameter("page") != null) {
-                                    page = Integer.parseInt(request.getParameter("page"));
-                                }
-                                SubLevelMenuDAO slmDao = new SubLevelMenuDAO();
-                                BranchDAO bdao = new BranchDAO();
-                                //display detail table
-                                if (request.getParameter("view-detail") == null) {
-                                    list = eDao.searchEmployee(keyId, keyName, keyRole, keyBranch, (page - 1) * recordsPerPage, recordsPerPage, isDelete);
-                                    titleList = eDao.getTitleTableEmployee();
-                                } else {
-                                    request.setAttribute("view_detail", true);
-                                    list = eDao.searchMoreEmployee(keyId, keyName, keyRole, keyBranch, (page - 1) * recordsPerPage, recordsPerPage, isDelete);
-                                    titleList = eDao.getMoreTitleTableEmployee();
-                                }
-                                //insert <th></th>
-                                for (int i = 0; i < titleList.size(); i++) {
-                                    titleList.set(i, "<th>" + titleList.get(i) + "</th>");
-                                }
-                                int recordCount = eDao.getNumberRecord();
-                                int pageCount = (int) Math.ceil(recordCount * 1.0 / recordsPerPage);
-                                request.setAttribute("pageCount", pageCount);
-                                request.setAttribute("currentPage", page);
-                                request.setAttribute("TITLE_EMPLOYEE", titleList);
-                                request.setAttribute("ALL_EMPLOYEEROLE", erdao.getAllEmployeeRole());
-                                request.setAttribute("ALL_BRANCH", bdao.getAllBranches());
-                                request.setAttribute("ALL_EMPLOYEE", list);
-                                request.setAttribute("IS_SEARCH", 1);
-                                request.getRequestDispatcher(STATISTIC_EMPLOYEE).forward(request, response);
-                            } else {
-                                EmployeeDAO eDao = new EmployeeDAO();
-                                EmployeeRoleDAO erdao = new EmployeeRoleDAO();
-                                BranchDAO bdao = new BranchDAO();
-                                String searchBranch = request.getParameter("searchBranch");
-                                if (searchBranch == null) {
-                                    searchBranch = "1";
-                                }
-                                request.setAttribute("searchBranch", searchBranch);
-                                String isDelete = request.getParameter("isDelete");
-                                if (isDelete == null) {
-                                    isDelete = "0";
-                                } else {
-                                    if (isDelete.equals("true")) {
-                                        isDelete = "1";
-                                    } else {
-                                        isDelete = "0";
-                                    }
-                                }
-                                request.setAttribute("isDelete", isDelete);
-                                int page = 1;
-                                final int recordsPerPage = 5;
-                                //set start page = 1
-                                if (request.getParameter("page") != null) {
-                                    page = Integer.parseInt(request.getParameter("page"));
-                                }
-                                if (request.getParameter("view-detail") == null) {
-                                    list = eDao.getListEmployee((page - 1) * recordsPerPage, recordsPerPage, searchBranch, isDelete);
-                                    titleList = eDao.getTitleTableEmployee();
-                                } else {
-                                    request.setAttribute("view_detail", true);
-                                    list = eDao.getMoreListEmployee((page - 1) * recordsPerPage, recordsPerPage, searchBranch, isDelete);
-                                    titleList = eDao.getMoreTitleTableEmployee();
-                                }
-                                //insert <th></th>, <td></td>;
-                                for (int i = 0; i < titleList.size(); i++) {
-                                    titleList.set(i, "<th>" + titleList.get(i) + "</th>");
-                                }
-                                int recordCount = eDao.countAllEmployee(searchBranch, isDelete);
-                                int pageCount = (int) Math.ceil(recordCount * 1.0 / recordsPerPage);
-                                request.setAttribute("pageCount", pageCount);
-                                request.setAttribute("currentPage", page);
-                                request.setAttribute("TITLE_EMPLOYEE", titleList);
-                                request.setAttribute("ALL_EMPLOYEEROLE", erdao.getAllEmployeeRole());
-                                request.setAttribute("ALL_BRANCH", bdao.getAllBranches());
-                                request.setAttribute("ALL_EMPLOYEE", list);
-                                request.setAttribute("IS_SEARCH", 0);
-                            }
                             String id = request.getParameter("id");
                             //check if delete is succesfully
-                            if (edao.deleteEmployee(id)) {
+                            if (edao.deleteEmployee(id,checkEmp.getId())) {
                                 request.setAttribute("MESSAGE", "Xóa thành công");
-                                request.getRequestDispatcher(STATISTIC_EMPLOYEE).forward(request, response);
                             } else {
                                 request.setAttribute("MESSAGE", "Xóa không thành công");
-                                request.getRequestDispatcher(STATISTIC_EMPLOYEE).forward(request, response);
                             }
-                        } catch (AdminException.RedirecUrlException e4) {
-
                             ArrayList<Employee> list;
                             ArrayList<String> titleList;
                             String search_employee = request.getParameter("search-employee");
@@ -419,7 +305,6 @@ public class AdminEmployee extends HttpServlet {
                                 if (request.getParameter("page") != null) {
                                     page = Integer.parseInt(request.getParameter("page"));
                                 }
-                                SubLevelMenuDAO slmDao = new SubLevelMenuDAO();
                                 BranchDAO bdao = new BranchDAO();
                                 //display detail table
                                 if (request.getParameter("view-detail") == null) {
@@ -491,15 +376,128 @@ public class AdminEmployee extends HttpServlet {
                                 request.setAttribute("ALL_EMPLOYEE", list);
                                 request.setAttribute("IS_SEARCH", 0);
                             }
+                            request.getRequestDispatcher(STATISTIC_EMPLOYEE).forward(request, response);
+                        } catch (AdminException.RedirecUrlException e4) {
+                            //restore
                             String id = request.getParameter("id");
-                            //check if delete is succesfully
-                            if (edao.restoreEmployee(id)) {
+                            //check if restore is succesfully
+                            if (edao.restoreEmployee(id,checkEmp.getId())) {
                                 request.setAttribute("MESSAGE", "Khôi phục thành công");
-                                request.getRequestDispatcher(STATISTIC_EMPLOYEE).forward(request, response);
                             } else {
                                 request.setAttribute("MESSAGE", "Khôi phục không thành công");
-                                request.getRequestDispatcher(STATISTIC_EMPLOYEE).forward(request, response);
                             }
+                            ArrayList<Employee> list;
+                            ArrayList<String> titleList;
+                            String search_employee = request.getParameter("search-employee");
+                            //if list is in state search then return search
+                            if (search_employee != null) {
+                                String keyId = request.getParameter("searchId");
+                                request.setAttribute("searchId", keyId);
+                                String keyName = request.getParameter("searchName");
+                                request.setAttribute("searchName", keyName);
+                                String keyRole = request.getParameter("searchRole");
+                                //search all role
+                                if (keyRole.equals("Select Role")) {
+                                    keyRole = "";
+                                }
+                                request.setAttribute("searchRole", keyRole);
+                                String keyBranch = request.getParameter("searchBranch");
+                                // search all branch
+                                if (keyBranch == null) {
+                                    keyBranch = "1";
+                                }
+                                request.setAttribute("searchBranch", keyBranch);
+                                String isDelete = request.getParameter("isDelete");
+                                //display employee are working
+                                if (isDelete == null) {
+                                    isDelete = "0";
+                                } else {
+                                    if (isDelete.equals("true")) {
+                                        isDelete = "1";
+                                    } else {
+                                        isDelete = "0";
+                                    }
+                                }
+                                request.setAttribute("isDelete", isDelete);
+                                EmployeeDAO eDao = new EmployeeDAO();
+                                EmployeeRoleDAO erdao = new EmployeeRoleDAO();
+                                int page = 1;
+                                final int recordsPerPage = 5;
+                                if (request.getParameter("page") != null) {
+                                    page = Integer.parseInt(request.getParameter("page"));
+                                }
+                                BranchDAO bdao = new BranchDAO();
+                                //display detail table
+                                if (request.getParameter("view-detail") == null) {
+                                    list = eDao.searchEmployee(keyId, keyName, keyRole, keyBranch, (page - 1) * recordsPerPage, recordsPerPage, isDelete);
+                                    titleList = eDao.getTitleTableEmployee();
+                                } else {
+                                    request.setAttribute("view_detail", true);
+                                    list = eDao.searchMoreEmployee(keyId, keyName, keyRole, keyBranch, (page - 1) * recordsPerPage, recordsPerPage, isDelete);
+                                    titleList = eDao.getMoreTitleTableEmployee();
+                                }
+                                //insert <th></th>
+                                for (int i = 0; i < titleList.size(); i++) {
+                                    titleList.set(i, "<th>" + titleList.get(i) + "</th>");
+                                }
+                                int recordCount = eDao.getNumberRecord();
+                                int pageCount = (int) Math.ceil(recordCount * 1.0 / recordsPerPage);
+                                request.setAttribute("pageCount", pageCount);
+                                request.setAttribute("currentPage", page);
+                                request.setAttribute("TITLE_EMPLOYEE", titleList);
+                                request.setAttribute("ALL_EMPLOYEEROLE", erdao.getAllEmployeeRole());
+                                request.setAttribute("ALL_BRANCH", bdao.getAllBranches());
+                                request.setAttribute("ALL_EMPLOYEE", list);
+                                request.setAttribute("IS_SEARCH", 1);
+                            } else {
+                                EmployeeDAO eDao = new EmployeeDAO();
+                                EmployeeRoleDAO erdao = new EmployeeRoleDAO();
+                                BranchDAO bdao = new BranchDAO();
+                                String searchBranch = request.getParameter("searchBranch");
+                                if (searchBranch == null) {
+                                    searchBranch = "1";
+                                }
+                                request.setAttribute("searchBranch", searchBranch);
+                                String isDelete = request.getParameter("isDelete");
+                                if (isDelete == null) {
+                                    isDelete = "0";
+                                } else {
+                                    if (isDelete.equals("true")) {
+                                        isDelete = "1";
+                                    } else {
+                                        isDelete = "0";
+                                    }
+                                }
+                                request.setAttribute("isDelete", isDelete);
+                                int page = 1;
+                                final int recordsPerPage = 5;
+                                //set start page = 1
+                                if (request.getParameter("page") != null) {
+                                    page = Integer.parseInt(request.getParameter("page"));
+                                }
+                                if (request.getParameter("view-detail") == null) {
+                                    list = eDao.getListEmployee((page - 1) * recordsPerPage, recordsPerPage, searchBranch, isDelete);
+                                    titleList = eDao.getTitleTableEmployee();
+                                } else {
+                                    request.setAttribute("view_detail", true);
+                                    list = eDao.getMoreListEmployee((page - 1) * recordsPerPage, recordsPerPage, searchBranch, isDelete);
+                                    titleList = eDao.getMoreTitleTableEmployee();
+                                }
+                                //insert <th></th>, <td></td>;
+                                for (int i = 0; i < titleList.size(); i++) {
+                                    titleList.set(i, "<th>" + titleList.get(i) + "</th>");
+                                }
+                                int recordCount = eDao.countAllEmployee(searchBranch, isDelete);
+                                int pageCount = (int) Math.ceil(recordCount * 1.0 / recordsPerPage);
+                                request.setAttribute("pageCount", pageCount);
+                                request.setAttribute("currentPage", page);
+                                request.setAttribute("TITLE_EMPLOYEE", titleList);
+                                request.setAttribute("ALL_EMPLOYEEROLE", erdao.getAllEmployeeRole());
+                                request.setAttribute("ALL_BRANCH", bdao.getAllBranches());
+                                request.setAttribute("ALL_EMPLOYEE", list);
+                                request.setAttribute("IS_SEARCH", 0);
+                            }
+                            request.getRequestDispatcher(STATISTIC_EMPLOYEE).forward(request, response);
                         }
                     }
                 }
@@ -726,10 +724,30 @@ public class AdminEmployee extends HttpServlet {
             }
             roleId = request.getParameter("roleId");
             request.setAttribute("roleId", roleId);
-            long millis = System.currentTimeMillis();
-            java.sql.Date date = new java.sql.Date(millis);
-            createAt = date + "";
+            createAt ="";
             createBy = checkEmp.getId();
+            //------
+            //file handle : 
+//            String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads"; // Đường dẫn lưu trữ tệp
+//            File uploadDir = new File(uploadPath);
+//            if (!uploadDir.exists()) {
+//                uploadDir.mkdir();
+//            }
+//
+//            Part filePart = request.getPart("file");
+//            String fileName = getFileName(filePart); // Lấy tên tệp
+//            System.out.println("Path " + fileName.isEmpty());
+//            String imageFileName = null;
+//            if (!fileName.isEmpty()) {
+//                // Lưu tệp lên máy chủ
+//                System.out.println("Upload " + uploadPath);
+//                filePart.write(uploadPath + File.separator + fileName);
+//
+//                response.getWriter().println("File uploaded successfully.");
+//                imageFileName = getFileName(filePart);
+//                System.out.println("File name : " + imageFileName);
+//            }
+            //-----
             EmployeeRoleDAO erdao = new EmployeeRoleDAO();
             BranchDAO bdao = new BranchDAO();
             ProvinceDAO pdao = new ProvinceDAO();
@@ -813,7 +831,7 @@ public class AdminEmployee extends HttpServlet {
             branchId = request.getParameter("branchId");
             try {
                 name = request.getParameter("name");
-                if (name.trim().isEmpty()) {
+                if (name.isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
             } catch (AdminException.EmptyStringException ex) {
@@ -930,5 +948,15 @@ public class AdminEmployee extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
+    private String getFileName(Part part) {
+        String contentDisposition = part.getHeader("content-disposition");
+        String[] tokens = contentDisposition.split(";");
+        for (String token : tokens) {
+            if (token.trim().startsWith("filename")) {
+                return token.substring(token.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return "";
+    }
 }

@@ -16,6 +16,7 @@ public class Employee {
     String phone, ethnic;
     EmployeeRole employeeRole;
     String createAt,createBy,modifyAt,modifyBy;
+    String isDelete;
 
     public Employee() {
     }
@@ -56,6 +57,41 @@ public class Employee {
         this.modifyBy = modifyBy;
     }
 
+    public Employee(String id, String email, Branch branch, String name, String birthDate, String gender, String address, String workplace, Province province, String phone, String ethnic, EmployeeRole employeeRole, String isDelete) {
+        this.id = id;
+        this.email = email;
+        this.branch = branch;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.address = address;
+        this.workplace = workplace;
+        this.province = province;
+        this.phone = phone;
+        this.ethnic = ethnic;
+        this.employeeRole = employeeRole;
+        this.isDelete = isDelete;
+    }
+
+    public Employee(String id, String email, Branch branch, String name, String birthDate, String gender, String address, String workplace, Province province, String phone, String ethnic, EmployeeRole employeeRole, String createAt, String createBy, String modifyAt, String modifyBy, String isDelete) {
+        this.id = id;
+        this.email = email;
+        this.branch = branch;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.address = address;
+        this.workplace = workplace;
+        this.province = province;
+        this.phone = phone;
+        this.ethnic = ethnic;
+        this.employeeRole = employeeRole;
+        this.createAt = createAt;
+        this.createBy = createBy;
+        this.modifyAt = modifyAt;
+        this.modifyBy = modifyBy;
+        this.isDelete = isDelete;
+    }
     public String getId() {
         return id;
     }
@@ -190,6 +226,14 @@ public class Employee {
 
     public void setModifyBy(String modifyBy) {
         this.modifyBy = modifyBy;
+    }
+
+    public String getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(String isDelete) {
+        this.isDelete = isDelete;
     }
     
 }

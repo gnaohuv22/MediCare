@@ -94,16 +94,17 @@ public class EmployeeDAO extends DBContext {
         }
         return null;
     }
+    //thu
     public ArrayList<Employee> getListEmployee(int offset, int fetch, String searchBranch, String isDelete) {
         ArrayList<Employee> list = new ArrayList<>();
-        String SQL = "SELECT Employee.id[eId], email, password, branchId, Employee.name[eName], birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, isDelete," +
+        String SQL = "SELECT Employee.id[eId], email, branchId, Employee.name[eName], birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, isDelete," +
 "       Branch.name[bName], Province.name[pName]" +
 "       FROM Employee  " +
 "       join Branch on Employee.branchId=Branch.id  " +
 "       join Province on Employee.provinceId=Province.id " +
 "       join EmployeeRole on Employee.roleId=EmployeeRole.id " +
 "       WHERE branchId like ? AND  isDelete like ? " +
-"	GROUP BY Employee.id, email, password, branchId, Employee.name, birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, isDelete, " +
+"	GROUP BY Employee.id, email, branchId, Employee.name, birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, isDelete, " +
 "       Branch.name, Province.name" +
 "       ORDER BY COUNT(Employee.id) DESC " +
 "       OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
@@ -116,7 +117,6 @@ public class EmployeeDAO extends DBContext {
             while (rs.next()) {
                 String id = rs.getString("eId");
                 String email = rs.getString("email");
-                String password = rs.getString("password");
                 String branchId = rs.getString("branchId");
                 String name = rs.getString("eName");
                 String birthDate = rs.getString("birthDate");
@@ -135,7 +135,7 @@ public class EmployeeDAO extends DBContext {
                 Branch branch = new Branch(branchId,branchName,branchDescription,branchLocateId);
                 Province province = new Province(provinceId,provinceName);
                 EmployeeRole employeeRole = new EmployeeRole(roleId,EmployeeRole);
-                Employee employee = new Employee(id, email, password, branch, name, birthDate, gender, address, workplace, province, phone, ethnic, employeeRole);
+                Employee employee = new Employee(id, email, branch, name, birthDate, gender, address, workplace, province, phone, ethnic, employeeRole, isDelete);
                 list.add(employee);
             }
             return list;
@@ -144,9 +144,10 @@ public class EmployeeDAO extends DBContext {
         }
         return null;
     }
+    //thu
     public ArrayList<Employee> getMoreListEmployee(int offset, int fetch, String searchBranch, String isDelete) {
         ArrayList<Employee> list = new ArrayList<>();
-        String SQL = "SELECT Employee.id[eId], email, password, branchId, Employee.name[eName], birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, " +
+        String SQL = "SELECT Employee.id[eId], email, branchId, Employee.name[eName], birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, " +
 "	createAt, CreateBy, modifyAt, modifyBy, isDelete," +
 "       Branch.name[bName], Province.name[pName], EmployeeRole.role" +
 "       FROM Employee  " +
@@ -154,7 +155,7 @@ public class EmployeeDAO extends DBContext {
 "       join Province on Employee.provinceId=Province.id " +
 "       join EmployeeRole on Employee.roleId=EmployeeRole.id " +
 "       WHERE branchId like ? AND  isDelete like ? " +
-"	GROUP BY Employee.id, email, password, branchId, Employee.name, birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, " +
+"	GROUP BY Employee.id, email, branchId, Employee.name, birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, " +
 "	createAt, CreateBy, modifyAt, modifyBy, isDelete," +
 "       Branch.name, Province.name, EmployeeRole.role" +
 "       ORDER BY COUNT(Employee.id) DESC " +
@@ -168,7 +169,6 @@ public class EmployeeDAO extends DBContext {
             while (rs.next()) {
                 String id = rs.getString("eId");
                 String email = rs.getString("email");
-                String password = rs.getString("password");
                 String branchId = rs.getString("branchId");
                 String name = rs.getString("eName");
                 String birthDate = rs.getString("birthDate");
@@ -191,7 +191,7 @@ public class EmployeeDAO extends DBContext {
                 Branch branch = new Branch(branchId,branchName,branchDescription,branchLocateId);
                 Province province = new Province(provinceId,provinceName);
                 EmployeeRole employeeRole = new EmployeeRole(roleId,EmployeeRole);
-                Employee employee = new Employee(id, email, password, branch, name, birthDate, gender, address, workplace, province, phone, ethnic, employeeRole, createAt, createBy, modifyAt, modifyBy);
+                Employee employee = new Employee(id, email, branch, name, birthDate, gender, address, workplace, province, phone, ethnic, employeeRole, createAt, createBy, modifyAt, modifyBy, isDelete);
                 list.add(employee);
             }
             return list;
@@ -433,14 +433,14 @@ public class EmployeeDAO extends DBContext {
     //thu
     public ArrayList<Employee> searchEmployee(String keyId, String keyName, String keyRoleId, String keyBranchId, int offset, int fetch, String isDelete) {
         ArrayList<Employee> list = new ArrayList<>();
-        String SQL = "SELECT Employee.id[eId], email, password, branchId, Employee.name[eName], birthDate, gender, address, workplace, provinceId, phone, ethnic, " +
+        String SQL = "SELECT Employee.id[eId], email, branchId, Employee.name[eName], birthDate, gender, address, workplace, provinceId, phone, ethnic, " +
         "Branch.name[bName], Province.name[pName], EmployeeRole.role[erRole] " +
         "FROM Employee " +
         "join Branch on Employee.branchId=Branch.id " +
         "join Province on Employee.provinceId=Province.id "+
         "join EmployeeRole on Employee.roleId=EmployeeRole.id "+
         "WHERE Employee.id like ? AND Employee.name like ? AND EmployeeRole.id like ? AND branchId like ? AND isDelete like ? " +
-        "GROUP BY Employee.id, email, password, branchId, Employee.name, birthDate, gender, address, workplace, provinceId, phone, ethnic, " +
+        "GROUP BY Employee.id, email, branchId, Employee.name, birthDate, gender, address, workplace, provinceId, phone, ethnic, " +
 "       Branch.name, Province.name, EmployeeRole.role " +
 "	HAVING Employee.id IS NOT NULL" +
 "       ORDER BY COUNT(Employee.id) DESC" +
@@ -476,7 +476,6 @@ public class EmployeeDAO extends DBContext {
             while (rs.next()) {
                 String id = rs.getString("eId");
                 String email = rs.getString("email");
-                String password = rs.getString("password");
                 String branchId = rs.getString("branchId");
                 String name = rs.getString(5);
                 String birthDate = rs.getString("birthDate");
@@ -495,7 +494,7 @@ public class EmployeeDAO extends DBContext {
                 Branch branch = new Branch(branchId,branchName,branchDescription,branchLocateId);
                 Province province = new Province(provinceId,provinceName);
                 EmployeeRole employeeRole = new EmployeeRole(roleId,EmployeeRole);
-                Employee employee = new Employee(id, email, password, branch, name, birthDate, gender, address, workplace, province, phone, ethnic, employeeRole);
+                Employee employee = new Employee(id, email, branch, name, birthDate, gender, address, workplace, province, phone, ethnic, employeeRole, isDelete);
                 list.add(employee);
             }
             return list;
@@ -507,14 +506,14 @@ public class EmployeeDAO extends DBContext {
     //thu
     public ArrayList<Employee> searchMoreEmployee(String keyId, String keyName, String keyRoleId, String keyBranchId, int offset, int fetch, String isDelete) {
         ArrayList<Employee> list = new ArrayList<>();
-        String SQL = "SELECT Employee.id[eId], email, password, branchId, Employee.name[eName], birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, createAt, CreateBy, modifyAt, modifyBy," +
+        String SQL = "SELECT Employee.id[eId], email, branchId, Employee.name[eName], birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, createAt, CreateBy, modifyAt, modifyBy," +
 "        Branch.name[bName], Province.name[pName], EmployeeRole.role[erRole]  " +
 "        FROM Employee  " +
 "        join Branch on Employee.branchId=Branch.id  " +
 "        join Province on Employee.provinceId=Province.id " +
 "        join EmployeeRole on Employee.roleId=EmployeeRole.id " +
 "        WHERE Employee.id like ? AND Employee.name like ? AND EmployeeRole.id like ? AND branchId like ? AND isDelete like ?" +
-"        GROUP BY Employee.id, email, password, branchId, Employee.name, birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, createAt, CreateBy, modifyAt, modifyBy," +
+"        GROUP BY Employee.id, email, branchId, Employee.name, birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, createAt, CreateBy, modifyAt, modifyBy," +
 "       Branch.name, Province.name, EmployeeRole.role  " +
 "	HAVING Employee.id IS NOT NULL " +
 "       ORDER BY COUNT(Employee.id) DESC" +
@@ -550,7 +549,6 @@ public class EmployeeDAO extends DBContext {
             while (rs.next()) {
                 String id = rs.getString("eId");
                 String email = rs.getString("email");
-                String password = rs.getString("password");
                 String branchId = rs.getString("branchId");
                 String name = rs.getString(5);
                 String birthDate = rs.getString("birthDate");
@@ -573,7 +571,7 @@ public class EmployeeDAO extends DBContext {
                 Branch branch = new Branch(branchId,branchName,branchDescription,branchLocateId);
                 Province province = new Province(provinceId,provinceName);
                 EmployeeRole employeeRole = new EmployeeRole(roleId,EmployeeRole);
-                Employee employee = new Employee(id, email, password, branch, name, birthDate, gender, address, workplace, province, phone, ethnic, employeeRole, createAt, createBy, modifyAt, modifyBy);
+                Employee employee = new Employee(id, email, branch, name, birthDate, gender, address, workplace, province, phone, ethnic, employeeRole, createAt, createBy, modifyAt, modifyBy, isDelete);
                 list.add(employee);
             }
             return list;
@@ -631,12 +629,12 @@ public class EmployeeDAO extends DBContext {
             System.out.println("getMoreTitleTableEmployee " + e.getMessage());
         }
         return null;
-    }
-    //thu
-    public boolean deleteEmployee(String id){
-        String SQL = "UPDATE employee SET isDelete = '1' WHERE id = ?";
+    }//thu
+    public boolean deleteEmployee(String id, String modifyId){
+        String SQL = "UPDATE employee SET isDelete = '1', modifyAt = getDate(), modifyBy= ? WHERE id = ?";
         try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
-            pstm.setString(1, id);
+            pstm.setString(1, modifyId);
+            pstm.setString(2, id);
             pstm.execute();
             return true;
         }catch (Exception e) {
@@ -645,10 +643,11 @@ public class EmployeeDAO extends DBContext {
         return false;
     }
     //thu
-    public boolean restoreEmployee(String id){
-        String SQL = "UPDATE employee SET isDelete = '0' WHERE id = ?";
+    public boolean restoreEmployee(String id, String modifyId){
+        String SQL = "UPDATE employee SET isDelete = '0', modifyAt = getDate(), modifyBy= ? WHERE id = ?";
         try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
-            pstm.setString(1, id);
+            pstm.setString(1, modifyId);
+            pstm.setString(2, id);
             pstm.execute();
             return true;
         }catch (Exception e) {

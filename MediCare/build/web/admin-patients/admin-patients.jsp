@@ -60,13 +60,13 @@
                             <div class="col-sm-6 col-md-3">
                                 <div class="form-group form-focus">
                                     <label class="focus-label">Tên người dùng</label>
-                                    <input type="text" class="form-control floating" name ="searchName" id ="searchName" ${searchName}">
+                                    <input type="text" class="form-control floating" name ="searchName" id ="searchName" value="${searchName}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-md-3">
                                 <div class="form-group form-focus">
                                     <label class="focus-label">Ngày sinh</label>
-                                    <input type="text" class="form-control floating" name ="searchBirthDate" id ="searchBirthDate" ${searchBirthDate}">
+                                    <input type="text" class="form-control floating" name ="searchBirthDate" id ="searchBirthDate" value="${searchBirthDate}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-md-3">
@@ -96,25 +96,25 @@
                             <div class="col-sm-6 col-md-3">
                                 <div class="form-group form-focus">
                                     <label class="focus-label">Số CCCD</label>
-                                    <input type="text" class="form-control floating" name ="searchIdentity" id ="searchIdentity" ${searchIdentity}">
+                                    <input type="text" class="form-control floating" name ="searchIdentity" id ="searchIdentity" value="${searchIdentity}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-md-3">
                                 <div class="form-group form-focus">
                                     <label class="focus-label">Số BHYT</label>
-                                    <input type="text" class="form-control floating" name ="searchMedicalId" id ="searchMedicalId" ${searchMedicalId}">
+                                    <input type="text" class="form-control floating" name ="searchMedicalId" id ="searchMedicalId" value="${searchMedicalId}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-md-3">
                                 <div class="form-group form-focus">
                                     <label class="focus-label">Dân tộc</label>
-                                    <input type="text" class="form-control floating" name ="searchEthnic" id ="searchEthnic" ${searchEthnic}">
+                                    <input type="text" class="form-control floating" name ="searchEthnic" id ="searchEthnic" value="${searchEthnic}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-md-3">
                                 <div class="form-group form-focus">
                                     <label class="focus-label">Điện thoại</label>
-                                    <input type="text" class="form-control floating" name ="searchPhone" id ="searchPhone" ${searchPhone}">
+                                    <input type="text" class="form-control floating" name ="searchPhone" id ="searchPhone" value="${searchPhone}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-md-3">

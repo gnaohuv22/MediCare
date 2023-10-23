@@ -54,7 +54,7 @@
                             <div class="col-sm-6 col-md-3">
                                 <div class="form-group form-focus">
                                     <label class="focus-label">Tên nhân viên</label>
-                                    <input type="text" class="form-control floating" name ="searchName" id ="searchName" ${searchName}">
+                                    <input type="text" class="form-control floating" name ="searchName" id ="searchName" value="${searchName}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-md-3">
@@ -82,7 +82,7 @@
                                 <div class="col-sm-6 col-md-3">
                                     <div class="form-group form-focus">
                                         <label class="focus-label">Nhân viên không còn làm</label>
-                                        <input type="checkbox" name="isDelete" id="isDelete" <c:if test="${isDelete}">checked="checked"</c:if> />
+                                        <input type="checkbox" name="isDelete" id="isDelete" value="true" <c:if test="${isDelete eq '1'}">checked="checked"</c:if> />
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-md-3">
@@ -139,8 +139,13 @@
                                                             <c:if test="${view_detail}">
                                                                 <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-employee?<c:if test="${IS_SEARCH==1}">search-employee=true&</c:if>searchBranch=${searchBranch}<c:if test="${IS_SEARCH==1}">&searchId=${searchId}&searchName=${searchName}&searchRole=${searchRole}</c:if>&isDelete=${isDelete}">Ẩn danh sách chi tiết</a>
                                                             </c:if>
-                                                            <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-employee?delete-employee=true&id=${list.getId()}&<c:if test="${view_detail}">view-detail=true&</c:if><c:if test="${IS_SEARCH==1}">search-employee=true&</c:if>searchBranch=${searchBranch}<c:if test="${IS_SEARCH==1}">&searchId=${searchId}&searchName=${searchName}&searchRole=${searchRole}</c:if>&isDelete=${isDelete}" ><i class="fa fa-trash-o m-r-5"></i> Xóa</a>
+                                                            <c:if test="${list.isDelete eq '0'}">
+                                                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-employee?delete-employee=true&id=${list.getId()}&<c:if test="${view_detail}">view-detail=true&</c:if><c:if test="${IS_SEARCH==1}">search-employee=true&</c:if>searchBranch=${searchBranch}<c:if test="${IS_SEARCH==1}">&searchId=${searchId}&searchName=${searchName}&searchRole=${searchRole}</c:if>&isDelete=${isDelete}" ><i class="fa fa-trash-o m-r-5"></i> Xóa</a>
+                                                            </c:if>
+                                                            <c:if test="${list.isDelete eq '1'}">
                                                             <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-employee?restore-employee=true&id=${list.getId()}&<c:if test="${view_detail}">view-detail=true&</c:if><c:if test="${IS_SEARCH==1}">search-employee=true&</c:if>searchBranch=${searchBranch}<c:if test="${IS_SEARCH==1}">&searchId=${searchId}&searchName=${searchName}&searchRole=${searchRole}</c:if>&isDelete=${isDelete}" >Khôi phục</a>
+                                                            </c:if>
+                                                            
                                                             </div>
                                                         </div>
                                                     </td>
@@ -190,6 +195,7 @@
                 </nav>
                 <!-- pagination section -->
                 <div><a href="admin-export-employee-list">Lấy file excel</a></div>
+                <div><a href="admin-import-employee-list" id="linkExcel" onclick="getNameFile()">Truyền file excel</a></div>
                 <jsp:include page="../admin-general/admin-notifications-box.jsp"/>
             </div>
         </div>
@@ -227,12 +233,12 @@
                 closeButton.style.display = "none";
                 form.style.display = "none";
             }
-//            function setDomain(){
-//                let person = prompt("Mời bạn nhập tên của mình", "Harry Potter");
-//                let linkExcel = person;
-//                document.getElementById('linkExcel').setAttribute('value', linkExcel);
-//            }
-//        </script>
+            function getNameFile(){
+                let person = prompt("Mời bạn nhập tên", "Harry Potter");
+                let linkExcel = person;
+                document.getElementById('linkExcel').setAttribute('value', linkExcel);
+            }
+        </script>
         <div class="sidebar-overlay" data-reff=""></div>
         <script src="${pageContext.request.contextPath}/assets/admin/js/jquery-3.2.1.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/admin/js/popper.min.js"></script>
