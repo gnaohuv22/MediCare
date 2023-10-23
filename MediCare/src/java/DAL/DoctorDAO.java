@@ -230,6 +230,7 @@ public class DoctorDAO extends DBContext {
         String id = null;
         DoctorDAO doc = new DoctorDAO();
         List<Doctor> list = doc.getAllDoctorsByCondition("", "", "", "");
+
         int maxId = 0;
         for (Doctor d : list) {
             try {
