@@ -62,3 +62,7 @@ ALTER TABLE reviews ADD modifyAt datetime;
 ALTER TABLE reviews ADD modifyBy int;
 
 ALTER TABLE reviews ADD isDelete int;
+
+-------------------------------------23/10/2023
+
+delete NewsCategory where id=166

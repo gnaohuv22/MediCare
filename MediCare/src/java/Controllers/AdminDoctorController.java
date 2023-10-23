@@ -98,25 +98,23 @@ public class AdminDoctorController extends HttpServlet {
         List<AcademicRank> listAR = ARDAO.getListAcademicRank();
         List<Branch> listBranch = BranchDAO.getAllBranches();
         List<Certificate> listCert = CertDAO.getListCertificate();
-        String action = request.getParameter("action");
-        String id = request.getParameter("id");
-        if ("add".equals(action)) {
-            request.setAttribute("listBranch", listBranch);
-            request.setAttribute("listAR", listAR);
-            request.setAttribute("listCert", listCert);
-            request.setAttribute("action", action);
-            request.getRequestDispatcher("admin-doctors/admin-edit-doctor.jsp").forward(request, response);
-        } else if ("edit".equals(action)) {
+        String action = request.getParameter("action"); 
+        String id = request.getParameter("id");     
+         if ("edit".equals(action) || "add".equals(action) ) {
             DoctorDAO DocDAO = new DoctorDAO();
             CertificateDoctorDAO cdDao = new CertificateDoctorDAO();
             List<CertificateDoctor> listCertofDoc = cdDao.getCertificateByDoctorId(id);
             Doctor doc = DocDAO.getDoctorByDoctorId(id);
+             request.setAttribute("listBranch", listBranch);
+            request.setAttribute("listAR", listAR);
+            request.setAttribute("listCert", listCert);
+            request.setAttribute("action", action);
             request.setAttribute("doc", doc);
             request.setAttribute("listCert", listCert);
             request.setAttribute("listCertofDoc", listCertofDoc);
             request.setAttribute("listBranch", listBranch);
             request.setAttribute("listAR", listAR);
-            request.setAttribute("action", action);
+            request.setAttribute("action", action); // ddaay thoi em
             request.getRequestDispatcher("admin-doctors/admin-edit-doctor.jsp").forward(request, response);
         } else if ("profile".equals(action)) {
             DoctorDAO dao = new DoctorDAO();
@@ -198,7 +196,7 @@ public class AdminDoctorController extends HttpServlet {
         String[] certificates = request.getParameterValues("certificates");
         String birthDate = request.getParameter("birthDate");
         String gender = request.getParameter("gender");
-        //file handle : 
+        //file handle : for upload picture -----------------------------------------------------------------------------
         String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads"; // Đường dẫn lưu trữ tệp
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
@@ -308,6 +306,7 @@ public class AdminDoctorController extends HttpServlet {
                 List<AcademicRank> listAR = ARDAO.getListAcademicRank();
                 List<Branch> listBranch = BranchDAO.getAllBranches();
                 List<Certificate> listCert = CertDAO.getListCertificate();
+                request.setAttribute("action", action);
                 request.setAttribute("birthDate", birthDate);
                 request.setAttribute("gender", gender);
                 request.setAttribute("branch", branch);
@@ -318,7 +317,7 @@ public class AdminDoctorController extends HttpServlet {
                 request.setAttribute("listAR", listAR);
                 request.setAttribute("listCert", listCert);
                 request.setAttribute("error", "Add doctor failed, try again!");
-                request.getRequestDispatcher("admin-doctors/admin-add-doctor.jsp").forward(request, response);
+                request.getRequestDispatcher("admin-doctors/admin-edit-doctor.jsp").forward(request, response);
             }
         } //delete doctor function
         else if ("delete".equals(action)) {
@@ -400,6 +399,7 @@ public class AdminDoctorController extends HttpServlet {
                 request.getSession().setAttribute("noti", "Update doctor informations success");
                 response.sendRedirect("admin-doctor");
             } else {
+                request.setAttribute("action", action);
                 docError.setId(id);
                 docError.setCVId(certId);
                 CertificateDoctorDAO CDDao = new CertificateDoctorDAO();

@@ -39,10 +39,9 @@ public class AdminUser extends HttpServlet {
     private final String STATISTIC_USER = "admin-patients/admin-patients.jsp";
     private final String NEED_EMPLOYEE = "admin-screen/admin-login.jsp";
     private final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-//    private final String ROLE = "1";
-//    private final String NEED_LOGIN = "Bạn cần đăng nhập để truy cập vào nội dung này";
-//    private final String NEED_ROLE = "Bạn cần quyền để truy cập vào nội dung này";
-
+    private final String NEED_LOGIN = "Bạn cần đăng nhập truy cập vào trang này";
+    private final String NEED_ROLE = "Bạn cần có quyền để truy cập vào trang này";
+    private final String[] ROLE = {"1", "2", "4"};
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -85,17 +84,29 @@ public class AdminUser extends HttpServlet {
         Models.Employee checkEmp = (Models.Employee) session.getAttribute("EMPLOYEE");
         //check login
         if (checkEmp == null) {
-            request.setAttribute("MESSAGE", checkEmp);
+            request.setAttribute("MESSAGE", NEED_LOGIN);
             request.getRequestDispatcher(NEED_EMPLOYEE).forward(request, response);
+        } else {
+            try {
+                String empRole = checkEmp.getEmployeeRole().getId();
+                //check the role of employee
+                for (String roleNeed : ROLE) {
+                    if (empRole.equals(roleNeed)) {
+                        throw new Exception();
+                    }
+                }
+                request.setAttribute("MESSAGE", NEED_ROLE);
+                request.getRequestDispatcher(NEED_EMPLOYEE).forward(request, response);
+            } catch (Exception e) {
+            }
         }
         try {
-            //check if url is direct to add or edit user
-            if (request.getParameter("add-user") != null || request.getParameter("edit-user") != null) {
+            //check if url is get list user
+            if (request.getParameter("add-user") != null || request.getParameter("edit-user") != null || request.getParameter("search-user") != null) {
                 throw new AdminException.RedirecUrlException();
             }
             UserDAO udao = new UserDAO();
-            BranchDAO bdao = new BranchDAO();
-            SubLevelMenuDAO slmDao = new SubLevelMenuDAO();
+            ProvinceDAO pdao = new ProvinceDAO();
             //get list user
             int page = 1;
             final int recordsPerPage = 5;
@@ -103,8 +114,15 @@ public class AdminUser extends HttpServlet {
             if (request.getParameter("page") != null) {
                 page = Integer.parseInt(request.getParameter("page"));
             }
-            ArrayList<User> list = udao.getListUser((page - 1) * recordsPerPage, recordsPerPage);
-            ArrayList<String> titleList = slmDao.getTitleTable("titleTableUser");
+            ArrayList<User> list;
+            ArrayList<String> titleList;
+            if (request.getParameter("page") != null) {
+                list = udao.getListUser((page - 1) * recordsPerPage, recordsPerPage);
+                titleList = udao.getTitleTableUser();
+            } else {
+                list = udao.getMoreListUser((page - 1) * recordsPerPage, recordsPerPage);
+                titleList = udao.getMoreTitleTableUser();
+            }
             //insert <th></th>
             for (int i = 0; i < titleList.size(); i++) {
                 titleList.set(i, "<th>" + titleList.get(i) + "</th>");
@@ -114,23 +132,94 @@ public class AdminUser extends HttpServlet {
             request.setAttribute("pageCount", pageCount);
             request.setAttribute("currentPage", page);
             request.setAttribute("TITLE_USER", titleList);
-            request.setAttribute("ALL_BRANCH", bdao.getAllBranches());
+            request.setAttribute("ALL_PROVINCE", pdao.getAllProvinceId());
             request.setAttribute("ALL_USER", list);
+            request.setAttribute("IS_SEARCH", 0);
             request.getRequestDispatcher(STATISTIC_USER).forward(request, response);
         } catch (AdminException.RedirecUrlException e) {
-            UserDAO udao = new UserDAO();
-            ProvinceDAO pdao = new ProvinceDAO();
-            String id = request.getParameter("id");
-            User user = udao.getUserById(id);
-            request.setAttribute("EDIT_USER", user);
-            request.setAttribute("ALL_PROVINCE", pdao.getAllProvinceId());
-            if (user == null) {
-                request.setAttribute("add_user", true);
-                request.getRequestDispatcher(REGISTER_USER).forward(request, response);
-            } else {
-                System.out.println(user.getName());
-                request.setAttribute("edit_user", true);
-                request.getRequestDispatcher(REGISTER_USER).forward(request, response);
+            try {
+                //get user to edit or add user
+                if (request.getParameter("search-user") != null) {
+                    throw new AdminException.RedirecUrlException();
+                }
+                UserDAO udao = new UserDAO();
+                ProvinceDAO pdao = new ProvinceDAO();
+                String id = request.getParameter("id");
+                User user = udao.getUserById(id);
+                request.setAttribute("EDIT_USER", user);
+                request.setAttribute("ALL_PROVINCE", pdao.getAllProvinceId());
+                if (user == null) {
+                    request.setAttribute("add_user", true);
+                    request.getRequestDispatcher(REGISTER_USER).forward(request, response);
+                } else {
+                    System.out.println(user.getName());
+                    request.setAttribute("edit_user", true);
+                    request.getRequestDispatcher(REGISTER_USER).forward(request, response);
+                }
+            } catch (AdminException.RedirecUrlException e2) {
+                //--------------------search user--------------
+                String searchId = request.getParameter("searchId");
+                request.setAttribute("searchId", searchId);
+                String searchEmail = request.getParameter("searchEmail");
+                request.setAttribute("searchEmail", searchEmail);
+                String searchName = request.getParameter("searchName");
+                request.setAttribute("searchName", searchName);
+                String searchBirthDate = request.getParameter("searchBirthDate");
+                request.setAttribute("searchBirthDate", searchBirthDate);
+                String searchGender = request.getParameter("searchGender");
+                request.setAttribute("searchGender", searchGender);
+                if (searchGender==null) searchGender="";
+                String searchAddress = request.getParameter("searchAddress");
+                request.setAttribute("searchAddress", searchAddress);
+                String searchProvince = request.getParameter("searchProvince");
+                //search all role
+                if (searchProvince.equals("all")) {
+                    searchProvince = "";
+                }
+                Province keyProvince = new Province(searchProvince,"");
+                request.setAttribute("searchProvince", searchProvince);
+                String searchIdentity = request.getParameter("searchIdentity");
+                request.setAttribute("searchIdentity", searchIdentity);
+                String searchMedicalId = request.getParameter("searchMedicalId");
+                request.setAttribute("searchMedicalId", searchMedicalId);
+                String searchEthnic = request.getParameter("searchEthnic");
+                request.setAttribute("searchEthnic", searchEthnic);
+                String searchPhone = request.getParameter("searchPhone");
+                request.setAttribute("searchPhone", searchPhone);
+                User user = new User(searchId,searchEmail,searchName,searchBirthDate,searchGender,searchAddress,keyProvince,searchIdentity,searchMedicalId,searchEthnic,searchPhone);
+                ArrayList<User> list;
+                ArrayList<String> titleList;
+                UserDAO udao = new UserDAO();
+                ProvinceDAO pdao = new ProvinceDAO();
+                //get list user
+                int page = 1;
+                final int recordsPerPage = 5;
+                //set start page = 1
+                if (request.getParameter("page") != null) {
+                    page = Integer.parseInt(request.getParameter("page"));
+                }
+                //display detail table
+                if (request.getParameter("view-detail") == null) {
+                    list = udao.searchListUser(user, (page - 1) * recordsPerPage, recordsPerPage);
+                    titleList = udao.getTitleTableUser();
+                } else {
+                    request.setAttribute("view_detail", true);
+                    list = udao.searchMoreListUser(user, (page - 1) * recordsPerPage, recordsPerPage);
+                    titleList = udao.getMoreTitleTableUser();
+                }
+                //insert <th></th>
+                for (int i = 0; i < titleList.size(); i++) {
+                    titleList.set(i, "<th>" + titleList.get(i) + "</th>");
+                }
+                int recordCount = udao.getNumberRecord();
+                int pageCount = (int) Math.ceil(recordCount * 1.0 / recordsPerPage);
+                request.setAttribute("pageCount", pageCount);
+                request.setAttribute("currentPage", page);
+                request.setAttribute("TITLE_USER", titleList);
+                request.setAttribute("ALL_PROVINCE", pdao.getAllProvinceId());
+                request.setAttribute("ALL_USER", list);
+                request.setAttribute("IS_SEARCH", 1);
+                request.getRequestDispatcher(STATISTIC_USER).forward(request, response);
             }
         }
     }
@@ -146,6 +235,26 @@ public class AdminUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Models.Employee checkEmp = (Models.Employee) session.getAttribute("EMPLOYEE");
+        //check login
+        if (checkEmp == null) {
+            request.setAttribute("MESSAGE", checkEmp);
+            request.getRequestDispatcher(NEED_EMPLOYEE).forward(request, response);
+        } else {
+            try {
+                String empRole = checkEmp.getEmployeeRole().getId();
+                //check the role of employee
+                for (String roleNeed : ROLE) {
+                    if (empRole.equals(roleNeed)) {
+                        throw new Exception();
+                    }
+                }
+                request.setAttribute("MESSAGE", NEED_ROLE);
+                request.getRequestDispatcher(NEED_EMPLOYEE).forward(request, response);
+            } catch (Exception e) {
+            }
+        }
         try {
             //check if url is direct to add or edit employee
             if (request.getParameter("edit-user") != null) {
@@ -407,7 +516,7 @@ public class AdminUser extends HttpServlet {
                     msg.setEmailError(ex.getMessage());
                 }
             }
-            
+
             try {
                 name = request.getParameter("name");
 //                    request.setAttribute("name", name);

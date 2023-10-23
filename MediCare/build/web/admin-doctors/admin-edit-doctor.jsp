@@ -41,15 +41,20 @@
                                     <c:if test="${requestScope.action eq 'edit'}">
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label>ID <span class="text-danger">*</span></label>
-                                                <input name="id" class="form-control" type="text" value="${requestScope.doc.getId()}" required="" readonly="" >
+                                                <label>ID <span class="text-danger">*</span></label>                      
+                                                    <input name="id" class="form-control" type="text" value="${requestScope.doc.getId()}" required="" readonly="" >
                                             </div>
                                         </div>
                                     </c:if>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>Display name <span class="text-danger">*</span></label>
+                                            <c:if test="${requestScope.action eq 'edit'}">
                                             <input value="${requestScope.doc.getDisplayName()}" name="displayName" class="form-control" type="text" required="" >
+                                            </c:if>
+                                            <c:if test="${requestScope.action eq 'add'}">
+                                                <input name="displayName" class="form-control" type="text" required="" value="${requestScope.displayName}">
+                                            </c:if>
                                         </div>
                                         <c:if test="${not empty requestScope.displayNameError}">
                                             <p style="color: red">${requestScope.displayNameError}</p>
@@ -59,7 +64,12 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>Email <span class="text-danger">*</span></label>
-                                            <input value="${requestScope.doc.getEmail()}" name="email" class="form-control" type="email" required="" >
+                                            <c:if test="${requestScope.action eq 'edit'}">
+                                                <input value="${requestScope.doc.getEmail()}" name="email" class="form-control" type="email" required="" >
+                                            </c:if>
+                                            <c:if test="${requestScope.action eq 'add'}">
+                                                <input name="email" class="form-control" type="email" required=""value="${requestScope.email}" >
+                                            </c:if>
                                         </div>
                                         <c:if test="${not empty requestScope.EmailError}">
                                             <p style="color: red">${requestScope.EmailError}</p>
@@ -69,7 +79,9 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label> Gender  <span class="text-danger">*</span></label>
-                                            <select name="gender"  required="" class="form-control">
+                                             <c:if test="${requestScope.action eq 'edit'}">
+                                                     <select name="gender"  required="" class="form-control">
+                                               
                                                 <option  <c:if test="${doc.getGender() == 1}">
                                                         selected
                                                     </c:if>  value="1" >Male</option>
@@ -80,13 +92,27 @@
                                                         selected
                                                     </c:if>  value="3" >Others </option>  
                                             </select>
+                                                </c:if>
+                                            <c:if test="${requestScope.action eq 'add'}">
+                                                <select name="gender"  required="" class="form-control">
+                                                <option  value="1" <% if ("1".equals(request.getAttribute("gender"))) { %>selected<% } %>>Male</option>
+                                                <option  value="2" <% if ("2".equals(request.getAttribute("gender"))) { %>selected<% } %>>Female </option>  
+                                                <option  value="3" <% if ("3".equals(request.getAttribute("gender"))) { %>selected<% } %>>Others </option>  
+                                            </select>
+                                            </c:if>
+                                           
                                         </div>
 
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label> Birthdate  <span class="text-danger">*</span></label>
-                                            <input name="birthDate" class="form-control" type="date" required="" value="${requestScope.doc.getBirthDate()}" oninput="mydate1(this)">
+                                            <c:if test="${requestScope.action eq 'edit'}">
+                                                <input name="birthDate" class="form-control" type="date" required="" value="${requestScope.doc.getBirthDate()}" oninput="mydate1(this)">
+                                            </c:if>
+                                            <c:if test="${requestScope.action eq 'add'}">
+                                                <input name="birthDate" class="form-control" type="date" required="" value="${requestScope.birthDate}" oninput="myDate1(this)">
+                                            </c:if>
                                         </div>
 
                                     </div>
@@ -94,7 +120,8 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Certificates <span class="text-danger">*</span></label> <br>
-                                            <div class="row">
+                                            <c:if test="${requestScope.action eq 'edit'}">
+                                                 <div class="row">
                                                 <c:forEach var="a" items="${listCert}" varStatus="status">
                                                     <c:set var="isChecked" value="false"/>
                                                     <c:forEach var="doccert" items="${listCertofDoc}">
@@ -116,6 +143,33 @@
                                                     </c:if>
                                                 </c:forEach> 
                                             </div>
+                                            </c:if>
+                                            <c:if test="${requestScope.action eq 'add'}">
+                                                 <div class="row">
+                                                <c:forEach var="a" items="${listCert}" varStatus="status">
+                                                    <c:set var="isChecked" value="false"/>
+                                                    <c:forEach var="doccert" items="${CDList}">
+                                                        <c:if test="${a.getId() eq doccert.getCertId()}">
+                                                            <c:set var="isChecked" value="true" />
+                                                        </c:if>
+                                                    </c:forEach>
+                                                    <c:if test="${status.index % 2 eq 1 and status.index ne listCert.size() - 1}">
+                                                        <div class="col-lg-6">
+                                                            <input type="checkbox" name="certificates" value="${a.getId()}" ${isChecked ? 'checked' : ''}>
+                                                            <label for="certificates">${a.getName()}</label>
+                                                        </div>
+                                                    </c:if>
+                                                    <c:if test="${status.index % 2 eq 0 and status.index ne listCert.size() - 1}">
+                                                        <div class="col-lg-6">
+                                                            <input type="checkbox" name="certificates" value="${a.getId()}" ${isChecked ? 'checked' : ''}>
+                                                            <label for="certificates">${a.getName()}</label>
+                                                        </div>
+                                                    </c:if>
+                                                </c:forEach> 
+                                            </div>
+
+                                            </c:if>
+                                           
 
                                         </div>
                                         <c:if test="${not empty requestScope.certificateError}">
@@ -125,18 +179,37 @@
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             <label>Academic Rank <span class="text-danger">*</span></label>
-                                            <select name="academicRank"  required="" class="form-control">
+                                            <c:if test="${requestScope.action eq 'edit'}">
+                                                 <select name="academicRank"  required="" class="form-control">
                                                 <c:forEach  var="a" items="${listAR}">
                                                     <option value="${a.getId()}" <c:if test="${a.getId() eq requestScope.doc.getARId()}">selected</c:if>> ${a.getName()}</option>
                                                 </c:forEach> 
                                             </select>
+                                            </c:if>
+                                            <c:if test="${requestScope.action eq 'add'}">
+                                                                             <select name="academicRank" required="" class="form-control">
+                                                <c:forEach var="a" items="${listAR}">
+                                                    <option value="${a.getId()}" 
+                                                            <c:if test="${a.getId() == requestScope.academicRank}">
+                                                                selected
+                                                            </c:if>
+                                                            >${a.getName()}</option>
+                                                </c:forEach> 
+                                            </select>
+
+                                            </c:if>
                                         </div>
                                     </div>
 
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>Salary  <span class="text-danger">*</span></label>
-                                            <input value="${requestScope.doc.getSalary()}" name="salary" class="form-control" type="text" required="" oninput="formatSalaryInput(this)" >
+                                            <c:if test="${requestScope.action eq 'edit'}">
+                                                 <input value="${requestScope.doc.getSalary()}" name="salary" class="form-control" type="text" required="" oninput="formatSalaryInput(this)" >
+                                            </c:if>
+                                            <c:if test="${requestScope.action eq 'add'}">
+                                                 <input name="salary" class="form-control" type="text" required="" value="${requestScope.salary}" oninput="formatSalaryInput(this)" >
+                                            </c:if>
                                         </div>
                                         <c:if test="${not empty requestScope.SalaryError}">
                                             <p style="color: red">${requestScope.SalaryError}</p>
@@ -145,16 +218,32 @@
                                     <div class="col-sm-6 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             <label>Branch <span class="text-danger">*</span></label>
-                                            <select name="branch" class="form-control" required="" >
+                                            <c:if test="${requestScope.action eq 'edit'}">
+                                                 <select name="branch" class="form-control" required="" >
                                                 <c:forEach  var="br" items="${listBranch}">
                                                     <option  value="${br.getId()}" <c:if test="${br.getId() eq requestScope.doc.getBranchId()}">selected</c:if>>${br.getName()}</option>
                                                 </c:forEach> 
                                             </select>
+                                            </c:if>
+                                            <c:if test="${requestScope.action eq 'add'}">
+                                                 <select name="branch" class="form-control" required="" >
+                                                <c:forEach  var="br" items="${listBranch}">
+                                                    <option value="${br.getId()}" 
+                                                            <c:if test="${br.getId() == requestScope.branch}">
+                                                                selected
+                                                            </c:if>
+                                                            >${br.getName()}</option>
+                                                </c:forEach> 
+                                            </select>
+
+                                            </c:if>
+                                           
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <label>Status <span class="text-danger">*</span></label>
-                                        <select name="status" required="" class="form-control">
+                                        <c:if test="${requestScope.action eq 'edit'}">
+                                            <select name="status" required="" class="form-control">
                                             <option value="1" 
                                                     <c:if test="${requestScope.doc.getStatus() eq String.valueOf(1)}">
                                                         selected
@@ -166,13 +255,27 @@
                                                     </c:if>
                                                     >Official</option>
                                         </select>
+                                        </c:if>
+                                        <c:if test="${requestScope.action eq 'add'}">
+                                            <select name="status"  required="" class="form-control">
+                                                <option <% if ("1".equals(request.getAttribute("status"))) { %>selected<% } %> value="1">Contract</option>
+                                                <option <% if ("2".equals(request.getAttribute("status"))) { %>selected<% } %> value="2">Official </option>  
+                                            </select>
+                                        </c:if>
+                                        
                                     </div>
 
 
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>Phone </label>
-                                            <input value="${requestScope.doc.getPhone()}"name="phone" class="form-control" type="text" required="" >
+                                            <c:if test="${requestScope.action eq 'edit'}">
+                                                <input value="${requestScope.doc.getPhone()}"name="phone" class="form-control" type="text" required="" >
+                                            </c:if>
+                                                <c:if test="${requestScope.action eq 'add'}">
+                                                     <input name="phone" class="form-control" type="text" required="" value="${requestScope.phone}">
+                                                </c:if>
+                                            
                                         </div>
                                         <c:if test="${not empty requestScope.PhoneError}">
                                             <p style="color: red"> ${requestScope.PhoneError}</p>

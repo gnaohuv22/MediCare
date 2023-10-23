@@ -17,7 +17,7 @@
             <div class="account-page">
                 <div class="account-center">
                     <div class="account-box">
-                        <form  class="form-signin" action="admin-login-employee" method="POST">
+                        <form  class="form-signin" action="${pageContext.request.contextPath}/admin-login-employee" method="POST">
                             <div class="account-logo">
                                 <a href="admin-home-page"><img src="${pageContext.request.contextPath}/assets/admin/img/logo-dark.png" alt=""></a>
                             </div>

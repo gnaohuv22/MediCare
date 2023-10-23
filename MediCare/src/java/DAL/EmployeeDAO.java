@@ -453,7 +453,7 @@ public class EmployeeDAO extends DBContext {
         "WHERE Employee.id like ? AND Employee.name like ? AND EmployeeRole.id like ? AND branchId like ?  AND isDelete like ?";
         try (PreparedStatement pstm = connection.prepareStatement(SQL2)){
             pstm.setString(1, "%"+keyId+"%");
-            pstm.setString(2, "%"+keyName+"%");
+            pstm.setNString(2, "%"+keyName+"%");
             pstm.setString(3, "%"+keyRoleId+"%");
             pstm.setString(4, "%"+keyBranchId+"%");
             pstm.setString(5,"%"+isDelete+"%");
@@ -466,7 +466,7 @@ public class EmployeeDAO extends DBContext {
         }
         try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
             pstm.setString(1, "%"+keyId+"%");
-            pstm.setString(2, "%"+keyName+"%");
+            pstm.setNString(2, "%"+keyName+"%");
             pstm.setString(3, "%"+keyRoleId+"%");
             pstm.setString(4, "%"+keyBranchId+"%");
             pstm.setString(5,"%"+isDelete+"%");
@@ -527,7 +527,7 @@ public class EmployeeDAO extends DBContext {
         "WHERE Employee.id like ? AND Employee.name like ? AND EmployeeRole.id like ? AND branchId like ? AND isDelete like ?";
         try (PreparedStatement pstm = connection.prepareStatement(SQL2)){
             pstm.setString(1, "%"+keyId+"%");
-            pstm.setString(2, "%"+keyName+"%");
+            pstm.setNString(2, "%"+keyName+"%");
             pstm.setString(3, "%"+keyRoleId+"%");
             pstm.setString(4, "%"+keyBranchId+"%");
             pstm.setString(5,"%"+isDelete+"%");
@@ -540,7 +540,7 @@ public class EmployeeDAO extends DBContext {
         }
         try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
             pstm.setString(1, "%"+keyId+"%");
-            pstm.setString(2, "%"+keyName+"%");
+            pstm.setNString(2, "%"+keyName+"%");
             pstm.setString(3, "%"+keyRoleId+"%");
             pstm.setString(4, "%"+keyBranchId+"%");
             pstm.setString(5,"%"+isDelete+"%");
@@ -562,6 +562,9 @@ public class EmployeeDAO extends DBContext {
                 String ethnic = rs.getString("ethnic");
                 String roleId = rs.getString("roleId");
                 String createAt = rs.getString("createAt");
+                String createBy = rs.getString("createBy");
+                String modifyAt = rs.getString("modifyAt");
+                String modifyBy = rs.getString("modifyBy");
                 String branchName = rs.getString("bName");
                 String branchDescription = "";
                 String branchLocateId = "";
@@ -570,7 +573,7 @@ public class EmployeeDAO extends DBContext {
                 Branch branch = new Branch(branchId,branchName,branchDescription,branchLocateId);
                 Province province = new Province(provinceId,provinceName);
                 EmployeeRole employeeRole = new EmployeeRole(roleId,EmployeeRole);
-                Employee employee = new Employee(id, email, password, branch, name, birthDate, gender, address, workplace, province, phone, ethnic, employeeRole);
+                Employee employee = new Employee(id, email, password, branch, name, birthDate, gender, address, workplace, province, phone, ethnic, employeeRole, createAt, createBy, modifyAt, modifyBy);
                 list.add(employee);
             }
             return list;
@@ -652,5 +655,22 @@ public class EmployeeDAO extends DBContext {
             System.out.println("deleteEmployee " + e.getMessage());
         }
         return false;
+    }
+    //thu
+    public String getEmployeeIsDeleteByEmail(String email) {
+        String SQL = "SELECT isDelete "
+        +" FROM Employee"
+        +" Where email = ?";
+        try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            pstm.setString(1, email);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                String isDelete = rs.getString("isDelete");
+                return isDelete;
+            }
+        }catch (Exception e) {
+            System.out.println("getEmployeeIsDeleteByEmail " + e.getMessage());
+        }
+        return null;
     }
 }

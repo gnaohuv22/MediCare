@@ -44,6 +44,7 @@ public class AdminEmployee extends HttpServlet {
     private final String NEED_LOGIN = "Bạn cần đăng nhập truy cập vào trang này";
     private final String NEED_ROLE = "Bạn cần có quyền để truy cập vào trang này";
     private final String[] ROLE = {"1", "2", "3"};
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -119,7 +120,13 @@ public class AdminEmployee extends HttpServlet {
                 String isDelete = request.getParameter("isDelete");
                 if (isDelete == null) {
                     isDelete = "0";
-                } 
+                } else {
+                    if (isDelete.equals("true")) {
+                        isDelete = "1";
+                    } else {
+                        isDelete = "0";
+                    }
+                }
                 request.setAttribute("isDelete", isDelete);
                 int page = 1;
                 final int recordsPerPage = 5;
@@ -200,6 +207,12 @@ public class AdminEmployee extends HttpServlet {
                         //display employee are working
                         if (isDelete == null) {
                             isDelete = "0";
+                        } else {
+                            if (isDelete.equals("true")) {
+                                isDelete = "1";
+                            } else {
+                                isDelete = "0";
+                            }
                         }
                         request.setAttribute("isDelete", isDelete);
                         EmployeeDAO eDao = new EmployeeDAO();
@@ -267,7 +280,13 @@ public class AdminEmployee extends HttpServlet {
                                 //display employee are working
                                 if (isDelete == null) {
                                     isDelete = "0";
-                                } 
+                                } else {
+                                    if (isDelete.equals("true")) {
+                                        isDelete = "1";
+                                    } else {
+                                        isDelete = "0";
+                                    }
+                                }
                                 request.setAttribute("isDelete", isDelete);
                                 EmployeeDAO eDao = new EmployeeDAO();
                                 EmployeeRoleDAO erdao = new EmployeeRoleDAO();
@@ -313,7 +332,13 @@ public class AdminEmployee extends HttpServlet {
                                 String isDelete = request.getParameter("isDelete");
                                 if (isDelete == null) {
                                     isDelete = "0";
-                                } 
+                                } else {
+                                    if (isDelete.equals("true")) {
+                                        isDelete = "1";
+                                    } else {
+                                        isDelete = "0";
+                                    }
+                                }
                                 request.setAttribute("isDelete", isDelete);
                                 int page = 1;
                                 final int recordsPerPage = 5;
@@ -353,7 +378,7 @@ public class AdminEmployee extends HttpServlet {
                                 request.getRequestDispatcher(STATISTIC_EMPLOYEE).forward(request, response);
                             }
                         } catch (AdminException.RedirecUrlException e4) {
-                            
+
                             ArrayList<Employee> list;
                             ArrayList<String> titleList;
                             String search_employee = request.getParameter("search-employee");
@@ -379,7 +404,13 @@ public class AdminEmployee extends HttpServlet {
                                 //display employee are working
                                 if (isDelete == null) {
                                     isDelete = "0";
-                                } else 
+                                } else {
+                                    if (isDelete.equals("true")) {
+                                        isDelete = "1";
+                                    } else {
+                                        isDelete = "0";
+                                    }
+                                }
                                 request.setAttribute("isDelete", isDelete);
                                 EmployeeDAO eDao = new EmployeeDAO();
                                 EmployeeRoleDAO erdao = new EmployeeRoleDAO();
@@ -424,7 +455,13 @@ public class AdminEmployee extends HttpServlet {
                                 String isDelete = request.getParameter("isDelete");
                                 if (isDelete == null) {
                                     isDelete = "0";
-                                } else 
+                                } else {
+                                    if (isDelete.equals("true")) {
+                                        isDelete = "1";
+                                    } else {
+                                        isDelete = "0";
+                                    }
+                                }
                                 request.setAttribute("isDelete", isDelete);
                                 int page = 1;
                                 final int recordsPerPage = 5;
@@ -511,6 +548,9 @@ public class AdminEmployee extends HttpServlet {
             String ethnic = null;
             String roleId;
             String createAt;
+            String createBy = null;
+            String modifyAt = null;
+            String modifyBy = null;
             boolean error = false;
             RegisterError msg = new RegisterError();
             try {
@@ -545,10 +585,14 @@ public class AdminEmployee extends HttpServlet {
 //                        msg.setEmailError(EmailValidation.getMessage("Email isn't valiable! ", "email@fpt.edu.vn"));
                     msg.setEmailError(AdminException.EmailValidation.getMessage("Không hợp lệ! ", "Thử theo mẫu: email@fpt.edu.vn"));
                 }
-                Employee emp = edao.getEmployeeByEmail(email);
+                String checkEmail = edao.getEmployeeIsDeleteByEmail(email);
                 //check if email is duplicate
-                if (emp != null) {
+                if (checkEmail != null) {
+//                    if (checkEmail.equals("1")) {
                     throw new AdminException.DuplicateException();
+//                    } else {
+//                        throw new AdminException.RedirecUrlException();
+//                    }
                 }
             } catch (AdminException.EmptyStringException e) {
                 error = true;
@@ -682,6 +726,10 @@ public class AdminEmployee extends HttpServlet {
             }
             roleId = request.getParameter("roleId");
             request.setAttribute("roleId", roleId);
+            long millis = System.currentTimeMillis();
+            java.sql.Date date = new java.sql.Date(millis);
+            createAt = date + "";
+            createBy = checkEmp.getId();
             EmployeeRoleDAO erdao = new EmployeeRoleDAO();
             BranchDAO bdao = new BranchDAO();
             ProvinceDAO pdao = new ProvinceDAO();
@@ -691,7 +739,7 @@ public class AdminEmployee extends HttpServlet {
             Branch branch = new Branch(branchId, "", "", "");
             Province province = new Province(provinceId, "");
             EmployeeRole employeeRole = new EmployeeRole(roleId, "");
-            Employee emp = new Employee(id, email, password, branch, name, birthDate, gender, address, workplace, province, phone, ethnic, employeeRole);
+            Employee emp = new Employee(id, email, password, branch, name, birthDate, gender, address, workplace, province, phone, ethnic, employeeRole, createAt, createBy, modifyAt, modifyBy);
             request.setAttribute("ADD_EMPLOYEE", emp);
             if (error) {
                 request.setAttribute("MESSAGE", "Không đăng kí được!");
@@ -725,6 +773,9 @@ public class AdminEmployee extends HttpServlet {
             String ethnic = null;
             String roleId;
             String createAt = "";
+            String createBy = null;
+            String modifyAt = null;
+            String modifyBy = null;
             EmployeeDAO eDao = new EmployeeDAO();
             boolean error = false;
             RegisterError msg = new RegisterError();
@@ -840,6 +891,7 @@ public class AdminEmployee extends HttpServlet {
             }
             roleId = request.getParameter("roleId");
             request.setAttribute("roleId", roleId);
+            modifyBy = checkEmp.getId();
             EmployeeRoleDAO erdao = new EmployeeRoleDAO();
             BranchDAO bdao = new BranchDAO();
             ProvinceDAO pdao = new ProvinceDAO();
@@ -849,7 +901,7 @@ public class AdminEmployee extends HttpServlet {
             Branch branch = new Branch(branchId, "", "", "");
             Province province = new Province(provinceId, "");
             EmployeeRole employeeRole = new EmployeeRole(roleId, "");
-            Employee emp = new Employee(id, email, password, branch, name, birthDate, gender, address, workplace, province, phone, ethnic, employeeRole);
+            Employee emp = new Employee(id, email, password, branch, name, birthDate, gender, address, workplace, province, phone, ethnic, employeeRole, createAt, createBy, modifyAt, modifyBy);
             request.setAttribute("EDIT_EMPLOYEE", emp);
             if (error) {
                 request.setAttribute("MESSAGE", "Không sửa được!");

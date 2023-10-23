@@ -23,6 +23,9 @@ public class User {
     private String phone;
     private String profilePicture;
     private String createdAt;
+    private String createBy;
+    private String modifyAt;
+    private String modifyBy;
 
     public User() {
     }
@@ -55,7 +58,55 @@ public class User {
         this.phone = phone;
         this.createdAt = createdAt;
     }
+    public User(String id, String email, String password, String name, String birthDate, String gender, String address, Province province, String identity, String medicalId, String ethnic, String phone, String profilePicture) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.address = address;
+        this.province = province;
+        this.identity = identity;
+        this.medicalId = medicalId;
+        this.ethnic = ethnic;
+        this.phone = phone;
+        this.profilePicture = profilePicture;
+    }
 
+    public User(String id, String email, String password, String name, String birthDate, String gender, String address, Province province, String identity, String medicalId, String ethnic, String phone, String profilePicture, String createdAt, String createBy, String modifyAt, String modifyBy) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.address = address;
+        this.province = province;
+        this.identity = identity;
+        this.medicalId = medicalId;
+        this.ethnic = ethnic;
+        this.phone = phone;
+        this.profilePicture = profilePicture;
+        this.createdAt = createdAt;
+        this.createBy = createBy;
+        this.modifyAt = modifyAt;
+        this.modifyBy = modifyBy;
+    }
+
+    public User(String id, String email, String name, String birthDate, String gender, String address, Province province, String identity, String medicalId, String ethnic, String phone) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.address = address;
+        this.province = province;
+        this.identity = identity;
+        this.medicalId = medicalId;
+        this.ethnic = ethnic;
+        this.phone = phone;
+    }
     public User(String email, String name) {
         this.email = email;
         this.name = name;
@@ -177,6 +228,30 @@ public class User {
         this.createdAt = createdAt;
     }
 
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public String getModifyAt() {
+        return modifyAt;
+    }
+
+    public void setModifyAt(String modifyAt) {
+        this.modifyAt = modifyAt;
+    }
+
+    public String getModifyBy() {
+        return modifyBy;
+    }
+
+    public void setModifyBy(String modifyBy) {
+        this.modifyBy = modifyBy;
+    }
+    
     @Override
     public String toString() {
         return "User{" + "id=" + id + ", email=" + email + ", password=" + password + ", name=" + name + ", birthDate=" + birthDate + ", gender=" + gender + ", address=" + address + ", identity=" + identity + ", medicalId=" + medicalId + ", ethinic=" + ethnic + ", phone=" + phone + ", profilePicture=" + profilePicture + ", createdAt=" + createdAt + '}';
