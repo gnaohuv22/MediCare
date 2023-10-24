@@ -28,6 +28,9 @@ public class AdminAppointment extends HttpServlet {
 
     private final String STATISTIC_APPOINTMENT = "admin-appointments/admin-appointments.jsp";
     private final String NEED_EMPLOYEE = "admin-screen/admin-login.jsp";
+    private final String NEED_LOGIN = "Bạn cần đăng nhập truy cập vào trang này";
+    private final String NEED_ROLE = "Bạn cần có quyền để truy cập vào trang này";
+    private final String[] ROLE = {"1", "2", "5"};
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -59,50 +62,70 @@ public class AdminAppointment extends HttpServlet {
         Employee checkEmp = (Employee) session.getAttribute("EMPLOYEE");
         //check login
         if (checkEmp == null) {
-            request.setAttribute("MESSAGE", checkEmp);
+            request.setAttribute("MESSAGE", NEED_LOGIN);
             request.getRequestDispatcher(NEED_EMPLOYEE).forward(request, response);
-        }
-        try {
-            if (request.getParameter("delete-appointment") != null) {
-                throw new AdminException.RedirecUrlException();
+        } else {
+            try {
+                String empRole = checkEmp.getEmployeeRole().getId();
+                //check the role of employee
+                for (String roleNeed : ROLE) {
+                    if (empRole.equals(roleNeed)) {
+                        throw new Exception();
+                    }
+                }
+                request.setAttribute("MESSAGE", NEED_ROLE);
+                request.getRequestDispatcher(NEED_EMPLOYEE).forward(request, response);
+            } catch (Exception e) {
             }
-            //get list appointment
-            AppointmentDAO adao = new AppointmentDAO();
-            SubLevelMenuDAO slmDao = new SubLevelMenuDAO();
-            ArrayList<String> titleList = slmDao.getTitleTable("titleTableAppointments");
-            int page = 1;
-            final int recordsPerPage = 5;
-            //set start page = 1
-            if (request.getParameter("page") != null) {
-                page = Integer.parseInt(request.getParameter("page"));
+            try {
+                //check the url is search
+                if (request.getParameter("delete-appointment") != null||request.getParameter("search-appointment") != null) {
+                    throw new AdminException.RedirecUrlException();
+                }
+                //get list appointment
+                AppointmentDAO adao = new AppointmentDAO();
+                SubLevelMenuDAO slmDao = new SubLevelMenuDAO();
+                ArrayList<String> titleList = slmDao.getTitleTable("titleTableAppointments");
+                int page = 1;
+                final int recordsPerPage = 5;
+                //set start page = 1
+                if (request.getParameter("page") != null) {
+                    page = Integer.parseInt(request.getParameter("page"));
+                }
+                ArrayList<Appointments> list = adao.getListAppointment((page - 1) * recordsPerPage, recordsPerPage);
+                //insert <th></th>
+                for (int i = 0; i < titleList.size(); i++) {
+                    titleList.set(i, "<th>" + titleList.get(i) + "</th>");
+                }
+                int recordCount = adao.countAllAppointment();
+                int pageCount = (int) Math.ceil(recordCount * 1.0 / recordsPerPage);
+                request.setAttribute("pageCount", pageCount);
+                request.setAttribute("currentPage", page);
+                request.setAttribute("TITLE_APPOINTMENTS", titleList);
+                session.setAttribute("ALL_APPOINTMENT", list);
+                request.getRequestDispatcher(STATISTIC_APPOINTMENT).forward(request, response);
+            } catch (AdminException.RedirecUrlException e) {
+                try{
+                    if (request.getParameter("search-appointment") != null){
+                        throw new AdminException.RedirecUrlException();
+                    }
+                }catch(AdminException.RedirecUrlException e2){
+                AppointmentDAO dao = new AppointmentDAO();
+                String id = request.getParameter("id");
+                dao.deleteAppointmentById(id);
+                //get list appointment
+                SubLevelMenuDAO slmDao = new SubLevelMenuDAO();
+                ArrayList<Appointments> list = dao.getAllAppointment();
+                ArrayList<String> titleList = slmDao.getTitleTable("titleTableAppointments");
+                //insert <th></th>
+                for (int i = 0; i < titleList.size(); i++) {
+                    titleList.set(i, "<th>" + titleList.get(i) + "</th>");
+                }
+                request.setAttribute("TITLE_APPOINTMENTS", titleList);
+                session.setAttribute("ALL_APPOINTMENT", list);
+                request.getRequestDispatcher(STATISTIC_APPOINTMENT).forward(request, response);
+                }
             }
-            ArrayList<Appointments> list = adao.getListAppointment((page - 1) * recordsPerPage, recordsPerPage);
-            //insert <th></th>
-            for (int i = 0; i < titleList.size(); i++) {
-                titleList.set(i, "<th>" + titleList.get(i) + "</th>");
-            }
-            int recordCount = adao.countAllAppointment();
-            int pageCount = (int) Math.ceil(recordCount * 1.0 / recordsPerPage);
-            request.setAttribute("pageCount", pageCount);
-            request.setAttribute("currentPage", page);
-            request.setAttribute("TITLE_APPOINTMENTS", titleList);
-            session.setAttribute("ALL_APPOINTMENT", list);
-            request.getRequestDispatcher(STATISTIC_APPOINTMENT).forward(request, response);
-        } catch (AdminException.RedirecUrlException e) {
-            AppointmentDAO dao = new AppointmentDAO();
-            String id = request.getParameter("id");
-            dao.deleteAppointmentById(id);
-            //get list appointment
-            SubLevelMenuDAO slmDao = new SubLevelMenuDAO();
-            ArrayList<Appointments> list = dao.getAllAppointment();
-            ArrayList<String> titleList = slmDao.getTitleTable("titleTableAppointments");
-            //insert <th></th>
-            for (int i = 0; i < titleList.size(); i++) {
-                titleList.set(i, "<th>" + titleList.get(i) + "</th>");
-            }
-            request.setAttribute("TITLE_APPOINTMENTS", titleList);
-            session.setAttribute("ALL_APPOINTMENT", list);
-            request.getRequestDispatcher(STATISTIC_APPOINTMENT).forward(request, response);
         }
     }
 

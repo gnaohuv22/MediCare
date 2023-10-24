@@ -7,6 +7,7 @@ package DAL;
 import Models.Province;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -43,6 +44,21 @@ public class ProvinceDAO extends DBContext{
             }
         }catch (Exception e) {
             System.out.println("getProvinceById " + e.getMessage());
+        }
+        return null;
+    }
+    //thu
+    public String getProvinceId(String name) {
+        String sql = "SELECT id FROM Province WHERE name = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setNString(1, "%"+name+"%");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                rs.getString("id");
+            }
+        } catch (SQLException e) {
+            System.out.println("getProvinceId: " + e);
         }
         return null;
     }

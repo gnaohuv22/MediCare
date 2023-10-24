@@ -97,14 +97,14 @@ public class EmployeeDAO extends DBContext {
     //thu
     public ArrayList<Employee> getListEmployee(int offset, int fetch, String searchBranch, String isDelete) {
         ArrayList<Employee> list = new ArrayList<>();
-        String SQL = "SELECT Employee.id[eId], email, branchId, Employee.name[eName], birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, isDelete," +
+        String SQL = "SELECT Employee.id[eId], email, branchId, Employee.name[eName], birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, Employee.isDelete," +
 "       Branch.name[bName], Province.name[pName]" +
 "       FROM Employee  " +
 "       join Branch on Employee.branchId=Branch.id  " +
 "       join Province on Employee.provinceId=Province.id " +
 "       join EmployeeRole on Employee.roleId=EmployeeRole.id " +
-"       WHERE branchId like ? AND  isDelete like ? " +
-"	GROUP BY Employee.id, email, branchId, Employee.name, birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, isDelete, " +
+"       WHERE branchId like ? AND  Employee.isDelete like ? " +
+"	GROUP BY Employee.id, email, branchId, Employee.name, birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, Employee.isDelete, " +
 "       Branch.name, Province.name" +
 "       ORDER BY COUNT(Employee.id) DESC " +
 "       OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
@@ -148,15 +148,15 @@ public class EmployeeDAO extends DBContext {
     public ArrayList<Employee> getMoreListEmployee(int offset, int fetch, String searchBranch, String isDelete) {
         ArrayList<Employee> list = new ArrayList<>();
         String SQL = "SELECT Employee.id[eId], email, branchId, Employee.name[eName], birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, " +
-"	createAt, CreateBy, modifyAt, modifyBy, isDelete," +
+"	createAt, CreateBy, modifyAt, modifyBy, Employee.isDelete," +
 "       Branch.name[bName], Province.name[pName], EmployeeRole.role" +
 "       FROM Employee  " +
 "       join Branch on Employee.branchId=Branch.id  " +
 "       join Province on Employee.provinceId=Province.id " +
 "       join EmployeeRole on Employee.roleId=EmployeeRole.id " +
-"       WHERE branchId like ? AND  isDelete like ? " +
+"       WHERE branchId like ? AND  Employee.isDelete like ? " +
 "	GROUP BY Employee.id, email, branchId, Employee.name, birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, " +
-"	createAt, CreateBy, modifyAt, modifyBy, isDelete," +
+"	createAt, CreateBy, modifyAt, modifyBy, Employee.isDelete," +
 "       Branch.name, Province.name, EmployeeRole.role" +
 "       ORDER BY COUNT(Employee.id) DESC " +
 "       OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
@@ -439,7 +439,7 @@ public class EmployeeDAO extends DBContext {
         "join Branch on Employee.branchId=Branch.id " +
         "join Province on Employee.provinceId=Province.id "+
         "join EmployeeRole on Employee.roleId=EmployeeRole.id "+
-        "WHERE Employee.id like ? AND Employee.name like ? AND EmployeeRole.id like ? AND branchId like ? AND isDelete like ? " +
+        "WHERE Employee.id like ? AND Employee.name like ? AND EmployeeRole.id like ? AND branchId like ? AND Employee.isDelete like ? " +
         "GROUP BY Employee.id, email, branchId, Employee.name, birthDate, gender, address, workplace, provinceId, phone, ethnic, " +
 "       Branch.name, Province.name, EmployeeRole.role " +
 "	HAVING Employee.id IS NOT NULL" +
@@ -450,7 +450,7 @@ public class EmployeeDAO extends DBContext {
         "join Branch on Employee.branchId=Branch.id " +
         "join Province on Employee.provinceId=Province.id "+
         "join EmployeeRole on Employee.roleId=EmployeeRole.id "+
-        "WHERE Employee.id like ? AND Employee.name like ? AND EmployeeRole.id like ? AND branchId like ?  AND isDelete like ?";
+        "WHERE Employee.id like ? AND Employee.name like ? AND EmployeeRole.id like ? AND branchId like ?  AND Employee.isDelete like ?";
         try (PreparedStatement pstm = connection.prepareStatement(SQL2)){
             pstm.setString(1, "%"+keyId+"%");
             pstm.setNString(2, "%"+keyName+"%");
@@ -512,7 +512,7 @@ public class EmployeeDAO extends DBContext {
 "        join Branch on Employee.branchId=Branch.id  " +
 "        join Province on Employee.provinceId=Province.id " +
 "        join EmployeeRole on Employee.roleId=EmployeeRole.id " +
-"        WHERE Employee.id like ? AND Employee.name like ? AND EmployeeRole.id like ? AND branchId like ? AND isDelete like ?" +
+"        WHERE Employee.id like ? AND Employee.name like ? AND EmployeeRole.id like ? AND branchId like ? AND Employee.isDelete like ?" +
 "        GROUP BY Employee.id, email, branchId, Employee.name, birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, createAt, CreateBy, modifyAt, modifyBy," +
 "       Branch.name, Province.name, EmployeeRole.role  " +
 "	HAVING Employee.id IS NOT NULL " +
@@ -523,7 +523,7 @@ public class EmployeeDAO extends DBContext {
         "join Branch on Employee.branchId=Branch.id " +
         "join Province on Employee.provinceId=Province.id "+
         "join EmployeeRole on Employee.roleId=EmployeeRole.id "+
-        "WHERE Employee.id like ? AND Employee.name like ? AND EmployeeRole.id like ? AND branchId like ? AND isDelete like ?";
+        "WHERE Employee.id like ? AND Employee.name like ? AND EmployeeRole.id like ? AND branchId like ? AND Employee.isDelete like ?";
         try (PreparedStatement pstm = connection.prepareStatement(SQL2)){
             pstm.setString(1, "%"+keyId+"%");
             pstm.setNString(2, "%"+keyName+"%");

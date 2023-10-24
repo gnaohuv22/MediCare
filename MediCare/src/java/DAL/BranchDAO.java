@@ -132,7 +132,22 @@ public class BranchDAO extends DBContext {
         }
         return list;
     }
-
+    
+//thu
+    public String getBranchId(String name) {
+        String sql = "SELECT id FROM Branch WHERE name = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setNString(1, name);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                rs.getString("id");
+            }
+        } catch (SQLException e) {
+            System.out.println("getBranchId: " + e);
+        }
+        return null;
+    }
     public static void main(String[] args) {
         BranchDAO bd = new BranchDAO();
         ArrayList<Doctor> list = bd.getAllDoctorsByBranchId("1");
