@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import Models.FamilyProfile;
 import Models.Relationship;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -72,14 +74,21 @@ public class FamilyProfileDAO extends DBContext {
                 }
                 RelationshipDAO rd = new RelationshipDAO();
                 Relationship r = rd.getRelationshipByRelationshipId(String.valueOf(rs.getInt("relationId")));
+                
+                // parse Date yyyy-MM-dd to dd/MM/yyyy
+                DateTimeFormatter readFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate date = LocalDate.parse(String.valueOf(rs.getDate("birthDate")), readFormatter);
+                DateTimeFormatter writeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                String formattedDate = writeFormatter.format(date);
+
                 String[] names = rs.getString(3).split(" ");
                 String lastName = names[names.length - 1];
                 FamilyProfile fp = new FamilyProfile(
                         String.valueOf(rs.getInt("profileId")),
                         rs.getString("email"),
-//                        rs.getString(3),
+                        //                        rs.getString(3),
                         lastName,
-                        String.valueOf(rs.getDate("birthDate")),
+                        formattedDate,
                         gender,
                         rs.getString("address"),
                         rs.getString("identity"),
@@ -199,6 +208,13 @@ public class FamilyProfileDAO extends DBContext {
                 }
                 RelationshipDAO rd = new RelationshipDAO();
                 Relationship r = rd.getRelationshipByRelationshipId(String.valueOf(rs.getInt("relationId")));
+                
+                // parse Date yyyy-MM-dd to dd/MM/yyyy
+                DateTimeFormatter readFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate date = LocalDate.parse(String.valueOf(rs.getDate("birthDate")), readFormatter);
+                DateTimeFormatter writeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                String formattedDate = writeFormatter.format(date);
+                
                 String[] names = rs.getString(3).split(" ");
                 String lastName = names[names.length - 1];
                 FamilyProfile fp = new FamilyProfile(
@@ -206,7 +222,7 @@ public class FamilyProfileDAO extends DBContext {
                         rs.getString(2),
                         //                        rs.getString(3),
                         lastName,
-                        String.valueOf(rs.getDate(4)),
+                        formattedDate,
                         gender,
                         rs.getString(6),
                         String.valueOf(rs.getInt(7)),
@@ -394,8 +410,8 @@ public class FamilyProfileDAO extends DBContext {
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             String gender = "0";
-            if(fp.getGender().equals("Female")){
-            gender = "1";
+            if (fp.getGender().equals("Female")) {
+                gender = "1";
             }
             st.setString(1, fp.getEmail());
             st.setString(2, fp.getName());

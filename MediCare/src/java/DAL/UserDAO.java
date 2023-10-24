@@ -95,7 +95,7 @@ public class UserDAO extends DBContext {
             if (rs.next()) {
                 if (PasswordEncryption.comparePasswords(password, rs.getString("password"))) {
                     User u = new User(rs.getString("email"),
-                            rs.getString("email"));
+                            rs.getString("name"));
                     System.out.println(u);
                     return u;
                 }
