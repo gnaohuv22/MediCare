@@ -106,6 +106,69 @@ public class AdminEmailContext {
                 +CHARACTERS.charAt(random.nextInt(CHARACTERS.length()));
         return newPassword;
     }
+
+    public static String generateRandomVerificationCode(int length) {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(NUMBERS.length());
+            char randomChar = NUMBERS.charAt(randomIndex);
+            sb.append(randomChar);
+        }
+        return sb.toString();
+    }
+    
+    public static boolean sendVerificationCodeToEmail(String email, String code) {
+        String subject = "[MediCare] Verification code";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.prot", "465");
+
+        // Create Authenticator
+        Authenticator auth = new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(from, password);
+            }
+        };
+
+        Session session = Session.getInstance(props, auth);
+        MimeMessage msg = new MimeMessage(session);
+        try {
+            msg.addHeader("Content-type", "text/HTML; charset = UTF-8");
+            msg.setFrom(new InternetAddress(from));
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
+            msg.setSubject(subject);
+            msg.setSentDate(new Date());
+            msg.setContent("<table style=\"font-family:'Open Sans',sans-serif\" width=\"100%\" border=\"0\">\n"
+                    + "        <tbody>\n"
+                    + "            <tr>\n"
+                    + "                <td style=\"word-break:break-word;padding:28px 33px 25px;font-family:'Open Sans',sans-serif\"\n"
+                    + "                    align=\"left\">\n"
+                    + "                    <div>\n"
+                    + "                        <p style=\"font-size:14px;line-height:200%;\">\n"
+                    + "                            Hi <strong>" + email + "</strong>, here is your verification code: </p>\n"
+                    + "                        <p style=\"font-size:14px;line-height:200%;\">\n"
+                    + "                            <strong>" + code + "</strong></p>\n"
+                    + "                        <p style=\"font-size:14px;line-height:200%;\">\n"
+                    + "                            Any questions please contact: <a href=\"mailto:medicare@gmail.com\"\n"
+                    + "                                target=\"_blank\">medicare@gmail.com</a> to\n"
+                    + "                            be answered.</p>\n"
+                    + "                    </div>\n"
+                    + "                </td>\n"
+                    + "            </tr>\n"
+                    + "        </tbody>\n"
+                    + "    </table>", "text/html;charset=UTF-8");
+            Transport.send(msg);
+            return true;
+        } catch (MessagingException e) {
+        }
+        return false;
+    }
 //    public static String generateRandomVerificationCode(int length) {
 //        Random random = new Random();
 //        StringBuilder sb = new StringBuilder(length);

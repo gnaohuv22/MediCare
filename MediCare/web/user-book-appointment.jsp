@@ -201,6 +201,19 @@
                 </form>
             </div>
             <!--Popup - End-->
+            <!--Popup - Start-->
+            <div id="confirm-OTP-Form" class="form-popup">
+                <div  class="form-container">
+                    <h3><b>Vui lòng kiểm tra email để lấy mã OTP gồm 6 chữ số!</b></h3>
+                    <!-- Your form fields go here -->
+                    <label for="name">Mã OTP</label><br/>
+                    <input type="text" id="otp" name="otp" placeholder="123456" required=""><br/>
+                    <!--                    <input type="hidden" name="method" id="method" value=""/><br/>-->
+                    <button class="button-container" id="submit-otp-button" onclick="onclickSubmitOTP(this)">Xác nhận</button>
+                    <!--<button type="button" id="close-button" onclick="closeAddProfileForm()">Close</button>-->
+                </div>
+            </div>
+            <!--Popup - End-->
         </div>
         <!--Step-3-container - end
 
@@ -255,6 +268,79 @@
                         console.log("Checkbox is not checked");
                     }
                 }
+            }
+
+            // OTP Submit:
+            function onclickSubmitOTP(event) {
+                console.log("Event OTP: " + event);
+                var otp = document.getElementById("otp").value;
+                var step3container = document.getElementById('step-3-container');
+                var trueOTP = step3container.getAttribute("data-OTP");
+
+                console.log("Ajax - JS - submit OTP of appointment:");
+                var branchId = document.getElementById('branchId').value;
+                var serviceId = document.getElementById('serviceId').value;
+                var doctorId = document.getElementById('doctorId').value;
+                var date = document.getElementById('booking-calendar').value;
+                var slotId = document.getElementById('booking-slot').value;
+
+                var patientName = document.getElementById("patientName").value;
+                var birthDate = document.getElementById("birthDate").value;
+                var genderRadios = document.getElementsByName("gender");
+                var gender;
+                for (var i = 0; i < genderRadios.length; i++) {
+                    if (genderRadios[i].checked) {
+                        gender = genderRadios[i].value;
+                        break;
+                    }
+                }
+                var phone = document.getElementById("phone").value;
+                var email = document.getElementById("email").value;
+                var description = document.getElementById("description").value;
+
+                $.ajax({
+                    url: "/MediCare/user-book-appointment",
+                    data: {
+                        branchId: branchId,
+                        serviceId: serviceId,
+                        doctorId: doctorId,
+                        date: date,
+                        slotId: slotId,
+                        otp: otp,
+                        trueOTP: trueOTP,
+                        patientName: patientName,
+                        birthDate: birthDate,
+                        gender: gender,
+                        phone: phone,
+                        email: email,
+                        description: description,
+                        action: "submitOTP"
+                    },
+                    cache: false,
+                    type: "POST",
+                    success: function (response) {
+                        console.log("response: " + response);
+                        var message = response;
+                        console.log("Message from JSON: " + message);
+                        if (message === "Đặt lịch khám thành công!") {
+                            console.log("message = 'dat lich thanh cong'");
+
+                            setTimeout(function () {
+                                window.location.href = "user-home";
+                            }, 500);
+                        } else {
+                            var confirmOTPForm = document.getElementById("confirm-OTP-Form");
+                            confirmOTPForm.style.display = 'none';
+                            document.getElementById("otp").value = '';
+                        }
+                        window.alert(message);
+                        console.log("success");
+                    },
+                    error: function (xhr) {
+                        console.log("Error: " + xhr);
+                    }
+                });
+
             }
 
         </script>
@@ -721,7 +807,68 @@
                     step3container.style.display = 'none';
                     step2container.style.display = 'block';
                 } else if (elementId === 'submit') {
+                    var confirmOTPForm = document.getElementById("confirm-OTP-Form");
+                    confirmOTPForm.style.display = 'block';
+                    // Close the modal if the user clicks outside of it
+                    window.onclick = function (event) {
+                        if (event.target === confirmOTPForm) {
+                            confirmOTPForm.style.display = "none";
+                        }
+                    };
                     console.log("element = submit");
+
+                    console.log("Ajax - JS - submit to get OTP of appointment:");
+                    var branchId = document.getElementById('branchId').value;
+                    var serviceId = document.getElementById('serviceId').value;
+                    var doctorId = document.getElementById('doctorId').value;
+                    var date = document.getElementById('booking-calendar').value;
+                    var slotId = document.getElementById('booking-slot').value;
+
+                    var patientName = document.getElementById("patientName").value;
+                    var birthDate = document.getElementById("birthDate").value;
+                    var genderRadios = document.getElementsByName("gender");
+                    var gender;
+                    for (var i = 0; i < genderRadios.length; i++) {
+                        if (genderRadios[i].checked) {
+                            gender = genderRadios[i].value;
+                            break;
+                        }
+                    }
+                    var phone = document.getElementById("phone").value;
+                    var email = document.getElementById("email").value;
+                    var description = document.getElementById("description").value;
+
+                    $.ajax({
+                        url: "/MediCare/user-book-appointment",
+                        data: {
+                            branchId: branchId,
+                            serviceId: serviceId,
+                            doctorId: doctorId,
+                            date: date,
+                            slotId: slotId,
+
+                            patientName: patientName,
+                            birthDate: birthDate,
+                            gender: gender,
+                            phone: phone,
+                            email: email,
+                            description: description,
+                            action: "requestOTP"
+                        },
+                        cache: false,
+                        type: "POST",
+                        success: function (response) {
+                            console.log("response: " + response);
+                            var message = response;
+                            console.log("Message from JSON: " + message);
+                            step3container.setAttribute('data-OTP', message);
+                            console.log("data-OTP:" + step3container.getAttribute("data-OTP"));
+                            console.log("success");
+                        },
+                        error: function (xhr) {
+                            console.log("Error: " + xhr);
+                        }
+                    });
                 }
 
             }

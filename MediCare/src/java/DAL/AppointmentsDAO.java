@@ -25,35 +25,97 @@ import java.util.List;
  */
 public class AppointmentsDAO extends DBContext {
 
+//    public ArrayList<Appointments> getAllAppointment() {
+//        ArrayList<Appointments> list = new ArrayList<>();
+//        String SQL = "SELECT Appointments.id, userId, doctorId, serviceId, plannedAt, Appointments.status,\n"
+//                + "    [User].name AS uName, Doctor.displayName AS dName, ServiceTag.nametag AS nameTag\n"
+//                + "FROM Appointments\n"
+//                + "JOIN [User] ON userId = [User].id\n"
+//                + "LEFT JOIN Doctor ON doctorId = Doctor.id\n"
+//                + "JOIN ServiceTag ON serviceId = ServiceTag.id;";
+//        try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
+//            ResultSet rs = pstm.executeQuery();
+//            while (rs.next()) {
+//                String id = rs.getString("id");
+//                String userId = rs.getString("userId");
+//                String doctorId = rs.getString("doctorId");
+//                String serviceId = rs.getString("serviceId");
+//                String plannedAt = rs.getString("plannedAt");
+//                String status = rs.getString("status");
+//                String userName = rs.getString("uName");
+//                String doctorName = rs.getString("dName");
+//                String serviceName = rs.getString("nameTag");
+//
+//                User user = new User(userId, "", "", userName, "", "", "", new Province(), "", "", "", "", "", "");
+//                Doctor doctor = new Doctor(doctorId, "", "", doctorName, new Branch(), "", new AcademicRank(), new Certificate(), "", "", "", "", "", "", "");
+//                ServiceTag serviceTag = new ServiceTag(serviceId, serviceName, "", "");
+//                Appointments appointments = new Appointments(id, user, doctor, serviceTag, plannedAt, status);
+//                list.add(appointments);
+//            }
+//            return list;
+//        } catch (Exception e) {
+//            System.out.println("getAllAppointment " + e.getMessage());
+//        }
+//        return null;
+//    }
+
     public ArrayList<Appointments> getAllAppointment() {
         ArrayList<Appointments> list = new ArrayList<>();
-        String SQL = "SELECT Appointments.id, userId, doctorId, serviceId, plannedAt, Appointments.status,\n"
-                + "    [User].name AS uName, Doctor.displayName AS dName, ServiceTag.nametag AS nameTag\n"
+        String SQL = "SELECT\n"
+                + "    Appointments.id,\n"
+                + "    userId,\n"
+                + "    doctorId,\n"
+                + "    serviceId,\n"
+                + "    plannedAt,\n"
+                + "    Appointments.profileId,\n"
+                + "    Appointments.branchId,\n"
+                + "    CONVERT(VARCHAR, plannedAt, 23) AS AppointmentDay,\n"
+                + "    CAST(plannedAt AS TIME) AS AppointmentTime,\n"
+                + "    Appointments.status,\n"
+                + "    [User].name AS uName,\n"
+                + "    Doctor.displayName AS dName,\n"
+                + "    ServiceTag.nametag AS nameTag,\n"
+                + "    Branch.name AS bName,\n"
+                + "    FamilyProfile.name AS patientName\n"
                 + "FROM Appointments\n"
                 + "JOIN [User] ON userId = [User].id\n"
                 + "LEFT JOIN Doctor ON doctorId = Doctor.id\n"
-                + "JOIN ServiceTag ON serviceId = ServiceTag.id;";
+                + "JOIN ServiceTag ON serviceId = ServiceTag.id\n"
+                + "JOIN Branch ON Appointments.branchId = Branch.id\n"
+                + "JOIN FamilyProfile ON Appointments.profileId = FamilyProfile.profileId;";
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
                 String id = rs.getString("id");
                 String userId = rs.getString("userId");
                 String doctorId = rs.getString("doctorId");
+                String branchId = String.valueOf(rs.getInt("branchId"));
                 String serviceId = rs.getString("serviceId");
                 String plannedAt = rs.getString("plannedAt");
+                String appointmentDay = rs.getString("appointmentDay");
+                String appointmentTime = rs.getString("appointmentTime");
                 String status = rs.getString("status");
                 String userName = rs.getString("uName");
                 String doctorName = rs.getString("dName");
                 String serviceName = rs.getString("nameTag");
+                String branchName = rs.getString("bName");
+                String patientName = rs.getString("patientName");
 
-                User user = new User(userId, "", "", userName, "", "", "", new Province(), "", "", "", "", "", "");
-                Doctor doctor = new Doctor(doctorId, "", "", doctorName, new Branch(), "", new AcademicRank(), new Certificate(), "", "", "", "", "", "", "");
-                ServiceTag serviceTag = new ServiceTag(serviceId, serviceName, "", "");
-                Appointments appointments = new Appointments(id, user, doctor, serviceTag, plannedAt, status);
-                list.add(appointments);
+                User u = new User(userId, "", "", userName, "", "", "", new Province(), "", "", "", "", "", "");
+                Doctor d = new Doctor(doctorId, "", "", doctorName, new Branch(), "", new AcademicRank(), new Certificate(), "", "", "", "", "", "", "");
+                ServiceTag s = new ServiceTag(serviceId, serviceName, "", "");
+                Branch b = new Branch(branchId, branchName, "", "");
+                FamilyProfile p = new FamilyProfile("", "", patientName, "", "", "", "", "", "", "", "", "", "", "", "", null);
+                Appointments a = new Appointments(String.valueOf(rs.getInt("id")),
+                        u, d, s,
+                        plannedAt,
+                        status, b,
+                        "",
+                        "", p, appointmentDay, appointmentTime);
+                list.add(a);
             }
             return list;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("getAllAppointment " + e.getMessage());
         }
         return null;
@@ -348,4 +410,65 @@ public class AppointmentsDAO extends DBContext {
 //        } 
 //        return null;
 //    }
+    public Appointments getAppointmentById(String appointmentId) {
+        String sql = "SELECT a.*,CONVERT(VARCHAR, plannedAt, 23) AS AppointmentDay,"
+                + "CAST(plannedAt AS TIME) AS AppointmentTime FROM Appointments AS a WHERE id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, Integer.parseInt(appointmentId));
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                User u = new User(rs.getString("userId"));
+                Doctor d = new Doctor(rs.getString("doctorId"));
+                ServiceTag s = new ServiceTag(String.valueOf(rs.getInt("serviceId")));
+                Branch b = new Branch(rs.getInt("branchId") + "");
+                FamilyProfile p = new FamilyProfile(rs.getInt("profileId") + "");
+                String appointmentDay = rs.getString("appointmentDay");
+                String appointmentTime = rs.getString("appointmentTime");
+                Appointments a = new Appointments(String.valueOf(rs.getInt("id")),
+                        u, d, s,
+                        String.valueOf(rs.getDate("plannedAt")),
+                        String.valueOf(rs.getInt("status")), b,
+                        String.valueOf(rs.getDate("createdAt")),
+                        rs.getString("symptoms"), p, appointmentDay, appointmentTime);
+                return a;
+            }
+        } catch (NumberFormatException | SQLException e) {
+            System.out.println("getAppointmentById: " + e);
+        }
+        return null;
+    }
+
+    public boolean updateAppointment(String appointmentId, String doctorId, String statusAppointment) {
+        String sql = "";
+        if (doctorId.equals("-1")) {
+            sql = "UPDATE [dbo].[Appointments]\n"
+                    + "   SET \n"
+                    + "      [status] = ?\n"
+                    + " WHERE id = ?";
+        } else {
+            sql = "UPDATE [dbo].[Appointments]\n"
+                    + "   SET \n"
+                    + "      [status] = ?\n"
+                    + "      ,[doctorId] = ?\n"
+                    + " WHERE id = ?";
+        }
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, Integer.parseInt(statusAppointment));
+            if (doctorId.equals("-1")) {
+                st.setInt(2, Integer.parseInt(appointmentId));
+            } else {
+                st.setString(2, doctorId);
+                st.setInt(3, Integer.parseInt(appointmentId));
+            }
+
+            st.execute();
+            return true;
+        } catch (SQLException | NumberFormatException e) {
+            System.out.println("updateAppointment: " + e);
+        }
+        return false;
+    }
 }

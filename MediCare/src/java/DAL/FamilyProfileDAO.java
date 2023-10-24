@@ -416,4 +416,11 @@ public class FamilyProfileDAO extends DBContext {
         }
         return false;
     }
+    
+    public static void main(String[] args) {
+        FamilyProfileDAO fpd =  new FamilyProfileDAO();
+        String idByEmail = "";
+        ArrayList<FamilyProfile> list = (ArrayList<FamilyProfile>) fpd.getFamilyProfileListByUserOwnerId(idByEmail);
+        
+    }
 }

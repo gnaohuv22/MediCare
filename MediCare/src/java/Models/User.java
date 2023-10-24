@@ -111,6 +111,11 @@ public class User {
         this.email = email;
         this.name = name;
     }
+    public User(String id, String email, String name) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+    }
 
     public User(String id) {
         this.id = id;

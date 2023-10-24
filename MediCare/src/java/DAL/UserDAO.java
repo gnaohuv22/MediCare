@@ -86,7 +86,8 @@ public class UserDAO extends DBContext {
 //        return null;
 //    }
     public User login(String email, String password) {
-        String sql = "SELECT u.name, u.email, u.password from [user] as u WHERE u.email = ?";
+        System.out.println("USER - LOGIN - Method:");
+        String sql = "SELECT [name], email, password from [user] WHERE email = ? and password IS NOT NULL";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, email);
@@ -96,7 +97,7 @@ public class UserDAO extends DBContext {
             if (rs.next()) {
                 if (PasswordEncryption.comparePasswords(password, rs.getString("password"))) {
                     User u = new User(rs.getString("email"),
-                            rs.getString("email"));
+                            rs.getString("name"));
                     System.out.println(u);
                     return u;
                 }
@@ -104,20 +105,22 @@ public class UserDAO extends DBContext {
         } catch (SQLException e) {
             System.out.println("login: " + e);
         }
+        System.out.println("END - USER - LOGIN - Method");
         return null;
     }
 
     // Function: get object of user by email - GOOGLE ACCOUNT:
     public User login(String email) {
-        String sql = "SELECT u.name, u.email FROM [User] WHERE email = ?";
+        String sql = "SELECT id, name, email FROM [User] WHERE email = ?";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, email);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                User u = new User(rs.getString("email"),
-                        rs.getString("email"));
+                User u = new User(rs.getString("id"),
+                        rs.getString("email"),
+                        rs.getString("name"));
                 System.out.println(u);
                 return u;
             }

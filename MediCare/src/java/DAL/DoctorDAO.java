@@ -896,6 +896,38 @@ public class DoctorDAO extends DBContext {
         }
         return list;
     }
+    
+    public ArrayList<Doctor> getAllDoctorAvailable(String branchId, String serviceId, String appointmentDay, String appointmentTime) {
+        ArrayList<Doctor> list = new ArrayList<>();
+        String sql = "SELECT d.id, d.displayName\n"
+                + "FROM Doctor AS d\n"
+                + "JOIN DoctorService AS DS \n"
+                + "ON DS.doctorId = d.id\n"
+                + "JOIN DoctorSchedule AS DScd\n"
+                + "ON d.id = DScd.DoctorID\n"
+                + "JOIN ScheduleDetail AS ScdDt\n"
+                + "ON DScd.id = ScdDt.ScheduleID\n"
+                + "JOIN WorkingSlot AS WS\n"
+                + "ON ScdDt.SlotID = WS.id\n"
+                + "WHERE branchId = ? AND serviceId = ? AND WorkDate = ? AND startTime = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, Integer.parseInt(branchId));
+            st.setInt(2, Integer.parseInt(serviceId));
+            st.setString(3, appointmentDay);
+            st.setString(4, appointmentTime);
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Doctor d = new Doctor(rs.getString("id"),
+                        rs.getString("displayName"));
+                list.add(d);
+            }
+        } catch (SQLException | NumberFormatException e) {
+            System.out.println("getAllDoctorAvailable: " + e);
+        }
+        return list;
+    }
 
     public static void main(String[] args) {
         DoctorDAO dd = new DoctorDAO();
