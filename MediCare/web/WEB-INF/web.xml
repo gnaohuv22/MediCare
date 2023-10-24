@@ -25,7 +25,7 @@
         <servlet-class>Controllers.UserProfileController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>LoadHtmlServlet</servlet-name>
+        <servlet-name>LoadFamilyProfileByOwnerIdServlet</servlet-name>
         <servlet-class>Controllers.LoadFamilyProfileByOwnerIdServlet</servlet-class>
     </servlet>
     <servlet>
@@ -166,7 +166,7 @@
         <url-pattern>/getAppointments</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>LoadHtmlServlet</servlet-name>
+        <servlet-name>LoadFamilyProfileByOwnerIdServlet</servlet-name>
         <url-pattern>/load-html</url-pattern>
     </servlet-mapping>
     <session-config>
