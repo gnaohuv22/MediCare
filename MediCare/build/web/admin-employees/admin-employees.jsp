@@ -90,13 +90,13 @@
                                 </div>
                             </div>
                         </form>
-                                    <P style="color:red">${MESSAGE}</P>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="table-responsive">
-                                    <table class="table table-striped custom-table">
-                                        <thead>
-                                            <tr>
+                        <P style="color:red">${MESSAGE}</P>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table table-striped custom-table">
+                                    <thead>
+                                        <tr>
                                             <c:forEach var="title" items="${TITLE_EMPLOYEE}">
                                                 ${title.toString()}
                                             </c:forEach>
@@ -143,13 +143,13 @@
                                                                 <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-employee?delete-employee=true&id=${list.getId()}&<c:if test="${view_detail}">view-detail=true&</c:if><c:if test="${IS_SEARCH==1}">search-employee=true&</c:if>searchBranch=${searchBranch}<c:if test="${IS_SEARCH==1}">&searchId=${searchId}&searchName=${searchName}&searchRole=${searchRole}</c:if>&isDelete=${isDelete}" ><i class="fa fa-trash-o m-r-5"></i> Xóa</a>
                                                             </c:if>
                                                             <c:if test="${list.isDelete eq '1'}">
-                                                            <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-employee?restore-employee=true&id=${list.getId()}&<c:if test="${view_detail}">view-detail=true&</c:if><c:if test="${IS_SEARCH==1}">search-employee=true&</c:if>searchBranch=${searchBranch}<c:if test="${IS_SEARCH==1}">&searchId=${searchId}&searchName=${searchName}&searchRole=${searchRole}</c:if>&isDelete=${isDelete}" >Khôi phục</a>
+                                                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-employee?restore-employee=true&id=${list.getId()}&<c:if test="${view_detail}">view-detail=true&</c:if><c:if test="${IS_SEARCH==1}">search-employee=true&</c:if>searchBranch=${searchBranch}<c:if test="${IS_SEARCH==1}">&searchId=${searchId}&searchName=${searchName}&searchRole=${searchRole}</c:if>&isDelete=${isDelete}" >Khôi phục</a>
                                                             </c:if>
-                                                            
-                                                            </div>
+
                                                         </div>
-                                                    </td>
-                                                </tr>
+                                                    </div>
+                                                </td>
+                                            </tr>
                                         </c:forEach>
 
 
@@ -195,7 +195,9 @@
                 </nav>
                 <!-- pagination section -->
                 <div><a href="admin-export-employee-list">Lấy file excel</a></div>
-                <div><a href="admin-import-employee-list" id="linkExcel" onclick="getNameFile()">Truyền file excel</a></div>
+                <div><a href="admin-import-employee-list" id="linkExcel"">Truyền file excel</a></div>
+                <p style="color:red">${IMPORT_EXCEL_ERROR}</p>
+                <p style="color:red">${IMPORT_EXCEL_ERRORNULL}</p>
                 <jsp:include page="../admin-general/admin-notifications-box.jsp"/>
             </div>
         </div>
@@ -233,11 +235,28 @@
                 closeButton.style.display = "none";
                 form.style.display = "none";
             }
-            function getNameFile(){
-                let person = prompt("Mời bạn nhập tên", "Harry Potter");
-                let linkExcel = person;
-                document.getElementById('linkExcel').setAttribute('value', linkExcel);
+            function getNameFile() {
+                let linkExcel = prompt("Nhập đường link file", "D:\\All_employee.xlsx");
+                linkExcel = deleteChar(linkExcel,'\\');
+                window.location.href = "admin-import-employee-list?link=" + linkExcel;
             }
+            function deleteChar(str, charToDelete) {
+                // Split the string into an array of substrings based on the specified character
+                let splitStr = str.split(charToDelete);
+
+                // Join the substrings back together without the specified character
+                let newStr = splitStr.join('/');
+
+                // Return the new string
+                return newStr;
+            }
+        </script>
+        <script>
+            document.getElementById("linkExcel").addEventListener("click", function (e) {
+                e.preventDefault();
+
+                getNameFile();
+            });
         </script>
         <div class="sidebar-overlay" data-reff=""></div>
         <script src="${pageContext.request.contextPath}/assets/admin/js/jquery-3.2.1.min.js"></script>

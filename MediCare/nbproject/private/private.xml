@@ -2,12 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/web/admin-appointments/admin-manage-appointments.jsp</file>
-            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/src/java/Models/Appointments.java</file>
-            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/src/java/DAL/AppointmentsDAO.java</file>
-            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/src/java/Controllers/AdminManageAppointmentsServlet.java</file>
-            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/src/java/DAL/DoctorDAO.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
