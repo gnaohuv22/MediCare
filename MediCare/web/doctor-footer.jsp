@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-lg-3 col-sm-6">
                 <div class="footer_logo">
-                    <a href="${pageContext.request.contextPath}/user-home"><img width="100" height="100" src="${pageContext.request.contextPath}/assets/client/images/logo.png" /></a>
+                    <a href="${pageContext.request.contextPath}/doctor-home"><img width="100" height="100" src="${pageContext.request.contextPath}/assets/client/images/logo.png" /></a>
                 </div>
 
                 <c:forEach items="${sessionScope.pages}" var="item">

@@ -5,18 +5,33 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-    <body>
-        <!-- Javascript files-->
-        <script src="${pageContext.request.contextPath}/assets/client/js/jquery.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/client/js/popper.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/client/js/bootstrap.bundle.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/client/js/jquery-3.0.0.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/client/js/plugin.js"></script>
-        <!-- sidebar -->
-        <script src="${pageContext.request.contextPath}/assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/client/js/custom.js"></script>
-        <!-- javascript --> 
-        <script src="${pageContext.request.contextPath}/assets/client/js/owl.carousel.js"></script>
-        <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    </body>
+<!-- Javascript files-->
+<script src="${pageContext.request.contextPath}/assets/doctor/js/popper.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/doctor/js/bootstrap.bundle.min.js"></script>
+<!-- Add jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/doctor/js/plugin.js"></script>
+<!-- sidebar -->
+<script src="${pageContext.request.contextPath}/assets/doctor/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/doctor/js/custom.js"></script>
+<!-- javascript -->
+<script src="${pageContext.request.contextPath}/assets/doctor/js/owl.carousel.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 50) {
+                $('#back-to-top').fadeIn().addClass('show');
+            } else {
+                $('#back-to-top').fadeOut().removeClass('show');
+            }
+        });
+        // scroll body to 0px on click
+        $('#back-to-top').click(function () {
+            $('body,html').animate({
+                scrollTop: 0
+            }, 200);
+            return false;
+        });
+    });
+</script>

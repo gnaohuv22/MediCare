@@ -17,29 +17,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
         <title>Tin tức | MediCare</title>
-        <!-- bootstrap css -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/bootstrap.min.css" />
-        <!-- style css -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/style.css" />
-        <!-- Responsive-->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/responsive.css" />
-        <!-- fevicon -->
-        <link rel="icon" href="${pageContext.request.contextPath}/assets/client/images/favicon.png" type="image/gif" />
-        <!-- Scrollbar Custom CSS -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/jquery.mCustomScrollbar.min.css" />
-        <!-- Tweaks for older IEs-->
-        <link
-            rel="stylesheet"
-            href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
-            />
-        <!-- owl stylesheets -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.carousel.min.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.theme.default.min.css" />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
-            media="screen"
-            />
+        <jsp:include page="user-head.jsp"/>
     </head>
     <body>
         <%@include file="user-header.jsp" %>
@@ -186,6 +164,7 @@
 
 
     <%@include file="user-footer.jsp" %>
+    <button id="back-to-top" title="Back to top">↑</button>
     <!-- Javascript files-->
     <jsp:include page="user-script.jsp"/>
 

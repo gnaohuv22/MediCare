@@ -63,6 +63,7 @@
             </div>
         </main>                       
         <jsp:include page="user-footer.jsp"/>
+        <button id="back-to-top" title="Back to top">↑</button>
         <jsp:include page="user-script.jsp"/>
         <script>
             $(document).ready(function () {

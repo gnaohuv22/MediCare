@@ -20,30 +20,7 @@
         <meta name="keywords" content="" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <!-- bootstrap css -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/bootstrap.min.css" />
-        <!-- style css -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/style.css" />
-        <!-- Responsive-->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/responsive.css" />
-        <!-- fevicon -->
-        <link rel="icon" href="${pageContext.request.contextPath}/assets/client/images/fevicon.png" type="image/gif" />
-        <!-- Scrollbar Custom CSS -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/jquery.mCustomScrollbar.min.css" />
-        <!-- Tweaks for older IEs-->
-        <link
-            rel="stylesheet"
-            href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
-            />
-        <!-- owl stylesheets -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.carousel.min.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.theme.default.min.css" />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
-            media="screen"
-            />
-        <title>JSP Page</title>
+        <jsp:include page="user-head.jsp"/>
     </head>
     <body>
         <%@include file="user-header.jsp" %>
@@ -106,9 +83,10 @@
             <div class="account-image account-image-register">
                 <img src="${pageContext.request.contextPath}/assets/client/images/login-banner.jpg" alt="Medicare Login Banner"/>
             </div>
-            
+
         </div>
-<script>
+        <button id="back-to-top" title="Back to top">↑</button>
+        <script>
             function validateForm() {
                 var email = document.getElementById("email");
                 var password = document.getElementById("password");

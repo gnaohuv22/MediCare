@@ -4,7 +4,9 @@
  */
 package Controllers;
 
+import DAL.DoctorDAO;
 import DAL.UserDAO;
+import Models.Doctor;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -13,7 +15,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import Models.GooglePojo;
 import Models.User;
-
 
 /**
  *
@@ -63,26 +64,34 @@ public class UserLoginGoogleHandler extends HttpServlet {
             request.setAttribute("id", googlePojo.getId());
             request.setAttribute("name", googlePojo.getName());
             request.setAttribute("email", googlePojo.getEmail());
-            String email =  googlePojo.getEmail();
+            String email = googlePojo.getEmail();
             if (email != null && !email.equals("")) {
                 UserDAO ud = new UserDAO();
                 User u = ud.login(email);
-            if (u == null) {
-                System.out.println("Login fail!");
-                String error = "Your email is not registered!";
-                request.setAttribute("error", error);
-                session.setAttribute("loginValue", "false");
-                request.getRequestDispatcher("user-login.jsp").forward(request, response);
-                // return a valid object -> login success -> (forward to home page):
-            } else {
-                session.setAttribute("email", email);
-                session.setAttribute("password", u.getPassword());
-                session.setAttribute("name", u.getName());
-                System.out.println("Login successfully!");
-                session.setAttribute("loginValue", "true");
-                response.sendRedirect("user-home");
+                if (u == null) {
+                    DoctorDAO dd = new DoctorDAO();
+                    Doctor d = dd.login(email);
+                    if (d == null) {
+                        System.out.println("Login fail!");
+                        String error = "Email này chưa được đăng ký. Hãy đăng ký và thử lại.";
+                        request.setAttribute("error", error);
+                        session.setAttribute("loginValue", "false");
+                        request.getRequestDispatcher("user-login.jsp").forward(request, response);
+                    } else {
+                        session.setAttribute("doctorLoggedIn", "true");
+                        session.setAttribute("d", d);
+                        response.sendRedirect("doctor-home");
+                    }
+                    // return a valid object -> login success -> (forward to home page):
+                } else {
+                    session.setAttribute("email", email);
+                    session.setAttribute("password", u.getPassword());
+                    session.setAttribute("name", u.getName());
+                    System.out.println("Login successfully!");
+                    session.setAttribute("loginValue", "true");
+                    response.sendRedirect("user-home");
+                }
             }
-        }
         }
     }
 

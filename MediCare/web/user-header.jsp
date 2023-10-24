@@ -122,6 +122,7 @@
         </div>
     </nav>
     <!-- header section end -->
+    <jsp:include page="user-script.jsp"></jsp:include>
     <script>
         $(document).ready(function () {
             $("#signin-btn").hover(

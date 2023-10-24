@@ -4,7 +4,9 @@
  */
 package Controllers;
 
+import DAL.DoctorDAO;
 import DAL.UserDAO;
+import Models.Doctor;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -78,35 +80,50 @@ public class UserLoginServlet extends HttpServlet {
         System.out.println("Email: " + email);
         System.out.println("Password: " + password);
         UserDAO ud = new UserDAO();
+        DoctorDAO dd = new DoctorDAO();
 
         HttpSession session = request.getSession();
 //        String loginValue = "";
         session.setAttribute("email", email);
-        session.setAttribute("password", password);
 //        session.setAttribute("password", password);
         // Case 1: Both inputs email and password is valid:
         if (email != null && password != null && !email.equals("") && !password.equals("")) {
             // Check if the User exists in DB:
+            //return null -> check if Doctor exist in DB
             // return null -> login fail -> (return to the login page):
-            User u = ud.login(email, password);
-            if (u == null) {
+            Object typeObj = request.getAttribute("type");
+            String type = String.valueOf(typeObj);
+            User u = null;
+            Doctor d = null;
+            if (typeObj == null
+                    || type.isEmpty()
+                    || !type.trim().equals("null")) {
+                u = ud.login(email, password);
+                d = dd.login(email, password);
+            } else {
+                d = dd.login(email, password);
+            }
+            if (u == null && d == null) {
                 System.out.println("Login fail!");
-                error = "Email hoặc mật khẩu không đúng!";
+                error = "Tài khoản hoặc mật khẩu không đúng!";
                 request.setAttribute("error", error);
                 session.setAttribute("loginValue", "false");
                 request.getRequestDispatcher("user-login.jsp").forward(request, response);
                 // return a valid object -> login success -> (forward to home page):
-            } else {
+            } else if (d == null && u != null) {
                 session.setAttribute("email", email);
                 session.setAttribute("name", u.getName());
                 System.out.println("Login successfully!");
                 session.setAttribute("loginValue", "true");
                 response.sendRedirect("user-home");
+            } else if (d != null && u == null) {
+                session.setAttribute("d", d);
+                System.out.println("Login successfully!");
+                session.setAttribute("doctorLoggedIn", "true");
+                response.sendRedirect("doctor-home");
             }
-            // Case 2: Login with Google Account:
-            // Case 3: One or both of inputs are invalid -> (return to the login page): 
         } else {
-            error = "Email hoặc mật khẩu nhập vào không hợp lệ!";
+            error = "Tài khoản hoặc mật khẩu có thể không hợp lệ!";
             request.setAttribute("error", error);
             session.setAttribute("loginValue", "false");
             request.getRequestDispatcher("user-login.jsp").forward(request, response);

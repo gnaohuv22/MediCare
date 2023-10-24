@@ -1120,23 +1120,94 @@ button {
     position: fixed;
     bottom: 40px;
     right: 40px;
-    z-index: 9999;
-    width: 32px;
-    height: 32px;
+    z-index: 1;
+    width: 50px;
+    height: 50px;
     text-align: center;
-    line-height: 30px;
-    background: #f5f5f5;
-    color: #444;
+    line-height: 50px;
+    background: #2C6975;
+    color: #E0ECDE;
     cursor: pointer;
     border: 0;
-    border-radius: 2px;
+    border-radius: 50%; 
     text-decoration: none;
     transition: opacity 0.2s ease-out;
     opacity: 0;
+    font-size: 1.2em;
 }
 #back-to-top:hover {
-    background: #e9ebec;
+    background: #68B2A0;
 }
 #back-to-top.show {
     opacity: 1;
 }
+
+.appointment {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
+
+.appointment > div {
+    flex-basis: 20%;
+}
+
+.container .week-schedule {
+    padding-top: 12%;
+    
+}
+
+
+
+#monthYearContainer h3 {
+     margin-top: 30px;
+     text-align: right;
+}
+
+#monthYearContainer h3 a {
+    color: #68B2A0;
+    font-weight: bold;
+   
+}
+
+#monthYearContainer h3 a:hover {
+    color: #2C6975;
+}
+
+#monthYearContainer h2 {
+    text-align: center;
+    color: #2C6975;
+    font-weight: bolder;
+    
+}
+
+.schedule-inner {
+    border: 1px solid #E0ECDE;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#weekDaysContainer {
+    margin-bottom: 20px;
+    align-items: center;
+    text-align: center;
+}
+
+#weekDaysContainer a {
+    color: #2C6975;
+    border-radius: 50%;
+    padding: 10px;
+    
+}
+
+#weekDaysContainer a:hover {
+    color: #2C6975;
+    background-color: lightgray;
+}
+
+#weekDaysContainer a.active {
+    color: #E0ECDE;
+    background-color: #2C6975;
+}
+

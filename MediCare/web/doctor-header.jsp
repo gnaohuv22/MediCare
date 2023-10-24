@@ -67,13 +67,13 @@
                 </ul>
             </div>
 
-            <c:if test="${sessionScope.loginValue.equals('false') || sessionScope.loginValue==null}">
+            <c:if test="${sessionScope.doctorLoggedIn.equals('false') || sessionScope.doctorLoggedIn==null}">
 
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <a
                             class="nav-link"
-                            href="${pageContext.request.contextPath}/user-login" 
+                            href="${pageContext.request.contextPath}/user-login?type=1" 
                             id="signin-btn"
                             style="
                             background-color: #68b2a0;
@@ -84,29 +84,14 @@
                             >Đăng nhập</a
                         >
                     </li>
-                    <li class="nav-item">
-                        <a
-                            class="nav-link"
-                            href="${pageContext.request.contextPath}/user-register"
-                            id="register-btn"
-                            -btn
-                            style="
-                            background-color: white;
-                            color: #2c6975;
-                            border-radius: 10px;
-                            margin-left: 5px;
-                            "
-                            >Đăng ký</a
-                        >
-                    </li>
                 </ul>
             </c:if>
-            <c:if test="${sessionScope.loginValue.equals('true')}">
+            <c:if test="${sessionScope.doctorLoggedIn.equals('true')}">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item list-parent">
                         <a class="nav-link" href="${pageContext.request.contextPath}/view-profile">
                             <img src="https://www.svgrepo.com/show/497407/profile-circle.svg" width="24px" height="24px" style="filter: invert(32%) sepia(55%) saturate(465%) hue-rotate(142deg) brightness(96%) contrast(88%)" alt="alt"/>
-                            <span>${sessionScope.name}</span>
+                            <span>${sessionScope.d.getDisplayName()}</span>
                             <img src="https://www.svgrepo.com/show/495005/arrow-down.svg" width="10px" height="10px" alt="alt"/>
                         </a>
                         <ul class="list-child">
@@ -122,6 +107,7 @@
         </div>
     </nav>
     <!-- header section end -->
+    <%@include file="doctor-script.jsp" %>
     <script>
         $(document).ready(function () {
             $("#signin-btn").hover(
@@ -134,16 +120,7 @@
                         $(this).css("color", "white");
                     }
             );
-            $("#register-btn").hover(
-                    function () {
-                        $(this).css("background-color", "#2c6975");
-                        $(this).css("color", "white");
-                    },
-                    function () {
-                        $(this).css("background-color", "white");
-                        $(this).css("color", "#2c6975");
-                    }
-            );
         });
     </script>
 </div>
+
