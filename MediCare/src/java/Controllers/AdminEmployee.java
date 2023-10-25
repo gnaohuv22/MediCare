@@ -651,7 +651,8 @@ public class AdminEmployee extends HttpServlet {
                 }
                 long millis = System.currentTimeMillis();
                 Date currentdate = new Date(millis);
-                Date date = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(birthDate);
+//                Date date = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(birthDate);
+                Date date = (Date) new SimpleDateFormat("dd-MM-yyyy").parse(birthDate);
                 //check if birthdate is avaliable
                 if (date.compareTo(currentdate) > 0) {
                     throw new AdminException.BirthDateException();

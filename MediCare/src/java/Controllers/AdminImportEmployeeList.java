@@ -4,6 +4,7 @@
  */
 package Controllers;
 
+import DAL.AdminEmailContext;
 import DAL.BranchDAO;
 import DAL.EmployeeDAO;
 import DAL.EmployeeRoleDAO;
@@ -139,7 +140,7 @@ public class AdminImportEmployeeList extends HttpServlet {
                         password = encryptedPassword;
                         emp.setPassword(password);
                         branchId = bdao.getBranchId(emp.getBranch().getName());
-                        emp.getBranch().setId(id);
+                        emp.getBranch().setId(branchId);
                         if (emp.getBranch().getId() == null || emp.getBranch().getId().isEmpty()) {
                             errorNull += " " + id;
                         }
@@ -166,10 +167,9 @@ public class AdminImportEmployeeList extends HttpServlet {
                             errorNull += " " + id;
                         }
                         provinceId = pdao.getProvinceId(emp.getProvince().getName());
-                    System.out.println(emp.getProvince().getName()+"->"+provinceId);
                         emp.getProvince().setId(provinceId);
                         if (emp.getProvince().getId() == null || emp.getProvince().getId().isEmpty()) {
-                            errorNull =errorNull+ " " + id;
+                            errorNull = errorNull + " " + id;
                         }
                         if (emp.getPhone() == null || emp.getPhone().isEmpty()) {
                             errorNull += " " + id;
@@ -178,21 +178,25 @@ public class AdminImportEmployeeList extends HttpServlet {
                             errorNull += " " + id;
                         }
                         role = erdao.getRoleIdByName(emp.getEmployeeRole().getRole());
-                        emp.getEmployeeRole().setId(id);
+                        emp.getEmployeeRole().setId(role);
                         if (emp.getEmployeeRole().getId() == null || emp.getEmployeeRole().getId().isEmpty()) {
                             errorNull += " " + id;
                         }
                         emp.setCreateBy(checkEmp.getId());
                         System.out.println(emp.toString());
-                    if (!edao.addEmployee(emp)){
-                        error+= " "+i;
-                    }
+                        if (!edao.addEmployee(emp)) {
+                            error += " " + (i+1);
+                        } else {
+                            AdminEmailContext.sendEmailnewPassword(emp.getEmail(), sendPassword, emp.getName());
+                            request.getRequestDispatcher(STATISTIC_EMPLOYEE).forward(request, response);
+                        }
                     }
                     if (!error.equals(isError)) {
                         request.setAttribute("IMPORT_EXCEL_ERROR", error);
-                    }
-                    if (!errorNull.equals(isErrorNull)) {
+                    }else if (!errorNull.equals(isErrorNull)) {
                         request.setAttribute("IMPORT_EXCEL_ERRORNULL", errorNull);
+                    }else{
+                        request.setAttribute("IMPORT_EXCEL_ERROR", "Thành công");
                     }
                     request.getRequestDispatcher(STATISTIC_EMPLOYEE).forward(request, response);
                 } catch (IOException e2) {

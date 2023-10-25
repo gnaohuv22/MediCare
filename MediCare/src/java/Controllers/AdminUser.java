@@ -118,7 +118,7 @@ public class AdminUser extends HttpServlet {
             }
             ArrayList<User> list;
             ArrayList<String> titleList;
-            if (request.getParameter("page") != null) {
+            if (request.getParameter("view-detail") == null) {
                 list = udao.getListUser((page - 1) * recordsPerPage, recordsPerPage);
                 titleList = udao.getTitleTableUser();
             } else {
