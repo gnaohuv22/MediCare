@@ -16,7 +16,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 
-
 /**
  *
  * @author hoang
@@ -30,7 +29,7 @@ public class GetAppointmentServlet extends HttpServlet {
         Doctor d = (Doctor) session.getAttribute("d");
         String date = request.getParameter("day");
         System.out.println("day:" + date);
-        
+
         AppointmentsDAO ad = new AppointmentsDAO();
         ArrayList<Appointments> appointments = ad.getAppointmentsByDay(date, d.getId());
         String json = new Gson().toJson(appointments);
@@ -42,6 +41,21 @@ public class GetAppointmentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String id = request.getParameter("id");
+        int status = Integer.parseInt(request.getParameter("status"));
+
+        AppointmentsDAO ad = new AppointmentsDAO();
+
+        boolean updateSuccess = ad.updateAppointmentStatus(id, status);
+
+        response.setContentType("text/plain");
+        response.setCharacterEncoding("UTF-8");
+
+        if (updateSuccess) {
+            response.getWriter().write("Trạng thái đã được cập nhật thành công!");
+        } else {
+            response.getWriter().write("Có lỗi xảy ra khi cập nhật trạng thái.");
+        }
 
     }
 }

@@ -1129,7 +1129,7 @@ button {
     color: #E0ECDE;
     cursor: pointer;
     border: 0;
-    border-radius: 50%; 
+    border-radius: 50%;
     text-decoration: none;
     transition: opacity 0.2s ease-out;
     opacity: 0;
@@ -1155,20 +1155,18 @@ button {
 
 .container .week-schedule {
     padding-top: 12%;
-    
+
 }
 
-
-
 #monthYearContainer h3 {
-     margin-top: 30px;
-     text-align: right;
+    margin-top: 30px;
+    text-align: right;
 }
 
 #monthYearContainer h3 a {
     color: #68B2A0;
     font-weight: bold;
-   
+
 }
 
 #monthYearContainer h3 a:hover {
@@ -1179,7 +1177,7 @@ button {
     text-align: center;
     color: #2C6975;
     font-weight: bolder;
-    
+
 }
 
 .schedule-inner {
@@ -1198,7 +1196,7 @@ button {
     color: #2C6975;
     border-radius: 50%;
     padding: 10px;
-    
+
 }
 
 #weekDaysContainer a:hover {
@@ -1211,3 +1209,137 @@ button {
     background-color: #2C6975;
 }
 
+#appointmentSchedule {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    margin-top: 20px;
+    width: 60%;
+    cursor: pointer;
+}
+
+.alert {
+    width: 100%;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    padding: 2px 16px;
+}
+
+#modalTitle {
+    color: #2C6975;
+    font-weight: bolder;
+}
+
+.modal-body {
+    padding: 2px 16px;
+}
+
+.modal-footer {
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.status {
+    border-radius: 5px; /* Bo cạnh */
+    padding: 5px; /* Thêm khoảng cách giữa chữ và viền */
+    background-color: transparent;
+    width: fit-content;
+    margin-right: 10px;
+    float: left;
+}
+
+.status-0 {
+    color: #FFD700; /* Màu vàng */
+    border: 1px solid #FFD700;
+}
+
+.status-1 {
+    color: #32CD32; /* Màu xanh lục */
+    border: 1px solid #32CD32;
+}
+
+.status-2 {
+    color: #4682B4; /* Màu xanh dương */
+    border: 1px solid #4682B4;
+}
+
+.status-3 {
+    color: #FF0000; /* Màu đỏ */
+    border: 1px solid #FF0000;
+}
+
+.status-default {
+    color: #808080; /* Màu xám */
+    border: 1px solid #808080;
+}
+
+.confirm-button {
+    padding: 10px;
+    color: #E0ECDE;
+    background-color: #2C6975;
+    border-radius: 6px;
+    border: 1px solid #E0ECDE;
+}
+
+.confirm-button:hover {
+    background-color: #E0ECDE;
+    color: #2C6975;
+    border: 1px solid #2C6975;
+}
+
+.complete-button {
+    padding: 10px;
+    color: #E0ECDE;
+    background-color: #2c5c80;
+    border-radius: 6px;
+    border: 1px solid #E0ECDE;
+}
+
+.complete-button:hover {
+    background-color: #E0ECDE;
+    color: #2c5c80;
+    border: 1px solid #2c5c80;
+}

@@ -388,7 +388,7 @@ public class AppointmentsDAO extends DBContext {
                 + "LEFT JOIN [ServiceTag] st ON st.id = a.serviceId\n"
                 + "LEFT JOIN [FamilyProfile] fp ON fp.profileId = a.profileId\n"
                 + "WHERE CONVERT(date, plannedAt) = ? AND doctorId = ?\n"
-                + "ORDER BY a.plannedAt ASC";
+                + "ORDER BY a.status ASC, a.plannedAt ASC";
 
         try (PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setDate(1, java.sql.Date.valueOf(date));
@@ -434,5 +434,21 @@ public class AppointmentsDAO extends DBContext {
             System.out.println("getAppointmentsByDay: " + e.getMessage());
         }
         return list;
+    }
+
+    public boolean updateAppointmentStatus(String id, int status) {
+        String SQL = "UPDATE Appointments\n"
+                + "SET status = ?\n"
+                + "WHERE id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setInt(1, status);
+            ps.setInt(2, Integer.parseInt(id));
+            
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("updateAppointmentStatus: " + e.getMessage());
+        }
+        return false;
     }
 }
