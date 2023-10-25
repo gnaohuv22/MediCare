@@ -62,7 +62,7 @@ public class FamilyProfileDAO extends DBContext {
     }
 
     public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
-        String SQL = "SELECT * FROM [FamilyProfile] where ownerid=? ORDER BY relationId";
+        String SQL = "SELECT * FROM [FamilyProfile] where ownerid=? ORDER BY relationId ASC";
         ArrayList<FamilyProfile> list = new ArrayList<>();
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, idByEmail);
@@ -74,7 +74,7 @@ public class FamilyProfileDAO extends DBContext {
                 }
                 RelationshipDAO rd = new RelationshipDAO();
                 Relationship r = rd.getRelationshipByRelationshipId(String.valueOf(rs.getInt("relationId")));
-                
+
                 // parse Date yyyy-MM-dd to dd/MM/yyyy
                 DateTimeFormatter readFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 LocalDate date = LocalDate.parse(String.valueOf(rs.getDate("birthDate")), readFormatter);
@@ -208,13 +208,13 @@ public class FamilyProfileDAO extends DBContext {
                 }
                 RelationshipDAO rd = new RelationshipDAO();
                 Relationship r = rd.getRelationshipByRelationshipId(String.valueOf(rs.getInt("relationId")));
-                
+
                 // parse Date yyyy-MM-dd to dd/MM/yyyy
                 DateTimeFormatter readFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 LocalDate date = LocalDate.parse(String.valueOf(rs.getDate("birthDate")), readFormatter);
                 DateTimeFormatter writeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 String formattedDate = writeFormatter.format(date);
-                
+
                 String[] names = rs.getString(3).split(" ");
                 String lastName = names[names.length - 1];
                 FamilyProfile fp = new FamilyProfile(
@@ -405,7 +405,7 @@ public class FamilyProfileDAO extends DBContext {
     }
 
     public boolean addNewUserProfile(FamilyProfile fp) {
-        String sql = "INSERT INTO [dbo].[FamilyProfile] ([email], [name], [birthDate], [gender], [address], [identity], [medicalId], [ethnic], [phone], [createdAt], [ownerId], [relationId]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO [dbo].[FamilyProfile] ([email], [name], [birthDate], [gender], [address], [identity], [medicalId], [ethnic], [phone], [profilePicture], [createdAt], [ownerId], [relationId]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -422,9 +422,10 @@ public class FamilyProfileDAO extends DBContext {
             st.setString(7, fp.getMedicalId());
             st.setString(8, fp.getEthnic());
             st.setString(9, fp.getPhone());
-            st.setString(10, fp.getCreatedAt());
-            st.setString(11, fp.getOwnerId());
-            st.setInt(12, Integer.parseInt(fp.getRelationId()));
+            st.setString(10, fp.getProfilePicture());
+            st.setString(11, fp.getCreatedAt());
+            st.setString(12, fp.getOwnerId());
+            st.setInt(13, Integer.parseInt(fp.getRelationId()));
             st.execute();
             return true;
         } catch (SQLException e) {
