@@ -18,7 +18,20 @@ public class Appointments {
     private String symptoms;
     private Branch branch; // tubinh add
     private FamilyProfile profile; // tubinh add
+    private String createBy,  modifyAt,  modifyBy;
 
+    public Appointments(String id, User user, Doctor doctor, ServiceTag serviceTag, String plannedAt, String status, String createBy, String modifyAt, String modifyBy) {
+        this.id = id;
+        this.user = user;
+        this.doctor = doctor;
+        this.serviceTag = serviceTag;
+        this.plannedAt = plannedAt;
+        this.status = status;
+        this.createBy = createBy;
+        this.modifyAt = modifyAt;
+        this.modifyBy = modifyBy;
+    }
+    
     public String getCreatedAt() {
         return createdAt;
     }
@@ -151,6 +164,30 @@ public class Appointments {
         this.profile = profile;
         this.appointmentDay = appointmentDay;
         this.appointmentTime = appointmentTime;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public String getModifyAt() {
+        return modifyAt;
+    }
+
+    public void setModifyAt(String modifyAt) {
+        this.modifyAt = modifyAt;
+    }
+
+    public String getModifyBy() {
+        return modifyBy;
+    }
+
+    public void setModifyBy(String modifyBy) {
+        this.modifyBy = modifyBy;
     }
     
 }
