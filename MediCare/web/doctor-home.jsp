@@ -108,6 +108,17 @@
             </div>
         </div>
 
+        <!-- Create a confirm modal window -->
+        <div id="confirmModal" class="modal">
+            <div class="modal-content">
+                <p>Bạn có muốn thay đổi trạng thái cuộc hẹn này?</p>
+                <div class="d-flex flex-row" style="text-align: right">
+                    <button id="confirmYes">Đồng ý</button>
+                    <button id="confirmNo">Huỷ bỏ</button>
+                </div>
+            </div>
+        </div>
+
         <%@include file="doctor-footer.jsp" %>
 
         <%@include file="doctor-script.jsp" %>
@@ -223,10 +234,10 @@
                                     var patientPhoneElement = document.createElement('p');
                                     patientPhoneElement.className = 'card-text';
                                     patientPhoneElement.textContent = 'SĐT: ' + (appointment.fp.phone || "—");
-                                    
+
                                     var patientSymptomsElement = document.createElement('p');
                                     patientSymptomsElement.className = 'card-text';
-                                    patientSymptomsElement.textContent = 'Triệu chứng: ' + (appointment.symptoms || "—") ;
+                                    patientSymptomsElement.textContent = 'Triệu chứng: ' + (appointment.symptoms || "—");
 
                                     bodyElement.appendChild(serviceTextElement);
                                     bodyElement.appendChild(patientEmailElement);
@@ -272,75 +283,94 @@
                                     var confirmButton = document.createElement('button');
                                     confirmButton.className = 'confirm-button';
                                     confirmButton.textContent = 'Xác nhận';
-                                    
+
                                     var completeButton = document.createElement('button');
                                     completeButton.className = 'complete-button';
                                     completeButton.textContent = 'Hoàn tất Khám bệnh';
-                                    footerElement.appendChild(completeButton);
-                                    
+
                                     if (appointment.status === '0') {
                                         footerElement.appendChild(confirmButton);
+                                        footerElement.appendChild(completeButton);
+                                        completeButton.style.display = 'none';
                                     }
-                                    
+
                                     if (appointment.status === '1') {
                                         footerElement.appendChild(completeButton);
                                     }
 
+                                    var confirmModal = document.getElementById('confirmModal');
+                                    var confirmYes = document.getElementById('confirmYes');
+                                    var confirmNo = document.getElementById('confirmNo');
+
                                     confirmButton.addEventListener('click', function () {
-
-                                        //Send AJAX request to Servlet to update the status
-                                        var xhttp = new XMLHttpRequest();
-                                        xhttp.onreadystatechange = function () {
-                                            if (this.readyState === 4 && this.status === 200) {
-                                                //When request completed, display notification window
-                                                if (this.responseText === 'Trạng thái đã được cập nhật thành công!') {
-                                                    document.getElementById('notificationMessage').textContent = this.responseText;
-                                                    document.getElementById('notificationModal').style.display = 'block';
-                                                    confirmButton.style.display = 'none';
-                                                    footerElement.appendChild(completeButton);
-                                                } else {
-                                                    document.getElementById('notificationMessage').textContent = this.responseText;
-                                                    document.getElementById('notificationModal').style.display = 'block';
+                                        confirmModal.style.display = 'block';
+                                        confirmYes.addEventListener('click', function () {
+                                            //Send AJAX request to Servlet to update the status
+                                            var xhttp = new XMLHttpRequest();
+                                            xhttp.onreadystatechange = function () {
+                                                if (this.readyState === 4 && this.status === 200) {
+                                                    //When request completed, display notification window
+                                                    if (this.responseText === 'Trạng thái đã được cập nhật thành công!') {
+                                                        document.getElementById('notificationMessage').textContent = this.responseText;
+                                                        document.getElementById('notificationModal').style.display = 'block';
+                                                        confirmButton.style.display = 'none';
+                                                        completeButton.style.display = 'block';
+                                                    } else {
+                                                        document.getElementById('notificationMessage').textContent = this.responseText;
+                                                        document.getElementById('notificationModal').style.display = 'block';
+                                                    }
                                                 }
-                                            }
-                                        };
-                                        xhttp.open("POST", "getAppointments", true);
-                                        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                                        xhttp.send("id=" + appointment.id + "&status=1");
+                                            };
+                                            xhttp.open("POST", "getAppointments", true);
+                                            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                                            xhttp.send("id=" + appointment.id + "&status=1");
 
-                                        // Update class name of status to reflect the new state
-                                        insideFooter.textContent = 'Đang chờ khám';
-                                        insideFooter.className = 'status status-1';
-                                        statusElement.textContent = 'Đang chờ khám';
-                                        statusElement.className = 'status status-1';
+                                            // Update class name of status to reflect the new state
+                                            insideFooter.textContent = 'Đang chờ khám';
+                                            insideFooter.className = 'status status-1';
+                                            statusElement.textContent = 'Đang chờ khám';
+                                            statusElement.className = 'status status-1';
+                                            confirmModal.style.display = 'none';
+                                            appointment.status = '1';
+                                        });
+
+                                        confirmNo.addEventListener('click', function () {
+                                            confirmModal.style.display = 'none';
+                                        });
                                     });
-                                    
+
                                     completeButton.addEventListener('click', function () {
-
-                                        //Send AJAX request to Servlet to update the status
-                                        var xhttp = new XMLHttpRequest();
-                                        xhttp.onreadystatechange = function () {
-                                            if (this.readyState === 4 && this.status === 200) {
-                                                //When request completed, display notification window
-                                                if (this.responseText === 'Trạng thái đã được cập nhật thành công!') {
-                                                    document.getElementById('notificationMessage').textContent = this.responseText;
-                                                    document.getElementById('notificationModal').style.display = 'block';
-                                                    completeButton.style.display = 'none';
-                                                } else {
-                                                    document.getElementById('notificationMessage').textContent = this.responseText;
-                                                    document.getElementById('notificationModal').style.display = 'block';
+                                        confirmModal.style.display = 'block';
+                                        confirmYes.addEventListener('click', function () {
+                                            //Send AJAX request to Servlet to update the status
+                                            var xhttp = new XMLHttpRequest();
+                                            xhttp.onreadystatechange = function () {
+                                                if (this.readyState === 4 && this.status === 200) {
+                                                    //When request completed, display notification window
+                                                    if (this.responseText === 'Trạng thái đã được cập nhật thành công!') {
+                                                        document.getElementById('notificationMessage').textContent = this.responseText;
+                                                        document.getElementById('notificationModal').style.display = 'block';
+                                                        completeButton.style.display = 'none';
+                                                    } else {
+                                                        document.getElementById('notificationMessage').textContent = this.responseText;
+                                                        document.getElementById('notificationModal').style.display = 'block';
+                                                    }
                                                 }
-                                            }
-                                        };
-                                        xhttp.open("POST", "getAppointments", true);
-                                        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                                        xhttp.send("id=" + appointment.id + "&status=2");
+                                            };
+                                            xhttp.open("POST", "getAppointments", true);
+                                            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                                            xhttp.send("id=" + appointment.id + "&status=2");
 
-                                        // Update class name of status to reflect the new state
-                                        insideFooter.textContent = 'Đã khám xong';
-                                        insideFooter.className = 'status status-2';
-                                        statusElement.textContent = 'Đã khám xong';
-                                        statusElement.className = 'status status-2';
+                                            // Update class name of status to reflect the new state
+                                            insideFooter.textContent = 'Đã khám xong';
+                                            insideFooter.className = 'status status-2';
+                                            statusElement.textContent = 'Đã khám xong';
+                                            statusElement.className = 'status status-2';
+                                            appointment.status = '2';
+                                        });
+                                        confirmNo.addEventListener('click', function () {
+                                            confirmModal.style.display = 'none';
+                                        });
                                     });
 
                                     detailsElement.appendChild(bodyElement);

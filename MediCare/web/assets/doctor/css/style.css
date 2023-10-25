@@ -1343,3 +1343,39 @@ button {
     color: #2c5c80;
     border: 1px solid #2c5c80;
 }
+
+#confirmModal .modal-content{
+    width: fit-content;
+}
+
+#confirmModal .modal-content .button {
+    right: 0;
+}
+
+#confirmYes {
+    color: #E0ECDE;
+    background-color: #2C6975;
+    border-radius: 5px;
+    width: fit-content;
+    margin-right: 1%;
+    padding: 10px;
+}
+
+#confirmYes:hover {
+    color: #2C6975;
+    background-color: #E0ECDE;
+}
+
+#confirmNo {
+    color: #2C6975;
+    background-color: lightgray;
+    border-radius: 5px;
+    width: fit-content;
+    margin-left: 1%;
+    padding: 10px;
+}
+
+#confirmNo:hover {
+    color: #2C6975;
+    background-color: gray;
+}
