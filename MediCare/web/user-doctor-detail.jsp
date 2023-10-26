@@ -69,7 +69,7 @@
                 <li  class="tab-component">
                     <a href="#images">Images</a>
                 </li>
-                <li class="tab-component booking-tab"><a href="#">Booking</a></li>
+                <li class="tab-component booking-tab"><a href="user-book-appointment">Booking</a></li>
             </ul>
         </div>
         <!--profile field of a doctor start-->

@@ -43,9 +43,17 @@
     <body>
         <%@include file="user-header.jsp" %>
         <!-- client section start -->
+        
+        <!--profile header of a branch start-->
+        <div class="branch-profile-header">
+            <img src="${pageContext.request.contextPath}/assets/client/images/branch-img.jpg" alt="branch-img" class="branch-image" />
+            <p class="branch-name">MediCare - ${requestScope.branch.getName()}</p>
+        </div>
+        <!--profile header of a branch end-->
 
+        <h2 class="appointment-header-text">Đăng kí khám</h2>
         <div class="booking-container">
-
+            
 
             <!--Step-1-container - start-->
             <form action="user-book-appointment" method="post">
