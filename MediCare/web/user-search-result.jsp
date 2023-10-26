@@ -18,7 +18,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <jsp:include page="user-head.jsp"/>
-    <title>Kết quả tìm kiếm cho "${pattern}"</title>
+    <title>Kết quả tìm kiếm cho "${pattern}" | MediCare</title>
 </head>
 <body>
     <%@include file="user-header.jsp" %>

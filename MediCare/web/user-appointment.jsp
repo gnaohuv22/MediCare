@@ -10,7 +10,7 @@
 <html>
     <head>
         <jsp:include page="user-head.jsp"/>
-        <title>Profile</title>
+        <title>Danh sách lịch khám | MediCare</title>
     </head>
     <body>
         <jsp:include page="user-header.jsp"/>
