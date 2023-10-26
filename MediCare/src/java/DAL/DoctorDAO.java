@@ -533,7 +533,7 @@ public class DoctorDAO extends DBContext {
         }
         return null;
     }
-
+    
     public ArrayList<Doctor> getAllDoctorPaginated(int offset, int noOfRecords) {
         ArrayList<Doctor> list = new ArrayList<>();
         String sql = "SELECT d.*, b.[name] AS branchName, a.[name] AS ARName, \n"

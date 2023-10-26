@@ -31,6 +31,13 @@ public class Appointments {
         this.modifyAt = modifyAt;
         this.modifyBy = modifyBy;
     }
+//thu
+    public Appointments(Doctor doctor, ServiceTag serviceTag, String status, Branch branch) {
+        this.doctor = doctor;
+        this.serviceTag = serviceTag;
+        this.status = status;
+        this.branch = branch;
+    }
     
     public String getCreatedAt() {
         return createdAt;

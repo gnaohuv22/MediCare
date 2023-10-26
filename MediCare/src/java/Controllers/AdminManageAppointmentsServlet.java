@@ -5,8 +5,10 @@
 package Controllers;
 
 import DAL.AppointmentsDAO;
+import DAL.BranchDAO;
 import DAL.DoctorDAO;
 import DAL.FamilyProfileDAO;
+import DAL.NewsCategoryDAO;
 import DAL.ScheduleDetailDAO;
 import DAL.ServiceTagDAO;
 import DAL.SubLevelMenuDAO;
@@ -106,6 +108,13 @@ public class AdminManageAppointmentsServlet extends HttpServlet {
                     // Xử lý lỗi nếu định dạng chuỗi không khớp
                 }
             }
+            
+            ServiceTagDAO stdao = new ServiceTagDAO();
+            BranchDAO bdao = new BranchDAO();
+            NewsCategoryDAO ncdao = new NewsCategoryDAO();
+            request.setAttribute("ALL_SERVICETAG", stdao.getAllServiceTags());
+            request.setAttribute("ALL_BRANCH", bdao.getAllBranches());
+            request.setAttribute("ALL_STATUS", ncdao.getAllStatus());
             request.setAttribute("ALL_APPOINTMENT", appointments);
             request.setAttribute("statusAppointments", statusAppointments);
             request.getRequestDispatcher(STATISTIC_APPOINTMENT).forward(request, response);

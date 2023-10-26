@@ -23,6 +23,20 @@
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/admin/css/select2.min.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/admin/css/style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <style>
+            .search-button {
+                background-color: white;
+                border: 2px solid #009ce7;
+                color: #009ce7;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+            }
+        </style>
     </head>
 
     <body>
@@ -44,6 +58,70 @@
                                 <a href="add-appointment.html" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Appointment</a>
                             </div>
                         </div>
+                        <button class="search-button" id="open-search-form" onclick="openForm()">Lọc</button>
+                        <button class="search-button" id="close-search-form" style="display: none" onclick="closeForm()">Lọc</button>
+                        <form id="search-form" action="${pageContext.request.contextPath}/admin-search-manage-appointments" style="display: none">
+                            <input type="hidden" name="search-manage-appointment" value="true">
+                            <div class="row filter-row">
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group form-focus">
+                                        <label class="focus-label">Tên bác sĩ</label>
+                                        <input type="text" class="form-control floating" name ="searchName" id ="searchName" value="${searchName}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group form-focus select-focus">
+                                        <label class="focus-label">Chuyên Khoa</label>
+                                        <select class="select floating" name="searchServiceTag" id="searchServiceTag" style="min-width: 100%">
+                                            <option value="">Tất cả</option>
+                                            <c:forEach var="list" items="${ALL_SERVICETAG}">
+                                                <option value="${list.getId()}" <c:if test="${list.getId() eq searchServiceTag}">selected</c:if>>${list.getNametag()}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group form-focus select-focus" >
+                                        <label class="focus-label">Chi nhánh</label>
+                                        <select class="select floating" id="searchBranch" name="searchBranch" style="min-width: 100%">
+                                            <c:forEach var="list" items="${ALL_BRANCH}">
+                                                <option value="${list.getId()}" <c:if test="${list.getId() eq searchBranch}">selected</c:if> >${list.getName()}</option>
+                                            </c:forEach>
+                                            <option value="" <c:if test="${searchBranch eq ''}">selected</c:if>>Tất cả</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-3">
+                                        <div class="form-group form-focus select-focus">
+                                            <label class="focus-label">Trạng thái</label>
+                                            <select class="select floating" name="searchStatus" id="searchStatus" style="min-width: 100%">
+                                                <option value="">Tất cả</option>
+                                            <c:forEach var="list" items="${ALL_STATUS}">
+                                                <option value="${list.getId()}" <c:if test="${list.getId() eq searchStatus}">selected</c:if>>${list.getStatus()}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                                            
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group form-focus">
+                                        <label class="focus-label">Từ ngày</label>
+                                        <input type="date" class="form-control floating" name ="searchStartDate" id ="searchStartDate" value="${searchStartDate}">
+                                    </div>
+                                </div>
+                                                
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group form-focus">
+                                        <label class="focus-label">Đến ngày</label>
+                                        <input type="date" class="form-control floating" name ="searchEndDate" id ="searchEndDate" value="${searchEndDate}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <button class="btn btn-success btn-block"> Tìm kiếm </button>
+                                </div>
+                            </div>
+                        </form>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive">
@@ -362,9 +440,9 @@
                         alert("Save success");
                         console.log("success");
                         setTimeout(function () {
-                        window.location.href = "admin-manage-appointments";
-                    }, 500);
-                        
+                            window.location.href = "admin-manage-appointments";
+                        }, 500);
+
                     },
                     error: function (xhr) {
                         console.log("Error: " + xhr);
@@ -374,6 +452,26 @@
 
 
 
+        </script>
+        <!-- thu -->
+
+        <script>
+            function openForm() {
+                var openButton = document.getElementById("open-search-form");
+                var closeButton = document.getElementById("close-search-form");
+                var form = document.getElementById("search-form");
+                openButton.style.display = "none";
+                closeButton.style.display = "block";
+                form.style.display = "block";
+            }
+            function closeForm() {
+                var openButton = document.getElementById("open-search-form");
+                var closeButton = document.getElementById("close-search-form");
+                var form = document.getElementById("search-form");
+                openButton.style.display = "block";
+                closeButton.style.display = "none";
+                form.style.display = "none";
+            }
         </script>
     </body>
 
