@@ -55,7 +55,7 @@ public class ProvinceDAO extends DBContext{
             st.setNString(1, "%"+name+"%");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                rs.getString("id");
+                return rs.getString("id");
             }
         } catch (SQLException e) {
             System.out.println("getProvinceId: " + e);

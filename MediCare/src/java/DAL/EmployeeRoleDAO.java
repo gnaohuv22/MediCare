@@ -33,11 +33,10 @@ public class EmployeeRoleDAO extends DBContext{
     public String getRoleIdByName(String role) {
         String SQL = "SELECT id FROM EmployeeRole WHERE role = ?";
         try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
-            pstm.setString(1,role);
+            pstm.setNString(1,role);
             ResultSet rs = pstm.executeQuery();
             while (rs.next()){
-                String id = rs.getString("id");
-                return id;
+                return rs.getString("id");
             }
         }catch (Exception e) {
             System.out.println("getRoleIdByName " + e.getMessage());

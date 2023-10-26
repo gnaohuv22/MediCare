@@ -167,7 +167,7 @@
                                                         <div class="dropdown-menu dropdown-menu-right">
                                                             <a class="dropdown-item" href="admin-list-user?edit-user=true&id=${list.getId()}"><i class="fa fa-pencil m-r-5"></i> Sửa</a>
                                                             <c:if test="${!view_detail}">
-                                                                <a class="dropdown-item" href="" id="link">Xem danh sách chi tiết</a>
+                                                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-user?view-detail=?&<c:if test="${IS_SEARCH==1}">search-user=true</c:if><c:if test="${IS_SEARCH==1}">&searchId=${searchId}&searchEmail=${searchEmail}&searchName=${searchName}&searchBirthDate=${searchBirthDate}&searchGender=${searchGender}&searchAddress=${searchAddress}&searchProvince=${searchProvince}&searchIdentity=${searchIdentity}&searchMedicalId=${searchMedicalId}&searchEthnic=${searchEthnic}&searchPhone=${searchPhone}</c:if>">Xem danh sách chi tiết</a>
                                                             </c:if>
                                                             <c:if test="${view_detail}">
                                                                 <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-user?<c:if test="${IS_SEARCH==1}">search-user=true</c:if><c:if test="${IS_SEARCH==1}">&searchId=${searchId}&searchEmail=${searchEmail}&searchName=${searchName}&searchBirthDate=${searchBirthDate}&searchGender=${searchGender}&searchAddress=${searchAddress}&searchProvince=${searchProvince}&searchIdentity=${searchIdentity}&searchMedicalId=${searchMedicalId}&searchEthnic=${searchEthnic}&searchPhone=${searchPhone}</c:if>">Ẩn danh sách chi tiết</a>
@@ -221,39 +221,39 @@
             
         </div>
         <div class="sidebar-overlay" data-reff=""></div>
-        <script>
+<!--        <script>
             document.getElementById("link").addEventListener("click", function (e) {
                 e.preventDefault();
 
                 viewDetail();
             });
-        </script>
+        </script>-->
         <script>
 
-            function viewDetail() {
-                var searchId = document.getElementById("searchId").value;
-                var searchEmail = document.getElementById("searchEmail").value;
-                var searchName = document.getElementById("searchName").value;
-                var searchBirthDate = document.getElementById("searchBirthDate").value;
-                var searchGender;
-                if (document.getElementById('searchGender0').checked) {
-                    searchGender = document.getElementById('searchGender0').value;
-                } else {
-                    if (document.getElementById('searchGender1').checked) {
-                        searchGender = document.getElementById('searchGender1').value;
-                    } else {
-                        searchGender = '';
-                    }
-                }
-                var searchAddress = document.getElementById("searchAddress").value;
-                var province = document.getElementById("searchProvince");
-                var searchProvince = province.options[province.selectedIndex].value;
-                var searchIdentity = document.getElementById("searchIdentity").value;
-                var searchMedicalId = document.getElementById("searchMedicalId").value;
-                var searchEthnic = document.getElementById("searchEthnic").value;
-                var searchPhone = document.getElementById("searchPhone").value;
-                window.location.href = "admin-list-user?view-detail=true&search-user=true&searchId=" + searchId + "&searchEmail=" + searchEmail + "&searchName=" + searchName + "&searchBirthDate=" + searchBirthDate + "&searchGender=" + searchGender + "&searchAddress=" + searchAddress + "&searchProvince=" + searchProvince + "&searchIdentity=" + searchIdentity + "&searchMedicalId=" + searchMedicalId + "&searchEthnic=" + searchEthnic + "&searchPhone=" + searchPhone;
-            }
+//            function viewDetail() {
+//                var searchId = document.getElementById("searchId").value;
+//                var searchEmail = document.getElementById("searchEmail").value;
+//                var searchName = document.getElementById("searchName").value;
+//                var searchBirthDate = document.getElementById("searchBirthDate").value;
+//                var searchGender;
+//                if (document.getElementById('searchGender0').checked) {
+//                    searchGender = document.getElementById('searchGender0').value;
+//                } else {
+//                    if (document.getElementById('searchGender1').checked) {
+//                        searchGender = document.getElementById('searchGender1').value;
+//                    } else {
+//                        searchGender = '';
+//                    }
+//                }
+//                var searchAddress = document.getElementById("searchAddress").value;
+//                var province = document.getElementById("searchProvince");
+//                var searchProvince = province.options[province.selectedIndex].value;
+//                var searchIdentity = document.getElementById("searchIdentity").value;
+//                var searchMedicalId = document.getElementById("searchMedicalId").value;
+//                var searchEthnic = document.getElementById("searchEthnic").value;
+//                var searchPhone = document.getElementById("searchPhone").value;
+//                window.location.href = "admin-list-user?view-detail=true&search-user=true&searchId=" + searchId + "&searchEmail=" + searchEmail + "&searchName=" + searchName + "&searchBirthDate=" + searchBirthDate + "&searchGender=" + searchGender + "&searchAddress=" + searchAddress + "&searchProvince=" + searchProvince + "&searchIdentity=" + searchIdentity + "&searchMedicalId=" + searchMedicalId + "&searchEthnic=" + searchEthnic + "&searchPhone=" + searchPhone;
+//            }
             function openForm() {
                 var openButton = document.getElementById("open-search-form");
                 var closeButton = document.getElementById("close-search-form");
@@ -274,12 +274,12 @@
         <script src="${pageContext.request.contextPath}/assets/admin/js/jquery-3.2.1.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/admin/js/popper.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/admin/js/bootstrap.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/admin/js/jquery.slimscroll.js"></script>
+<!--        <script src="${pageContext.request.contextPath}/assets/admin/js/jquery.slimscroll.js"></script>
         <script src="${pageContext.request.contextPath}/assets/admin/js/select2.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/admin/js/jquery.dataTables.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/admin/js/dataTables.bootstrap4.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/admin/js/moment.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/admin/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/admin/js/bootstrap-datetimepicker.min.js"></script>-->
         <!--<script src="${pageContext.request.contextPath}/assets/admin/js/app.js"></script>-->
     </body>
 </html>

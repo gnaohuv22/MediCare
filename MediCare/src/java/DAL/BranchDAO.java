@@ -141,7 +141,7 @@ public class BranchDAO extends DBContext {
             st.setNString(1, name);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                rs.getString("id");
+                return rs.getString("id");
             }
         } catch (SQLException e) {
             System.out.println("getBranchId: " + e);
