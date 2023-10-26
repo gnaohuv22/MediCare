@@ -43,7 +43,13 @@ public class NewsCategory {
         this.icon = icon;
         this.locateId = locateId;
     }
+    //thu
 
+    public NewsCategory(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
     public String getHref() {
         return href;
     }

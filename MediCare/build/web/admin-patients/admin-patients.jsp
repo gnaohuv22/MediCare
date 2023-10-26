@@ -71,7 +71,6 @@
                             </div>
                             <div class="col-sm-6 col-md-3">
                                 <div class="form-group form-focus">
-                                    <label class="focus-label">Giới tính</label>
                                     <input type="radio" name="searchGender" id="searchGender0" value="0" <c:if test="${searchGender eq '0'}">checked="checked"</c:if>/>Nam
                                     <input type="radio" name="searchGender" id="searchGender1" value="1" <c:if test="${searchGender eq '1'}">checked="checked"</c:if>/>Nữ
                                     </div>
@@ -167,7 +166,7 @@
                                                         <div class="dropdown-menu dropdown-menu-right">
                                                             <a class="dropdown-item" href="admin-list-user?edit-user=true&id=${list.getId()}"><i class="fa fa-pencil m-r-5"></i> Sửa</a>
                                                             <c:if test="${!view_detail}">
-                                                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-user?view-detail=?&<c:if test="${IS_SEARCH==1}">search-user=true</c:if><c:if test="${IS_SEARCH==1}">&searchId=${searchId}&searchEmail=${searchEmail}&searchName=${searchName}&searchBirthDate=${searchBirthDate}&searchGender=${searchGender}&searchAddress=${searchAddress}&searchProvince=${searchProvince}&searchIdentity=${searchIdentity}&searchMedicalId=${searchMedicalId}&searchEthnic=${searchEthnic}&searchPhone=${searchPhone}</c:if>">Xem danh sách chi tiết</a>
+                                                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-user?view-detail=true<c:if test="${IS_SEARCH==1}">&search-user=true</c:if><c:if test="${IS_SEARCH==1}">&searchId=${searchId}&searchEmail=${searchEmail}&searchName=${searchName}&searchBirthDate=${searchBirthDate}&searchGender=${searchGender}&searchAddress=${searchAddress}&searchProvince=${searchProvince}&searchIdentity=${searchIdentity}&searchMedicalId=${searchMedicalId}&searchEthnic=${searchEthnic}&searchPhone=${searchPhone}</c:if>">Xem danh sách chi tiết</a>
                                                             </c:if>
                                                             <c:if test="${view_detail}">
                                                                 <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-user?<c:if test="${IS_SEARCH==1}">search-user=true</c:if><c:if test="${IS_SEARCH==1}">&searchId=${searchId}&searchEmail=${searchEmail}&searchName=${searchName}&searchBirthDate=${searchBirthDate}&searchGender=${searchGender}&searchAddress=${searchAddress}&searchProvince=${searchProvince}&searchIdentity=${searchIdentity}&searchMedicalId=${searchMedicalId}&searchEthnic=${searchEthnic}&searchPhone=${searchPhone}</c:if>">Ẩn danh sách chi tiết</a>

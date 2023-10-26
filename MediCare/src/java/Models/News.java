@@ -10,7 +10,8 @@ package Models;
  */
 public class News {
     private String id, title, subtitle, content, author, categoryId, category, categorySlug, createdAt, lastModified, viewCount, coverImage, slug, type;
-
+    
+    private NewsCategory newsCategory;
     public News() {
     }
 
@@ -67,7 +68,20 @@ public class News {
         this.type = type;
     }
     
+    //thu
     
+    public News(String id, String title, String content, String author, NewsCategory newsCategory, String createdAt, String lastModified, String viewCount, String coverImage, String subtitle) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.author = author;
+        this.newsCategory = newsCategory;
+        this.createdAt = createdAt;
+        this.lastModified = lastModified;
+        this.viewCount = viewCount;
+        this.coverImage = coverImage;
+        this.subtitle = subtitle;
+    }
 
     public String getType() {
         return type;
@@ -181,7 +195,15 @@ public class News {
         this.categorySlug = categorySlug;
     }
 
+    public NewsCategory getNewsCategory() {
+        return newsCategory;
+    }
 
+    public void setNewsCategory(NewsCategory newsCategory) {
+        this.newsCategory = newsCategory;
+    }
+
+    
     @Override
     public String toString() {
         return "{" + this.id + ", " + this.title + ", " + content + ", " + author + ", " + category + "}\n";

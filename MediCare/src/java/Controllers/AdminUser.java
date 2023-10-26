@@ -122,6 +122,7 @@ public class AdminUser extends HttpServlet {
                 list = udao.getListUser((page - 1) * recordsPerPage, recordsPerPage);
                 titleList = udao.getTitleTableUser();
             } else {
+                request.setAttribute("view_detail", true);
                 list = udao.getMoreListUser((page - 1) * recordsPerPage, recordsPerPage);
                 titleList = udao.getMoreTitleTableUser();
             }
