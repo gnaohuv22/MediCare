@@ -117,6 +117,7 @@ public class UserBookAppointmentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("doPost - USER - BOOK - APPOINTMENT:");
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("action");
 
@@ -156,44 +157,45 @@ public class UserBookAppointmentServlet extends HttpServlet {
         String plannedAt = date + " " + startTime;
 
         if (action != null) {
-        switch (action) {
-            case "requestOTP": {
-                // send Email:
-                email = emailPatient.trim();
+            switch (action) {
+                case "requestOTP": {
+                    System.out.println("Request OTP:");
+                    // send Email:
+                    email = emailPatient.trim();
 
-                String OTP = AdminEmailContext.generateRandomVerificationCode(6);
+                    String OTP = AdminEmailContext.generateRandomVerificationCode(6);
 
-                AdminEmailContext.sendVerificationCodeToEmail(email, OTP);
-                JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("message", "Thành công! Hãy kiểm tra email để lấy mã OTP");
-                jsonObject.addProperty("OTP", OTP);
+                    AdminEmailContext.sendVerificationCodeToEmail(email, OTP);
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("message", "Thành công! Hãy kiểm tra email để lấy mã OTP");
+                    jsonObject.addProperty("OTP", OTP);
 
-                response.getWriter().write(OTP);
-                // end - send email:
-                break;
-            }
-            case "submitOTP": {
-                if (otp != null && otp.equals(trueOTP)) {
-                    System.out.println("input OTP success");
-                    if (ad.addNewAppointment(u == null ? null : u.getId(), branchId, serviceId, doctorId, plannedAt, slotId, createdAt.toString(),
-                            patientName, gender, birthDate, phone, emailPatient, symptoms, email, password) && sdd.setStatusForBookingSlot(slotId, doctorId, date)) {
-                        System.out.println("Add appointment to database successfully!");
-                        System.out.println("Planned at :.... = " + plannedAt);
-                    } else {
-                        System.out.println("Planned at :.... = " + plannedAt);
-                        System.out.println("Add appointment to database FAIL!!!");
-                    }
-                    System.out.println("email = " + email + " | branchId = " + branchId + " | serviceId = " + serviceId + " | doctorId = " + doctorId + " | date = " + date + " | slotId = " + slotId);
-                    response.getWriter().write("Đặt lịch khám thành công!");
-                } else {
-                    System.out.println("input OTP fail");
-                    response.getWriter().write("Mã OTP không khớp, vui lòng chọn 'Xác nhận đặt khám' để gửi yêu cầu OTP khác!");
+                    response.getWriter().write(OTP);
+                    // end - send email:
+                    break;
                 }
-                break;
+                case "submitOTP": {
+                    if (otp != null && otp.equals(trueOTP)) {
+                        System.out.println("input OTP success");
+                        if (ad.addNewAppointment(u == null ? null : u.getId(), branchId, serviceId, doctorId, plannedAt, slotId, createdAt.toString(),
+                                patientName, gender, birthDate, phone, emailPatient, symptoms, email, password) && sdd.setStatusForBookingSlot(slotId, doctorId, date)) {
+                            System.out.println("Add appointment to database successfully!");
+                            System.out.println("Planned at :.... = " + plannedAt);
+                        } else {
+                            System.out.println("Planned at :.... = " + plannedAt);
+                            System.out.println("Add appointment to database FAIL!!!");
+                        }
+                        System.out.println("email = " + email + " | branchId = " + branchId + " | serviceId = " + serviceId + " | doctorId = " + doctorId + " | date = " + date + " | slotId = " + slotId);
+                        response.getWriter().write("Đặt lịch khám thành công!");
+                    } else {
+                        System.out.println("input OTP fail");
+                        response.getWriter().write("Mã OTP không khớp, vui lòng chọn 'Xác nhận đặt khám' để gửi yêu cầu OTP khác!");
+                    }
+                    break;
+                }
+                default:
+                    throw new AssertionError();
             }
-            default:
-                throw new AssertionError();
-        }
         }
     }
 

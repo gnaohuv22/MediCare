@@ -28,7 +28,7 @@ public class ScheduleDetailDAO extends DBContext {
                 + "WorkingSlot AS WS ON WS.id = SD.SlotID\n"
                 + "JOIN \n"
                 + "DoctorSchedule AS DS ON DS.id = SD.ScheduleId\n"
-                + "WHERE DS.doctorId = ? AND DS.WorkDate = ?";
+                + "WHERE DS.doctorId = ? AND DS.WorkDate = ? AND SD.isdelete = 0";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -104,7 +104,7 @@ public class ScheduleDetailDAO extends DBContext {
                 + "Branch AS b ON b.id = d.branchId\n"
                 + "JOIN \n"
                 + "DoctorService AS DSv ON DSv.doctorId = d.id\n"
-                + "WHERE b.id = ? AND DSv.serviceId = ? AND DS.WorkDate = ?\n AND SD.slotStatus = '1'"
+                + "WHERE b.id = ? AND DSv.serviceId = ? AND DS.WorkDate = ?\n AND SD.slotStatus = '1' AND SD.isDelete = 0   "
                 + "GROUP BY WS.id, SD.slotStatus, WS.startTime\n"
                 + "";
 
@@ -138,7 +138,7 @@ public class ScheduleDetailDAO extends DBContext {
                 + "Doctor AS d ON d.id = DS.DoctorID\n"
                 + "JOIN \n"
                 + "DoctorService AS DSv ON DSv.doctorId = d.id\n"
-                + "WHERE d.id = ? AND DSv.serviceId = ? AND DS.WorkDate = ?\n AND SD.slotStatus = '1'"
+                + "WHERE d.id = ? AND DSv.serviceId = ? AND DS.WorkDate = ?\n AND SD.slotStatus = '1' AND SD.isDelete = 0"
                 + "GROUP BY WS.id, SD.slotStatus, WS.startTime\n"
                 + "";
 
@@ -326,7 +326,7 @@ public class ScheduleDetailDAO extends DBContext {
                 + "JOIN Doctor AS D ON DS.DoctorID = D.id\n"
                 + "WHERE D.id = ?\n"
                 + "AND DS.WorkDate >= ?\n"
-                + "AND DS.WorkDate <= ?;";
+                + "AND DS.WorkDate <= ? AND SD.isDelete = 0;";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -368,7 +368,7 @@ public class ScheduleDetailDAO extends DBContext {
                 + "JOIN Doctor AS D ON DS.DoctorID = D.id\n"
                 + "WHERE D.id = ?\n"
                 + "AND DS.WorkDate >= @StartOfWeek\n"
-                + "AND DS.WorkDate <= @EndOfWeek; ";
+                + "AND DS.WorkDate <= @EndOfWeek AND SD.isDelete = 0; ";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -411,7 +411,9 @@ public class ScheduleDetailDAO extends DBContext {
     }
 
     public boolean deleteScheduleDetailSlotById(String scheduleDetailId) {
-        String sql = "DELETE FROM ScheduleDetail WHERE id = ?";
+        String sql = "UPDATE ScheduleDetail\n"
+                + "SET isDelete = 1\n"
+                + "WHERE id = ?;";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, Integer.parseInt(scheduleDetailId));
@@ -420,6 +422,26 @@ public class ScheduleDetailDAO extends DBContext {
         } catch (SQLException | NumberFormatException e) {
             System.out.println("deleteScheduleDetailSlotById: " + e);
         }
+        return false;
+    }
+
+    public boolean updateStatusOfDoctorScheduleDetail(String branchId, String serviceId, String appointmentDate, String appointmentTime) {
+        String sql = "UPDATE [dbo].[ScheduleDetail]\n"
+                + "   SET [SlotStatus] = 0\n"
+                + "   WHERE id = (SELECT SD.id FROM [hehe1].[dbo].[ScheduleDetail] AS SD\n"
+                + "JOIN DoctorSchedule AS DS ON DS.id = SD.ScheduleID\n"
+                + "WHERE ds.DoctorID = ? AND ds.WorkDate = ? AND SD.SlotID = (SELECT ScdDt.slotId\n"
+                + "FROM Doctor AS d\n"
+                + "JOIN DoctorService AS DS \n"
+                + "ON DS.doctorId = d.id\n"
+                + "JOIN DoctorSchedule AS DScd\n"
+                + "ON d.id = DScd.DoctorID\n"
+                + "JOIN ScheduleDetail AS ScdDt\n"
+                + "ON DScd.id = ScdDt.ScheduleID\n"
+                + "JOIN WorkingSlot AS WS\n"
+                + "ON ScdDt.SlotID = WS.id\n"
+                + "WHERE branchId = ? AND serviceId = ? AND WorkDate = ? AND startTime = ? AND d.isDelete = 0 AND d.id = ?))";
+
         return false;
     }
 

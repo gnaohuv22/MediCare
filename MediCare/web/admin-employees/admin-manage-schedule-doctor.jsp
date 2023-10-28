@@ -57,6 +57,15 @@
                                 </div>
                             </div>
                         </form>
+
+                        <!--Add schedule, delete schedule - start-->
+                        <div class="row">
+                            <div class="text-right m-b-20 add-doctor-schedule-btn">
+                                <a href="${pageContext.request.contextPath}/admin-list-employee?add-employee=true" class="btn btn-primary float-right btn-rounded"><i class="fa fa-plus"></i> Thêm lịch cho nhân viên</a>
+                            </div>
+                        </div>
+                        <!--Add schedule, delete schedule - end-->
+
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive">
@@ -219,25 +228,30 @@
                                                 <c:forEach items="${requestScope.slotsOfDoctor}" var="s">
                                                     <c:if test="${daysOfCurrentWeek_raw.get(i-1).equals(s.getWorkDate()) && slot.getSlotId().equals(s.getSlotId())}">
                                                         <i class="fas fa-close delete-schedule-icon" data-scheduleDetailId="${slot.id}" onclick="eventClickDeleteScheduleIcon(this)"></i>
-                                                        <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom font-size16 xs-font-size13">Dance</span>
-                                                        <div class="margin-10px-top font-size14">${slot.getStartTime()} - ${slot.getEndTime()}</div>
-                                                        <div class="font-size13 text-light-gray">Ivana Wong</div>
-                                                        <c:set var="slotFound" value="true" />
-                                                    </c:if>
-                                                </c:forEach>
-                                                <c:if test="${not slotFound}">
-                                                    <!--<img src="../assets/client/images/add-icon.png" >-->
-                                                    <!--<img src="../assets/client/images/active-icon.png" alt="alt"/>-->
-                                                    <i class="fas fa-plus create-schedule-icon" onclick="eventClickCreateScheduleDoctor(this)"></i>
-                                                    <span>-</span>
-                                                    <!--<i class="fas fa-close delete-schedule-icon"></i>-->
+                                                        <!--<span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom font-size16 xs-font-size13">Dance</span>-->
+                                                        <c:forEach items="${sessionScope.slotStatus}" var="status" >
+                                                            <c:if test="${s.slotStatus().equals(status.getLink())}">
+                                                                <div class="status-appointment"><span class="custom-badge ${status.icon}">${status.name}</span></td>
+                                                            </c:if>
+                                                        </c:forEach>
+                                            <div class="margin-10px-top font-size10 time-slot-css">${slot.getStartTime()} - ${slot.getEndTime()}</div>
+                                            <!--<div class="font-size13 text-light-gray">Ivana Wong</div>-->
+                                            <c:set var="slotFound" value="true" />
+                                        </c:if>
+                                    </c:forEach>
+                                    <c:if test="${not slotFound}">
+                                        <!--<img src="../assets/client/images/add-icon.png" >-->
+                                        <!--<img src="../assets/client/images/active-icon.png" alt="alt"/>-->
+                                        <i class="fas fa-plus create-schedule-icon" onclick="eventClickCreateScheduleDoctor(this)"></i>
+                                        <span>-</span>
+                                        <!--<i class="fas fa-close delete-schedule-icon"></i>-->
 
-                                                </c:if>
-                                            </td>
+                                    </c:if>
+                                    </td>
 
-                                        </c:forEach>
-                                    </tr>
                                 </c:forEach>
+                                </tr>
+                            </c:forEach>
                             </tbody>
                         </table>
                     </div>

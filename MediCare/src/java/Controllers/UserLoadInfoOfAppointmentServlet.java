@@ -99,7 +99,6 @@ public class UserLoadInfoOfAppointmentServlet extends HttpServlet {
         System.out.println("birthDate = " + birthDate + " | gender = " + gender);
         System.out.println("phone = " + phone + " | email = " + email + " | description = " + description);
 
-        // Ca Servlet nay TU BINH fix:
         Appointments a = new Appointments(new Doctor(doctorId), new ServiceTag(serviceId), slotStart + ", " + date, new Branch(branchId), description);
         if (gender.equals("1")) {
             gender = "Nam";
@@ -229,7 +228,8 @@ public class UserLoadInfoOfAppointmentServlet extends HttpServlet {
                     + "                <div class=\"col-md-12 mt-3 text-center btn-booking\">\n"
                     + "                    <!--<button type=\"submit\" class=\"btn btn-primary\">Tiếp tục</button>-->\n"
                     + "                    <div id=\"step-3-to-2\" class=\"btn btn-primary\" onclick=\"handleSubmit(this)\">Quay lại</div>\n"
-                    + "                    <button id=\"submit\" type=\"submit\" class=\"btn btn-primary\" onclick=\"handleSubmit(this)\">Xác nhận đặt hẹn</button>\n"
+                    + "                    <div id=\"submit\" class=\"btn btn-primary\" onclick=\"handleSubmit(this)\">Xác nhận đặt hẹn</div>\n"
+//                    + "                    <button id=\"submit\" type=\"submit\" class=\"btn btn-primary\" onclick=\"handleSubmit(this)\">Xác nhận đặt hẹn</button>\n"
                     + "                </div>\n");
         }
 

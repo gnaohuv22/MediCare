@@ -7,6 +7,7 @@ package Controllers;
 import DAL.DoctorDAO;
 import DAL.ScheduleDetailDAO;
 import DAL.SubLevelMenuDAO;
+import Models.AdminSidebarMenu;
 import Models.Doctor;
 import Models.ScheduleDetail;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -64,6 +66,7 @@ public class AdminManageScheduleDoctor extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("doGet - Admin - manage - schedule - doctor:");
         DoctorDAO dd = new DoctorDAO();
         ArrayList<Doctor> doctors = dd.getAllDoctors();
         SubLevelMenuDAO slmDao = new SubLevelMenuDAO();
@@ -77,6 +80,15 @@ public class AdminManageScheduleDoctor extends HttpServlet {
 //        ArrayList<ScheduleDetail> weeksIn5Year = new ArrayList<>();
         ArrayList<String> years = sdd.get5CurrentYears();
         String currentYear = years.get(3);
+
+        SubLevelMenuDAO sd = new SubLevelMenuDAO();
+        ArrayList<AdminSidebarMenu> statusSlot = sd.getSubLevelMenuByContent("Trạng thái slot");
+        for (AdminSidebarMenu adminSidebarMenu : statusSlot) {
+            System.out.println("Slot status: " + statusSlot);
+        }
+        HttpSession session = request.getSession();
+        session.setAttribute("statusSlot", statusSlot);
+
         for (String string : daysOfCurrentWeek_raw) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM"); // Định dạng ngày tháng
             System.out.println(dateFormat.format(java.sql.Date.valueOf(string)));
@@ -125,6 +137,8 @@ public class AdminManageScheduleDoctor extends HttpServlet {
         ArrayList<String> years = sdd.get5CurrentYears();
         ArrayList<ScheduleDetail> slots = sdd.getAllSlots();
         ArrayList<ScheduleDetail> weeks_raw = new ArrayList<>();
+        SubLevelMenuDAO sd = new SubLevelMenuDAO();
+        ArrayList<AdminSidebarMenu> statusSlot = sd.getSubLevelMenuByContent("Trạng thái slot");
         System.out.println("Year = " + year);
         if (year != null) {
             System.out.println("Get weeks_raw with (year not null)");
@@ -208,7 +222,7 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                 out.println("            </select>\n"
                         + "            <i class=\"fas fa-close\" id=\"close-schedule-btn\" onclick=\"closeScheduleOfDoctorForm()\"></i>\n"
                         + "            <form action=\"admin-update-schedule-doctor\" class=\"form-container\" method=\"post\">\n"
-                        + "                <h3><b>Chỉnh sửa lịch trình của bác sĩ "+doctorId+"</b></h3>\n"
+                        + "                <h3><b>Chỉnh sửa lịch trình của bác sĩ " + doctorId + "</b></h3>\n"
                         + "\n"
                         + "                <!--schedule table - start-->\n"
                         + "                <div class=\"container\">\n"
@@ -243,9 +257,17 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                         for (ScheduleDetail s : slotsofDoctor) {
                             if (daysInWeekInRange_raw.get(i - 1).equals(s.getWorkDate()) && slot.getSlotId().equals(s.getSlotId())) {
                                 out.println("<i class=\"fas fa-close delete-schedule-icon\"   data-scheduleDetailId=\"" + s.getId() + "\" onclick=\"eventClickDeleteScheduleIcon(this)\"></i>");
-                                out.println("<span class=\"bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom font-size16 xs-font-size13\">Dance</span>");
-                                out.println("<div class=\"font-size13 text-light-gray\">Ivana Wong</div>");
-                                out.println("<div class=\"margin-10px-top font-size13\">" + slot.getStartTime() + " - " + slot.getEndTime() + "</div>");
+//                                out.println("<span class=\"bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom font-size16 xs-font-size10\">Dance</span>");
+//                                out.println("<div class=\"font-size10 text-light-gray\">Ivana Wong</div>");
+                                for (AdminSidebarMenu status : statusSlot) {
+                                    System.out.println("Slot - status: " + status);
+                                    if (status.getLink().equals(s.getSlotStatus())) {
+                                        System.out.println("status.getLink() == s.getSlotStatus()");
+                                        out.println("<div class=\"status-appointment\"><span class=\"custom-badge " + status.getIcon() + "\">" + status.getName() + "</span></div>");
+                                    }
+                                }
+
+                                out.println("<div class=\"margin-10px-top font-size10\">" + slot.getStartTime() + " - " + slot.getEndTime() + "</div>");
                                 slotFound = true;
                                 break;
                             }
@@ -309,7 +331,7 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                 out.println("            </select>\n"
                         + "            <i class=\"fas fa-close\" id=\"close-schedule-btn\" onclick=\"closeScheduleOfDoctorForm()\"></i>\n"
                         + "            <form action=\"admin-update-schedule-doctor\" class=\"form-container\" method=\"post\">\n"
-                        + "                <h3><b>Chỉnh sửa lịch trình của bác sĩ "+doctorId+"</b></h3>\n"
+                        + "                <h3><b>Chỉnh sửa lịch trình của bác sĩ " + doctorId + "</b></h3>\n"
                         + "\n"
                         + "                <!--schedule table - start-->\n"
                         + "                <div class=\"container\">\n"
@@ -344,9 +366,17 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                         for (ScheduleDetail s : slotsofDoctor) {
                             if (daysInWeekInRange_raw.get(i - 1).equals(s.getWorkDate()) && slot.getSlotId().equals(s.getSlotId())) {
                                 out.println("<i class=\"fas fa-close delete-schedule-icon\"   data-scheduleDetailId=\"" + s.getId() + "\" onclick=\"eventClickDeleteScheduleIcon(this)\"></i>");
-                                out.println("<span class=\"bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom font-size16 xs-font-size13\">Dance</span>");
-                                out.println("<div class=\"font-size13 text-light-gray\">Ivana Wong</div>");
-                                out.println("<div class=\"margin-10px-top font-size13\">" + slot.getStartTime() + " - " + slot.getEndTime() + "</div>");
+//                                out.println("<span class=\"bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom font-size16 xs-font-size10\">Dance</span>");
+//                                out.println("<div class=\"font-size10 text-light-gray\">Ivana Wong</div>");
+
+                                for (AdminSidebarMenu status : statusSlot) {
+                                    System.out.println("Slot - status: " + status);
+                                    if (status.getLink().equals(s.getSlotStatus())) {
+                                        System.out.println("status.getLink() == s.getSlotStatus()");
+                                        out.println("<div class=\"status-appointment\"><span class=\"custom-badge " + status.getIcon() + "\">" + status.getName() + "</span></div>");
+                                    }
+                                }
+                                out.println("<div class=\"margin-10px-top font-size10\">" + slot.getStartTime() + " - " + slot.getEndTime() + "</div>");
                                 slotFound = true;
                                 break;
                             }
@@ -415,7 +445,7 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                 out.println("            </select>\n"
                         + "            <i class=\"fas fa-close\" id=\"close-schedule-btn\" onclick=\"closeScheduleOfDoctorForm()\"></i>\n"
                         + "            <form action=\"admin-update-schedule-doctor\" class=\"form-container\" method=\"post\">\n"
-                        + "                <h3><b>Chỉnh sửa lịch trình của bác sĩ "+doctorId+"</b></h3>\n"
+                        + "                <h3><b>Chỉnh sửa lịch trình của bác sĩ " + doctorId + "</b></h3>\n"
                         + "\n"
                         + "                <!--schedule table - start-->\n"
                         + "                <div class=\"container\">\n"
@@ -450,9 +480,17 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                         for (ScheduleDetail s : slotsofDoctor) {
                             if (daysInWeekInRange_raw.get(i - 1).equals(s.getWorkDate()) && slot.getSlotId().equals(s.getSlotId())) {
                                 out.println("<i class=\"fas fa-close delete-schedule-icon\"  data-scheduleDetailId=\"" + s.getId() + "\" onclick=\"eventClickDeleteScheduleIcon(this)\"></i>");
-                                out.println("<span class=\"bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom font-size16 xs-font-size13\">Dance</span>");
-                                out.println("<div class=\"font-size13 text-light-gray\">Ivana Wong</div>");
-                                out.println("<div class=\"margin-10px-top font-size13\">" + slot.getStartTime() + " - " + slot.getEndTime() + "</div>");
+//                                out.println("<span class=\"bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom font-size16 xs-font-size10\">Dance</span>");
+//                                out.println("<div class=\"font-size10 text-light-gray\">Ivana Wong</div>");
+
+                                for (AdminSidebarMenu status : statusSlot) {
+                                    System.out.println("Slot - status: " + status);
+                                    if (status.getLink().equals(s.getSlotStatus())) {
+                                        System.out.println("status.getLink() == s.getSlotStatus()");
+                                        out.println("<div class=\"status-appointment\"><span class=\"custom-badge " + status.getIcon() + "\">" + status.getName() + "</span></div>");
+                                    }
+                                }
+                                out.println("<div class=\"margin-10px-top font-size10\">" + slot.getStartTime() + " - " + slot.getEndTime() + "</div>");
                                 slotFound = true;
                                 break;
                             }
@@ -481,13 +519,13 @@ public class AdminManageScheduleDoctor extends HttpServlet {
         } else if (deleteSchedule != null && deleteSchedule.equals("true")) {
             System.out.println("ON CLICK DELETE SCHEDULE DETAIL (SLOT) BY ID:");
             // Delete ScheduleDetail by id:
-            
+
             if (sdd.deleteScheduleDetailSlotById(scheduleDetailId)) {
                 System.out.println("Delete SLot SUCCESS!");
             } else {
                 System.out.println("Delete SLot FAIL!");
             }
-            
+
             System.out.println("line 482:");
             daysInWeekInRange_raw = sdd.getDaysOfWeekInDateRange(weeks_raw.get(Integer.parseInt(week_raw)).getStartTime(), weeks_raw.get(Integer.parseInt(week_raw)).getEndTime());
             System.out.println("line 484:");
@@ -525,7 +563,7 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                 out.println("            </select>\n"
                         + "            <i class=\"fas fa-close\" id=\"close-schedule-btn\" onclick=\"closeScheduleOfDoctorForm()\"></i>\n"
                         + "            <form action=\"admin-update-schedule-doctor\" class=\"form-container\" method=\"post\">\n"
-                        + "                <h3><b>Chỉnh sửa lịch trình của bác sĩ "+doctorId+"</b></h3>\n"
+                        + "                <h3><b>Chỉnh sửa lịch trình của bác sĩ " + doctorId + "</b></h3>\n"
                         + "\n"
                         + "                <!--schedule table - start-->\n"
                         + "                <div class=\"container\">\n"
@@ -560,9 +598,17 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                         for (ScheduleDetail s : slotsofDoctor) {
                             if (daysInWeekInRange_raw.get(i - 1).equals(s.getWorkDate()) && slot.getSlotId().equals(s.getSlotId())) {
                                 out.println("<i class=\"fas fa-close delete-schedule-icon\"   data-scheduleDetailId=\"" + s.getId() + "\" onclick=\"eventClickDeleteScheduleIcon(this)\"></i>");
-                                out.println("<span class=\"bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom font-size16 xs-font-size13\">Dance</span>");
-                                out.println("<div class=\"font-size13 text-light-gray\">Ivana Wong</div>");
-                                out.println("<div class=\"margin-10px-top font-size13\">" + slot.getStartTime() + " - " + slot.getEndTime() + "</div>");
+//                                out.println("<span class=\"bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom font-size16 xs-font-size10\">Dance</span>");
+//                                out.println("<div class=\"font-size10 text-light-gray\">Ivana Wong</div>");
+                                System.out.println("START - SLOT - STATUS:");
+                                for (AdminSidebarMenu status : statusSlot) {
+                                    System.out.println("Slot - status: " + status);
+                                    if (status.getLink().equals(s.getSlotStatus())) {
+                                        System.out.println("status.getLink() == s.getSlotStatus()");
+                                        out.println("<div class=\"status-appointment\"><span class=\"custom-badge " + status.getIcon() + "\">" + status.getName() + "</span></div>");
+                                    }
+                                }
+                                out.println("<div class=\"margin-10px-top font-size10\">" + slot.getStartTime() + " - " + slot.getEndTime() + "</div>");
                                 slotFound = true;
                                 break;
                             }

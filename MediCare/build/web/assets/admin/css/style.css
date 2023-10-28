@@ -4717,6 +4717,18 @@ blockquote p {
 .status-appointment {
     text-align: center;
 }
+
+.add-doctor-schedule-btn {
+    margin-left: 17px;
+}
+
+.time-slot-css {
+    color: #333;
+}
+
+.font-size10 {
+    font-size: 10px;
+}
 /*Tu Binh Code: Css for Screen Manage Schedule For Doctor - end*/
 
 

@@ -3,11 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/web/user-book-appointment.jsp</file>
-            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/web/assets/client/css/style.css</file>
-            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/src/java/Controllers/UserLoginServlet.java</file>
-            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/web/user-doctor-detail.jsp</file>
-            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/web/user-branch-detail.jsp</file>
+            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/src/java/Controllers/AdminManageScheduleDoctor.java</file>
+            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/web/admin-appointments/admin-manage-appointments.jsp</file>
+            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/src/java/DAL/ScheduleDetailDAO.java</file>
+            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/src/java/Controllers/AdminManagePendingAppointmentsServlet.java</file>
+            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/src/java/DAL/AppointmentsDAO.java</file>
+            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/src/java/Controllers/AdminManageAppointmentsServlet.java</file>
+            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/src/java/DAL/DoctorDAO.java</file>
+            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/web/admin-appointments/admin-manage-pending-appointments.jsp</file>
         </group>
     </open-files>
 </project-private>

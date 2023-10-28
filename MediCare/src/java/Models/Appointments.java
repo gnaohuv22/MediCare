@@ -39,8 +39,6 @@ public class Appointments {
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
-
-    
     
     public String getAppointmentDay() {
         return appointmentDay;
