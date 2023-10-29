@@ -133,7 +133,7 @@ public class AdminManagePendingAppointmentsServlet extends HttpServlet {
         DoctorDAO dd = new DoctorDAO();
         SubLevelMenuDAO sd = new SubLevelMenuDAO();
         ArrayList<AdminSidebarMenu> statusAppointments = sd.getSubLevelMenuByContent("Trạng thái cuộc hẹn");
-
+        ScheduleDetailDAO sdd = new ScheduleDetailDAO();
         if (action != null) {
             switch (action) {
                 case "solve-pending-appointment": {
@@ -304,7 +304,8 @@ public class AdminManagePendingAppointmentsServlet extends HttpServlet {
                     Appointments a = ad.getAppointmentById(appointmentId);
                     System.out.println("Appointment OLD: " + a);
 
-                    if (ad.updateAppointment(appointmentId, doctorId, statusAppointment)) {
+                    if (ad.updateAppointment(appointmentId, doctorId, statusAppointment) && sdd.updateStatusOfDoctorScheduleDetail(a.getBranch().getId(), 
+                                        a.getServiceTag().getId(), a.getAppointmentDay(), a.getAppointmentTime(), doctorId)) {
                         System.out.println("Update appointment success");
                         System.out.println("Appointment NEW: " + ad.getAppointmentById(appointmentId));
                     } else {

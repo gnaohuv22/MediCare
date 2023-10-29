@@ -131,6 +131,14 @@ public class UserDAO extends DBContext {
     }
 
     public boolean registerUser(User u) {
+        // Check whether email is registered - having password:
+        UserDAO ud = new UserDAO();
+        User registerAcc = ud.getUserNotRegistered(u.getEmail());
+        if (registerAcc == null) { // => insert new to [User]
+            
+        } else if (registerAcc.getPassword() == null) { // update in [User]
+            
+        }
         String sql = "INSERT INTO [dbo].[User]\n"
                 + "           ([id]\n"
                 + "           ,[email]\n"
@@ -256,14 +264,16 @@ public class UserDAO extends DBContext {
     }
 
     public User getUserNotRegistered(String email) {
-        String sql = "SELECT id FROM [User]\n"
-                + "WHERE password IS NULL AND email = ?";
+//        String sql = "SELECT id FROM [User]\n"
+//                + "WHERE password IS NULL AND email = ?";
+        String sql = "SELECT id, password FROM [User]\n"
+                + "WHERE email = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, email);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                return new User(rs.getString("id"));
+                return new User(rs.getString("id"), rs.getString("password"));
             }
         } catch (SQLException e) {
             System.out.println("getUserNotRegistered: " + e);

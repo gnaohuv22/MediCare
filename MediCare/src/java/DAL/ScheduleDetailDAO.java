@@ -425,7 +425,7 @@ public class ScheduleDetailDAO extends DBContext {
         return false;
     }
 
-    public boolean updateStatusOfDoctorScheduleDetail(String branchId, String serviceId, String appointmentDate, String appointmentTime) {
+    public boolean updateStatusOfDoctorScheduleDetail(String branchId, String serviceId, String appointmentDate, String appointmentTime, String doctorId) {
         String sql = "UPDATE [dbo].[ScheduleDetail]\n"
                 + "   SET [SlotStatus] = 0\n"
                 + "   WHERE id = (SELECT SD.id FROM [hehe1].[dbo].[ScheduleDetail] AS SD\n"
@@ -442,6 +442,20 @@ public class ScheduleDetailDAO extends DBContext {
                 + "ON ScdDt.SlotID = WS.id\n"
                 + "WHERE branchId = ? AND serviceId = ? AND WorkDate = ? AND startTime = ? AND d.isDelete = 0 AND d.id = ?))";
 
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, doctorId);
+            st.setString(2, appointmentDate);
+            st.setInt(3, Integer.parseInt(branchId));
+            st.setInt(4, Integer.parseInt(serviceId));
+            st.setString(5, appointmentDate);
+            st.setString(6, appointmentTime);
+            st.setString(7, doctorId);
+            st.execute();
+            return true;
+        } catch (SQLException | NumberFormatException e) {
+            System.out.println("updateStatusOfDoctorScheduleDetail: " + e);
+        }
         return false;
     }
 
