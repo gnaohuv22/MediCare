@@ -15,6 +15,7 @@ public class Constants {
     public static String GOOGLE_CLIENT_SECRET = "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";
 
     public static String GOOGLE_REDIRECT_URI = "http://localhost:9999/MediCare/user-login-google-handler";
+    public static String GOOGLE_REDIRECT_URI_1 = "http://localhost:9999/MediCare/user-register-google-handler";
 
     public static String GOOGLE_LINK_GET_TOKEN = "https://accounts.google.com/o/oauth2/token";
 

@@ -58,7 +58,6 @@ public class AppointmentsDAO extends DBContext {
 //        }
 //        return null;
 //    }
-
     public ArrayList<Appointments> getAllAppointment() {
         ArrayList<Appointments> list = new ArrayList<>();
         String SQL = "SELECT\n"
@@ -120,6 +119,7 @@ public class AppointmentsDAO extends DBContext {
         }
         return null;
     }
+
     public ArrayList<Appointments> getAllPendingAppointment() {
         ArrayList<Appointments> list = new ArrayList<>();
         String SQL = "SELECT\n"
@@ -181,37 +181,37 @@ public class AppointmentsDAO extends DBContext {
         }
         return null;
     }
-    
+
     public ArrayList<Appointments> searchAllAppointment(Appointments key, String searchStartDate, String searchEndDate) {
         ArrayList<Appointments> list = new ArrayList<>();
-        String SQL = "SELECT\n" +
-"                     Appointments.id,\n" +
-"                     userId,\n" +
-"                     doctorId,\n" +
-"                     serviceId,\n" +
-"                     plannedAt,\n" +
-"                     Appointments.profileId,\n" +
-"                     Appointments.branchId,\n" +
-"                     CONVERT(VARCHAR, plannedAt, 23) AS AppointmentDay,\n" +
-"                     CAST(plannedAt AS TIME) AS AppointmentTime,\n" +
-"                     Appointments.status,\n" +
-"                     [User].name AS uName,\n" +
-"                     Doctor.displayName AS dName,\n" +
-"                     ServiceTag.nametag AS nameTag,\n" +
-"                     Branch.name AS bName,\n" +
-"                     FamilyProfile.name AS patientName\n" +
-"                 FROM Appointments\n" +
-"                 JOIN [User] ON userId = [User].id\n" +
-"                 LEFT JOIN Doctor ON doctorId = Doctor.id\n" +
-"                 JOIN ServiceTag ON serviceId = ServiceTag.id\n" +
-"                 JOIN Branch ON Appointments.branchId = Branch.id\n" +
-"                 JOIN FamilyProfile ON Appointments.profileId = FamilyProfile.profileId\n" +
-"				 WHERE\n" +
-"				 Doctor.displayName like ?\n" +
-"				 AND Appointments.serviceId like ?\n" +
-"				 AND Appointments.branchId like ?\n" +
-"				 AND Appointments.status like ?\n" +
-"				 AND Appointments.plannedAt>=? and  Appointments.plannedAt<=?";
+        String SQL = "SELECT\n"
+                + "                     Appointments.id,\n"
+                + "                     userId,\n"
+                + "                     doctorId,\n"
+                + "                     serviceId,\n"
+                + "                     plannedAt,\n"
+                + "                     Appointments.profileId,\n"
+                + "                     Appointments.branchId,\n"
+                + "                     CONVERT(VARCHAR, plannedAt, 23) AS AppointmentDay,\n"
+                + "                     CAST(plannedAt AS TIME) AS AppointmentTime,\n"
+                + "                     Appointments.status,\n"
+                + "                     [User].name AS uName,\n"
+                + "                     Doctor.displayName AS dName,\n"
+                + "                     ServiceTag.nametag AS nameTag,\n"
+                + "                     Branch.name AS bName,\n"
+                + "                     FamilyProfile.name AS patientName\n"
+                + "                 FROM Appointments\n"
+                + "                 JOIN [User] ON userId = [User].id\n"
+                + "                 LEFT JOIN Doctor ON doctorId = Doctor.id\n"
+                + "                 JOIN ServiceTag ON serviceId = ServiceTag.id\n"
+                + "                 JOIN Branch ON Appointments.branchId = Branch.id\n"
+                + "                 JOIN FamilyProfile ON Appointments.profileId = FamilyProfile.profileId\n"
+                + "				 WHERE\n"
+                + "				 Doctor.displayName like ?\n"
+                + "				 AND Appointments.serviceId like ?\n"
+                + "				 AND Appointments.branchId like ?\n"
+                + "				 AND Appointments.status like ?\n"
+                + "				 AND Appointments.plannedAt>=? and  Appointments.plannedAt<=?";
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
             pstm.setNString(1, key.getDoctor().getDisplayName());
             pstm.setString(2, key.getServiceTag().getId());
@@ -256,7 +256,6 @@ public class AppointmentsDAO extends DBContext {
         return null;
     }
 
-
     public int getLastestId() {
         String sql = "SELECT TOP 1 id FROM Appointments\n"
                 + "ORDER BY id DESC";
@@ -274,17 +273,20 @@ public class AppointmentsDAO extends DBContext {
 
     public boolean addNewAppointment(String userId, String branchId, String serviceId, String doctorId, String plannedAt, String slotId, String createdAt,
             String patientName, String gender, String birthDate, String phone, String emailPatient, String symptoms, String email, String password) {
+        if (doctorId.equals("-1"))
+            doctorId = null;
         UserDAO ud = new UserDAO();
         // If guest book:
         User user;
         System.out.println("--- START ADD NEW APPOINTMENT ---");
         System.out.println("Check Login: email = " + email + " | password = " + password);
-        if (password == null) {
+        if (email == null) {
             user = null;
         } else {
-            user = ud.login(email);
+            user = ud.getUserRegistered(email);
         }
-        User guest = ud.getUserNotRegistered(emailPatient);
+        User guestNotInDB = ud.getUserNotRegistered(emailPatient);
+        User guest = ud.getGuestInUserTable(emailPatient);
 
         // Check if the profile of PATIENT existed?:
         FamilyProfileDAO fpd = new FamilyProfileDAO();
@@ -295,17 +297,20 @@ public class AppointmentsDAO extends DBContext {
             System.out.println("USER == NULL -> GUEST BOOK:");
             System.out.println("USER = " + user);
             // If guest is not in database -> Add guest to table User:
-            if (guest == null) {
+            if (guest == null && guestNotInDB == null) {
                 if (ud.addUserNotRegistered(emailPatient)) {
                     System.out.println("Add user not register: SUCCESS");
                 } else {
                     System.out.println("Add user not register: FAIL");
                 }
+                guest = ud.getGuestInUserTable(emailPatient);
+            } else {
+                guest = ud.getUserNotRegistered(emailPatient);
             }
-            guest = ud.getUserNotRegistered(emailPatient);
-            p = fpd.getFamilyProfileByInfoGuest(patientName, gender, birthDate, phone, emailPatient, guest.getId());
+            System.out.println("Guest: " + guest);
+            p = fpd.getFamilyProfileByInfoGuest(patientName, gender, birthDate, phone, emailPatient, guest.getId()==null?guest.getEmail():guest.getId());
             if (p == null) {
-                fpd.addNewProfile(patientName, gender, birthDate, phone, emailPatient, guest.getId());
+                fpd.addNewProfile(patientName, gender, birthDate, phone, emailPatient, guest.getId()==null?guest.getEmail():guest.getId());
             }
         } else { // User book:
             System.out.println("USER != NULL -> USER BOOK:");
@@ -317,9 +322,9 @@ public class AppointmentsDAO extends DBContext {
         if (user != null) {
             p = fpd.getFamilyProfileByInfoGuest(patientName, gender, birthDate, phone, emailPatient, user.getId());
         } else {
-            p = fpd.getFamilyProfileByInfoGuest(patientName, gender, birthDate, phone, emailPatient, guest.getId());
+            p = fpd.getFamilyProfileByInfoGuest(patientName, gender, birthDate, phone, emailPatient, guest.getId()==null?guest.getEmail():guest.getId());
         }
-
+        System.out.println("p: " + p);
         String profileId = p.getProfileId();
         System.out.println("Profile Id Guest: " + profileId);
 
@@ -415,7 +420,7 @@ public class AppointmentsDAO extends DBContext {
                 st.setInt(8, Integer.parseInt(profileId));
                 st.execute();
                 return true;
-            } catch (SQLException e) {
+            } catch (SQLException | NumberFormatException e) {
                 System.out.println("AppointmentsDAO.addNewAppointment - TH1: " + e);
             }
             //TH2: userId != null, serviceId != null -> doctorId == null -> status: 0 - pending
@@ -434,7 +439,7 @@ public class AppointmentsDAO extends DBContext {
                 st.setInt(9, Integer.parseInt(profileId));
                 st.execute();
                 return true;
-            } catch (SQLException e) {
+            } catch (SQLException | NumberFormatException e) {
                 System.out.println("AppointmentsDAO.addNewAppointment - TH2: " + e);
             }
             //TH3: userId != null, serviceId != null -> doctorId != null -> status: 1 - Accepted
@@ -454,7 +459,7 @@ public class AppointmentsDAO extends DBContext {
                 st.setInt(10, Integer.parseInt(profileId));
                 st.execute();
                 return true;
-            } catch (SQLException e) {
+            } catch (SQLException | NumberFormatException e) {
                 System.out.println("AppointmentsDAO.addNewAppointment - TH3: " + e);
             }
             //Guest:
@@ -516,11 +521,11 @@ public class AppointmentsDAO extends DBContext {
             }
         }
 
-        try {
-            PreparedStatement st = connection.prepareStatement(sql1);
-        } catch (SQLException e) {
-            System.out.println("AppointmentsDAO.addNewAppointment: " + e);
-        }
+//        try {
+//            PreparedStatement st = connection.prepareStatement(sql1);
+//        } catch (SQLException e) {
+//            System.out.println("AppointmentsDAO.addNewAppointment: " + e);
+//        }
         return false;
     }
 
@@ -607,6 +612,5 @@ public class AppointmentsDAO extends DBContext {
         }
         return false;
     }
-    
-    
+
 }

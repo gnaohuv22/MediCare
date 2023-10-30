@@ -156,7 +156,7 @@
         <url-pattern>/load-each-family-profile</url-pattern>
     </servlet-mapping>
     
-     <servlet>
+    <servlet>
         <servlet-name>AdminDoctorController</servlet-name>
         <servlet-class>Controllers.AdminDoctorController</servlet-class>
     </servlet>
@@ -165,7 +165,15 @@
         <servlet-name>AdminDoctorController</servlet-name>
         <url-pattern>/admin-doctor</url-pattern>
     </servlet-mapping>
-   
+    
+    <servlet>
+        <servlet-name>UserRegisterGoogleHandler</servlet-name>
+        <servlet-class>Controllers.UserRegisterGoogleHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserRegisterGoogleHandler</servlet-name>
+        <url-pattern>/user-register-google-handler</url-pattern>
+    </servlet-mapping>
     <welcome-file-list>
         <welcome-file>admin-screen/admin-login.jsp</welcome-file>
     </welcome-file-list>
