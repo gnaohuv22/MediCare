@@ -22,36 +22,36 @@
                 <div class="content">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h4 class="page-title">Doctors</h4>
+                            <h4 class="page-title">Bác sĩ </h4>
                             <c:if test="${not empty requestScope.noti}">
                                 <p>${requestScope.noti}</p>
                             </c:if>
                         </div>
                         <!-- Filter tim kiem :  -->                       
                         <div class="col-sm-6 col-6 text-right m-b-20">
-                            <a href="admin-doctor?action=add" class="btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Doctor</a>
+                            <a href="admin-doctor?action=add" class="btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Thêm bác sĩ </a>
                         </div>
                     </div>
                     <form id="myForm" action="admin-doctor" class="row" style="align-items: end">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="search-input">Search doctor:</label>
+                                <label for="search-input">Tìm kiếm bác sĩ :</label>
                                 <input type="text" id="search-input" name="search" value="${requestScope.search}" class="form-control" placeholder="Search doctor">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>Doctor Status</label>
+                                <label>Trạng thái</label>
                                 <select id="isDelete" name="isDelete" required class="form-control">
-                                    <option value="0" <% if ("0".equals(request.getParameter("isDelete"))) { %>selected<% } %>>Active</option>
-                                    <option value="1"<% if ("1".equals(request.getParameter("isDelete"))) { %>selected<% } %>>Deleted</option>
-                                    <option value=""<% if ("".equals(request.getParameter("isDelete"))) { %>selected<% } %>>All</option>
+                                    <option value="0" <% if ("0".equals(request.getParameter("isDelete"))) { %>selected<% } %>>Đang hoạt động</option>
+                                    <option value="1"<% if ("1".equals(request.getParameter("isDelete"))) { %>selected<% } %>>Đã xóa</option>
+                                    <option value=""<% if ("".equals(request.getParameter("isDelete"))) { %>selected<% } %>>Tất cả</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>Branch</label>
+                                <label>Chi nhánh</label>
                                 <select id="branch" name="branch" class="form-control" required="" >
                                     <c:forEach  var="br" items="${listBranch}">
                                         <option value="${br.getId()}" 
@@ -60,13 +60,13 @@
                                                 </c:if>
                                                 >${br.getName()}</option>
                                     </c:forEach> 
-                                    <option value="" <% if ("".equals(request.getParameter("branch"))) { %>selected<% } %>>All</option>
+                                    <option value="" <% if ("".equals(request.getParameter("branch"))) { %>selected<% } %>>Tất cả</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>Academic Rank</label>
+                                <label>Trình độ học vấn </label>
                                 <select id="academicRank" name="academicRank" required="" class="form-control">
                                     <c:forEach var="a" items="${listAR}">
                                         <option value="${a.getId()}" 
@@ -76,17 +76,17 @@
                                                 >${a.getName()}</option>
 
                                     </c:forEach> 
-                                    <option value="" <% if ("".equals(request.getParameter("academicRank"))){ %>selected<% } %> >ALL</option>
+                                    <option value="" <% if ("".equals(request.getParameter("academicRank"))){ %>selected<% } %> >Tất cả</option>
                                 </select>
                             </div>
                         </div>
-                                <div class="col-5"></div>
+                        <div class="col-5"></div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary btn-rounded w-100"><i class="fa fa-search"></i> Search</button>
+                                <button type="submit" class="btn btn-primary btn-rounded w-100"><i class="fa fa-search"></i> Tìm kiếm </button>
                             </div>
                         </div>
-                                <div class="col-5"></div>
+                        <div class="col-5"></div>
                     </form>
                 </div>
                 <div class="row doctor-grid">
@@ -101,8 +101,12 @@
                                 <div class="dropdown profile-action">
                                     <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_doctor" onclick="setDoctorId(${doc.getId()})"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_doctor" onclick="showDeleteDialog(${doc.getId()})"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_doctor" onclick="setDoctorId(${doc.getId()})"><i class="fa fa-pencil m-r-5"></i> Sửa</a>
+
+                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_doctor" onclick="showDeleteDialog(${doc.getId()})"><i class="fa fa-trash-o m-r-5"></i> Xóa</a>
+
+
+
                                     </div>
                                 </div>
                                 <h4 class="doctor-name text-ellipsis"><a href="profile.html">${doc.getDisplayName()}</a></h4>
@@ -113,13 +117,13 @@
                         </div>
                     </c:forEach>
                     <div class="col-lg-12" style="display: flex ;flex-direction: row; justify-content: center">
-                        <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href=""admin-doctor?isDelete=${requestScope.isDelete}&search=${requestScope.search}&branch=${requestScope.branch}&academicRank=${requestScope.academicRank}&index=${requestScope.previous}">Previous</a></li>
+                        <ul class="pagination"> 
+                          <li class="page-item"><a class="page-link" href="admin-doctor?isDelete=${requestScope.isDelete}&search=${requestScope.search}&branch=${requestScope.branch}&academicRank=${requestScope.academicRank}&index=${requestScope.previous}">Trước</a></li>
                                 <c:forEach begin="1" end="${requestScope.endPage}" var="i">
                                 <li class="page-item"><a class="page-link" href="admin-doctor?isDelete=${requestScope.isDelete}&search=${requestScope.search}&branch=${requestScope.branch}&academicRank=${requestScope.academicRank}&index=${i}">${i}</a></li>
                                 </c:forEach>
-                            <li class="page-item"><a class="page-link" href=""admin-doctor?isDelete=${requestScope.isDelete}&search=${requestScope.search}&branch=${requestScope.branch}&academicRank=${requestScope.academicRank}&index=${requestScope.after}">Next</a></li>
-                        </ul> 
+                            <li class="page-item"> <a class="page-link" href="admin-doctor?isDelete=${requestScope.isDelete}&search=${requestScope.search}&branch=${requestScope.branch}&academicRank=${requestScope.academicRank}&index=${requestScope.after}">Sau</a></li>
+                        </ul>
                     </div>
                 </div>
                 <!--                    <div class="row">
@@ -150,10 +154,27 @@
                 <div class="modal-content">
                     <div class="modal-body text-center">
                         <img src="../assets/img/sent.png" alt="" width="50" height="46">
-                        <h3>Are you sure want to delete this Doctor?</h3>
+                        <h3>Bạn có chắc muốn xóa bác sĩ này không?</h3>
                         <div class="m-t-20">
-                            <a href="admin-doctor" class="btn btn-white" data-dismiss="modal">Close</a>
+                            <a href="admin-doctor" class="btn btn-white" data-dismiss="modal">Đóng</a>
                             <input type="submit" class="btn btn-danger" value="Delete"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form id ="undoForm" action="admin-doctor" method="post">
+        <input type="hidden" name="action" value="undo">
+        <div id="undo-doctor" class="modal fade delete-modal" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <img src="../assets/img/sent.png" alt="" width="50" height="46">
+                        <h3>Bạn có muốn khôi phục bác sĩ này không ?</h3>
+                        <div class="m-t-20">
+                            <a href="admin-doctor" class="btn btn-white" data-dismiss="modal">Đóng</a>
+                            <input type="submit" class="btn btn-danger" value="Undo"/>
                         </div>
                     </div>
                 </div>
@@ -171,6 +192,16 @@
         input.name = 'id';
         input.value = doctorId;
         deleteForm.appendChild(input)
+    }
+</script>
+<script>
+    function showUndoDialog(doctorId) {
+        var deleteForm = document.getElementById('undoForm')
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'id';
+        input.value = doctorId;
+        undoForm.appendChild(input)
     }
 </script>
 <script>

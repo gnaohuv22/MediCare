@@ -221,6 +221,18 @@ public class DoctorDAO extends DBContext {
         } catch (SQLException ex) {
         }
     }
+        public void undoDoctor(Doctor d) {
+        try {
+            String sql = "UPDATE [dbo].[Doctor]\n"
+                    + "            SET [isDelete] = 0"
+                    + "        WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, d.getId());
+            statement.executeUpdate();
+            System.out.println("Delete success");
+        } catch (SQLException ex) {
+        }
+    }
 
     public int doctorCount(List<Doctor> list) {
         return list.size();
