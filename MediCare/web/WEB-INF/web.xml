@@ -44,6 +44,10 @@
         <servlet-name>GetAppointmentServlet</servlet-name>
         <servlet-class>Controllers.GetAppointmentServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DoctorScheduleServlet</servlet-name>
+        <servlet-class>Controllers.DoctorScheduleServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserLoginServlet</servlet-name>
         <url-pattern>/user-login</url-pattern>
@@ -168,6 +172,10 @@
     <servlet-mapping>
         <servlet-name>LoadFamilyProfileByOwnerIdServlet</servlet-name>
         <url-pattern>/load-html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DoctorScheduleServlet</servlet-name>
+        <url-pattern>/schedule</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -21,7 +21,17 @@
                         <h1 class="adderss_text">${item.getTitle()}</h1>
                         <c:forEach items="${sessionScope.contacts}" var="contact">
                             <div class="map_icon">
-                                <img src="${pageContext.request.contextPath}/${contact.getIcon()}"/><span class="paddlin_left_0">${contact.getName()}</span>
+                                <c:choose>
+                                    <c:when test="${contact.getName() eq 'medicare1733@gmail.com'}">
+                                        <img src="${pageContext.request.contextPath}/${contact.getIcon()}"/>
+                                        <span class="paddlin_left_0 footer-mail">
+                                            <a href="mailto:${contact.getName()}">${contact.getName()}</a>
+                                        </span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="${pageContext.request.contextPath}/${contact.getIcon()}"/><span class="paddlin_left_0">${contact.getName()}</span>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </c:forEach>
                     </c:if>

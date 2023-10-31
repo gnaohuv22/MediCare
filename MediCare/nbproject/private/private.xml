@@ -2,12 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/src/java/DAL/AppointmentsDAO.java</file>
-            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/doctor-home.jsp</file>
-            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/web/assets/doctor/css/style.css</file>
-            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/src/java/Controllers/GetAppointmentServlet.java</file>
-            <file>file:/E:/Test_commit/medicalserviceproject-html-to-jsp/MediCare/src/java/DAL/DoctorDAO.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
