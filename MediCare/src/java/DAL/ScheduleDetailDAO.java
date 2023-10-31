@@ -8,12 +8,15 @@ import Models.ScheduleDetail;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Year;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -161,15 +164,6 @@ public class ScheduleDetailDAO extends DBContext {
         return list;
     }
 
-    public static void main(String[] args) {
-        ScheduleDetailDAO sdd = new ScheduleDetailDAO();
-        ArrayList<ScheduleDetail> list = sdd.getAllSlotsOfDoctorByDoctorId("2", "5", "2023-10-05");
-
-        for (ScheduleDetail scheduleDetail : list) {
-            System.out.println(scheduleDetail);
-        }
-    }
-
     public String getStartTimeBySlotId(String slotId) {
         String sql = "SELECT startTime FROM WorkingSlot\n"
                 + "WHERE id = ?";
@@ -222,6 +216,11 @@ public class ScheduleDetailDAO extends DBContext {
         years.add((currentYear + 1) + "");
 
         return years;
+    }
+
+    public String getCurrentDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Định dạng ngày tháng
+        return sdf.format(new Date());
     }
 
     public static boolean isFirstWeekComplete(ArrayList<ScheduleDetail> weeks) {
@@ -425,23 +424,26 @@ public class ScheduleDetailDAO extends DBContext {
         return false;
     }
 
-    public boolean updateStatusOfDoctorScheduleDetail(String branchId, String serviceId, String appointmentDate, String appointmentTime, String doctorId) {
-        String sql = "UPDATE [dbo].[ScheduleDetail]\n"
-                + "   SET [SlotStatus] = 0\n"
-                + "   WHERE id = (SELECT SD.id FROM [hehe1].[dbo].[ScheduleDetail] AS SD\n"
-                + "JOIN DoctorSchedule AS DS ON DS.id = SD.ScheduleID\n"
-                + "WHERE ds.DoctorID = ? AND ds.WorkDate = ? AND SD.SlotID = (SELECT ScdDt.slotId\n"
-                + "FROM Doctor AS d\n"
-                + "JOIN DoctorService AS DS \n"
-                + "ON DS.doctorId = d.id\n"
-                + "JOIN DoctorSchedule AS DScd\n"
-                + "ON d.id = DScd.DoctorID\n"
-                + "JOIN ScheduleDetail AS ScdDt\n"
-                + "ON DScd.id = ScdDt.ScheduleID\n"
-                + "JOIN WorkingSlot AS WS\n"
-                + "ON ScdDt.SlotID = WS.id\n"
-                + "WHERE branchId = ? AND serviceId = ? AND WorkDate = ? AND startTime = ? AND d.isDelete = 0 AND d.id = ?))";
-
+    public boolean updateStatusOfDoctorScheduleDetail(String branchId, String serviceId, String appointmentDate, String appointmentTime, String doctorId, int status) {
+        System.out.println("--- Start Update StatusOfDoctorScheduleDetail - status " + status + "---");
+        String sql = "UPDATE SD\n"
+                + "SET SD.[SlotStatus] = " + status + "\n"
+                + "FROM [dbo].[ScheduleDetail] AS SD\n"
+                + "JOIN [dbo].[DoctorSchedule] AS DS ON DS.id = SD.[ScheduleID]\n"
+                + "WHERE DS.[DoctorID] = ? \n"
+                + "AND DS.[WorkDate] = ? \n"
+                + "AND SD.[SlotID] IN (SELECT ScdDt.[SlotID]\n"
+                + "FROM [dbo].[Doctor] AS d\n"
+                + "JOIN [dbo].[DoctorService] AS DS ON DS.[doctorId] = d.[id]\n"
+                + "JOIN [dbo].[DoctorSchedule] AS DScd ON d.[id] = DScd.[DoctorID]\n"
+                + "JOIN [dbo].[ScheduleDetail] AS ScdDt ON DScd.[id] = ScdDt.[ScheduleID]\n"
+                + "JOIN [dbo].[WorkingSlot] AS WS ON ScdDt.[SlotID] = WS.[id]\n"
+                + "WHERE [branchId] = ?\n"
+                + "AND DS.[serviceId] = ?\n"
+                + "AND DScd.[WorkDate] = ?\n"
+                + "AND WS.[startTime] = ?\n"
+                + "AND d.[isDelete] = 0\n"
+                + "AND d.[id] = ?)";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, doctorId);
@@ -452,11 +454,46 @@ public class ScheduleDetailDAO extends DBContext {
             st.setString(6, appointmentTime);
             st.setString(7, doctorId);
             st.execute();
+            System.out.println("updateStatusOfDoctorScheduleDetail: SUCCESS");
             return true;
         } catch (SQLException | NumberFormatException e) {
+            System.out.println("updateStatusOfDoctorScheduleDetail: FAIL");
             System.out.println("updateStatusOfDoctorScheduleDetail: " + e);
         }
+        System.out.println("--- End Update StatusOfDoctorScheduleDetail ---");
         return false;
+    }
+    
+    public int compareDates(String dateString1, String dateString2) {
+    // Định dạng của chuỗi ngày
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    try {
+        // Chuyển đổi chuỗi ngày thành đối tượng LocalDate
+        LocalDate date1 = LocalDate.parse(dateString1, dateFormatter);
+        LocalDate date2 = LocalDate.parse(dateString2, dateFormatter);
+
+        // So sánh hai ngày
+        if (date1.isBefore(date2)) {
+            return -1; // Ngày 1 trước Ngày 2
+        } else if (date1.isAfter(date2)) {
+            return 1; // Ngày 1 sau Ngày 2
+        } else {
+            return 0; // Ngày 1 bằng Ngày 2
+        }
+    } catch (Exception e) {
+        return -2; // Lỗi: Sai định dạng ngày
+    }
+}
+
+    public static void main(String[] args) {
+        ScheduleDetailDAO sdd = new ScheduleDetailDAO();
+//        boolean list = sdd.updateStatusOfDoctorScheduleDetail("1", "2", "2023-10-30", "16:00:00", "10", 0);
+//
+//        System.out.println("list: " + list);
+        String currentDate = sdd.getCurrentDate();
+        System.out.println("current date: " + currentDate);
+        System.out.println(sdd.compareDates("2023-10-05", "2023-10-05"));
     }
 
 }

@@ -24,6 +24,12 @@ public class FamilyProfile {
     public FamilyProfile() {
     }
 
+    public FamilyProfile(String profileId, String email, String ownerId) {
+        this.profileId = profileId;
+        this.email = email;
+        this.ownerId = ownerId;
+    }
+
     public FamilyProfile(String profileId, String email, String name, String birthDate, String gender, String address, String provinceId, String identity, String medicalId, String ethnic, String phone, String profilePicture, String createdAt, String relationId, String ownerId, Relationship relationship) {
         this.profileId = profileId;
         this.email = email;
@@ -58,8 +64,8 @@ public class FamilyProfile {
         this.ownerId = ownerId;
         this.relationship = relationship;
     }
-    
-    public FamilyProfile( String email, String name, String birthDate, String gender, String address, String identity, String medicalId, String ethnic, String phone, String createdAt, String relationId, String ownerId) {
+
+    public FamilyProfile(String email, String name, String birthDate, String gender, String address, String identity, String medicalId, String ethnic, String phone, String createdAt, String relationId, String ownerId) {
         this.email = email;
         this.name = name;
         this.birthDate = birthDate;
@@ -73,8 +79,6 @@ public class FamilyProfile {
         this.relationId = relationId;
         this.ownerId = ownerId;
     }
-    
-    
 
     public FamilyProfile(String profileId) {
         this.profileId = profileId;

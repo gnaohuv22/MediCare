@@ -154,6 +154,7 @@ public class AdminManageScheduleDoctor extends HttpServlet {
         ArrayList<ScheduleDetail> weeks = new ArrayList<>();
         ArrayList<String> daysOfCurrentWeek_raw = sdd.getDaysOfCurrentWeek();
         ArrayList<String> daysOfCurrentWeek = new ArrayList<>();
+        String currentDate = sdd.getCurrentDate();
         for (ScheduleDetail s : weeks_raw) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM"); // Định dạng ngày tháng
             System.out.println(dateFormat.format(java.sql.Date.valueOf(s.getStartTime())));
@@ -255,15 +256,23 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                         out.println("<td>");
                         boolean slotFound = false;
                         for (ScheduleDetail s : slotsofDoctor) {
+
                             if (daysInWeekInRange_raw.get(i - 1).equals(s.getWorkDate()) && slot.getSlotId().equals(s.getSlotId())) {
-                                out.println("<i class=\"fas fa-close delete-schedule-icon\"   data-scheduleDetailId=\"" + s.getId() + "\" onclick=\"eventClickDeleteScheduleIcon(this)\"></i>");
+                                if (sdd.compareDates(daysInWeekInRange_raw.get(i - 1), currentDate) >= 0) {
+                                    out.println("<i class=\"fas fa-close delete-schedule-icon\"   data-scheduleDetailId=\"" + s.getId() + "\" onclick=\"eventClickDeleteScheduleIcon(this)\"></i>");
+                                }
 //                                out.println("<span class=\"bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom font-size16 xs-font-size10\">Dance</span>");
 //                                out.println("<div class=\"font-size10 text-light-gray\">Ivana Wong</div>");
                                 for (AdminSidebarMenu status : statusSlot) {
                                     System.out.println("Slot - status: " + status);
                                     if (status.getLink().equals(s.getSlotStatus())) {
                                         System.out.println("status.getLink() == s.getSlotStatus()");
-                                        out.println("<div class=\"status-appointment\"><span class=\"custom-badge " + status.getIcon() + "\">" + status.getName() + "</span></div>");
+                                        if (sdd.compareDates(daysInWeekInRange_raw.get(i - 1), currentDate) < 0) {
+                                            out.println("<div class=\"status-appointment\"><span class=\"custom-badge " + "status-grey" + "\">" + status.getName() + "</span></div>");
+                                        } else {
+                                            out.println("<div class=\"status-appointment\"><span class=\"custom-badge " + status.getIcon() + "\">" + status.getName() + "</span></div>");
+
+                                        }
                                     }
                                 }
 
@@ -365,7 +374,9 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                         boolean slotFound = false;
                         for (ScheduleDetail s : slotsofDoctor) {
                             if (daysInWeekInRange_raw.get(i - 1).equals(s.getWorkDate()) && slot.getSlotId().equals(s.getSlotId())) {
-                                out.println("<i class=\"fas fa-close delete-schedule-icon\"   data-scheduleDetailId=\"" + s.getId() + "\" onclick=\"eventClickDeleteScheduleIcon(this)\"></i>");
+                                if (sdd.compareDates(daysInWeekInRange_raw.get(i - 1), currentDate) >= 0) {
+                                    out.println("<i class=\"fas fa-close delete-schedule-icon\"   data-scheduleDetailId=\"" + s.getId() + "\" onclick=\"eventClickDeleteScheduleIcon(this)\"></i>");
+                                }
 //                                out.println("<span class=\"bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom font-size16 xs-font-size10\">Dance</span>");
 //                                out.println("<div class=\"font-size10 text-light-gray\">Ivana Wong</div>");
 
@@ -373,7 +384,13 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                                     System.out.println("Slot - status: " + status);
                                     if (status.getLink().equals(s.getSlotStatus())) {
                                         System.out.println("status.getLink() == s.getSlotStatus()");
-                                        out.println("<div class=\"status-appointment\"><span class=\"custom-badge " + status.getIcon() + "\">" + status.getName() + "</span></div>");
+
+                                        if (sdd.compareDates(daysInWeekInRange_raw.get(i - 1), currentDate) < 0) {
+                                            out.println("<div class=\"status-appointment\"><span class=\"custom-badge " + "status-grey" + "\">" + status.getName() + "</span></div>");
+                                        } else {
+                                            out.println("<div class=\"status-appointment\"><span class=\"custom-badge " + status.getIcon() + "\">" + status.getName() + "</span></div>");
+
+                                        }
                                     }
                                 }
                                 out.println("<div class=\"margin-10px-top font-size10\">" + slot.getStartTime() + " - " + slot.getEndTime() + "</div>");
@@ -479,7 +496,9 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                         boolean slotFound = false;
                         for (ScheduleDetail s : slotsofDoctor) {
                             if (daysInWeekInRange_raw.get(i - 1).equals(s.getWorkDate()) && slot.getSlotId().equals(s.getSlotId())) {
-                                out.println("<i class=\"fas fa-close delete-schedule-icon\"  data-scheduleDetailId=\"" + s.getId() + "\" onclick=\"eventClickDeleteScheduleIcon(this)\"></i>");
+                                if (sdd.compareDates(daysInWeekInRange_raw.get(i - 1), currentDate) >= 0) {
+                                    out.println("<i class=\"fas fa-close delete-schedule-icon\"  data-scheduleDetailId=\"" + s.getId() + "\" onclick=\"eventClickDeleteScheduleIcon(this)\"></i>");
+                                }
 //                                out.println("<span class=\"bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom font-size16 xs-font-size10\">Dance</span>");
 //                                out.println("<div class=\"font-size10 text-light-gray\">Ivana Wong</div>");
 
@@ -487,7 +506,12 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                                     System.out.println("Slot - status: " + status);
                                     if (status.getLink().equals(s.getSlotStatus())) {
                                         System.out.println("status.getLink() == s.getSlotStatus()");
-                                        out.println("<div class=\"status-appointment\"><span class=\"custom-badge " + status.getIcon() + "\">" + status.getName() + "</span></div>");
+                                        if (sdd.compareDates(daysInWeekInRange_raw.get(i - 1), currentDate) < 0) {
+                                            out.println("<div class=\"status-appointment\"><span class=\"custom-badge " + "status-grey" + "\">" + status.getName() + "</span></div>");
+                                        } else {
+                                            out.println("<div class=\"status-appointment\"><span class=\"custom-badge " + status.getIcon() + "\">" + status.getName() + "</span></div>");
+
+                                        }
                                     }
                                 }
                                 out.println("<div class=\"margin-10px-top font-size10\">" + slot.getStartTime() + " - " + slot.getEndTime() + "</div>");
@@ -597,7 +621,9 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                         boolean slotFound = false;
                         for (ScheduleDetail s : slotsofDoctor) {
                             if (daysInWeekInRange_raw.get(i - 1).equals(s.getWorkDate()) && slot.getSlotId().equals(s.getSlotId())) {
-                                out.println("<i class=\"fas fa-close delete-schedule-icon\"   data-scheduleDetailId=\"" + s.getId() + "\" onclick=\"eventClickDeleteScheduleIcon(this)\"></i>");
+                                if (sdd.compareDates(daysInWeekInRange_raw.get(i - 1), currentDate) >= 0) {
+                                    out.println("<i class=\"fas fa-close delete-schedule-icon\"   data-scheduleDetailId=\"" + s.getId() + "\" onclick=\"eventClickDeleteScheduleIcon(this)\"></i>");
+                                }
 //                                out.println("<span class=\"bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom font-size16 xs-font-size10\">Dance</span>");
 //                                out.println("<div class=\"font-size10 text-light-gray\">Ivana Wong</div>");
                                 System.out.println("START - SLOT - STATUS:");
@@ -605,7 +631,12 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                                     System.out.println("Slot - status: " + status);
                                     if (status.getLink().equals(s.getSlotStatus())) {
                                         System.out.println("status.getLink() == s.getSlotStatus()");
-                                        out.println("<div class=\"status-appointment\"><span class=\"custom-badge " + status.getIcon() + "\">" + status.getName() + "</span></div>");
+                                        if (sdd.compareDates(daysInWeekInRange_raw.get(i - 1), currentDate) < 0) {
+                                            out.println("<div class=\"status-appointment\"><span class=\"custom-badge " + "status-grey" + "\">" + status.getName() + "</span></div>");
+                                        } else {
+                                            out.println("<div class=\"status-appointment\"><span class=\"custom-badge " + status.getIcon() + "\">" + status.getName() + "</span></div>");
+
+                                        }
                                     }
                                 }
                                 out.println("<div class=\"margin-10px-top font-size10\">" + slot.getStartTime() + " - " + slot.getEndTime() + "</div>");

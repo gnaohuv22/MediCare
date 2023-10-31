@@ -4,7 +4,6 @@
  */
 package Controllers;
 
-import DAL.AdminEmailContext;
 import DAL.AppointmentsDAO;
 import DAL.DoctorDAO;
 import DAL.FamilyProfileDAO;
@@ -18,7 +17,6 @@ import Models.Doctor;
 import Models.Employee;
 import Models.FamilyProfile;
 import Models.ServiceTag;
-import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -38,10 +36,10 @@ import java.util.logging.Logger;
  *
  * @author tubinh
  */
-@WebServlet(name = "AdminManagePendingAppointmentsServlet", urlPatterns = {"/admin-manage-pending-appointments"})
-public class AdminManagePendingAppointmentsServlet extends HttpServlet {
+@WebServlet(name = "AdminManageCanceledAppointmentsServlet", urlPatterns = {"/admin-manage-canceled-appointments"})
+public class AdminManageCanceledAppointmentsServlet extends HttpServlet {
 
-    private final String STATISTIC_APPOINTMENT = "admin-appointments/admin-manage-pending-appointments.jsp";
+    private final String STATISTIC_APPOINTMENT = "admin-appointments/admin-manage-canceled-appointments.jsp";
     private final String NEED_EMPLOYEE = "admin-screen/admin-login.jsp";
 
     /**
@@ -81,7 +79,7 @@ public class AdminManagePendingAppointmentsServlet extends HttpServlet {
             request.getRequestDispatcher(NEED_EMPLOYEE).forward(request, response);
         } else {
             AppointmentsDAO ad = new AppointmentsDAO();
-            ArrayList<Appointments> appointments = ad.getAllPendingAppointment();
+            ArrayList<Appointments> appointments = ad.getAllCanceledAppointment();
             for (Appointments appointment : appointments) {
                 System.out.println(appointment);
                 SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -129,7 +127,6 @@ public class AdminManagePendingAppointmentsServlet extends HttpServlet {
         System.out.println("AJAX - doPost - admin-manage-appointments");
         String appointmentId = request.getParameter("appointmentId");
         String doctorDisplayName = request.getParameter("doctorDisplayName");
-        String actionSendMail = request.getParameter("actionSendMail");
         String action = request.getParameter("action");
         AppointmentsDAO ad = new AppointmentsDAO();
         ServiceTagDAO std = new ServiceTagDAO();
@@ -138,6 +135,7 @@ public class AdminManagePendingAppointmentsServlet extends HttpServlet {
         SubLevelMenuDAO sd = new SubLevelMenuDAO();
         ArrayList<AdminSidebarMenu> statusAppointments = sd.getSubLevelMenuByContent("Trạng thái cuộc hẹn");
         ScheduleDetailDAO sdd = new ScheduleDetailDAO();
+
         if (action != null) {
             switch (action) {
                 case "solve-pending-appointment": {
@@ -156,7 +154,7 @@ public class AdminManagePendingAppointmentsServlet extends HttpServlet {
                                 + "                    <div class=\"content\">\n"
                                 + "                        <div class=\"row\">\n"
                                 + "                            <div class=\"col-lg-8 offset-lg-2\">\n"
-                                + "                                <h4 class=\"page-title\">Xử lí lịch hẹn</h4>\n"
+                                + "                                <h4 class=\"page-title\">Xử lí lịch hẹn cancel</h4>\n"
                                 + "                            </div>\n"
                                 + "                        </div>\n"
                                 + "                        <div class=\"row\">\n"
@@ -198,23 +196,18 @@ public class AdminManagePendingAppointmentsServlet extends HttpServlet {
                                 + "                                        <div class=\"col-md-6\">\n"
                                 + "                                            <div class=\"form-group\">\n"
                                 + "                                                <label>Bác sĩ phụ trách</label>\n"
-                                + "                                                <select class=\"select form-control doctor-choice-edit-appointment\" data-status=\"" + a.getStatus() + "\">\n");
+                                + "                                                <select disabled class=\"select form-control doctor-choice-edit-appointment\" data-status=\"" + a.getStatus() + "\">\n");
 
-                        out.println("                                \n" + "<option value=\"" + -1 + "\" disabled selected>" + "Chọn bác sĩ phụ trách" + "</option>");
+                        out.println("                                \n" + "<option value=\"" + -1 + "\" disabled selected>" + doctorDisplayName + "</option>");
 
-//                        if (a.getDoctor().getId() != null) {
-//                            a.getDoctor().setDisplayName(doctorDisplayName);
-//                            doctorsAvailable.add(a.getDoctor());
+//                        for (Doctor doctor : doctorsAvailable) {
+//                            if (doctor.getId().equals(a.getDoctor().getId())) {
+//                                out.println("                                \n" + "<option disabled selected value=\"" + doctor.getId() + "\">" + doctor.getDisplayName() + "</option>");
+//                            } else {
+//                                out.println("                                \n" + "<option value=\"" + doctor.getId() + "\">" + doctor.getDisplayName() + "</option>");
+//                            }
+//
 //                        }
-                        for (Doctor doctor : doctorsAvailable) {
-                            if (doctor.getId().equals(a.getDoctor().getId())) {
-                                out.println("                                \n" + "<option selected value=\"" + doctor.getId() + "\">" + doctor.getDisplayName() + "</option>");
-                            } else {
-                                out.println("                                \n" + "<option value=\"" + doctor.getId() + "\">" + doctor.getDisplayName() + "</option>");
-                            }
-
-                        }
-
                         out.println(
                                 "                                                </select>\n"
                                 + "                                            </div>\n"
@@ -259,9 +252,9 @@ public class AdminManagePendingAppointmentsServlet extends HttpServlet {
                                 + "                                    <div class=\"form-group\">\n"
                                 + "                                        <label>Triệu chứng</label>\n"
                                 + "                                        <textarea cols=\"30\" rows=\"4\" class=\"form-control\" disabled>" + a.getSymptoms() + "</textarea>\n"
-                                + "                                    </div>\n"
-                                + "                                    <div class=\"form-group\">\n"
-                                + "                                        <label class=\"display-block\">Trạng thái cuộc hẹn</label>\n");
+                                + "                                    </div>\n");
+//                                + "                                    <div class=\"form-group\">\n");
+//                                + "                                        <label class=\"display-block\">Trạng thái cuộc hẹn</label>\n");
 //                        for (AdminSidebarMenu status : statusAppointments) {
 //                            out.println(
 //                                    "                                        <div class=\"\">\n"
@@ -277,53 +270,11 @@ public class AdminManagePendingAppointmentsServlet extends HttpServlet {
 //                                    + "                                        </div>\n");
 //                        }
 
-                        for (AdminSidebarMenu status : statusAppointments) {
-                            out.println(
-                                    "                                        <div class=\"\">\n"
-                                    + "                                            <input class=\"form-check-input\" type=\"radio\" ");
-                            if (status.getLink().equals(a.getStatus())) {
-                                out.println(" checked ");
-                            }
-
-                            out.println("name=\"status\" id=\"product_inactive\" value=\"" + status.getLink() + "\">\n"
-                                    + "                                            <label class=\"form-check-label\" for=\"product_inactive\">\n"
-                                    + "                                                " + status.getName() + "\n"
-                                    + "                                            </label>\n");
-
-                            out.println("                                        </div>\n");
-                        }
-
-                        for (AdminSidebarMenu status : statusAppointments) {
-                            // Kiểm tra giá trị trạng thái và thêm phần HTML cho checkbox "Có muốn gửi mail"
-                            if ("1".equals(status.getLink())) {
-                                out.println("                                            <div class=\"mail-checkbox-container\">\n"
-                                        + "                                                <input checked class=\"mail-checkbox\" type=\"checkbox\" name=\"sendMail1\" id=\"send_mail_1\" data-action-send-mail=\"1\">\n"
-                                        + "                                                <span class=\"form-check-label\" for=\"send_mail_1\">\n"
-                                        + "                                                    Gửi mail xác nhận cuộc hẹn cho cả bác sĩ và bệnh nhân\n"
-                                        + "                                                </span>\n"
-                                        + "                                            </div>\n");
-                            } else if ("2".equals(status.getLink())) {
-                                out.println("                                            <div class=\"mail-checkbox-container\">\n"
-                                        + "                                                <input checked class \"mail-checkbox\" type=\"checkbox\" name=\"sendMail2\" id=\"send_mail_2\" data-action-send-mail=\"2\">\n"
-                                        + "                                                <span class=\"form-check-label\" for=\"send_mail_2\">\n"
-                                        + "                                                    Gửi mail hóa đơn và bệnh án cho bệnh nhân\n"
-                                        + "                                                </span>\n"
-                                        + "                                            </div>\n");
-                            } else if ("3".equals(status.getLink())) {
-                                out.println("                                            <div class=\"mail-checkbox-container\">\n"
-                                        + "                                                <input checked class=\"mail-checkbox\" type=\"checkbox\" name=\"sendMail3\" id=\"send_mail_3\" data-action-send-mail=\"3\">\n"
-                                        + "                                                <span class=\"form-check-label\" for=\"send_mail_3\">\n"
-                                        + "                                                    Gửi mail xác nhận đã hủy lịch hẹn cho cả bệnh nhân và bác sĩ\n"
-                                        + "                                                </span>\n"
-                                        + "                                            </div>\n");
-                            }
-                        }
-
                         out.println(
-                                "                                    </div>\n"
-                                + "                                    <div class=\"m-t-20 text-center\">\n"
-                                + "                                        <button data-pending-appointment-id=\"" + a.getId() + "\" class=\"btn btn-primary submit-btn\" onclick=\"eventSaveEditingAppointment(this)\">Lưu</button>\n"
-                                + "                                        <button class=\"btn btn-primary submit-btn\" onclick=\"closeSolvePendingAppointmentsForm()\">Hủy</button>\n"
+                                //                                "                                    </div>\n"
+                                "                                    <div class=\"m-t-20 text-center\">\n"
+                                //                                + "                                        <button data-pending-appointment-id=\"" + a.getId() + "\" class=\"btn btn-primary submit-btn\" onclick=\"eventSaveEditingAppointment(this)\">Đóng</button>\n"
+                                + "                                        <button class=\"btn btn-primary submit-btn\" onclick=\"closeSolvePendingAppointmentsForm()\">Đóng</button>\n"
                                 + "                                    </div>\n"
                                 + "                                </div>\n"
                                 + "                            </div>\n"
@@ -352,8 +303,7 @@ public class AdminManagePendingAppointmentsServlet extends HttpServlet {
                     System.out.println("status = " + statusAppointment);
                     // temp:
                     Appointments a = ad.getAppointmentById(appointmentId);
-                    System.out.println("line 305 - Appointment OLD: " + a);
-
+                    System.out.println("Appointment OLD: " + a);
                     if (ad.updateAppointment(appointmentId, doctorId, statusAppointment)) {
                         if (statusAppointment.equals("0") || statusAppointment.equals("3")) {
                             if (sdd.updateStatusOfDoctorScheduleDetail(a.getBranch().getId(), a.getServiceTag().getId(), a.getAppointmentDay(), a.getAppointmentTime(), doctorId, 1)) {
@@ -364,28 +314,9 @@ public class AdminManagePendingAppointmentsServlet extends HttpServlet {
                                 System.out.println("Line 314 - Update appointment (NOT AVAILABLE - 0) success");
                             }
                         }
-                        System.out.println("Appointment NEW - line 311: " + ad.getAppointmentById(appointmentId));
+                        System.out.println("Appointment NEW: " + ad.getAppointmentById(appointmentId));
                     } else {
                         System.out.println("Update appointment fail");
-                    }
-                    
-                    // Send email:
-                    if (actionSendMail != null) {
-                        // send Email:
-                        Appointments apm = ad.getPatientAndDoctorEmailById(appointmentId);
-                    String patientEmail = apm.getProfile().getEmail().trim();
-                    String doctorEmail = apm.getDoctor().getEmail().trim();
-
-                    String OTP = AdminEmailContext.generateRandomVerificationCode(6);
-
-                    AdminEmailContext.sendVerificationCodeToEmail(patientEmail, "XAC NHAN LICH HEN");
-                    AdminEmailContext.sendVerificationCodeToEmail(doctorEmail, "XAC NHAN LICH HEN");
-//                    JsonObject jsonObject = new JsonObject();
-//                    jsonObject.addProperty("message", "Thành công! Hãy kiểm tra email để lấy mã OTP");
-//                    jsonObject.addProperty("OTP", OTP);
-//
-//                    response.getWriter().write(OTP);
-                    // end - send email:
                     }
                     break;
                 }

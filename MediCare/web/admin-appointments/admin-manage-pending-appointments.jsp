@@ -49,7 +49,7 @@
                                 <div class="table-responsive">
                                     <table border="1" class="table table-striped custom-table">
                                         <thead>
-                                            <tr>
+                                            <tr class="text-center">
                                                 <th>ID</th>
                                                 <th>Tên bệnh nhân</th>
                                                 <th>Bác sĩ phụ trách</th>
@@ -57,7 +57,7 @@
                                                 <th>Chi nhánh</th>
                                                 <th>Ngày giờ khám</th>
                                                 <th>Trạng thái</th>
-                                                <th class="text-right">Hành động</th>
+                                                <th class="">Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -79,14 +79,14 @@
                                                     <c:forEach items="${requestScope.statusAppointments}" var="status">
                                                         <c:if test="${appointment.getStatus().equals(status.link)}">
                                                             <td class="status-appointment"><span class="custom-badge ${status.icon}">${status.name}</span></td>
-                                                            <td class="text-right">
-                                                                <div class="dropdown dropdown-action">
-                                                                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                                        <a data-pending-appointment-id="${appointment.id}" class="dropdown-item" href="#" onclick="eventClickSolvePendingAppointments(this)"><i class="fa fa-pencil m-r-5"></i> Xử lí cuộc hẹn</a>
-                                                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_appointment"><i class="fa fa-trash-o m-r-5"></i> Xóa cuộc hẹn</a>
-                                                                    </div>
-                                                                </div>
+                                                            <td class="text-center">
+                                                                <!--<div class="dropdown dropdown-action">-->
+                                                                <!--<a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>-->
+                                                                <!--<div class="dropdown-menu dropdown-menu-right">-->
+                                                                <a data-pending-appointment-id="${appointment.id}" data-doctor-name="${appointment.doctor.getDisplayName()}" class="dropdown-item edit-appointment-button" href="#" onclick="eventClickSolvePendingAppointments(this)"><i class="fa fa-pencil m-r-5"></i> Xử lí cuộc hẹn</a>
+                                                                <!--<a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_appointment"><i class="fa fa-trash-o m-r-5"></i> Xóa cuộc hẹn</a>-->
+                                                                <!--</div>-->
+                                                                <!--</div>-->
                                                             </td>
                                                         </c:if>
                                                     </c:forEach>
@@ -261,9 +261,10 @@
                     }
                 };
                 $.ajax({
-                    url: "/MediCare/admin-manage-appointments",
+                    url: "/MediCare/admin-manage-pending-appointments",
                     data: {
                         appointmentId: event.getAttribute("data-pending-appointment-id"),
+                        doctorDisplayName: event.getAttribute("data-doctor-name"),
                         action: "solve-pending-appointment"
                     },
                     cache: false,
@@ -271,6 +272,15 @@
                     success: function (response) {
                         var editAppointmentForm = document.getElementById("editAppointmentForm");
                         editAppointmentForm.innerHTML = response;
+
+// Lựa chọn các phần tử input type checkbox và các phần tử hiển thị checkbox
+                        var mailCheckboxes = document.querySelectorAll('.mail-checkbox');
+                        var mailCheckboxContainers = document.querySelectorAll('.mail-checkbox-container');
+
+// Ẩn tất cả các checkbox và container ban đầu
+                        mailCheckboxContainers.forEach(container => {
+                            container.style.display = "none";
+                        });
 
                         // Lựa chọn các phần tử input type radio trong nội dung mới
                         var statusInputs = editAppointmentForm.querySelectorAll('input[name="status"]');
@@ -289,7 +299,19 @@
                                 console.log("Bác sĩ:", doctorSelect.value);
                                 console.log("Trang thai ban dau:", previousStatus);
 
+// Ẩn tất cả checkbox ban đầu
+                                mailCheckboxContainers.forEach(container => {
+                                    container.style.display = "none";
+                                });
 
+                                // Hiển thị checkbox tương ứng nếu trạng thái là 1, 2 hoặc 3
+                                if (this.value === "1") {
+                                    mailCheckboxContainers[0].style.display = "block"; // Hiện checkbox 1
+                                } else if (this.value === "2") {
+                                    mailCheckboxContainers[1].style.display = "block"; // Hiện checkbox 2
+                                } else if (this.value === "3") {
+                                    mailCheckboxContainers[2].style.display = "block"; // Hiện checkbox 3
+                                }
                                 if (doctorSelect.value !== "-1") {
                                     console.log("doctorId != -1");
                                     // Bác sĩ đã được chọn, cho phép chọn các trạng thái cụ thể
@@ -331,6 +353,13 @@
                 var appointmentId = event.getAttribute("data-pending-appointment-id");
                 var statusValue = null;
 
+// Lựa chọn phần tử input type checkbox
+                var mailCheckbox = document.querySelector('.mail-checkbox');
+
+                var actionSendMailValue = mailCheckbox.checked ? mailCheckbox.getAttribute("data-action-send-mail") : '';
+                console.log("actionSendMailValue onclick: " + actionSendMailValue);
+
+
                 // Lặp qua các phần tử input type radio và lấy giá trị trạng thái
                 statusInputs.forEach(input => {
                     if (input.checked) {
@@ -347,12 +376,13 @@
 
                 // Gọi AJAX để lưu thông tin
                 $.ajax({
-                    url: "/MediCare/admin-manage-appointments",
+                    url: "/MediCare/admin-manage-pending-appointments",
                     data: {
                         appointmentId: appointmentId,
                         status: statusValue,
                         doctorId: doctorId,
-                        action: "save"
+                        action: "save",
+                        actionSendMail: actionSendMailValue // Thêm tham số actionSendMail
                     },
                     cache: false,
                     type: "POST",
@@ -362,9 +392,9 @@
                         alert("Save success");
                         console.log("success");
                         setTimeout(function () {
-                        window.location.href = "admin-manage-appointments";
-                    }, 500);
-                        
+                            window.location.href = "admin-manage-appointments";
+                        }, 500);
+
                     },
                     error: function (xhr) {
                         console.log("Error: " + xhr);

@@ -9,7 +9,9 @@ package Models;
  * @author DELL
  */
 public class Appointments {
-    private String id, appointmentDay, appointmentTime;;
+
+    private String id, appointmentDay, appointmentTime;
+    ;
     private User user;
     private Doctor doctor;
     private ServiceTag serviceTag;
@@ -18,7 +20,7 @@ public class Appointments {
     private String symptoms;
     private Branch branch; // tubinh add
     private FamilyProfile profile; // tubinh add
-    private String createBy,  modifyAt,  modifyBy;
+    private String createBy, modifyAt, modifyBy;
 
     public Appointments(String id, User user, Doctor doctor, ServiceTag serviceTag, String plannedAt, String status, String createBy, String modifyAt, String modifyBy) {
         this.id = id;
@@ -31,12 +33,19 @@ public class Appointments {
         this.modifyAt = modifyAt;
         this.modifyBy = modifyBy;
     }
+
     //thu
     public Appointments(Doctor doctor, ServiceTag serviceTag, String status, Branch branch) {
         this.doctor = doctor;
         this.serviceTag = serviceTag;
         this.status = status;
         this.branch = branch;
+    }
+
+    // tu binh
+    public Appointments(Doctor doctor, FamilyProfile profile) {
+        this.doctor = doctor;
+        this.profile = profile;
     }
 
     public String getCreatedAt() {
@@ -46,7 +55,7 @@ public class Appointments {
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
-    
+
     public String getAppointmentDay() {
         return appointmentDay;
     }
@@ -79,7 +88,6 @@ public class Appointments {
         this.symptoms = symptoms;
     }
 
-    
     public FamilyProfile getProfile() {
         return profile;
     }
@@ -87,18 +95,18 @@ public class Appointments {
     public void setProfile(FamilyProfile profile) {
         this.profile = profile;
     }
-    
+
     public Appointments() {
     }
 
-    public Appointments(Doctor doctor, ServiceTag serviceTag, String plannedAt,Branch branch, String symptoms) {
+    public Appointments(Doctor doctor, ServiceTag serviceTag, String plannedAt, Branch branch, String symptoms) {
         this.doctor = doctor;
         this.serviceTag = serviceTag;
         this.plannedAt = plannedAt;
         this.branch = branch;
         this.symptoms = symptoms;
     }
-    
+
     public String getId() {
         return id;
     }
@@ -156,7 +164,7 @@ public class Appointments {
         this.status = status;
     }
 
-      public Appointments(String id, User user, Doctor doctor, ServiceTag serviceTag, String plannedAt, String status, Branch branch, String createdAt, String symptoms, FamilyProfile profile, String appointmentDay, String appointmentTime) {
+    public Appointments(String id, User user, Doctor doctor, ServiceTag serviceTag, String plannedAt, String status, Branch branch, String createdAt, String symptoms, FamilyProfile profile, String appointmentDay, String appointmentTime) {
         this.id = id;
         this.plannedAt = plannedAt;
         this.status = status;
@@ -194,5 +202,10 @@ public class Appointments {
     public void setModifyBy(String modifyBy) {
         this.modifyBy = modifyBy;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Appointments{" + "id=" + id + ", appointmentDay=" + appointmentDay + ", appointmentTime=" + appointmentTime + ", user=" + user + ", doctor=" + doctor + ", serviceTag=" + serviceTag + ", plannedAt=" + plannedAt + ", createdAt=" + createdAt + ", status=" + status + ", symptoms=" + symptoms + ", branch=" + branch + ", profile=" + profile + ", createBy=" + createBy + ", modifyAt=" + modifyAt + ", modifyBy=" + modifyBy + '}';
+    }
+
 }

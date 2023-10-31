@@ -4,13 +4,13 @@
  */
 package Controllers;
 
+import DAL.AdminEmailContext;
 import DAL.AppointmentsDAO;
 import DAL.DoctorDAO;
 import DAL.FamilyProfileDAO;
 import DAL.ScheduleDetailDAO;
 import DAL.ServiceTagDAO;
 import DAL.SubLevelMenuDAO;
-import DAL.UserDAO;
 import Models.AdminSidebarMenu;
 import Models.Appointments;
 import Models.Doctor;
@@ -25,12 +25,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -126,6 +123,8 @@ public class AdminManageAppointmentsServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         System.out.println("AJAX - doPost - admin-manage-appointments");
         String appointmentId = request.getParameter("appointmentId");
+        String doctorDisplayName = request.getParameter("doctorDisplayName");
+        String actionSendMail = request.getParameter("actionSendMail");
         String action = request.getParameter("action");
         AppointmentsDAO ad = new AppointmentsDAO();
         ServiceTagDAO std = new ServiceTagDAO();
@@ -133,6 +132,7 @@ public class AdminManageAppointmentsServlet extends HttpServlet {
         DoctorDAO dd = new DoctorDAO();
         SubLevelMenuDAO sd = new SubLevelMenuDAO();
         ArrayList<AdminSidebarMenu> statusAppointments = sd.getSubLevelMenuByContent("Trạng thái cuộc hẹn");
+        ScheduleDetailDAO sdd = new ScheduleDetailDAO();
 
         if (action != null) {
             switch (action) {
@@ -198,6 +198,10 @@ public class AdminManageAppointmentsServlet extends HttpServlet {
 
                         out.println("                                \n" + "<option value=\"" + -1 + "\" disabled selected>" + "Chọn bác sĩ phụ trách" + "</option>");
 
+                        if (a.getDoctor().getId() != null) {
+                            a.getDoctor().setDisplayName(doctorDisplayName);
+                            doctorsAvailable.add(a.getDoctor());
+                        }
                         for (Doctor doctor : doctorsAvailable) {
                             if (doctor.getId().equals(a.getDoctor().getId())) {
                                 out.println("                                \n" + "<option selected value=\"" + doctor.getId() + "\">" + doctor.getDisplayName() + "</option>");
@@ -268,12 +272,37 @@ public class AdminManageAppointmentsServlet extends HttpServlet {
                                     + "                                            </label>\n"
                                     + "                                        </div>\n");
                         }
+                        for (AdminSidebarMenu status : statusAppointments) {
+                            // Kiểm tra giá trị trạng thái và thêm phần HTML cho checkbox "Có muốn gửi mail"
+                            if ("1".equals(status.getLink())) {
+                                out.println("                                            <div class=\"mail-checkbox-container\">\n"
+                                        + "                                                <input checked class=\"mail-checkbox\" type=\"checkbox\" name=\"sendMail1\" id=\"send_mail_1\" data-action-send-mail=\"1\">\n"
+                                        + "                                                <span class=\"form-check-label\" for=\"send_mail_1\">\n"
+                                        + "                                                    Gửi mail xác nhận cuộc hẹn cho cả bác sĩ và bệnh nhân\n"
+                                        + "                                                </span>\n"
+                                        + "                                            </div>\n");
+                            } else if ("2".equals(status.getLink())) {
+                                out.println("                                            <div class=\"mail-checkbox-container\">\n"
+                                        + "                                                <input checked class \"mail-checkbox\" type=\"checkbox\" name=\"sendMail2\" id=\"send_mail_2\" data-action-send-mail=\"2\">\n"
+                                        + "                                                <span class=\"form-check-label\" for=\"send_mail_2\">\n"
+                                        + "                                                    Gửi mail hóa đơn và bệnh án cho bệnh nhân\n"
+                                        + "                                                </span>\n"
+                                        + "                                            </div>\n");
+                            } else if ("3".equals(status.getLink())) {
+                                out.println("                                            <div class=\"mail-checkbox-container\">\n"
+                                        + "                                                <input checked class=\"mail-checkbox\" type=\"checkbox\" name=\"sendMail3\" id=\"send_mail_3\" data-action-send-mail=\"3\">\n"
+                                        + "                                                <span class=\"form-check-label\" for=\"send_mail_3\">\n"
+                                        + "                                                    Gửi mail xác nhận đã hủy lịch hẹn cho cả bệnh nhân và bác sĩ\n"
+                                        + "                                                </span>\n"
+                                        + "                                            </div>\n");
+                            }
+                        }
 
                         out.println(
                                 "                                    </div>\n"
                                 + "                                    <div class=\"m-t-20 text-center\">\n"
                                 + "                                        <button data-pending-appointment-id=\"" + a.getId() + "\" class=\"btn btn-primary submit-btn\" onclick=\"eventSaveEditingAppointment(this)\">Lưu</button>\n"
-                                + "                                        <button class=\"btn btn-primary submit-btn\" onclick=\"closeScheduleOfDoctorForm()\">Hủy</button>\n"
+                                + "                                        <button class=\"btn btn-primary submit-btn\" onclick=\"closeSolvePendingAppointmentsForm()\">Hủy</button>\n"
                                 + "                                    </div>\n"
                                 + "                                </div>\n"
                                 + "                            </div>\n"
@@ -302,16 +331,221 @@ public class AdminManageAppointmentsServlet extends HttpServlet {
                     System.out.println("status = " + statusAppointment);
                     // temp:
                     Appointments a = ad.getAppointmentById(appointmentId);
+                    String oldDoctorId = a.getDoctor().getId();
                     System.out.println("Appointment OLD: " + a);
-
                     if (ad.updateAppointment(appointmentId, doctorId, statusAppointment)) {
-                        System.out.println("Update appointment success");
+                        if (statusAppointment.equals("0") || statusAppointment.equals("3")) {
+                            if (oldDoctorId.equals(doctorId)) {
+                                if (sdd.updateStatusOfDoctorScheduleDetail(a.getBranch().getId(), a.getServiceTag().getId(), a.getAppointmentDay(), a.getAppointmentTime(), oldDoctorId, 1)) {
+                                    System.out.println("Line 310 - Update appointment (AVAILABLE - 1) success");
+                                }
+                            } else {
+                                if (sdd.updateStatusOfDoctorScheduleDetail(a.getBranch().getId(), a.getServiceTag().getId(), a.getAppointmentDay(), a.getAppointmentTime(), oldDoctorId, 1)) {
+                                    System.out.println("Line 325 - Update appointment (AVAILABLE - 1) success");
+                                }
+                                if (sdd.updateStatusOfDoctorScheduleDetail(a.getBranch().getId(), a.getServiceTag().getId(), a.getAppointmentDay(), a.getAppointmentTime(), doctorId, 1)) {
+                                    System.out.println("Line 328 - Update appointment (AVAILABLE - 1) success");
+                                }
+                            }
+                        } else {
+                            if (oldDoctorId.equals(doctorId)) {
+                                if (sdd.updateStatusOfDoctorScheduleDetail(a.getBranch().getId(), a.getServiceTag().getId(), a.getAppointmentDay(), a.getAppointmentTime(), doctorId, 0)) {
+                                    System.out.println("Line 321 - Update appointment (NOT AVAILABLE - 0) success");
+                                }
+                            } else {
+                                if (sdd.updateStatusOfDoctorScheduleDetail(a.getBranch().getId(), a.getServiceTag().getId(), a.getAppointmentDay(), a.getAppointmentTime(), oldDoctorId, 1)) {
+                                    System.out.println("Line 325 - Update appointment (AVAILABLE - 1) success");
+                                }
+                                if (sdd.updateStatusOfDoctorScheduleDetail(a.getBranch().getId(), a.getServiceTag().getId(), a.getAppointmentDay(), a.getAppointmentTime(), doctorId, 0)) {
+                                    System.out.println("Line 328 - Update appointment (NOT AVAILABLE - 0) success");
+                                }
+
+                            }
+                        }
                         System.out.println("Appointment NEW: " + ad.getAppointmentById(appointmentId));
                     } else {
                         System.out.println("Update appointment fail");
                     }
+
+                    // Send email:
+                    if (actionSendMail != null) {
+                        // send Email:
+                        Appointments apm = ad.getPatientAndDoctorEmailById(appointmentId);
+                        String patientEmail = apm.getProfile().getEmail().trim();
+                        String doctorEmail = apm.getDoctor().getEmail().trim();
+
+                        String OTP = AdminEmailContext.generateRandomVerificationCode(6);
+
+                        AdminEmailContext.sendVerificationCodeToEmail(patientEmail, "XAC NHAN LICH HEN");
+                        AdminEmailContext.sendVerificationCodeToEmail(doctorEmail, "XAC NHAN LICH HEN");
+//                    JsonObject jsonObject = new JsonObject();
+//                    jsonObject.addProperty("message", "Thành công! Hãy kiểm tra email để lấy mã OTP");
+//                    jsonObject.addProperty("OTP", OTP);
+//
+//                    response.getWriter().write(OTP);
+                        // end - send email:
+                    }
                     break;
                 }
+                case "add-appointment": {
+                    System.out.println("Case Add-appointment:");
+                    FamilyProfileDAO fpd = new FamilyProfileDAO();
+                    try ( PrintWriter out = response.getWriter()) {
+                        out.println("<i class=\"fas fa-close close-edit-appointment-btn\" onclick=\"closeSolvePendingAppointmentsForm()\"></i>\n"
+                                + "            <div class=\"form-container\">\n"
+                                + "                <!--appointment table - start-->\n"
+                                + "                <div class=\"container\">\n"
+                                + "                    <div class=\"content\">\n"
+                                + "                        <div class=\"row\">\n"
+                                + "                            <div class=\"col-lg-8 offset-lg-2\">\n"
+                                + "                                <h4 class=\"page-title\">Thêm lịch hẹn</h4>\n"
+                                + "                            </div>\n"
+                                + "                        </div>\n"
+                                + "                        <div class=\"row\">\n"
+                                + "                            <div class=\"col-lg-8 offset-lg-2\">\n"
+                                + "                                <div>\n"
+                                + "                                    <div class=\"row\">\n"
+                                + "                                        <div class=\"col-md-6\">\n"
+                                + "                                            <div class=\"form-group\">\n"
+                                + "                                                <label>ID cuộc hẹn</label>\n"
+                                + "                                                <input class=\"form-control\" type=\"text\" value=\"" + "\" readonly=\"\">\n"
+                                + "                                            </div>\n"
+                                + "                                        </div>\n"
+                                + "                                        <div class=\"col-md-6\">\n"
+                                + "                                            <div class=\"form-group\">\n"
+                                + "                                                <label>Tên bệnh nhân</label>\n"
+                                + "                                                <input class=\"form-control\" type=\"text\" value=\"" + "\" disabled>\n"
+                                + "                                            </div>\n"
+                                + "                                        </div>\n"
+                                + "                                    </div>\n"
+                                + "                                    <div class=\"row\">\n"
+                                + "                                        <div class=\"col-md-6\">\n"
+                                + "                                            <div class=\"form-group\">\n"
+                                + "                                                <label>Chuyên khoa</label>\n"
+                                + "                                                <select class=\"select form-control\" disabled>\n"
+                                + "                                                    <option value=\"-1\" disabled>Chọn chuyên khoa khám (*)</option>\n");
+                        for (ServiceTag service : services) {
+                            out.println("<option value=\"" + service.getId() + "\">" + service.getNametag() + "</option>\n");
+                        }
+
+                        out.println(
+                                "                                                </select>\n"
+                                + "                                            </div>\n"
+                                + "                                        </div>\n"
+                                + "                                        <div class=\"col-md-6\">\n"
+                                + "                                            <div class=\"form-group\">\n"
+                                + "                                                <label>Bác sĩ phụ trách</label>\n"
+                                + "                                                <select class=\"select form-control doctor-choice-edit-appointment\" data-status=\"" + "\">\n");
+
+                        out.println("                                \n" + "<option value=\"" + -1 + "\" disabled selected>" + "Chọn bác sĩ phụ trách" + "</option>");
+
+                        out.println(
+                                "                                                </select>\n"
+                                + "                                            </div>\n"
+                                + "                                        </div>\n"
+                                + "                                    </div>\n"
+                                + "                                    <div class=\"row\">\n"
+                                + "                                        <div class=\"col-md-6\">\n"
+                                + "                                            <div class=\"form-group\">\n"
+                                + "                                                <label>Ngày khám</label>\n"
+                                + "                                                <div>\n"
+                                + "                                                    <input type=\"date\" class=\"form-control\" name=\"date\" disabled value=\"" + "\">\n"
+                                + "                                                </div>\n"
+                                + "                                            </div>\n"
+                                + "                                        </div>\n"
+                                + "                                        <div class=\"col-md-6\">\n"
+                                + "                                            <div class=\"form-group\">\n"
+                                + "                                                <label>Slot</label>\n"
+                                + "                                                <select class=\"select form-control\" disabled>\n"
+                                //                                + "                                                    <option value=\"" + -1 + "\" disabled selected>Chọn giờ khám</option>\n"
+                                + "                                                    <option value=\"" + -1 + "\" disabled selected>" + "</option>\n"
+                        );
+
+                        out.println(
+                                "                                                </select>\n"
+                                + "                                            </div>\n"
+                                + "                                        </div>\n"
+                                + "                                    </div>\n"
+                                + "                                    <div class=\"row\">\n"
+                                + "                                        <div class=\"col-md-6\">\n"
+                                + "                                            <div class=\"form-group\">\n"
+                                + "                                                <label>Email</label>\n"
+                                + "                                                <input class=\"form-control\" type=\"email\" value=\"" + "\" disabled>\n"
+                                + "                                            </div>\n"
+                                + "                                        </div>\n"
+                                + "                                        <div class=\"col-md-6\">\n"
+                                + "                                            <div class=\"form-group\">\n"
+                                + "                                                <label>Số điện thoại</label>\n"
+                                + "                                                <input class=\"form-control\" type=\"text\" value=\"" + "\" disabled>\n"
+                                + "                                            </div>\n"
+                                + "                                        </div>\n"
+                                + "                                    </div>\n"
+                                + "                                    <div class=\"form-group\">\n"
+                                + "                                        <label>Triệu chứng</label>\n"
+                                + "                                        <textarea cols=\"30\" rows=\"4\" class=\"form-control\" disabled>" + "</textarea>\n"
+                                + "                                    </div>\n"
+                                + "                                    <div class=\"form-group\">\n"
+                                + "                                        <label class=\"display-block\">Trạng thái cuộc hẹn</label>\n");
+                        for (AdminSidebarMenu status : statusAppointments) {
+                            out.println(
+                                    "                                        <div class=\"\">\n"
+                                    + "                                            <input checked class=\"form-check-input\" type=\"radio\" ");
+                            
+
+                            out.println("name=\"status\" id=\"product_inactive\" value=\"" + status.getLink() + "\">\n"
+                                    + "                                            <label class=\"form-check-label\" for=\"product_inactive\">\n"
+                                    + "                                                " + status.getName() + "\n"
+                                    + "                                            </label>\n"
+                                    + "                                        </div>\n");
+                        }
+                        for (AdminSidebarMenu status : statusAppointments) {
+                            // Kiểm tra giá trị trạng thái và thêm phần HTML cho checkbox "Có muốn gửi mail"
+                            if ("1".equals(status.getLink())) {
+                                out.println("                                            <div class=\"mail-checkbox-container\">\n"
+                                        + "                                                <input checked class=\"mail-checkbox\" type=\"checkbox\" name=\"sendMail1\" id=\"send_mail_1\" data-action-send-mail=\"1\">\n"
+                                        + "                                                <span class=\"form-check-label\" for=\"send_mail_1\">\n"
+                                        + "                                                    Gửi mail xác nhận cuộc hẹn cho cả bác sĩ và bệnh nhân\n"
+                                        + "                                                </span>\n"
+                                        + "                                            </div>\n");
+                            } else if ("2".equals(status.getLink())) {
+                                out.println("                                            <div class=\"mail-checkbox-container\">\n"
+                                        + "                                                <input checked class \"mail-checkbox\" type=\"checkbox\" name=\"sendMail2\" id=\"send_mail_2\" data-action-send-mail=\"2\">\n"
+                                        + "                                                <span class=\"form-check-label\" for=\"send_mail_2\">\n"
+                                        + "                                                    Gửi mail hóa đơn và bệnh án cho bệnh nhân\n"
+                                        + "                                                </span>\n"
+                                        + "                                            </div>\n");
+                            } else if ("3".equals(status.getLink())) {
+                                out.println("                                            <div class=\"mail-checkbox-container\">\n"
+                                        + "                                                <input checked class=\"mail-checkbox\" type=\"checkbox\" name=\"sendMail3\" id=\"send_mail_3\" data-action-send-mail=\"3\">\n"
+                                        + "                                                <span class=\"form-check-label\" for=\"send_mail_3\">\n"
+                                        + "                                                    Gửi mail xác nhận đã hủy lịch hẹn cho cả bệnh nhân và bác sĩ\n"
+                                        + "                                                </span>\n"
+                                        + "                                            </div>\n");
+                            }
+                        }
+
+                        out.println(
+                                "                                    </div>\n"
+                                + "                                    <div class=\"m-t-20 text-center\">\n"
+                                + "                                        <button data-pending-appointment-id=\"" + "\" class=\"btn btn-primary submit-btn\" onclick=\"eventSaveEditingAppointment(this)\">Lưu</button>\n"
+                                + "                                        <button class=\"btn btn-primary submit-btn\" onclick=\"closeSolvePendingAppointmentsForm()\">Hủy</button>\n"
+                                + "                                    </div>\n"
+                                + "                                </div>\n"
+                                + "                            </div>\n"
+                                + "                        </div>\n"
+                                + "                    </div>\n"
+                                + "                </div>\n"
+                                + "                <!--appointment table - end-->\n"
+                                + "\n"
+                                + "                <!-- Add more input fields as needed -->\n"
+                                + "                <!--                <input type=\"hidden\" name=\"method\" id=\"method\" value=\"\"/><br/>  \n"
+                                + "                                <button class=\"button-container\" id=\"schedule-submit-button\" type=\"submit\"></button>-->\n"
+                                //                                + "                <button  type=\"button\" id=\"schedule-close-button\" onclick=\"closeScheduleOfDoctorForm()\">Close</button>\n"
+                                + "            </div>");
+                    }
+                    break;
+                }
+
                 default:
                     throw new AssertionError();
             }

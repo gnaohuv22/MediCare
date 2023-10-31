@@ -909,7 +909,7 @@ public class DoctorDAO extends DBContext {
                 + "ON DScd.id = ScdDt.ScheduleID\n"
                 + "JOIN WorkingSlot AS WS\n"
                 + "ON ScdDt.SlotID = WS.id\n"
-                + "WHERE branchId = ? AND serviceId = ? AND WorkDate = ? AND startTime = ? AND isDelete = 0";
+                + "WHERE branchId = ? AND DS.serviceId = ? AND DScd.WorkDate = ? AND WS.startTime = ? AND d.isDelete = 0 AND ScdDt.slotStatus = 1";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, Integer.parseInt(branchId));
