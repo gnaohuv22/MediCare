@@ -546,7 +546,7 @@ public class UserDAO extends DBContext {
         return list;
     }
 
-    public ArrayList<User> searchListUser(User user, int offset, int fetch) {
+    public ArrayList<User> searchListUser(User user,int offset, int fetch) {
         ArrayList<User> list = new ArrayList<>();
         String SQL = "SELECT [User].id[uId],email,password, [User].name[uName],birthDate,gender,address,provinceId,[identity],medicalId,ethnic,phone,profilePicture "
                 + " , Province.name[pName]"
@@ -560,43 +560,43 @@ public class UserDAO extends DBContext {
                 + " HAVING [User].id IS NOT NULL"
                 + " ORDER BY COUNT([User].id) DESC"
                 + " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-        String SQL2 = "SELECT count(*) "
-                + " FROM [User]"
+        String SQL2 = "SELECT count(*) " +
+                " FROM [User]"
                 + " JOIN Province on [User].provinceId = Province.id"
                 + " WHERE [User].id like ? AND email like ? AND [User].name like ? "
                 + " AND birthDate like ? AND gender like ? AND address like ? AND provinceId like ? AND [identity] like ? "
                 + " AND medicalId like ? AND ethnic like ? AND phone like ? ";
-        try ( PreparedStatement pstm = connection.prepareStatement(SQL2)) {
-            pstm.setString(1, "%" + user.getId() + "%");
-            pstm.setString(2, "%" + user.getEmail() + "%");
-            pstm.setNString(3, "%" + user.getName() + "%");
-            pstm.setString(4, "%" + user.getBirthDate() + "%");
-            pstm.setString(5, "%" + user.getGender() + "%");
-            pstm.setNString(6, "%" + user.getAddress() + "%");
-            pstm.setString(7, "%" + user.getProvince().getId() + "%");
-            pstm.setString(8, "%" + user.getIdentity() + "%");
-            pstm.setString(9, "%" + user.getMedicalId() + "%");
-            pstm.setNString(10, "%" + user.getEthnic() + "%");
-            pstm.setString(11, "%" + user.getPhone() + "%");
+        try (PreparedStatement pstm = connection.prepareStatement(SQL2)){
+            pstm.setString(1, "%"+user.getId()+"%"); 
+            pstm.setString(2, "%"+user.getEmail()+"%"); 
+            pstm.setNString(3, "%"+user.getName()+"%");
+            pstm.setString(4, "%"+user.getBirthDate()+"%"); 
+            pstm.setString(5, "%"+user.getGender()+"%"); 
+            pstm.setNString(6, "%"+user.getAddress()+"%"); 
+            pstm.setString(7, "%"+user.getProvince().getId()+"%"); 
+            pstm.setString(8, "%"+user.getIdentity()+"%"); 
+            pstm.setString(9, "%"+user.getMedicalId()+"%"); 
+            pstm.setNString(10, "%"+user.getEthnic()+"%"); 
+            pstm.setString(11, "%"+user.getPhone()+"%"); 
             ResultSet rs = pstm.executeQuery();
-            while (rs.next()) {
+            while (rs.next()){
                 numberRecord = rs.getInt(1);
             }
-        } catch (Exception e) {
+        }catch(Exception e) {
             System.out.println("search user " + e.getMessage());
         }
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
-            pstm.setString(1, "%" + user.getId() + "%");
-            pstm.setString(2, "%" + user.getEmail() + "%");
-            pstm.setNString(3, "%" + user.getName() + "%");
-            pstm.setString(4, "%" + user.getBirthDate() + "%");
-            pstm.setString(5, "%" + user.getGender() + "%");
-            pstm.setNString(6, "%" + user.getAddress() + "%");
-            pstm.setString(7, "%" + user.getProvince().getId() + "%");
-            pstm.setString(8, "%" + user.getIdentity() + "%");
-            pstm.setString(9, "%" + user.getMedicalId() + "%");
-            pstm.setNString(10, "%" + user.getEthnic() + "%");
-            pstm.setString(11, "%" + user.getPhone() + "%");
+            pstm.setString(1, "%"+user.getId()+"%"); 
+            pstm.setString(2, "%"+user.getEmail()+"%"); 
+            pstm.setNString(3, "%"+user.getName()+"%"); 
+            pstm.setString(4, "%"+user.getBirthDate()+"%"); 
+            pstm.setString(5, "%"+user.getGender()+"%"); 
+            pstm.setNString(6, "%"+user.getAddress()+"%"); 
+            pstm.setString(7, "%"+user.getProvince().getId()+"%"); 
+            pstm.setString(8, "%"+user.getIdentity()+"%"); 
+            pstm.setString(9, "%"+user.getMedicalId()+"%"); 
+            pstm.setNString(10, "%"+user.getEthnic()+"%"); 
+            pstm.setString(11, "%"+user.getPhone()+"%"); 
             pstm.setInt(12, offset);
             pstm.setInt(13, fetch);
             ResultSet rs = pstm.executeQuery();
@@ -624,8 +624,7 @@ public class UserDAO extends DBContext {
         }
         return list;
     }
-
-    public ArrayList<User> searchMoreListUser(User user, int offset, int fetch) {
+    public ArrayList<User> searchMoreListUser(User user,int offset, int fetch) {
         ArrayList<User> list = new ArrayList<>();
         String SQL = "SELECT [User].id[uId],email,password, [User].name[uName],birthDate,gender,address,provinceId,[identity],medicalId,ethnic,phone,profilePicture,createdAt,createBy,modifyAt,modifyBy "
                 + " , Province.name[pName]"
@@ -639,43 +638,43 @@ public class UserDAO extends DBContext {
                 + " HAVING [User].id IS NOT NULL"
                 + " ORDER BY COUNT([User].id) DESC"
                 + " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-        String SQL2 = "SELECT count(*) "
-                + " FROM [User]"
+        String SQL2 = "SELECT count(*) " +
+                " FROM [User]"
                 + " JOIN Province on [User].provinceId = Province.id"
                 + " WHERE [User].id like ? AND email like ? AND [User].name like ? "
                 + " AND birthDate like ? AND gender like ? AND address like ? AND provinceId like ? AND [identity] like ? "
                 + " AND medicalId like ? AND ethnic like ? AND phone like ? ";
-        try ( PreparedStatement pstm = connection.prepareStatement(SQL2)) {
-            pstm.setString(1, "%" + user.getId() + "%");
-            pstm.setString(2, "%" + user.getEmail() + "%");
-            pstm.setNString(3, "%" + user.getName() + "%");
-            pstm.setString(4, "%" + user.getBirthDate() + "%");
-            pstm.setString(5, "%" + user.getGender() + "%");
-            pstm.setNString(6, "%" + user.getAddress() + "%");
-            pstm.setString(7, "%" + user.getProvince().getId() + "%");
-            pstm.setString(8, "%" + user.getIdentity() + "%");
-            pstm.setString(9, "%" + user.getMedicalId() + "%");
-            pstm.setNString(10, "%" + user.getEthnic() + "%");
-            pstm.setString(11, "%" + user.getPhone() + "%");
+        try (PreparedStatement pstm = connection.prepareStatement(SQL2)){
+            pstm.setString(1, "%"+user.getId()+"%"); 
+            pstm.setString(2, "%"+user.getEmail()+"%"); 
+            pstm.setNString(3, "%"+user.getName()+"%"); 
+            pstm.setString(4, "%"+user.getBirthDate()+"%"); 
+            pstm.setString(5, "%"+user.getGender()+"%"); 
+            pstm.setNString(6, "%"+user.getAddress()+"%"); 
+            pstm.setString(7, "%"+user.getProvince().getId()+"%"); 
+            pstm.setString(8, "%"+user.getIdentity()+"%"); 
+            pstm.setString(9, "%"+user.getMedicalId()+"%"); 
+            pstm.setNString(10, "%"+user.getEthnic()+"%"); 
+            pstm.setString(11, "%"+user.getPhone()+"%"); 
             ResultSet rs = pstm.executeQuery();
-            while (rs.next()) {
+            while (rs.next()){
                 numberRecord = rs.getInt(1);
             }
-        } catch (Exception e) {
+        }catch(Exception e) {
             System.out.println("search more user " + e.getMessage());
         }
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
-            pstm.setString(1, "%" + user.getId() + "%");
-            pstm.setString(2, "%" + user.getEmail() + "%");
-            pstm.setNString(3, "%" + user.getName() + "%");
-            pstm.setString(4, "%" + user.getBirthDate() + "%");
-            pstm.setString(5, "%" + user.getGender() + "%");
-            pstm.setNString(6, "%" + user.getAddress() + "%");
-            pstm.setString(7, "%" + user.getProvince().getId() + "%");
-            pstm.setString(8, "%" + user.getIdentity() + "%");
-            pstm.setString(9, "%" + user.getMedicalId() + "%");
-            pstm.setNString(10, "%" + user.getEthnic() + "%");
-            pstm.setString(11, "%" + user.getPhone() + "%");
+            pstm.setString(1, "%"+user.getId()+"%"); 
+            pstm.setString(2, "%"+user.getEmail()+"%"); 
+            pstm.setNString(3, "%"+user.getName()+"%"); 
+            pstm.setString(4, "%"+user.getBirthDate()+"%"); 
+            pstm.setString(5, "%"+user.getGender()+"%"); 
+            pstm.setNString(6, "%"+user.getAddress()+"%"); 
+            pstm.setString(7, "%"+user.getProvince().getId()+"%"); 
+            pstm.setString(8, "%"+user.getIdentity()+"%"); 
+            pstm.setString(9, "%"+user.getMedicalId()+"%"); 
+            pstm.setNString(10, "%"+user.getEthnic()+"%"); 
+            pstm.setString(11, "%"+user.getPhone()+"%"); 
             pstm.setInt(12, offset);
             pstm.setInt(13, fetch);
             ResultSet rs = pstm.executeQuery();
@@ -699,7 +698,7 @@ public class UserDAO extends DBContext {
                 String modifyBy = rs.getString("modifyBy");
                 String pName = rs.getString("pName");
                 Province province = new Province(provinceId, pName);
-                User findUser = new User(id, email, password, uName, birthDate, gender, address, province, identity, medicalId, ethnic, phone, profilePicture, createdAt, createBy, modifyAt, modifyBy);
+                User findUser = new User(id, email, password, uName, birthDate, gender, address, province, identity, medicalId, ethnic, phone, profilePicture,createdAt,createBy,modifyAt,modifyBy);
                 list.add(findUser);
             }
         } catch (Exception e) {
