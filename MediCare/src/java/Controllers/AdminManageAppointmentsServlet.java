@@ -407,15 +407,15 @@ public class AdminManageAppointmentsServlet extends HttpServlet {
                                 + "                                    <div class=\"row\">\n"
                                 + "                                        <div class=\"col-md-6\">\n"
                                 + "                                            <div class=\"form-group\">\n"
-                                + "                                                <label>ID cuộc hẹn</label>\n"
-                                + "                                                <input class=\"form-control\" type=\"text\" value=\"" + "\" readonly=\"\">\n"
-                                + "                                            </div>\n"
-                                + "                                        </div>\n"
-                                + "                                        <div class=\"col-md-6\">\n"
-                                + "                                            <div class=\"form-group\">\n"
                                 + "                                                <label>Tên bệnh nhân</label>\n"
                                 + "                                                <input class=\"form-control\" type=\"text\" value=\"" + "\" disabled>\n"
                                 + "                                            </div>\n"
+                                + "                                        </div>\n"
+                                + "                                        <div class=\"col-md-6 gender-form\">\n"
+//                                + "                                            <div class=\"form-group\">\n"
+                                + "                                                <input type=\"radio\" name=\"gender\" checked value=\"1\"> Nam &nbsp;\n"
+                                + "                                <input type=\"radio\" name=\"gender\" value=\"0\"> Nữ<br>"
+//                                + "                                            </div>\n"
                                 + "                                        </div>\n"
                                 + "                                    </div>\n"
                                 + "                                    <div class=\"row\">\n"
@@ -490,7 +490,6 @@ public class AdminManageAppointmentsServlet extends HttpServlet {
                             out.println(
                                     "                                        <div class=\"\">\n"
                                     + "                                            <input checked class=\"form-check-input\" type=\"radio\" ");
-                            
 
                             out.println("name=\"status\" id=\"product_inactive\" value=\"" + status.getLink() + "\">\n"
                                     + "                                            <label class=\"form-check-label\" for=\"product_inactive\">\n"

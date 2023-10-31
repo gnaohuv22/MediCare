@@ -4752,6 +4752,10 @@ blockquote p {
     cursor: pointer;
     opacity: 0.7;
 }
+
+.gender-form {
+    display: flex;
+}
 /*Tu Binh Code: Css for Screen Manage Schedule For Doctor - end*/
 
 
