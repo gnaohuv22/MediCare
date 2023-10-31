@@ -148,8 +148,14 @@ public class AdminDoctorController extends HttpServlet {
             previous = after = 1;
         }
         else{
-            previous = index + 1;
-            after = index - 1;
+            previous = index - 1;
+            after = index + 1;
+            if(index == 1){
+                previous = 1;
+            }
+            if(index == endPage){
+                after = endPage;
+            }
         }
         List<Doctor> listPaging = dao.pagingDoctor(search, branch, academicRank, isDelete, index);
         System.out.println("listPaging site : " + listPaging.size());

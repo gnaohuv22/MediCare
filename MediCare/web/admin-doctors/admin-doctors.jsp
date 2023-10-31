@@ -101,9 +101,9 @@
                                 <div class="dropdown profile-action">
                                     <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_doctor" onclick="setDoctorId(${doc.getId()})"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_doctor" onclick="setDoctorId(${doc.getId()})"><i class="fa fa-pencil m-r-5"></i> Sửa</a>
 
-                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_doctor" onclick="showDeleteDialog(${doc.getId()})"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_doctor" onclick="showDeleteDialog(${doc.getId()})"><i class="fa fa-trash-o m-r-5"></i> Xóa</a>
 
 
 
@@ -117,13 +117,13 @@
                         </div>
                     </c:forEach>
                     <div class="col-lg-12" style="display: flex ;flex-direction: row; justify-content: center">
-                        <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href=""admin-doctor?isDelete=${requestScope.isDelete}&search=${requestScope.search}&branch=${requestScope.branch}&academicRank=${requestScope.academicRank}&index=${requestScope.previous}">Previous</a></li>
+                        <ul class="pagination"> 
+                          <li class="page-item"><a class="page-link" href="admin-doctor?isDelete=${requestScope.isDelete}&search=${requestScope.search}&branch=${requestScope.branch}&academicRank=${requestScope.academicRank}&index=${requestScope.previous}">Trước</a></li>
                                 <c:forEach begin="1" end="${requestScope.endPage}" var="i">
                                 <li class="page-item"><a class="page-link" href="admin-doctor?isDelete=${requestScope.isDelete}&search=${requestScope.search}&branch=${requestScope.branch}&academicRank=${requestScope.academicRank}&index=${i}">${i}</a></li>
                                 </c:forEach>
-                            <li class="page-item"><a class="page-link" href=""admin-doctor?isDelete=${requestScope.isDelete}&search=${requestScope.search}&branch=${requestScope.branch}&academicRank=${requestScope.academicRank}&index=${requestScope.after}">Next</a></li>
-                        </ul> 
+                            <li class="page-item"> <a class="page-link" href="admin-doctor?isDelete=${requestScope.isDelete}&search=${requestScope.search}&branch=${requestScope.branch}&academicRank=${requestScope.academicRank}&index=${requestScope.after}">Sau</a></li>
+                        </ul>
                     </div>
                 </div>
                 <!--                    <div class="row">
