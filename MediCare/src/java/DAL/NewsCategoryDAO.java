@@ -282,4 +282,23 @@ public class NewsCategoryDAO extends DBContext {
         }
         return list;
     }
+    
+    //thu
+    public ArrayList<String> getAllStatus(){
+        String SQL = "select name from NewsCategory where locateId=5002";
+        ArrayList<String> list = new ArrayList<>();
+        
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                String name = rs.getString("name");
+                list.add(name);
+            }
+        } catch (SQLException e) {
+            System.out.println("getAllStatus: " + e.getMessage());
+        }
+        return list;
+    }
+
 }

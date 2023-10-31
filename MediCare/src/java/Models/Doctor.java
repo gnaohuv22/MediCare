@@ -54,7 +54,8 @@ public class Doctor {
         this.startYear = startYear;
         this.password = password;
     }
-     public Doctor(String id, String email, String displayName, String branchId,
+
+    public Doctor(String id, String email, String displayName, String branchId,
             String phone, String ARId, String CVId, String salary, String workplace, String profilePicture,
             String status, String birthDate, String password, String branchName, String ARName, String certificates, String departmentId, String departmentName,
             String education, String introduce, String workHistory, String startYear) {
@@ -82,8 +83,6 @@ public class Doctor {
         this.password = password;
     }
 
-    
-   
     public Doctor(String id, String email, String displayName, String phone,
             String salary, String workplace, String profilePicture, String status,
             String certificates, String branchName, String ARName, String departmentId,
@@ -130,9 +129,6 @@ public class Doctor {
         this.startYear = startYear;
         this.ReviewCount = ReviewCount;
     }
-    
-
-    
 
     //constructor by @thaitrinh : 
     public Doctor(String id, String email, String password, String displayName, Branch branch, String phone, AcademicRank academicRank, Certificate cetificate, String salary, String workplace, String profilePicture, String status, String birthDate, String gender, String isDelete) {
@@ -189,13 +185,12 @@ public class Doctor {
         this.isDelete = isDelete;
     }
 
-
-    public Doctor(String id, String email, String displayName, String branchId, 
+    public Doctor(String id, String email, String displayName, String branchId,
             String phone, String ARId, String CVId, String salary, String workplace,
             String profilePicture, String status, String certificates, String branchName,
             String ARName, String departmentId, String departmentName, String education,
             String introduce, String workHistory, String startYear, String password, String birthDate, String gender, String isDelete) {
-         this.id = id;
+        this.id = id;
         this.email = email;
         this.displayName = displayName;
         this.branchId = branchId;
@@ -224,13 +219,12 @@ public class Doctor {
     public Doctor() {
     }
 
+    public Doctor(String id, String email, String displayName) {
+        this.id = id;
+        this.email = email;
+        this.displayName = displayName;
+    }
 
-
-
-    
-    
-
-    
     public String getReviewCount() {
         return ReviewCount;
     }
@@ -238,6 +232,7 @@ public class Doctor {
     public void setReviewCount(String ReviewCount) {
         this.ReviewCount = ReviewCount;
     }
+
     public AcademicRank getAcademicRank() {
         return academicRank;
     }
@@ -333,7 +328,7 @@ public class Doctor {
         this.workHistory = workHistory;
         this.startYear = startYear;
     }
-    
+
     public Doctor(String id, String email, String displayName, String phone, String salary, String workplace, String profilePicture, String status, String certificates, String branchName, String ARName, String departmentId, String departmentName, String education, String introduce, String workHistory, String startYear) {
         this.id = id;
         this.email = email;
@@ -427,7 +422,7 @@ public class Doctor {
     }
 
     public String getProfilePicture() {
-        return profilePicture == null ? "default-img.jpg": profilePicture;
+        return profilePicture == null ? "default-img.jpg" : profilePicture;
     }
 
     public void setProfilePicture(String profilePicture) {

@@ -41,7 +41,7 @@
                                 <h4 class="page-title">Quản lí danh sách cuộc hẹn</h4>
                             </div>
                             <div class="col-sm-8 col-9 text-right m-b-20">
-                                <a id="click-add-appointment" href="#" class="btn btn btn-primary btn-rounded float-right" onclick="eventClickAddAppointments(this)"><i class="fa fa-plus"></i> Thêm bệnh nhân</a>
+                                <a href="add-appointment.html" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Appointment</a>
                             </div>
                         </div>
                         <div class="row">
@@ -57,7 +57,7 @@
                                                 <th>Chi nhánh</th>
                                                 <th>Ngày giờ khám</th>
                                                 <th>Trạng thái</th>
-                                                <th>Hành động</th>
+                                                <th class="">Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -261,7 +261,7 @@
                     }
                 };
                 $.ajax({
-                    url: "/MediCare/admin-manage-appointments",
+                    url: "/MediCare/admin-manage-pending-appointments",
                     data: {
                         appointmentId: event.getAttribute("data-pending-appointment-id"),
                         doctorDisplayName: event.getAttribute("data-doctor-name"),
@@ -273,7 +273,6 @@
                         var editAppointmentForm = document.getElementById("editAppointmentForm");
                         editAppointmentForm.innerHTML = response;
 
-
 // Lựa chọn các phần tử input type checkbox và các phần tử hiển thị checkbox
                         var mailCheckboxes = document.querySelectorAll('.mail-checkbox');
                         var mailCheckboxContainers = document.querySelectorAll('.mail-checkbox-container');
@@ -282,101 +281,7 @@
                         mailCheckboxContainers.forEach(container => {
                             container.style.display = "none";
                         });
-                        // Lựa chọn các phần tử input type radio trong nội dung mới
-                        var statusInputs = editAppointmentForm.querySelectorAll('input[name="status"]');
-                        var doctorSelect = editAppointmentForm.querySelector('.doctor-choice-edit-appointment');
 
-                        // Biến để lưu trạng thái cuộc hẹn trước đó
-//                        var previousStatus = null;
-                        var previousStatus = doctorSelect.getAttribute("data-status");
-
-
-                        // Lặp qua các phần tử input type radio và thêm sự kiện nghe
-                        statusInputs.forEach(input => {
-                            input.addEventListener('change', function () {
-                                // In ra giá trị của trạng thái và bác sĩ
-                                console.log("Trạng thái:", this.value);
-                                console.log("Bác sĩ:", doctorSelect.value);
-                                console.log("Trang thai ban dau:", previousStatus);
-
-// Ẩn tất cả checkbox ban đầu
-                                mailCheckboxContainers.forEach(container => {
-                                    container.style.display = "none";
-                                });
-
-                                // Hiển thị checkbox tương ứng nếu trạng thái là 1, 2 hoặc 3
-                                if (this.value === "1") {
-                                    mailCheckboxContainers[0].style.display = "block"; // Hiện checkbox 1
-                                } else if (this.value === "2") {
-                                    mailCheckboxContainers[1].style.display = "block"; // Hiện checkbox 2
-                                } else if (this.value === "3") {
-                                    mailCheckboxContainers[2].style.display = "block"; // Hiện checkbox 3
-                                }
-                                if (doctorSelect.value !== "-1") {
-                                    console.log("doctorId != -1");
-                                    // Bác sĩ đã được chọn, cho phép chọn các trạng thái cụ thể
-                                    if (this.value === "0" || this.value === "3") {
-                                        this.checked = true;
-                                    }
-                                } else {
-                                    if (this.value === "0" || this.value === "3") {
-                                        this.checked = true;
-                                    } else {
-                                        // Bác sĩ chưa được chọn, báo lỗi và không cho phép chọn các trạng thái cụ thể
-                                        this.checked = false;
-                                        document.querySelector('input[name="status"][value="' + previousStatus + '"]').checked = true;
-                                        console.log("Select value = previous status success");
-                                        // Báo lỗi
-                                        alert("Vui lòng chọn bác sĩ trước khi chọn trạng thái.");
-                                    }
-                                }
-
-                                // Cập nhật giá trị trạng thái trước đó
-//                                previousStatus = this.value;
-                            });
-                        });
-                    }
-                    ,
-                    error: function (xhr) {
-
-                    }
-                });
-            }
-            function eventClickAddAppointments(event) {
-                console.log("EVENT Click Add Appointments:");
-                console.log("Event is click: " + event.id);
-                var modal = document.getElementById("editAppointmentForm");
-                modal.style.display = "block";
-//                document.getElementById("method").value = "add";
-//                document.getElementById("schedule-submit-button").innerHTML = "Update";
-
-                // Close the modal if the user clicks outside of it
-                window.onclick = function (event) {
-                    if (event.target === modal) {
-                        modal.style.display = "none";
-//                        document.getElementById("method").value = "add";
-                    }
-                };
-                $.ajax({
-                    url: "/MediCare/admin-manage-appointments",
-                    data: {
-                        appointmentId: event.getAttribute("data-pending-appointment-id"),
-                        doctorDisplayName: event.getAttribute("data-doctor-name"),
-                        action: "add-appointment"
-                    },
-                    cache: false,
-                    type: "POST",
-                    success: function (response) {
-                        var editAppointmentForm = document.getElementById("editAppointmentForm");
-                        editAppointmentForm.innerHTML = response;
-                        // Lựa chọn các phần tử input type checkbox và các phần tử hiển thị checkbox
-                        var mailCheckboxes = document.querySelectorAll('.mail-checkbox');
-                        var mailCheckboxContainers = document.querySelectorAll('.mail-checkbox-container');
-
-// Ẩn tất cả các checkbox và container ban đầu
-                        mailCheckboxContainers.forEach(container => {
-                            container.style.display = "none";
-                        });
                         // Lựa chọn các phần tử input type radio trong nội dung mới
                         var statusInputs = editAppointmentForm.querySelectorAll('input[name="status"]');
                         var doctorSelect = editAppointmentForm.querySelector('.doctor-choice-edit-appointment');
@@ -454,6 +359,7 @@
                 var actionSendMailValue = mailCheckbox.checked ? mailCheckbox.getAttribute("data-action-send-mail") : '';
                 console.log("actionSendMailValue onclick: " + actionSendMailValue);
 
+
                 // Lặp qua các phần tử input type radio và lấy giá trị trạng thái
                 statusInputs.forEach(input => {
                     if (input.checked) {
@@ -470,7 +376,7 @@
 
                 // Gọi AJAX để lưu thông tin
                 $.ajax({
-                    url: "/MediCare/admin-manage-appointments",
+                    url: "/MediCare/admin-manage-pending-appointments",
                     data: {
                         appointmentId: appointmentId,
                         status: statusValue,
@@ -486,7 +392,7 @@
                         alert("Save success");
                         console.log("success");
                         setTimeout(function () {
-                            window.location.href = "admin-manage-pending-appointments";
+                            window.location.href = "admin-manage-appointments";
                         }, 500);
 
                     },

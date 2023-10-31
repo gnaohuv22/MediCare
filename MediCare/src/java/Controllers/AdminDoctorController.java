@@ -98,18 +98,20 @@ public class AdminDoctorController extends HttpServlet {
         List<AcademicRank> listAR = ARDAO.getListAcademicRank();
         List<Branch> listBranch = BranchDAO.getAllBranches();
         List<Certificate> listCert = CertDAO.getListCertificate();
-        String action = request.getParameter("action");
-        String id = request.getParameter("id");
-        if ("edit".equals(action) || "add".equals(action)) {
+        String action = request.getParameter("action"); 
+        String id = request.getParameter("id");     
+         if ("edit".equals(action) || "add".equals(action) ) {
             DoctorDAO DocDAO = new DoctorDAO();
             CertificateDoctorDAO cdDao = new CertificateDoctorDAO();
             List<CertificateDoctor> listCertofDoc = cdDao.getCertificateByDoctorId(id);
-            Doctor doc = DocDAO.getDoctorByDoctorId(id);
-            request.setAttribute("listBranch", listBranch);
+            Doctor doc = DocDAO.getDoctorById(id);
+            
+             request.setAttribute("listBranch", listBranch);
             request.setAttribute("listAR", listAR);
             request.setAttribute("listCert", listCert);
             request.setAttribute("action", action);
             request.setAttribute("doc", doc);
+            System.out.println("isDelete : " + doc.getIsDelete());
             request.setAttribute("listCert", listCert);
             request.setAttribute("listCertofDoc", listCertofDoc);
             request.setAttribute("listBranch", listBranch);
@@ -126,12 +128,12 @@ public class AdminDoctorController extends HttpServlet {
         String search = request.getParameter("search") == null ? "" : request.getParameter("search");
         DoctorDAO dao = new DoctorDAO();
         System.out.println("Search :" + search);
-        System.out.println("Is delete Status :" + isDelete);
+        System.out.println("Is delete Status at DoGet :" + isDelete);   
         String branch = request.getParameter("branch") == null ? "" : request.getParameter("branch");
         System.out.println("Branch status : " + branch);
         String academicRank = request.getParameter("academicRank") == null ? "" : request.getParameter("academicRank");
         System.out.println("AcademicRank status : " + academicRank);
-        ArrayList<Doctor> listDoc = dao.getAllDoctorsByCondition(isDelete, search, branch, academicRank);
+         ArrayList<Doctor> listDoc = dao.getAllDoctorsByCondition(isDelete, search,branch, academicRank);
         int count = dao.doctorCount(listDoc);
         System.out.println("Count doctor  = " + count);
         String indexRaw = request.getParameter("index") == null ? "1" : request.getParameter("index");
@@ -142,9 +144,10 @@ public class AdminDoctorController extends HttpServlet {
             endPage++;
         }
         int previous, after;
-        if (endPage == 1) {
+        if(endPage == 1){
             previous = after = 1;
-        } else {
+        }
+        else{
             previous = index + 1;
             after = index - 1;
         }
@@ -195,7 +198,6 @@ public class AdminDoctorController extends HttpServlet {
         String[] certificates = request.getParameterValues("certificates");
         String birthDate = request.getParameter("birthDate");
         String gender = request.getParameter("gender");
-        boolean bool = true;
         //file handle : for upload picture -----------------------------------------------------------------------------
         String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads"; // Đường dẫn lưu trữ tệp
         File uploadDir = new File(uploadPath);
@@ -206,11 +208,22 @@ public class AdminDoctorController extends HttpServlet {
         Part filePart = request.getPart("avatarUpload");
         String fileName = getFileName(filePart); // Lấy tên tệp
         System.out.println("Path " + fileName.isEmpty());
+        String imageFileName = null;
+        if (!fileName.isEmpty()) {
+            // Lưu tệp lên máy chủ
+            System.out.println("Upload " + uploadPath);
+            filePart.write(uploadPath + File.separator + fileName);
+
+            response.getWriter().println("Tải lên file thành công.");
+            imageFileName = getFileName(filePart);
+            System.out.println("File name : " + imageFileName);
+        }
 
 //--------------------------------------------------------------------------------------------
         //add doctor function : 
         if ("add".equals(action)) {
 
+            boolean bool = true;
             if (!validateDisplayName(displayName)) {
                 request.setAttribute("displayNameError", "Display name should be contains letters and space only");
                 bool = false;
@@ -222,7 +235,7 @@ public class AdminDoctorController extends HttpServlet {
 
             //check variable
             if (certificates == null || certificates.length == 0) {
-                request.setAttribute("certificateError", "You must choose at least one Certificate");
+                request.setAttribute("certificateError", "Bạn phải chọn ít nhất 1 chứng chỉ");
                 bool = false;
             }
 
@@ -237,22 +250,22 @@ public class AdminDoctorController extends HttpServlet {
             System.out.println("Send password : " + sendPassword);
             Doctor docCheck = dao.getDoctorByEmail(email);
             if (!validateEmail(email)) {
-                request.setAttribute("EmailError", "Not a email, enter again");
+                request.setAttribute("EmailError", "Không đúng định dạng email");
                 bool = false;
             } else if (docCheck != null) {
-                request.setAttribute("EmailError", "Email Existed, input another one");
+                request.setAttribute("EmailError", "Email đã tồn tại trong hệ thống");
                 bool = false;
             } else {
                 request.setAttribute("email", email);
             }
             if (!validateSalary(salary)) {
-                request.setAttribute("SalaryError", "Salary must be a double number bigger than 0");
+                request.setAttribute("SalaryError", "Lương phải là số và lớn hơn 0");
                 bool = false;
             } else {
                 request.setAttribute("salary", salary);
             }
             if (!validatePhoneNumber(phone)) {
-                request.setAttribute("PhoneError", "Phone number must have 10 digits and start with 0");
+                request.setAttribute("PhoneError", "Số điện thoại phải có dạng 1 dãy số 10 con số và bắt đầu bằng số 0");
                 bool = false;
             } else {
                 request.setAttribute("phone", phone);
@@ -269,25 +282,6 @@ public class AdminDoctorController extends HttpServlet {
                     workplace = "Nha Trang";
                     break;
             }
-            String imageFileName = null;
-            if (!fileName.isEmpty()) {
-                // Lưu tệp lên máy chủ
-                System.out.println("Upload " + uploadPath);
-                filePart.write(uploadPath + File.separator + fileName);
-
-                response.getWriter().println("File uploaded successfully.");
-                imageFileName = getFileName(filePart);
-                System.out.println("File name : " + imageFileName);
-                if (imageFileName.endsWith(".png") || imageFileName.endsWith(".jpg")) {
-
-                    bool = true;
-                } else {
-                    request.setAttribute("fileError", "Chỉ được upload ảnh dưới dạng file png hoặc jpg");
-                    bool = false;
-                }
-            }
-            request.setAttribute("imageFileName", imageFileName);
-            
             if (bool == true) {
                 try {
                     id = dao.autoGenerateID();
@@ -300,7 +294,7 @@ public class AdminDoctorController extends HttpServlet {
                     for (String c : certificates) {
                         CDDao.addCertificateForDoctor(c, id);
                     }
-                    request.getSession().setAttribute("noti", "Add doctor success");
+                    request.getSession().setAttribute("noti", "Thêm bác sĩ mới thành công");
                     response.sendRedirect("admin-doctor");
                 } catch (ParseException ex) {
                     Logger.getLogger(AdminDoctorController.class.getName()).log(Level.SEVERE, null, ex);
@@ -335,27 +329,36 @@ public class AdminDoctorController extends HttpServlet {
             Doctor doc = dao.getDoctorById(id);
             dao.deleteDoctor(doc);
             response.sendRedirect("admin-doctor");
-        } else if ("edit".equals(action)) {
+        }
+            else if ("undo".equals(action)) {
+            id = request.getParameter("id");
+            System.out.println("doctorId" + id);
+            DoctorDAO dao = new DoctorDAO();
+            Doctor doc = dao.getDoctorById(id);
+            dao.undoDoctor(doc);
+            response.sendRedirect("admin-doctor");
+        }else if ("edit".equals(action)) {
             CertificateDoctorDAO cdDao = new CertificateDoctorDAO();
             List<CertificateDoctor> ClearListCd = cdDao.getCertificateByDoctorId(id);
             certificates = request.getParameterValues("certificates");
-            bool = true;
+            boolean bool = true;
             if (certificates == null || certificates.length == 0) {
-                request.setAttribute("certificateError", "You must choose at least one Certificate");
+                request.setAttribute("certificateError", "Bạn phải chọn ít nhất 1 chứng chỉ");
                 bool = false;
             }
-
+            String isDelete = request.getParameter("isDelete");
+            System.out.println("Is Delete Status at AdminDoctorController :  " + isDelete);
             DoctorDAO doc = new DoctorDAO();
             Doctor docError = new Doctor();
             if (!validateDisplayName(displayName.trim())) {
-                request.setAttribute("displayNameError", "Display name should be contains letters and space only");
+                request.setAttribute("displayNameError", "Tên bác sĩ chỉ nên chứa chữ cái và khoảng trống");
                 bool = false;
             } else {
 
                 docError.setDisplayName(displayName);
             }
             Doctor docCheck = doc.getDoctorByEmail(id);
-            List<Doctor> list = doc.getAllDoctorsByCondition("", "", "", "");
+            List<Doctor> list = doc.getAllDoctorsByCondition("", "", "","");
             List<String> listEmail = new ArrayList<>();
 
             if (docCheck != null) {
@@ -366,13 +369,13 @@ public class AdminDoctorController extends HttpServlet {
                 }
             }
             if (!validateEmail(email) && docCheck != null && docCheck.getCVId().isEmpty() && !docCheck.getCVId().equals(email) && listEmail.contains(email)) {
-                request.setAttribute("EmailError", "Email Existed or not a email, input another one");
+                request.setAttribute("EmailError", "Email đã tồn tại trong hệ thống, hoặc không đúng định dạng");
                 bool = false;
             } else {
                 docError.setEmail(email);
             }
             if (!validatePhoneNumber(phone)) {
-                request.setAttribute("PhoneError", "Phone number must have 10 digits and start with 0");
+                request.setAttribute("PhoneError", "Số điện thoại phải có dạng 1 dãy số 10 con số và bắt đầu bằng số 0");
                 bool = false;
             } else {
                 docError.setPhone(phone);
@@ -389,18 +392,17 @@ public class AdminDoctorController extends HttpServlet {
                     break;
             }
             if (!validateSalary(salary)) {
-                request.setAttribute("SalaryError", "Salary must be a double number bigger than 0");
+                request.setAttribute("SalaryError", "Lương phải là số và lớn hơn 0");
                 bool = false;
             } else {
                 docError.setSalary(salary);
             }
-                        String imageFileName = null;
             if (!fileName.isEmpty()) {
                 // Lưu tệp lên máy chủ
                 System.out.println("Upload " + uploadPath);
                 filePart.write(uploadPath + File.separator + fileName);
 
-                response.getWriter().println("File uploaded successfully.");
+                response.getWriter().println("Upload file thành công.");
                 imageFileName = getFileName(filePart);
                 System.out.println("File name : " + imageFileName);
                 if (imageFileName.endsWith(".png") || imageFileName.endsWith(".jpg")) {
@@ -412,21 +414,23 @@ public class AdminDoctorController extends HttpServlet {
             }
             if(fileName.isEmpty()){
                 imageFileName = doc.getDoctorById(id).getProfilePicture();
+                
             }
-            
             if (bool) {
+                
                 for (CertificateDoctor ClearCd : ClearListCd) {
                     cdDao.deleteCertificateForDoctor(ClearCd);
                 }
-                Doctor doctor = new Doctor(id, email, displayName, branch, phone, academicRank, certId, salary, workplace, imageFileName, status, birthDate, gender, "0");
+                Doctor doctor = new Doctor(id, email, displayName, branch, phone, academicRank, certId, salary, workplace, imageFileName, status, birthDate, gender, isDelete);
                 doc.updateDoctor(doctor);
                 for (String cNew : certificates) {
                     cdDao.addCertificateForDoctor(cNew, id);
                 }
                 AdminEmailContext.sendEmailnewPassword(email, sendPassword, displayName);
-                request.getSession().setAttribute("noti", "Update doctor informations success");
+                request.getSession().setAttribute("noti", "Cập nhật thông tin bác sĩ thành công");
                 response.sendRedirect("admin-doctor");
             } else {
+                request.setAttribute("isDelete", isDelete);
                 request.setAttribute("action", action);
                 docError.setId(id);
                 docError.setCVId(certId);

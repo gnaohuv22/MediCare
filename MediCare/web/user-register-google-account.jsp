@@ -53,62 +53,49 @@
                 <div class="account-center">
                     <div class="account-box">
                         <h1 style="font-weight: bold">Register</h1>
-                        <form action="user-register" method="POST" class="form-signin">
+                        <form action="user-register-google-handler" method="POST" class="form-signin">
                             <div class="account-logo">
                                 <a href="user-register"><img src="img/logo.png" alt=""></a>
                             </div>
                             <div class="form-group">
-                                                                <label>Email</label>
-                                                                <input type="text" id="email" value="${requestScope.email}" name="email" maxlength="32" placeholder="example@example.com" required class="form-control">
+                                <label>Email</label>
+                                <input type="text" id="email" autofocus="" value="${requestScope.email}" name="email" maxlength="32" placeholder="example@example.com" readonly required class="form-control">
+                            </div>
+                            <c:if test="${requestScope.error == null}">
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="password" id="password" name="password" maxlength="32" placeholder="Password" required class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Re-password</label>
+                                    <input type="password" id="repassword" name="repassword" maxlength="32" placeholder="Password" required class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input type="text" id="name" name="name" value="${requestScope.name}" maxlength="32" placeholder="Eg: Nguyen Van A" required class="form-control">
+                                </div>
 
-<!--                                <label>Email</label>
-                                <input type="text" id="email" name="email" placeholder="example@example.com" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}" title="Địa chỉ email không hợp lệ, vui lòng nhập lại.">-->
+                            </c:if>
 
 
-                            </div>
-                            <div class="form-group">
-                                <label>Password</label>
-                                <input type="password" id="password" name="password" maxlength="32" placeholder="Password" required class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label>Re-password</label>
-                                <input type="password" id="repassword" name="repassword" maxlength="32" placeholder="Password" required class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" id="name" name="name" ${name} maxlength="32" placeholder="Eg: Nguyen Van A" required class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label>Date of birth</label>
-                                <input type="date" id="birthDate" name="birthDate" value="${requestScope.birthDate}" required class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label>Gender</label> <br>
-                                <input type="radio" id="gender" checked name="gender"> Male &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <input type="radio" id="gender" name="gender" ${gender.equals('1')?'checked':''} value="1"> Female
-                            </div>
-                            <div class="form-group">
-                                <label>Address</label>
-                                <input type="text" id="address" name="address" maxlength="255" placeholder="Eg: Thạch Thất - Hà Nội"  value="${address}" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label>Phone</label>
-                                <input type="tel" id="phone" name="phone" placeholder="Eg: 0123456789"  value="${phone}" maxlength="10" pattern="[0-9]{10}" class="form-control">
-                            </div>
-                            <div class="form-group text-center">
-                                <button type="submit" class="btn btn-primary account-btn" onclick="handleSubmit()">Register</button>
-                            </div>
+                            <h2 style="color: red">${requestScope.error}</h2>
+
                             <div class="form-group text-center">
                                 <p style="color: red">${errorMessage}</p>
                             </div>
-                            <div class="text-center register-link" style="text-decoration: underline">
-                                <a href="user-login" >I am already a member</a>
-                            </div>
-                            <div class="text-center register-link" style="text-decoration: underline">
-                                <!--<a href="user-register?value=1" >Register with Google Account</a>-->
-                                <a style="color: blue" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:9999/MediCare/user-register-google-handler&response_type=code&client_id=304835980690-njlmvsh5aa80tmn61q83410iutm5s1q9.apps.googleusercontent.com&approval_prompt=force">Register with Google</a>
-
-                            </div>
+                            <c:if test="${requestScope.error == null}">
+                                <div class="form-group text-center">
+                                    <button type="submit" class="btn btn-primary account-btn" onclick="handleSubmit()">Register</button>
+                                </div>
+                            </c:if>
+                            <c:if test="${requestScope.error != null}">
+                                <div class="text-center register-link" style="text-decoration: underline">
+                                    <a style="color: red" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:9999/MediCare/user-login-google-handler&response_type=code&client_id=304835980690-njlmvsh5aa80tmn61q83410iutm5s1q9.apps.googleusercontent.com&approval_prompt=force">Login with Google</a>
+                                </div>
+                                <div class="text-center register-link" style="text-decoration: underline">
+                                    <a style="color: blue" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:9999/MediCare/user-register-google-handler&response_type=code&client_id=304835980690-njlmvsh5aa80tmn61q83410iutm5s1q9.apps.googleusercontent.com&approval_prompt=force">Try to register with Google</a>
+                                </div>
+                            </c:if>
                         </form>
                     </div>
                 </div>
@@ -131,9 +118,6 @@
                 var password = document.getElementById("password");
                 var repassword = document.getElementById("repassword");
                 var name = document.getElementById("name");
-                var address = document.getElementById("address");
-                var phone = document.getElementById("phone");
-                var birthDate1 = document.getElementById("birthDate");
                 // Kiểm tra xem email có giá trị trước khi kiểm tra password
                 if (!email.value.trim()) {
                     email.setCustomValidity("Vui lòng nhập địa chỉ email.");
@@ -143,6 +127,7 @@
                     email.setCustomValidity("");
                 }
 
+
                 if (email.value.trim() && !/^([a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z]{2,})+)*$/.test(email.value.trim())) {
                     email.setCustomValidity("Địa chỉ email không hợp lệ, vui lòng nhập lại.");
                     email.reportValidity();
@@ -150,8 +135,6 @@
                 } else {
                     email.setCustomValidity("");
                 }
-
-
 
                 if (password.value.trim().length < 8) {
                     password.setCustomValidity("Mật khẩu phải bao gồm ít nhất 8 kí tự.");
@@ -175,45 +158,6 @@
                     return false;
                 } else {
                     name.setCustomValidity("");
-                }
-
-                if (address.value.trim() !== "") {
-                    if (!/^[a-zA-Z0-9\s.,#'-àáảãạăắằẳẵặâấầẩẫậèéẻẽẹêếềểễệđòóỏõọôốồổỗộơớờởỡợùúủũụưứừửữựìíỉĩịỳýỷỹỵ]+$/i.test(address.value.trim())) {
-                        address.setCustomValidity("Địa chỉ không hợp lệ.");
-                        address.reportValidity();
-                        return false;
-                    } else {
-                        address.setCustomValidity("");
-                    }
-                } else {
-                    address.setCustomValidity(""); // Không cần validate nếu địa chỉ không được điền
-                }
-
-
-
-                var today = new Date();
-                var birthDate = new Date(birthDate1.value.trim());
-                var age = today.getFullYear() - birthDate.getFullYear();
-                var m = today.getMonth() - birthDate.getMonth();
-                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-                    age--;
-                }
-
-                if (age < 12) {
-                    console.log("Age < 12");
-                    birthDate1.setCustomValidity("Yêu cầu người dùng ít nhất 12 tuổi!");
-                    birthDate1.reportValidity();
-                    return false;
-                } else {
-                    birthDate1.setCustomValidity("");
-                }
-
-                if (!/^\d{10}$/.test(phone.value.trim())) {
-                    phone.setCustomValidity("Số điện thoại chỉ được chứa số và phải có đúng 10 chữ số.");
-                    phone.reportValidity();
-                    return false;
-                } else {
-                    phone.setCustomValidity("");
                 }
 
                 return true;

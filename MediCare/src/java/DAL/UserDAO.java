@@ -5,6 +5,7 @@
 package DAL;
 
 import Controllers.PasswordEncryption;
+import Models.FamilyProfile;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,7 +28,7 @@ public class UserDAO extends DBContext {
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
-            Province p = new Province(String.valueOf(rs.getInt(8)));
+                Province p = new Province(String.valueOf(rs.getInt(8)));
                 User u = new User(rs.getString(1),
                         rs.getString(2),
                         rs.getString(3),
@@ -50,44 +51,9 @@ public class UserDAO extends DBContext {
         return list;
     }
 
-    // Function: get object of user by username and password: - TU BINH
-//    public User login1(String email, String password) {
-//        String sql = "SELECT * FROM [User] WHERE email = ?";
-//
-//        try {
-//            PreparedStatement st = connection.prepareStatement(sql);
-//            st.setString(1, email);
-//            byte[] salt = PasswordEncryption.generateSalt();
-//            String encryptedPassword = PasswordEncryption.encryptPassword(password, salt).substring(0, 64);
-//            ResultSet rs = st.executeQuery();
-//            if (rs.next()) {
-//                if (PasswordEncryption.comparePasswords(password, rs.getString("password"))) {
-//                    User u = new User(rs.getString(1),
-//                            rs.getString(2),
-//                            rs.getString(3),
-//                            rs.getString(4),
-//                            String.valueOf(rs.getDate(5)),
-//                            String.valueOf(rs.getInt(6)),
-//                            rs.getString(7),
-//                            String.valueOf(rs.getInt(8)),
-//                            rs.getString(9),
-//                            rs.getString(10),
-//                            rs.getString(11),
-//                            rs.getString(12),
-//                            rs.getString(13),
-//                            String.valueOf(rs.getDate(14)));
-//                    System.out.println(u);
-//                    return u;
-//                }
-//            }
-//        } catch (SQLException e) {
-//            System.out.println("login: " + e);
-//        }
-//        return null;
-//    }
     public User login(String email, String password) {
         System.out.println("USER - LOGIN - Method:");
-        String sql = "SELECT [name], email, password from [user] WHERE email = ? and password IS NOT NULL";
+        String sql = "SELECT id, [name], email, password from [user] WHERE email = ? and password IS NOT NULL";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, email);
@@ -96,7 +62,8 @@ public class UserDAO extends DBContext {
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 if (PasswordEncryption.comparePasswords(password, rs.getString("password"))) {
-                    User u = new User(rs.getString("email"),
+                    User u = new User(rs.getString("id"),
+                            rs.getString("email"),
                             rs.getString("name"));
                     System.out.println(u);
                     return u;
@@ -131,34 +98,77 @@ public class UserDAO extends DBContext {
     }
 
     public boolean registerUser(User u) {
-        String sql = "INSERT INTO [dbo].[User]\n"
-                + "           ([id]\n"
-                + "           ,[email]\n"
-                + "           ,[password]\n"
-                + "           ,[name]\n"
-                + "           ,[birthDate]\n"
-                + "           ,[gender]\n"
-                + "           ,[address]\n"
-                + "           ,[phone]\n"
-                + "           ,[createdAt])\n"
-                + "     VALUES"
-                + "           (?,?,?,?,?,?,?,?,?)";
-
         byte[] salt = PasswordEncryption.generateSalt();
         String encryptedPassword = PasswordEncryption.encryptPassword(u.getPassword(), salt);
         try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, this.getLastUserId() + 1 + "");
-            st.setString(2, u.getEmail());
-            st.setString(3, encryptedPassword);
-            st.setString(4, u.getName());
-            st.setDate(5, Date.valueOf(u.getBirthDate()));
-            st.setBoolean(6, (u.getGender().equals("0")) ? Boolean.TRUE : Boolean.FALSE);
-            st.setString(7, u.getAddress());
-            st.setString(8, u.getPhone());
-            st.setString(9, u.getCreatedAt());
-            st.execute();
-            return true;
+            String sql;
+            PreparedStatement st;
+            // Check whether email is registered - having password:
+            UserDAO ud = new UserDAO();
+            User userRegistered = ud.getUserRegistered(u.getEmail());
+            User guestInUser = ud.getGuestInUserTable(u.getEmail());
+            if (userRegistered == null && guestInUser == null) { // => insert new to [User]
+                sql = "INSERT INTO [dbo].[User]\n"
+                        + "           ([id]\n"
+                        + "           ,[email]\n"
+                        + "           ,[password]\n"
+                        + "           ,[name]\n"
+                        + "           ,[birthDate]\n"
+                        + "           ,[gender]\n"
+                        + "           ,[address]\n"
+                        + "           ,[phone]\n"
+                        + "           ,[createdAt])\n"
+                        + "     VALUES"
+                        + "           (?,?,?,?,?,?,?,?,?)";
+                st = connection.prepareStatement(sql);
+                st.setString(1, this.getLastUserId() + 1 + "");
+                st.setString(2, u.getEmail());
+                st.setString(3, encryptedPassword);
+                st.setString(4, u.getName());
+                st.setDate(5, Date.valueOf(u.getBirthDate()));
+                st.setBoolean(6, (u.getGender().equals("0")) ? Boolean.TRUE : Boolean.FALSE);
+                st.setString(7, u.getAddress());
+                st.setString(8, u.getPhone());
+                st.setString(9, u.getCreatedAt());
+                st.execute();
+                return true;
+            } else if (guestInUser != null) { // update in [User]
+                sql = "UPDATE [dbo].[User]\n"
+                        + "   SET [password] = ?\n"
+                        + "      ,[name] = ?\n"
+                        + "      ,[birthDate] = ?\n"
+                        + "      ,[gender] = ?\n"
+                        + "      ,[address] = ?\n"
+                        + "      ,[phone] = ?\n"
+                        + "      ,[createdAt] = ?\n"
+                        + " WHERE id = ?";
+                st = connection.prepareStatement(sql);
+                st.setString(1, encryptedPassword);
+                st.setString(2, u.getName());
+                st.setDate(3, Date.valueOf(u.getBirthDate()));
+                st.setBoolean(4, (u.getGender().equals("0")) ? Boolean.TRUE : Boolean.FALSE);
+                st.setString(5, u.getAddress());
+                st.setString(6, u.getPhone());
+                st.setString(7, u.getCreatedAt());
+                st.setString(8, guestInUser.getId());
+                st.execute();
+                User userfp = ud.getUserById(guestInUser.getId());
+                // Add profile of user to FamilyProfile:
+                FamilyProfileDAO fd = new FamilyProfileDAO();
+                fd.addNewUserProfile(new FamilyProfile(userfp.getEmail(),
+                        userfp.getName(),
+                        userfp.getBirthDate(),
+                        userfp.getGender(),
+                        userfp.getAddress(),
+                        userfp.getIdentity(),
+                        userfp.getMedicalId(),
+                        userfp.getEthnic(),
+                        userfp.getPhone(),
+                        userfp.getCreatedAt(),
+                        "0",
+                        guestInUser.getId()));
+                return true;
+            }
         } catch (SQLException e) {
             System.out.println("registerUser: " + e);
         }
@@ -166,26 +176,61 @@ public class UserDAO extends DBContext {
     }
 
     public boolean registerUserGoogleAccount(User u) {
-        String sql = "INSERT INTO [dbo].[User]\n"
-                + "           ([id]\n"
-                + "           ,[email]\n"
-                + "           ,[password]\n"
-                + "           ,[name]\n"
-                + "           ,[createdAt])\n"
-                + "     VALUES"
-                + "           (?,?,?,?,?)";
-
         byte[] salt = PasswordEncryption.generateSalt();
         String encryptedPassword = PasswordEncryption.encryptPassword(u.getPassword(), salt);
         try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, this.getLastUserId() + 1 + "");
-            st.setString(2, u.getEmail());
-            st.setString(3, encryptedPassword);
-            st.setString(4, u.getName());
-            st.setString(5, u.getCreatedAt());
-            st.execute();
-            return true;
+            String sql;
+            PreparedStatement st;
+            // Check whether email is registered - having password:
+            UserDAO ud = new UserDAO();
+            User userRegistered = ud.getUserRegistered(u.getEmail());
+            User guestInUser = ud.getGuestInUserTable(u.getEmail());
+            if (userRegistered == null && guestInUser == null) { // => insert new to [User]
+                sql = "INSERT INTO [dbo].[User]\n"
+                        + "           ([id]\n"
+                        + "           ,[email]\n"
+                        + "           ,[password]\n"
+                        + "           ,[name]\n"
+                        + "           ,[createdAt])\n"
+                        + "     VALUES"
+                        + "           (?,?,?,?,?)";
+                st = connection.prepareStatement(sql);
+                st.setString(1, this.getLastUserId() + 1 + "");
+                st.setString(2, u.getEmail());
+                st.setString(3, encryptedPassword);
+                st.setString(4, u.getName());
+                st.setString(5, u.getCreatedAt());
+                st.execute();
+                return true;
+            } else if (guestInUser != null) { // update in [User]
+                sql = "UPDATE [dbo].[User]\n"
+                        + "   SET [password] = ?\n"
+                        + "      ,[name] = ?\n"
+                        + "      ,[createdAt] = ?\n"
+                        + " WHERE id = ?";
+                st = connection.prepareStatement(sql);
+                st.setString(1, encryptedPassword);
+                st.setString(2, u.getName());
+                st.setString(3, u.getCreatedAt());
+                st.setString(4, guestInUser.getId());
+                st.execute();
+                User userfp = ud.getUserById(guestInUser.getId());
+                // Add profile of user to FamilyProfile:
+                FamilyProfileDAO fd = new FamilyProfileDAO();
+                fd.addNewUserProfile(new FamilyProfile(userfp.getEmail(),
+                        userfp.getName(),
+                        userfp.getBirthDate(),
+                        "",
+                        userfp.getAddress(),
+                        userfp.getIdentity(),
+                        userfp.getMedicalId(),
+                        userfp.getEthnic(),
+                        userfp.getPhone(),
+                        userfp.getCreatedAt(),
+                        "0",
+                        guestInUser.getId()));
+                return true;
+            }
         } catch (SQLException e) {
             System.out.println("registerUserGoogleAccount: " + e);
         }
@@ -255,15 +300,49 @@ public class UserDAO extends DBContext {
         return false;
     }
 
-    public User getUserNotRegistered(String email) {
-        String sql = "SELECT id FROM [User]\n"
-                + "WHERE password IS NULL AND email = ?";
+    public User getUserRegistered(String email) {
+        String sql = "SELECT id, password FROM [User]\n"
+                + "WHERE email = ? and password is not null";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, email);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 return new User(rs.getString("id"));
+            }
+        } catch (SQLException e) {
+            System.out.println("getUserRegistered: " + e);
+        }
+        return null;
+    }
+
+    public User getGuestInUserTable(String email) {
+        String sql = "SELECT id FROM [User]\n"
+                + "WHERE email = ? and password is null";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, email);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return new User(rs.getString("id"));
+            }
+        } catch (SQLException e) {
+            System.out.println("getUserRegistered: " + e);
+        }
+        return null;
+    }
+
+    public User getUserNotRegistered(String email) {
+//        String sql = "SELECT id FROM [User]\n"
+//                + "WHERE password IS NULL AND email = ?";
+        String sql = "SELECT id, password FROM [User]\n"
+                + "WHERE email = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, email);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return new User(rs.getString("id"), rs.getString("password"));
             }
         } catch (SQLException e) {
             System.out.println("getUserNotRegistered: " + e);
@@ -422,6 +501,7 @@ public class UserDAO extends DBContext {
         }
         return list;
     }
+
     public ArrayList<User> getMoreListUser(int offset, int fetch) {
         ArrayList<User> list = new ArrayList<>();
         String SQL = "SELECT [User].id[uId],email,password, [User].name[uName],birthDate,gender,address,provinceId,[identity],medicalId,ethnic,phone,profilePicture, createdAt, createBy, modifyAt, modifyBy "
@@ -465,7 +545,8 @@ public class UserDAO extends DBContext {
         }
         return list;
     }
-    public ArrayList<User> searchListUser(User user,int offset, int fetch) {
+
+    public ArrayList<User> searchListUser(User user, int offset, int fetch) {
         ArrayList<User> list = new ArrayList<>();
         String SQL = "SELECT [User].id[uId],email,password, [User].name[uName],birthDate,gender,address,provinceId,[identity],medicalId,ethnic,phone,profilePicture "
                 + " , Province.name[pName]"
@@ -479,43 +560,43 @@ public class UserDAO extends DBContext {
                 + " HAVING [User].id IS NOT NULL"
                 + " ORDER BY COUNT([User].id) DESC"
                 + " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-        String SQL2 = "SELECT count(*) " +
-                " FROM [User]"
+        String SQL2 = "SELECT count(*) "
+                + " FROM [User]"
                 + " JOIN Province on [User].provinceId = Province.id"
                 + " WHERE [User].id like ? AND email like ? AND [User].name like ? "
                 + " AND birthDate like ? AND gender like ? AND address like ? AND provinceId like ? AND [identity] like ? "
                 + " AND medicalId like ? AND ethnic like ? AND phone like ? ";
-        try (PreparedStatement pstm = connection.prepareStatement(SQL2)){
-            pstm.setString(1, "%"+user.getId()+"%"); 
-            pstm.setString(2, "%"+user.getEmail()+"%"); 
-            pstm.setNString(3, "%"+user.getName()+"%");
-            pstm.setString(4, "%"+user.getBirthDate()+"%"); 
-            pstm.setString(5, "%"+user.getGender()+"%"); 
-            pstm.setNString(6, "%"+user.getAddress()+"%"); 
-            pstm.setString(7, "%"+user.getProvince().getId()+"%"); 
-            pstm.setString(8, "%"+user.getIdentity()+"%"); 
-            pstm.setString(9, "%"+user.getMedicalId()+"%"); 
-            pstm.setNString(10, "%"+user.getEthnic()+"%"); 
-            pstm.setString(11, "%"+user.getPhone()+"%"); 
+        try ( PreparedStatement pstm = connection.prepareStatement(SQL2)) {
+            pstm.setString(1, "%" + user.getId() + "%");
+            pstm.setString(2, "%" + user.getEmail() + "%");
+            pstm.setNString(3, "%" + user.getName() + "%");
+            pstm.setString(4, "%" + user.getBirthDate() + "%");
+            pstm.setString(5, "%" + user.getGender() + "%");
+            pstm.setNString(6, "%" + user.getAddress() + "%");
+            pstm.setString(7, "%" + user.getProvince().getId() + "%");
+            pstm.setString(8, "%" + user.getIdentity() + "%");
+            pstm.setString(9, "%" + user.getMedicalId() + "%");
+            pstm.setNString(10, "%" + user.getEthnic() + "%");
+            pstm.setString(11, "%" + user.getPhone() + "%");
             ResultSet rs = pstm.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 numberRecord = rs.getInt(1);
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("search user " + e.getMessage());
         }
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
-            pstm.setString(1, "%"+user.getId()+"%"); 
-            pstm.setString(2, "%"+user.getEmail()+"%"); 
-            pstm.setNString(3, "%"+user.getName()+"%"); 
-            pstm.setString(4, "%"+user.getBirthDate()+"%"); 
-            pstm.setString(5, "%"+user.getGender()+"%"); 
-            pstm.setNString(6, "%"+user.getAddress()+"%"); 
-            pstm.setString(7, "%"+user.getProvince().getId()+"%"); 
-            pstm.setString(8, "%"+user.getIdentity()+"%"); 
-            pstm.setString(9, "%"+user.getMedicalId()+"%"); 
-            pstm.setNString(10, "%"+user.getEthnic()+"%"); 
-            pstm.setString(11, "%"+user.getPhone()+"%"); 
+            pstm.setString(1, "%" + user.getId() + "%");
+            pstm.setString(2, "%" + user.getEmail() + "%");
+            pstm.setNString(3, "%" + user.getName() + "%");
+            pstm.setString(4, "%" + user.getBirthDate() + "%");
+            pstm.setString(5, "%" + user.getGender() + "%");
+            pstm.setNString(6, "%" + user.getAddress() + "%");
+            pstm.setString(7, "%" + user.getProvince().getId() + "%");
+            pstm.setString(8, "%" + user.getIdentity() + "%");
+            pstm.setString(9, "%" + user.getMedicalId() + "%");
+            pstm.setNString(10, "%" + user.getEthnic() + "%");
+            pstm.setString(11, "%" + user.getPhone() + "%");
             pstm.setInt(12, offset);
             pstm.setInt(13, fetch);
             ResultSet rs = pstm.executeQuery();
@@ -543,7 +624,8 @@ public class UserDAO extends DBContext {
         }
         return list;
     }
-    public ArrayList<User> searchMoreListUser(User user,int offset, int fetch) {
+
+    public ArrayList<User> searchMoreListUser(User user, int offset, int fetch) {
         ArrayList<User> list = new ArrayList<>();
         String SQL = "SELECT [User].id[uId],email,password, [User].name[uName],birthDate,gender,address,provinceId,[identity],medicalId,ethnic,phone,profilePicture,createdAt,createBy,modifyAt,modifyBy "
                 + " , Province.name[pName]"
@@ -557,43 +639,43 @@ public class UserDAO extends DBContext {
                 + " HAVING [User].id IS NOT NULL"
                 + " ORDER BY COUNT([User].id) DESC"
                 + " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-        String SQL2 = "SELECT count(*) " +
-                " FROM [User]"
+        String SQL2 = "SELECT count(*) "
+                + " FROM [User]"
                 + " JOIN Province on [User].provinceId = Province.id"
                 + " WHERE [User].id like ? AND email like ? AND [User].name like ? "
                 + " AND birthDate like ? AND gender like ? AND address like ? AND provinceId like ? AND [identity] like ? "
                 + " AND medicalId like ? AND ethnic like ? AND phone like ? ";
-        try (PreparedStatement pstm = connection.prepareStatement(SQL2)){
-            pstm.setString(1, "%"+user.getId()+"%"); 
-            pstm.setString(2, "%"+user.getEmail()+"%"); 
-            pstm.setNString(3, "%"+user.getName()+"%"); 
-            pstm.setString(4, "%"+user.getBirthDate()+"%"); 
-            pstm.setString(5, "%"+user.getGender()+"%"); 
-            pstm.setNString(6, "%"+user.getAddress()+"%"); 
-            pstm.setString(7, "%"+user.getProvince().getId()+"%"); 
-            pstm.setString(8, "%"+user.getIdentity()+"%"); 
-            pstm.setString(9, "%"+user.getMedicalId()+"%"); 
-            pstm.setNString(10, "%"+user.getEthnic()+"%"); 
-            pstm.setString(11, "%"+user.getPhone()+"%"); 
+        try ( PreparedStatement pstm = connection.prepareStatement(SQL2)) {
+            pstm.setString(1, "%" + user.getId() + "%");
+            pstm.setString(2, "%" + user.getEmail() + "%");
+            pstm.setNString(3, "%" + user.getName() + "%");
+            pstm.setString(4, "%" + user.getBirthDate() + "%");
+            pstm.setString(5, "%" + user.getGender() + "%");
+            pstm.setNString(6, "%" + user.getAddress() + "%");
+            pstm.setString(7, "%" + user.getProvince().getId() + "%");
+            pstm.setString(8, "%" + user.getIdentity() + "%");
+            pstm.setString(9, "%" + user.getMedicalId() + "%");
+            pstm.setNString(10, "%" + user.getEthnic() + "%");
+            pstm.setString(11, "%" + user.getPhone() + "%");
             ResultSet rs = pstm.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 numberRecord = rs.getInt(1);
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("search more user " + e.getMessage());
         }
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
-            pstm.setString(1, "%"+user.getId()+"%"); 
-            pstm.setString(2, "%"+user.getEmail()+"%"); 
-            pstm.setNString(3, "%"+user.getName()+"%"); 
-            pstm.setString(4, "%"+user.getBirthDate()+"%"); 
-            pstm.setString(5, "%"+user.getGender()+"%"); 
-            pstm.setNString(6, "%"+user.getAddress()+"%"); 
-            pstm.setString(7, "%"+user.getProvince().getId()+"%"); 
-            pstm.setString(8, "%"+user.getIdentity()+"%"); 
-            pstm.setString(9, "%"+user.getMedicalId()+"%"); 
-            pstm.setNString(10, "%"+user.getEthnic()+"%"); 
-            pstm.setString(11, "%"+user.getPhone()+"%"); 
+            pstm.setString(1, "%" + user.getId() + "%");
+            pstm.setString(2, "%" + user.getEmail() + "%");
+            pstm.setNString(3, "%" + user.getName() + "%");
+            pstm.setString(4, "%" + user.getBirthDate() + "%");
+            pstm.setString(5, "%" + user.getGender() + "%");
+            pstm.setNString(6, "%" + user.getAddress() + "%");
+            pstm.setString(7, "%" + user.getProvince().getId() + "%");
+            pstm.setString(8, "%" + user.getIdentity() + "%");
+            pstm.setString(9, "%" + user.getMedicalId() + "%");
+            pstm.setNString(10, "%" + user.getEthnic() + "%");
+            pstm.setString(11, "%" + user.getPhone() + "%");
             pstm.setInt(12, offset);
             pstm.setInt(13, fetch);
             ResultSet rs = pstm.executeQuery();
@@ -617,7 +699,7 @@ public class UserDAO extends DBContext {
                 String modifyBy = rs.getString("modifyBy");
                 String pName = rs.getString("pName");
                 Province province = new Province(provinceId, pName);
-                User findUser = new User(id, email, password, uName, birthDate, gender, address, province, identity, medicalId, ethnic, phone, profilePicture,createdAt,createBy,modifyAt,modifyBy);
+                User findUser = new User(id, email, password, uName, birthDate, gender, address, province, identity, medicalId, ethnic, phone, profilePicture, createdAt, createBy, modifyAt, modifyBy);
                 list.add(findUser);
             }
         } catch (Exception e) {
@@ -725,6 +807,7 @@ public class UserDAO extends DBContext {
         }
         return null;
     }
+
     //thu
     public ArrayList<String> getTitleTableUser() {
         ArrayList<String> list = new ArrayList<>();
@@ -741,11 +824,12 @@ public class UserDAO extends DBContext {
         }
         return null;
     }
+
     //thu
     public ArrayList<String> getMoreTitleTableUser() {
         ArrayList<String> list = new ArrayList<>();
-        String SQL = "SELECT name FROM NewsCategory WHERE parentId = (select id from NewsCategory WHERE name like 'titleTableUser') " +
-" OR parentId = (select id from NewsCategory WHERE name like 'LoadMoreTitle')";
+        String SQL = "SELECT name FROM NewsCategory WHERE parentId = (select id from NewsCategory WHERE name like 'titleTableUser') "
+                + " OR parentId = (select id from NewsCategory WHERE name like 'LoadMoreTitle')";
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
@@ -758,7 +842,9 @@ public class UserDAO extends DBContext {
         }
         return null;
     }
+
     public String getIdByEmail(String string) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
 }
