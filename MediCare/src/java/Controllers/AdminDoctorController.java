@@ -410,6 +410,9 @@ public class AdminDoctorController extends HttpServlet {
                     bool = false;
                 }
             }
+            if(fileName.isEmpty()){
+                imageFileName = doc.getDoctorById(id).getProfilePicture();
+            }
             
             if (bool) {
                 for (CertificateDoctor ClearCd : ClearListCd) {
