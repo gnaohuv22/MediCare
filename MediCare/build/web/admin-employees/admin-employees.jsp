@@ -134,7 +134,7 @@
                                                         <div class="dropdown-menu dropdown-menu-right">
                                                             <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-employee?edit-employee=true&id=${list.getId()}"><i class="fa fa-pencil m-r-5"></i> Sửa</a>
                                                             <c:if test="${!view_detail}">
-                                                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-employee?view-detail=true&<c:if test="${IS_SEARCH==1}">search-employee=true&</c:if>searchBranch=${searchBranch}<c:if test="${IS_SEARCH==1}">&searchId=${searchId}&searchName=${searchName}&searchRole=${searchRole}</c:if>&isDelete=${isDelete}">Xem danh sách chi tiết</a>
+                                                                <a class="dropdown-item" href="" id="link">Xem danh sách chi tiết</a>
                                                             </c:if>
                                                             <c:if test="${view_detail}">
                                                                 <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-employee?<c:if test="${IS_SEARCH==1}">search-employee=true&</c:if>searchBranch=${searchBranch}<c:if test="${IS_SEARCH==1}">&searchId=${searchId}&searchName=${searchName}&searchRole=${searchRole}</c:if>&isDelete=${isDelete}">Ẩn danh sách chi tiết</a>

@@ -9,6 +9,7 @@ package Models;
  * @author DELL
  */
 public class User {
+
     private String id;
     private String email;
     private String password;
@@ -30,7 +31,6 @@ public class User {
     public User() {
     }
 
-    
     public User(String id, String email, String password, String name, String birthDate, String gender, String address, Province province, String identity, String medicalId, String ethnic, String phone, String profilePicture, String createdAt) {
         this.id = id;
         this.email = email;
@@ -58,6 +58,7 @@ public class User {
         this.phone = phone;
         this.createdAt = createdAt;
     }
+
     public User(String id, String email, String password, String name, String birthDate, String gender, String address, Province province, String identity, String medicalId, String ethnic, String phone, String profilePicture) {
         this.id = id;
         this.email = email;
@@ -107,20 +108,29 @@ public class User {
         this.ethnic = ethnic;
         this.phone = phone;
     }
+
     public User(String email, String name) {
         this.email = email;
         this.name = name;
     }
+
     public User(String id, String email, String name) {
         this.id = id;
         this.email = email;
         this.name = name;
     }
 
+    public User(String email, String password, String name, String createdAt) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.createdAt = createdAt;
+    }
+
     public User(String id) {
         this.id = id;
     }
-    
+
     public String getId() {
         return id;
     }
@@ -256,7 +266,7 @@ public class User {
     public void setModifyBy(String modifyBy) {
         this.modifyBy = modifyBy;
     }
-    
+
     @Override
     public String toString() {
         return "User{" + "id=" + id + ", email=" + email + ", password=" + password + ", name=" + name + ", birthDate=" + birthDate + ", gender=" + gender + ", address=" + address + ", identity=" + identity + ", medicalId=" + medicalId + ", ethinic=" + ethnic + ", phone=" + phone + ", profilePicture=" + profilePicture + ", createdAt=" + createdAt + '}';

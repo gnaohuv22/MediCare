@@ -292,7 +292,7 @@ public class FamilyProfileDAO extends DBContext {
 
     public FamilyProfile getFamilyProfileByInfoGuest(String patientName, String gender, String birthDate, String phone, String emailPatient, String ownerId) {
         String sql = "SELECT * FROM FamilyProfile\n"
-                + "WHERE email = ? AND birthDate = ? AND gender = ? AND [name] =? AND phone = ? AND ownerId = ?";
+                + "WHERE email = ? AND birthDate = ? AND gender = ? AND [name] =? AND phone = ? AND ownerId = ? AND relationId IS NULL";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -314,7 +314,7 @@ public class FamilyProfileDAO extends DBContext {
 
     public FamilyProfile getFamilyProfileByInfoUser(String patientName, String gender, String birthDate, String phone, String emailPatient, String ownerId) {
         String sql = "SELECT * FROM FamilyProfile\n"
-                + "WHERE email = ? AND birthDate = ? AND gender = ? AND [name] =? AND phone = ? AND ownerId = ?";
+                + "WHERE email = ? AND birthDate = ? AND gender = ? AND [name] =? AND phone = ? AND ownerId = ? AND relationId IS NULL";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);

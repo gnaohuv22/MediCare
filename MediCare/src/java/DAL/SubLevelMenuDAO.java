@@ -17,7 +17,6 @@ import java.util.List;
  */
 public class SubLevelMenuDAO extends DBContext {
 
-
     public ArrayList<AdminSidebarMenu> getSidebarMenu() {
         ArrayList<AdminSidebarMenu> list = new ArrayList<>();
         String SQL = "SELECT name,href,icon FROM NewsCategory WHERE parentId = (select id from NewsCategory Where name like 'AdminSidebarMenu')";
@@ -37,13 +36,6 @@ public class SubLevelMenuDAO extends DBContext {
         return null;
     }
 
-
-    public static void main(String[] args) {
-        SubLevelMenuDAO slv = new SubLevelMenuDAO();
-        ArrayList<AdminSidebarMenu> list = slv.getSidebarMenu();
-        System.out.println(list);
-    }
-
     public ArrayList<String> getTitleTable(String table) {
         ArrayList<String> list = new ArrayList<>();
         String SQL = "SELECT name FROM NewsCategory WHERE parentId = (select id from NewsCategory Where name like ?)";
@@ -60,7 +52,7 @@ public class SubLevelMenuDAO extends DBContext {
         }
         return null;
     }
-    
+
     public ArrayList<String> getTitleTableForSchedule(String table) {
         ArrayList<String> list = new ArrayList<>();
         String SQL = "SELECT name FROM NewsCategory WHERE parentId = (select id from NewsCategory Where name like ?)";
@@ -82,7 +74,7 @@ public class SubLevelMenuDAO extends DBContext {
         }
         return null;
     }
-    
+
     public ArrayList<AdminSidebarMenu> getSubLevelMenuByContent(String content) {
         ArrayList<AdminSidebarMenu> list = new ArrayList<>();
         String SQL = "SELECT name,href,icon FROM NewsCategory WHERE parentId = (select id from NewsCategory Where name like ?)";
@@ -90,7 +82,7 @@ public class SubLevelMenuDAO extends DBContext {
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
             pstm.setString(1, content);
             ResultSet rs = pstm.executeQuery();
-            
+
             while (rs.next()) {
                 System.out.println("abc");
                 String name = rs.getString("name");
@@ -105,4 +97,11 @@ public class SubLevelMenuDAO extends DBContext {
         }
         return null;
     }
+
+    public static void main(String[] args) {
+        SubLevelMenuDAO slv = new SubLevelMenuDAO();
+        ArrayList<AdminSidebarMenu> list = slv.getSubLevelMenuByContent("Trạng thái slot");
+        System.out.println(list);
+    }
+
 }

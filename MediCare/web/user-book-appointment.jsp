@@ -845,6 +845,8 @@
                     var phone = document.getElementById("phone").value;
                     var email = document.getElementById("email").value;
                     var description = document.getElementById("description").value;
+                    console.log("requestOPT - JS: ");
+                    console.log("slotId: " + slotId);
 
                     $.ajax({
                         url: "/MediCare/user-book-appointment",

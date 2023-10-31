@@ -4687,17 +4687,17 @@ blockquote p {
 }
 
 .doctor-choice-edit-appointment {
-    background-color: #fc642d;
+    background-color: #3cd599;
 }
 
 .doctor-choice-edit-appointment:hover {
     cursor: pointer;
-    background-color: #f49775;
+    background-color: #4fe9ad;
 }
 
 .doctor-choice-edit-appointment option:hover {
     cursor: pointer;
-    background-color: #fc642d;
+    background-color: #4fe9ad;
 }
 
 .form-group > label {
@@ -4716,6 +4716,41 @@ blockquote p {
 
 .status-appointment {
     text-align: center;
+}
+
+.add-doctor-schedule-btn {
+    margin-left: 17px;
+}
+
+.time-slot-css {
+    color: #333;
+}
+
+.font-size10 {
+    font-size: 10px;
+}
+
+.edit-appointment-button {
+    background-color: #3cd599;
+}
+
+.mail-checkbox-container {
+    margin-top: 20px;
+    text-align: center;
+    
+}
+.form-container input[type=checkbox] {
+    width: 70px;
+    margin: -20px;
+}
+
+.mail-checkbox-container span {
+    color: #f00;
+}
+
+.mail-checkbox-container span:hover {
+    cursor: pointer;
+    opacity: 0.7;
 }
 /*Tu Binh Code: Css for Screen Manage Schedule For Doctor - end*/
 

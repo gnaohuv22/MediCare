@@ -10,7 +10,7 @@ package Models;
  * @author tubinh
  */
 public class ScheduleDetail {
-    private String id, scheduleId, slotId, slotStatus, startTime, endTime, workDate;
+    private String id, scheduleId, slotId, slotStatus, startTime, endTime, workDate, isDelete;
 
     public ScheduleDetail() {
     }
@@ -39,10 +39,15 @@ public class ScheduleDetail {
         this.startTime = startTime;
         this.endTime = endTime;
     }
-    
-    
-    
 
+    public String getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(String isDelete) {
+        this.isDelete = isDelete;
+    }
+    
     public String getId() {
         return id;
     }

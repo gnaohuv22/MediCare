@@ -533,7 +533,7 @@ public class DoctorDAO extends DBContext {
         }
         return null;
     }
-    
+
     public ArrayList<Doctor> getAllDoctorPaginated(int offset, int noOfRecords) {
         ArrayList<Doctor> list = new ArrayList<>();
         String sql = "SELECT d.*, b.[name] AS branchName, a.[name] AS ARName, \n"
@@ -909,7 +909,7 @@ public class DoctorDAO extends DBContext {
                 + "ON DScd.id = ScdDt.ScheduleID\n"
                 + "JOIN WorkingSlot AS WS\n"
                 + "ON ScdDt.SlotID = WS.id\n"
-                + "WHERE branchId = ? AND serviceId = ? AND WorkDate = ? AND startTime = ?";
+                + "WHERE branchId = ? AND DS.serviceId = ? AND DScd.WorkDate = ? AND WS.startTime = ? AND d.isDelete = 0 AND ScdDt.slotStatus = 1";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, Integer.parseInt(branchId));

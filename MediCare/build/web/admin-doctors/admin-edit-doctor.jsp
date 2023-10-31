@@ -289,19 +289,10 @@
                                                     <img alt="" src="${pageContext.request.contextPath}/uploads/default-img.jpg"> 
                                                 </div>
                                                 <div class="upload-input">
-                                                    <c:if test="${requestScope.action eq 'edit'}">
-                                                        <input name="avatarUpload" type="file" class="form-control" value="${requestScope.doc.getProfilePicture()}">
-                                                    </c:if>
-                                                        <c:if test="${requestScope.action eq 'add'}">
-                                                            <input name="avatarUpload" type="file" class="form-control" value="${requestScope.imageFileName}">
-                                                        </c:if>
-                                                    
+                                                    <input name="avatarUpload" type="file" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
-                                                  <c:if test="${not empty requestScope.fileError}">
-                                            <p style="color: red"> ${requestScope.fileError}</p>
-                                        </c:if>
                                     </div>
                                 </div>
 

@@ -98,14 +98,14 @@ public class AdminDoctorController extends HttpServlet {
         List<AcademicRank> listAR = ARDAO.getListAcademicRank();
         List<Branch> listBranch = BranchDAO.getAllBranches();
         List<Certificate> listCert = CertDAO.getListCertificate();
-        String action = request.getParameter("action");
-        String id = request.getParameter("id");
-        if ("edit".equals(action) || "add".equals(action)) {
+        String action = request.getParameter("action"); 
+        String id = request.getParameter("id");     
+         if ("edit".equals(action) || "add".equals(action) ) {
             DoctorDAO DocDAO = new DoctorDAO();
             CertificateDoctorDAO cdDao = new CertificateDoctorDAO();
             List<CertificateDoctor> listCertofDoc = cdDao.getCertificateByDoctorId(id);
             Doctor doc = DocDAO.getDoctorByDoctorId(id);
-            request.setAttribute("listBranch", listBranch);
+             request.setAttribute("listBranch", listBranch);
             request.setAttribute("listAR", listAR);
             request.setAttribute("listCert", listCert);
             request.setAttribute("action", action);
@@ -126,12 +126,12 @@ public class AdminDoctorController extends HttpServlet {
         String search = request.getParameter("search") == null ? "" : request.getParameter("search");
         DoctorDAO dao = new DoctorDAO();
         System.out.println("Search :" + search);
-        System.out.println("Is delete Status :" + isDelete);
+        System.out.println("Is delete Status :" + isDelete);   
         String branch = request.getParameter("branch") == null ? "" : request.getParameter("branch");
         System.out.println("Branch status : " + branch);
         String academicRank = request.getParameter("academicRank") == null ? "" : request.getParameter("academicRank");
         System.out.println("AcademicRank status : " + academicRank);
-        ArrayList<Doctor> listDoc = dao.getAllDoctorsByCondition(isDelete, search, branch, academicRank);
+         ArrayList<Doctor> listDoc = dao.getAllDoctorsByCondition(isDelete, search,branch, academicRank);
         int count = dao.doctorCount(listDoc);
         System.out.println("Count doctor  = " + count);
         String indexRaw = request.getParameter("index") == null ? "1" : request.getParameter("index");
@@ -142,9 +142,10 @@ public class AdminDoctorController extends HttpServlet {
             endPage++;
         }
         int previous, after;
-        if (endPage == 1) {
+        if(endPage == 1){
             previous = after = 1;
-        } else {
+        }
+        else{
             previous = index + 1;
             after = index - 1;
         }
@@ -195,7 +196,6 @@ public class AdminDoctorController extends HttpServlet {
         String[] certificates = request.getParameterValues("certificates");
         String birthDate = request.getParameter("birthDate");
         String gender = request.getParameter("gender");
-        boolean bool = true;
         //file handle : for upload picture -----------------------------------------------------------------------------
         String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads"; // Đường dẫn lưu trữ tệp
         File uploadDir = new File(uploadPath);
@@ -206,11 +206,22 @@ public class AdminDoctorController extends HttpServlet {
         Part filePart = request.getPart("avatarUpload");
         String fileName = getFileName(filePart); // Lấy tên tệp
         System.out.println("Path " + fileName.isEmpty());
+        String imageFileName = null;
+        if (!fileName.isEmpty()) {
+            // Lưu tệp lên máy chủ
+            System.out.println("Upload " + uploadPath);
+            filePart.write(uploadPath + File.separator + fileName);
+
+            response.getWriter().println("File uploaded successfully.");
+            imageFileName = getFileName(filePart);
+            System.out.println("File name : " + imageFileName);
+        }
 
 //--------------------------------------------------------------------------------------------
         //add doctor function : 
         if ("add".equals(action)) {
 
+            boolean bool = true;
             if (!validateDisplayName(displayName)) {
                 request.setAttribute("displayNameError", "Display name should be contains letters and space only");
                 bool = false;
@@ -269,25 +280,6 @@ public class AdminDoctorController extends HttpServlet {
                     workplace = "Nha Trang";
                     break;
             }
-            String imageFileName = null;
-            if (!fileName.isEmpty()) {
-                // Lưu tệp lên máy chủ
-                System.out.println("Upload " + uploadPath);
-                filePart.write(uploadPath + File.separator + fileName);
-
-                response.getWriter().println("File uploaded successfully.");
-                imageFileName = getFileName(filePart);
-                System.out.println("File name : " + imageFileName);
-                if (imageFileName.endsWith(".png") || imageFileName.endsWith(".jpg")) {
-
-                    bool = true;
-                } else {
-                    request.setAttribute("fileError", "Chỉ được upload ảnh dưới dạng file png hoặc jpg");
-                    bool = false;
-                }
-            }
-            request.setAttribute("imageFileName", imageFileName);
-            
             if (bool == true) {
                 try {
                     id = dao.autoGenerateID();
@@ -339,7 +331,7 @@ public class AdminDoctorController extends HttpServlet {
             CertificateDoctorDAO cdDao = new CertificateDoctorDAO();
             List<CertificateDoctor> ClearListCd = cdDao.getCertificateByDoctorId(id);
             certificates = request.getParameterValues("certificates");
-            bool = true;
+            boolean bool = true;
             if (certificates == null || certificates.length == 0) {
                 request.setAttribute("certificateError", "You must choose at least one Certificate");
                 bool = false;
@@ -355,7 +347,7 @@ public class AdminDoctorController extends HttpServlet {
                 docError.setDisplayName(displayName);
             }
             Doctor docCheck = doc.getDoctorByEmail(id);
-            List<Doctor> list = doc.getAllDoctorsByCondition("", "", "", "");
+            List<Doctor> list = doc.getAllDoctorsByCondition("", "", "","");
             List<String> listEmail = new ArrayList<>();
 
             if (docCheck != null) {
@@ -394,23 +386,6 @@ public class AdminDoctorController extends HttpServlet {
             } else {
                 docError.setSalary(salary);
             }
-                        String imageFileName = null;
-            if (!fileName.isEmpty()) {
-                // Lưu tệp lên máy chủ
-                System.out.println("Upload " + uploadPath);
-                filePart.write(uploadPath + File.separator + fileName);
-
-                response.getWriter().println("File uploaded successfully.");
-                imageFileName = getFileName(filePart);
-                System.out.println("File name : " + imageFileName);
-                if (imageFileName.endsWith(".png") || imageFileName.endsWith(".jpg")) {
-                    bool = true;
-                } else {
-                    request.setAttribute("fileError", "Chỉ được upload ảnh dưới dạng file png hoặc jpg");
-                    bool = false;
-                }
-            }
-            
             if (bool) {
                 for (CertificateDoctor ClearCd : ClearListCd) {
                     cdDao.deleteCertificateForDoctor(ClearCd);
