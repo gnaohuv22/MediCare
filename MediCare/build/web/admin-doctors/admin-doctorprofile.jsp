@@ -40,30 +40,30 @@
                                                 <div class="profile-info-left">
                                                     <h3 class="user-name m-t-0 mb-0">${requestScope.doc.getDisplayName()}</h3>
                                                     <small class="text-muted">${requestScope.doc.getARName()}</small>
-                                                    <div class="staff-id">Doctor ID : ${requestScope.doc.getId()}</div>
+                                                    <div class="staff-id">ID Bác sĩ : ${requestScope.doc.getId()}</div>
 
                                                 </div>
                                             </div>
                                             <div class="col-md-7">
                                                 <ul class="personal-info">
                                                     <li>
-                                                        <span class="title">Phone:</span>
+                                                        <span class="title">Số điện thoại :</span>
                                                         <span class="text"><a href="tel:${requestScope.doc.getPhone()}">${requestScope.doc.getPhone()}</a></span>
                                                     </li>
                                                     <li>
-                                                        <span class="title">Email:</span>
+                                                        <span class="title">Email :</span>
                                                         <span class="text"><a href="mailto:${requestScope.doc.getEmail()}">${requestScope.doc.getEmail()}</a></span>
                                                     </li>
                                                     <li>
-                                                        <span class="title">Birthday:</span>
+                                                        <span class="title">Ngày sinh : </span>
                                                         <span class="text" id="birthDateText">${requestScope.doc.getBirthDate()}</span>
                                                     </li>
                                                     <li>
-                                                        <span class="title">Work place : </span>
+                                                        <span class="title">Nơi làm việc : </span>
                                                         <span class="text">${requestScope.doc.getWorkplace()}</span>
                                                     </li>
                                                     <li>
-                                                        <span class="title">Gender:</span>
+                                                        <span class="title">Giới tính</span>
                                                         <span class="text" id="genderText">${requestScope.doc.getGender()}</span>
                                                     </li>
                                                 </ul>
