@@ -260,7 +260,7 @@ public class AdminProfile extends HttpServlet {
             if (error) {
                 request.setAttribute("MESSAGE", "Không sửa được!");
                 request.setAttribute("EDIT_ERROR", msg);
-                request.getRequestDispatcher(EMPLOYEE_EDIT_PROFILE_PAGE).forward(request, response);
+                request.getRequestDispatcher(EMPLOYEE_PROFILE_PAGE).forward(request, response);
             } else {
                 //return massage
                 if (eDao.setEmployeeById(emp)) {

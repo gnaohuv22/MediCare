@@ -102,10 +102,12 @@
                                     <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_doctor" onclick="setDoctorId(${doc.getId()})"><i class="fa fa-pencil m-r-5"></i> Sửa</a>
-
-                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_doctor" onclick="showDeleteDialog(${doc.getId()})"><i class="fa fa-trash-o m-r-5"></i> Xóa</a>
-
-
+                                        <c:if test="${doc.getIsDelete() eq '0'}">
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_doctor" onclick="showDeleteDialog(${doc.getId()})"><i class="fa fa-trash-o m-r-5"></i> Xóa</a>
+                                        </c:if>
+                                            <c:if test="${doc.getIsDelete() eq '1'}">
+                                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#undo_doctor" onclick="showUndoDialog(${doc.getId()})"><i class="fa fa-trash-o m-r-5"></i> Khôi phục</a>
+                                            </c:if>
 
                                     </div>
                                 </div>
@@ -118,7 +120,7 @@
                     </c:forEach>
                     <div class="col-lg-12" style="display: flex ;flex-direction: row; justify-content: center">
                         <ul class="pagination"> 
-                          <li class="page-item"><a class="page-link" href="admin-doctor?isDelete=${requestScope.isDelete}&search=${requestScope.search}&branch=${requestScope.branch}&academicRank=${requestScope.academicRank}&index=${requestScope.previous}">Trước</a></li>
+                            <li class="page-item"><a class="page-link" href="admin-doctor?isDelete=${requestScope.isDelete}&search=${requestScope.search}&branch=${requestScope.branch}&academicRank=${requestScope.academicRank}&index=${requestScope.previous}">Trước</a></li>
                                 <c:forEach begin="1" end="${requestScope.endPage}" var="i">
                                 <li class="page-item"><a class="page-link" href="admin-doctor?isDelete=${requestScope.isDelete}&search=${requestScope.search}&branch=${requestScope.branch}&academicRank=${requestScope.academicRank}&index=${i}">${i}</a></li>
                                 </c:forEach>
@@ -196,7 +198,7 @@
 </script>
 <script>
     function showUndoDialog(doctorId) {
-        var deleteForm = document.getElementById('undoForm')
+        var undoForm = document.getElementById('undoForm')
         var input = document.createElement('input');
         input.type = 'hidden';
         input.name = 'id';

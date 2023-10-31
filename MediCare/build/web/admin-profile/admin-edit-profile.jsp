@@ -28,61 +28,54 @@
                     <form action="${pageContext.request.contextPath}/admin-edit-profile" method="POST">
                         <div class="card-box">
                             <h3 class="card-title">Thông tin cơ bản</h3>
-                            <div class="row">
-                                <!--                                    <div class="profile-img-wrap">
-                                                                        <img class="inline-block" src="../assets/admin/img/user.jpg" alt="user">
-                                                                        <div class="fileupload btn">
-                                                                            <span class="btn-text">sửa</span>
-                                                                            <input class="upload" type="file">
-                                                                        </div>
-                                                                    </div>-->
-                                <!--<div class="profile-basic">-->
-                                <!--<div class="row">-->
-                                <div class="col-md-12">
-                                    <div class="form-group form-focus">
-                                        <label class="focus-label">Tên</label>
-                                        <input type="text" class="form-control floating" value="${EMPLOYEE.getName()}" name="name">
-                                    </div>
-                                    <p class="error-notice">${error.getNameError()}</p>
+                            <div class="form-group row justify-content-center">
+                                <label for="input-name" class="col-sm-2 col-form-label" style="font-size: 15px">Tên</label>
+                                <div class="col-sm-6">
+                                    <input type="email" class="form-control" value="${EMPLOYEE.getName()}" id="input-name">
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="form-group form-focus">
-                                        <label class="focus-label">Email</label>
-                                        <input type="text" class="form-control floating" value="${EMPLOYEE.getEmail()}" name="email">
-                                    </div>
-                                    <p class="error-notice">${error.getEmailError()}</p>
+                            </div>
+                            <p class="error-notice">${error.getNameError()}</p>
+                            <div class="form-group row justify-content-center">
+                                <label for="input-email" class="col-sm-2 col-form-label" style="font-size: 15px">Email</label>
+                                <div class="col-sm-6">
+                                    <input type="email" class="form-control" value="${EMPLOYEE.getEmail()}" id="input-email">
+                                </div>                               
+                            </div>
+                            <p class="error-notice">${error.getEmailError()}</p>
+                            <div class="form-group row justify-content-center">
+                                <label for="input-date" class="col-sm-2 col-form-label" style="font-size: 15px">Sinh nhật</label>
+                                <div class="col-sm-6">
+                                    <input type="date" class="form-control" value="${EMPLOYEE.getBirthDate()}" id="input-date">
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="form-group form-focus">
-                                        <label class="focus-label">Sinh nhật</label>
-                                        <input class="form-control floating" type="date" value="${EMPLOYEE.getBirthDate()}" name="birthDate">
-                                    </div>
-                                    <p class="error-notice">${error.getBirthDateError()}</p>
+                            </div>
+                            <p class="error-notice">${error.getBirthDateError()}</p>
+                            <div class="form-group row justify-content-center">
+                                <label for="input-address" class="col-sm-2 col-form-label" style="font-size: 15px">Địa chỉ</label>
+                                <div class="col-sm-6">
+                                    <input type="email" class="form-control" value="${EMPLOYEE.getAddress()}" id="input-address">
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="form-group form-focus">
-                                        <label class="focus-label">Địa chỉ</label>
-                                        <input type="text" class="form-control floating" value="${EMPLOYEE.getAddress()}" name="address">
-                                    </div>
-                                    <p class="error-notice">${error.getAddressError()}</p>
+                            </div>
+                            <p class="error-notice">${error.getAddressError()}</p>
+                            <div class="form-group row justify-content-center">
+                                <label for="input-phone" class="col-sm-2 col-form-label" style="font-size: 15px">Điện thoại</label>
+                                <div class="col-sm-6">
+                                    <input type="email" class="form-control" value="${EMPLOYEE.getPhone()}" id="input-phone">
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="form-group form-focus">
-                                        <label class="focus-label">Điện thoại</label>
-                                        <input type="text" class="form-control floating" value="${EMPLOYEE.getPhone()}" name="phone">
-                                    </div>
-                                    <p class="error-notice">${error.getPhoneError()}</p>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group form-focus select-focus">
-                                        <!--<label class="focus-label">Giới tính</label>-->
-                                        <input type="radio" name="gender" value="0" <c:if test="${EMPLOYEE.getGender() == 0}">checked="checked"</c:if>/>Nam
-                                        <input type="radio" name="gender" value="1" <c:if test="${EMPLOYEE.getGender() == 1}">checked="checked"</c:if>/>Nữ
+                            </div>
+                            <p class="error-notice">${error.getPhoneError()}</p>
+                            <div class="form-group row justify-content-center">
+                                <label for="input-phone" class="col-sm-2 col-form-label" style="font-size: 15px">Giới tính</label>
+                                <div class="col-sm-6">
+                                    <div class="d-flex align-items-center mr-4">
+                                        <input class="mr-2" type="radio" name="gender" value="0" <c:if test="${EMPLOYEE.getGender() == 0}">checked="checked"</c:if>/>
+                                            <span> Nam</span>
                                         </div>
+                                        <div class="d-flex align-items-center" >
+                                            <input  class="mr-2" type="radio" name="gender" value="1" <c:if test="${EMPLOYEE.getGender() == 1}">checked="checked"</c:if>/>
+                                        <span> Nữ</span>
                                     </div>
-                                    <!--</div>-->
                                 </div>
-                                <!--</div>-->
+                            </div>                                
 
                             </div>
 
@@ -90,12 +83,17 @@
                                 <h3 class="card-title">Bảo mật</h3>
                                 <div class="row">
                                     <!--<div class="col-md-12">-->
-                                    <div class="col-md-12">
+                                    
+
+                           
+                                 <div class="form-group row justify-content-center">
+                                    <div class="col-sm-6">
                                         <div class="form-group form-focus">
                                             <label class="focus-label">ID</label>
                                             <p type="text" class="form-control floating" value="${EMPLOYEE.getId()}">${EMPLOYEE.getId()}</p>
                                     </div>
                                 </div>
+                                     </div>
                                 <div class="col-md-12">
                                     <div class="form-group form-focus">
                                         <label class="focus-label">Mật khẩu mới</label>

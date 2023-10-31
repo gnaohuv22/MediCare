@@ -4,6 +4,8 @@
  */
 package DAL;
 
+import Models.Certificate;
+import Models.CertificateDoctor;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -221,7 +223,8 @@ public class DoctorDAO extends DBContext {
         } catch (SQLException ex) {
         }
     }
-        public void undoDoctor(Doctor d) {
+
+    public void undoDoctor(Doctor d) {
         try {
             String sql = "UPDATE [dbo].[Doctor]\n"
                     + "            SET [isDelete] = 0"
@@ -455,6 +458,31 @@ public class DoctorDAO extends DBContext {
             }
         } catch (SQLException e) {
             System.out.println("getDoctorByEmail: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public ArrayList<CertificateDoctor> getListCertOfDoc(String doctorId) {
+        ArrayList<CertificateDoctor> list = new ArrayList<>();
+        String sql = "  select c.certId , c.doctorId , cv.name from CertificateDoctor c\n"
+                + "  full join Certificate  cv\n"
+                + "  on c.certId = cv.id\n"
+                + "  where c.DoctorId = ?\n"
+                + "  order by c.DoctorId";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, doctorId);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                CertificateDoctor cd = new CertificateDoctor();
+                cd.setCertId(rs.getString("certId"));
+                cd.setDoctorId(rs.getString("doctorId"));
+                cd.setCertName(rs.getString("name"));
+                list.add(cd);
+            }
+            return list;
+        } catch (SQLException e) {
+            System.out.println("DoctorDAO.getListCertOfDoc: " + e);
         }
         return null;
     }
@@ -908,7 +936,7 @@ public class DoctorDAO extends DBContext {
         }
         return list;
     }
-    
+
     public ArrayList<Doctor> getAllDoctorAvailable(String branchId, String serviceId, String appointmentDay, String appointmentTime) {
         ArrayList<Doctor> list = new ArrayList<>();
         String sql = "SELECT d.id, d.displayName\n"
@@ -943,19 +971,22 @@ public class DoctorDAO extends DBContext {
 
     public static void main(String[] args) {
         DoctorDAO dd = new DoctorDAO();
-        List<Doctor> list = dd.getAllDoctors();
-        for (Doctor doc : list) {
-            System.out.println(doc);
-        }
-        int Count = dd.countAllDoctor();
-        String id = dd.autoGenerateID();
-        System.out.println("ID :" + id);
-        System.out.println("Number Doctor IN THE LIST :" + Count);
-        List<Doctor> paging = dd.pagingDoctor("", "", "", "1", 1);
-        System.out.println("Paging doctor : ");
-        for (Doctor d : paging) {
-            System.out.println(d);
-        }
+//        List<Doctor> list = dd.getAllDoctors();
+//        for (Doctor doc : list) {
+//            System.out.println(doc);
+//        }
+//        int Count = dd.countAllDoctor();
+//        String id = dd.autoGenerateID();
+//        System.out.println("ID :" + id);
+//        System.out.println("Number Doctor IN THE LIST :" + Count);
+//        List<Doctor> paging = dd.pagingDoctor("", "", "", "1", 1);
+//        System.out.println("Paging doctor : ");
+//        for (Doctor d : paging) {
+//            System.out.println(d);
+//        }
+           List<CertificateDoctor> cd = dd.getListCertOfDoc("1");
+           System.out.println("list cert of that doc : " + cd);
+           
 
     }
 }

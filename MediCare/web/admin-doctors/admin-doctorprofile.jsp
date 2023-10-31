@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -22,7 +23,7 @@
                         </div>
 
                         <div class="col-sm-5 col-6 text-right m-b-30">
-                            <a  class="dropdown-item" href="admin-doctor?action=edit" data-toggle="modal" data-target="#edit_doctor" onclick="setDoctorId(${doc.getId()})"> <i class="fa fa-plus"></i> Edit Profile</a>
+                            <a  class="dropdown-item" href="admin-doctor?id=${requestScope.doc.getId()}&action=edit" data-toggle="modal" data-target="#edit_doctor" onclick="setDoctorId(${doc.getId()})"> <i class="fa fa-plus"></i> Edit Profile</a>
                         </div>
                     </div>
                     <div class="card-box profile-header">
@@ -115,43 +116,24 @@
                                             </div>
                                         </div>
                                         <div class="card-box mb-0">
-                                            <h3 class="card-title">Experience</h3>
+                                            <h3 class="card-title">Chứng chỉ </h3>
                                             <div class="experience-box">
-                                                <ul class="experience-list">
-                                                    <li>
-                                                        <div class="experience-user">
-                                                            <div class="before-circle"></div>
-                                                        </div>
-                                                        <div class="experience-content">
-                                                            <div class="timeline-content">
-                                                                <a href="#/" class="name">Consultant Gynecologist</a>
-                                                                <span class="time">Jan 2014 - Present (4 years 8 months)</span>
+
+                                                  <c:forEach var="a" items="${listCertOfDoctor}" varStatus="status">
+                                                    <ul class="experience-list">
+                                                        <li>
+                                                            <div class="experience-user">
+                                                                <div class="before-circle"></div>
                                                             </div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="experience-user">
-                                                            <div class="before-circle"></div>
-                                                        </div>
-                                                        <div class="experience-content">
-                                                            <div class="timeline-content">
-                                                                <a href="#/" class="name">Consultant Gynecologist</a>
-                                                                <span class="time">Jan 2009 - Present (6 years 1 month)</span>
+                                                            <div class="experience-content">
+                                                                <div class="timeline-content">
+                                                                    <div type="text" class="name" value=${a.getCertId()}}">${a.getCertName()}</div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="experience-user">
-                                                            <div class="before-circle"></div>
-                                                        </div>
-                                                        <div class="experience-content">
-                                                            <div class="timeline-content">
-                                                                <a href="#/" class="name">Consultant Gynecologist</a>
-                                                                <span class="time">Jan 2004 - Present (5 years 2 months)</span>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
+                                                        </li>
+                                                    </ul>
+                                                </c:forEach>
+
                                             </div>
                                         </div>
                                     </div>

@@ -123,7 +123,7 @@
                                                 <div class="row">
                                                     <c:forEach var="a" items="${listCert}" varStatus="status">
                                                         <c:set var="isChecked" value="false"/>
-                                                        <c:forEach var="doccert" items="${listCertofDoc}">
+                                                         <c:forEach var="doccert" items="${listCertofDoc}">
                                                             <c:if test="${a.getId() eq doccert.getCertId()}">
                                                                 <c:set var="isChecked" value="true" />
                                                             </c:if>
