@@ -123,7 +123,7 @@
                                                 <div class="row">
                                                     <c:forEach var="a" items="${listCert}" varStatus="status">
                                                         <c:set var="isChecked" value="false"/>
-                                                         <c:forEach var="doccert" items="${listCertofDoc}">
+                                                        <c:forEach var="doccert" items="${listCertofDoc}">
                                                             <c:if test="${a.getId() eq doccert.getCertId()}">
                                                                 <c:set var="isChecked" value="true" />
                                                             </c:if>
@@ -288,15 +288,23 @@
                                                     <img alt="" src="${pageContext.request.contextPath}/uploads/default-img.jpg"> 
                                                 </div>
                                                 <div class="upload-input">
-                                                    <input name="avatarUpload" type="file" class="form-control">
+                                                    <input name="avatarUpload" type="file" accept="image/*" multiple="false" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
+                                                 <c:if test="${not empty requestScope.profilePictureError}">
+                                            <p style="color: red">${requestScope.profilePictureError}</p>
+                                        </c:if>
                                     </div>
                                 </div>
 
                                 <div class="m-t-20 text-center">
-                                    <input type="submit" value="Update" class="btn btn-primary submit-btn">
+                                    <c:if test="${requestScope.action eq 'add'}">
+                                        <input type="submit" value="Thêm" class="btn btn-primary submit-btn">
+                                    </c:if>
+                                    <c:if test="${requestScope.action eq 'edit'}">
+                                        <input type="submit" value="Cập nhật" class="btn btn-primary submit-btn">
+                                    </c:if>
                                 </div>
                             </form>
                         </div>

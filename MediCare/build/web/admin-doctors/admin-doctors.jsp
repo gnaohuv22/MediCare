@@ -95,7 +95,7 @@
                             <div class="profile-widget">
                                 <div class="doctor-img">
                                     <a class="avatar" href="#" onclick="redirectToDoctorProfile(${doc.getId()})">
-                                        <img alt="" src="uploads/${doc.getProfilePicture()}">
+                                        <img alt="" src="${doc.getProfilePicture()}">
                                     </a>
                                 </div>
                                 <div class="dropdown profile-action">
@@ -105,10 +105,9 @@
                                         <c:if test="${doc.getIsDelete() eq '0'}">
                                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_doctor" onclick="showDeleteDialog(${doc.getId()})"><i class="fa fa-trash-o m-r-5"></i> Xóa</a>
                                         </c:if>
-                                            <c:if test="${doc.getIsDelete() eq '1'}">
-                                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#undo_doctor" onclick="showUndoDialog(${doc.getId()})"><i class="fa fa-trash-o m-r-5"></i> Khôi phục</a>
-                                            </c:if>
-
+                                        <c:if test="${doc.getIsDelete() eq '1'}">
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#undo_doctor" onclick="showUndoDialog(${doc.getId()})"><i class="fa fa-trash-o m-r-5"></i> Khôi phục</a>
+                                        </c:if>
                                     </div>
                                 </div>
                                 <h4 class="doctor-name text-ellipsis"><a href="profile.html">${doc.getDisplayName()}</a></h4>
@@ -149,30 +148,30 @@
         <input type="hidden" name="id" value="">
         <input type="hidden" name="action" value="profile">
     </form>
-    <form id ="deleteForm" action="admin-doctor" method="post">
+    <form id ="deleteForm" action="admin-doctor" method="post" enctype="multipart/form-data">
         <input type="hidden" name="action" value="delete">
         <div id="delete_doctor" class="modal fade delete-modal" role="dialog">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body text-center">
-                        <img src="../assets/img/sent.png" alt="" width="50" height="46">
+                        
                         <h3>Bạn có chắc muốn xóa bác sĩ này không?</h3>
                         <div class="m-t-20">
                             <a href="admin-doctor" class="btn btn-white" data-dismiss="modal">Đóng</a>
-                            <input type="submit" class="btn btn-danger" value="Delete"/>
+                            <input type="submit" class="btn btn-danger" value="Xoá"/>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </form>
-    <form id ="undoForm" action="admin-doctor" method="post">
+    <form id ="undoForm" action="admin-doctor" method="post" enctype="multipart/form-data">
         <input type="hidden" name="action" value="undo">
-        <div id="undo-doctor" class="modal fade delete-modal" role="dialog">
+        <div id="undo_doctor" class="modal fade delete-modal" role="dialog">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body text-center">
-                        <img src="../assets/img/sent.png" alt="" width="50" height="46">
+                      
                         <h3>Bạn có muốn khôi phục bác sĩ này không ?</h3>
                         <div class="m-t-20">
                             <a href="admin-doctor" class="btn btn-white" data-dismiss="modal">Đóng</a>

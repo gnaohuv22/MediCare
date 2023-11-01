@@ -32,7 +32,7 @@
                                 <div class="profile-view">
                                     <div class="profile-img-wrap">
                                         <div class="profile-img">
-                                            <a href="#"><img class="avatar" src="uploads/${requestScope.doc.getProfilePicture()}" alt=""></a>
+                                            <a href="#"><img class="avatar" src="${requestScope.doc.getProfilePicture()}" alt=""></a>
                                         </div>
                                     </div>
                                     <div class="profile-basic">
@@ -65,7 +65,10 @@
                                                     </li>
                                                     <li>
                                                         <span class="title">Giới tính</span>
-                                                        <span class="text" id="genderText">${requestScope.doc.getGender()}</span>
+                                                        <span class="text" > <c:if test = "${requestScope.doc2.getGender()==1}">Nam</c:if>
+                                                                            <c:if test = "${requestScope.doc2.getGender()==2}">Nữ</c:if>
+                                                                            <c:if test = "${requestScope.doc2.getGender()==3}">Không rõ</c:if>
+                                                        </span>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -77,7 +80,7 @@
                     </div>
                     <div class="profile-tabs">
                         <ul class="nav nav-tabs nav-tabs-bottom">
-                            <li class="nav-item"><a class="nav-link active" href="#about-cont" data-toggle="tab">About</a></li>
+                            <li class="nav-item"><a class="nav-link active" href="#about-cont" data-toggle="tab">Thông Tin</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -85,7 +88,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="card-box">
-                                            <h3 class="card-title">Workplace</h3>
+                                            <h3 class="card-title">Giới thiệu</h3>
                                             <div class="experience-box">
                                                 <ul class="experience-list">
                                                     <li>
@@ -94,21 +97,7 @@
                                                         </div>
                                                         <div class="experience-content">
                                                             <div class="timeline-content">
-                                                                <a href="#/" class="name">International College of Medical Science (UG)</a>
-                                                                <div>MBBS</div>
-                                                                <span class="time">2001 - 2003</span>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="experience-user">
-                                                            <div class="before-circle"></div>
-                                                        </div>
-                                                        <div class="experience-content">
-                                                            <div class="timeline-content">
-                                                                <a href="#/" class="name">International College of Medical Science (PG)</a>
-                                                                <div>MD - Obstetrics & Gynaecology</div>
-                                                                <span class="time">1997 - 2001</span>
+                                                                <div>${requestScope.doc.getIntroduce()}</div>
                                                             </div>
                                                         </div>
                                                     </li>

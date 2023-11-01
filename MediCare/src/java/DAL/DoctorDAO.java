@@ -211,16 +211,15 @@ public class DoctorDAO extends DBContext {
         }
     }
 
-    public void deleteDoctor(Doctor d) {
+    public void deleteDoctor(String id) {
         try {
-            String sql = "UPDATE [dbo].[Doctor]\n"
-                    + "            SET [isDelete] = 1"
-                    + "        WHERE id = ?";
+            String sql = "UPDATE [dbo].[Doctor] SET [isDelete] = 1 WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, d.getId());
+            statement.setString(1, id);
             statement.executeUpdate();
             System.out.println("Delete success");
         } catch (SQLException ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -486,6 +485,7 @@ public class DoctorDAO extends DBContext {
         }
         return null;
     }
+     
 
     //display doctor deleted + null + active
 //method của Tu Binh

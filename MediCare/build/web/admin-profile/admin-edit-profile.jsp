@@ -83,30 +83,25 @@
                                 <h3 class="card-title">Bảo mật</h3>
                                 <div class="row">
                                     <!--<div class="col-md-12">-->
-                                    
-
-                           
-                                 <div class="form-group row justify-content-center">
-                                    <div class="col-sm-6">
-                                        <div class="form-group form-focus">
-                                            <label class="focus-label">ID</label>
-                                            <p type="text" class="form-control floating" value="${EMPLOYEE.getId()}">${EMPLOYEE.getId()}</p>
-                                    </div>
+                                     <div class="form-group row justify-content-center">
+                                <label for="focus-label" class="col-md-4 col-form-label" style="font-size: 15px">ID</label>
+                                <div class="col-sm-6">
+                                    <p type="text" class="form-control floating" value="${EMPLOYEE.getId()}">${EMPLOYEE.getId()}</p>
                                 </div>
-                                     </div>
-                                <div class="col-md-12">
-                                    <div class="form-group form-focus">
-                                        <label class="focus-label">Mật khẩu mới</label>
-                                        <input type="password" name="newPassword" class="form-control floating">
-                                    </div>
-                                    <p class="error-notice">${error.getPasswordError()}</p>
+                            </div>
+                                       <div class="form-group row justify-content-center">
+                                <label for="focus-label" class="col-md-4 col-form-label" style="font-size: 15px">Mật khẩu mới</label>
+                                <div class="col-sm-6">
+                                      <input type="password" name="newPassword" class="form-control floating">
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="form-group form-focus">
-                                        <label class="focus-label">Xác nhận mật khẩu mới</label>
-                                        <input type="password" name="confirmPassword" class="form-control floating" >
-                                    </div>
+                                  <p class="error-notice">${error.getPasswordError()}</p>
+                            </div>
+                                  <div class="form-group row justify-content-center">
+                                <label for="focus-label" class="col-md-4 col-form-label" style="font-size: 15px">Xác nhận mật khẩu mới</label>
+                                <div class="col-sm-6">
+                                     <input type="password" name="confirmPassword" class="form-control floating" >
                                 </div>
+                            </div>
                                 <!--</div>-->
                             </div>
                         </div>

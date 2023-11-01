@@ -218,7 +218,7 @@
                                         <li>
                                             <div class="contact-cont">
                                                 <div class="float-left user-img m-r-10">
-                                                    <a href="admin-doctor?id=<%=doc.getId()%>&action=profile " title="<%=doc.getDisplayName()%>"><img src="uploads/<%=doc.getProfilePicture()%>" alt="" class="w-40 rounded-circle" style="height: 40px"><span class="status online"></span></a>
+                                                    <a href="admin-doctor?id=<%=doc.getId()%>&action=profile " title="<%=doc.getDisplayName()%>"><img src="<%=doc.getProfilePicture()%>" alt="" class="w-40 rounded-circle" style="height: 40px"><span class="status online"></span></a>
                                                 </div>
                                                 <div class="contact-info">
                                                     <span class="contact-name text-ellipsis"><%=doc.getDisplayName()%></span>
@@ -230,7 +230,7 @@
                                     </ul>
                                 </div>
                                 <div class="card-footer text-center bg-white">
-                                    <a href="admin-doctor" class="text-muted">View all Doctors</a>
+                                    <a href="admin-doctor?isDelete=0" class="text-muted">View all Doctors</a>
                                 </div>
                             </div>
                         </div>
