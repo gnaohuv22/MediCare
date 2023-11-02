@@ -3,13 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Learn/Semester_5/swp391/medicalserviceproject/MediCare/web/admin-news/admin-news.jsp</file>
-            <file>file:/E:/Learn/Semester_5/swp391/medicalserviceproject/MediCare/web/admin-news/admin-add-news.jsp</file>
-            <file>file:/E:/Learn/Semester_5/swp391/medicalserviceproject/MediCare/web/admin-news/admin-edit-news.jsp</file>
-            <file>file:/E:/Learn/Semester_5/swp391/medicalserviceproject/MediCare/src/java/Controllers/AdminDoctorController.java</file>
-            <file>file:/E:/Learn/Semester_5/swp391/medicalserviceproject/MediCare/web/admin-doctors/admin-edit-doctor.jsp</file>
-            <file>file:/E:/Learn/Semester_5/swp391/medicalserviceproject/MediCare/src/java/DAL/DoctorDAO.java</file>
-            <file>file:/E:/Learn/Semester_5/swp391/medicalserviceproject/MediCare/web/admin-doctors/admin-doctors.jsp</file>
+            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/web/user-book-appointment.jsp</file>
+            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/web/admin-appointments/admin-manage-appointments.jsp</file>
+            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/src/java/Controllers/UserBookAppointmentServlet.java</file>
+            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/web/assets/admin/css/style.css</file>
+            <file>file:/D:/Study/SEM5/SWP391/CloneProject/clone-thaitrinh/medicalserviceproject/MediCare/src/java/Controllers/AdminManageAppointmentsServlet.java</file>
         </group>
     </open-files>
 </project-private>
