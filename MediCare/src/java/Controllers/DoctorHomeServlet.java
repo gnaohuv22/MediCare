@@ -33,7 +33,7 @@ public class DoctorHomeServlet extends HttpServlet {
 //        }
         
         if (session.getAttribute("doctor") != null) {
-            session.setAttribute("isLoggedIn", true);
+            session.setAttribute("doctorLoggedIn", true);
             
         } else {
             

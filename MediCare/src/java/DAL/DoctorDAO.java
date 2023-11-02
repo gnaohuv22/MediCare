@@ -282,13 +282,13 @@ public class DoctorDAO extends DBContext {
                 //get that doctor
                 if (PasswordEncryption.comparePasswords(password, rs.getString("password")));
                 return new DoctorDAO().getDoctorByEmail(email);
-            } 
+            }
         } catch (SQLException e) {
             System.out.println("dal.UserDAO.Login(): " + e);
         }
         return null;
     }
-    
+
     public Doctor login(String email) {
         String SQL = "SELECT email, password FROM [Doctor] WHERE email = ?";
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
@@ -297,7 +297,7 @@ public class DoctorDAO extends DBContext {
             if (rs.next()) {
                 //get that doctor
                 return new DoctorDAO().getDoctorByEmail(email);
-            } 
+            }
         } catch (SQLException e) {
             System.out.println("dal.UserDAO.Login(): " + e);
         }
@@ -373,7 +373,7 @@ public class DoctorDAO extends DBContext {
 
     }
 
-    public ArrayList<Doctor> getTrendingDoctors() {// KHONG PHAI FUNCTION CUA TU BINH
+    public ArrayList<Doctor> getTrendingDoctors() {
         ArrayList<Doctor> list = new ArrayList<>();
         String sql = "SELECT TOP(5) d.id, d.email, d.password, d.displayName, b.[name] AS branchName, d.phone, a.[name] AS ARName, "
                 + "COUNT(r.id) AS ReviewCount, DC.Certificates AS Certificates, Department.id as DepartmentId, "
@@ -430,21 +430,21 @@ public class DoctorDAO extends DBContext {
     public ArrayList<Doctor> getDoctorsByPattern(String pattern, int offset, int noOfRecords) {
         ArrayList<Doctor> list = new ArrayList<>();
         String searchValue = "%" + pattern + "%";
-        String SQL = "SELECT d.*, b.[name] AS branchName, a.[name] AS ARName, \n"
+        String SQL = "SELECT d.id, d.email, d.displayName, d.phone, d.salary, d.workplace, d.profilePicture, d.status, b.[name] AS branchName, a.[name] AS ARName,\n"
                 + "DC.Certificates AS Certificates, Department.id as DepartmentId, Department.[name] AS departmentName, CV.education, CV.introduce, CV.workHistory, CV.startYear\n"
-                + "FROM Doctor AS d \n"
-                + "FULL JOIN Branch AS b On b.id = d.branchId \n"
-                + "FULL JOIN AcademicRank AS a On a.id = d.ARId \n"
-                + "FULL JOIN DoctorCertificates DC ON d.id = DC.DoctorId \n"
-                + "FULL JOIN DoctorService AS DS ON DS.doctorId = d.id \n"
-                + "FULL JOIN ServiceTag AS ST ON ST.id = DS.serviceId \n"
-                + "FULL JOIN Department ON Department.id = ST.departmentId \n"
-                + "FULL JOIN CurriculumVitae AS CV On CV.id = d.CVId \n"
-                + "WHERE d.displayName LIKE ?"
+                + "FROM Doctor AS d\n"
+                + "FULL JOIN Branch AS b On b.id = d.branchId\n"
+                + "FULL JOIN AcademicRank AS a On a.id = d.ARId\n"
+                + "FULL JOIN DoctorCertificates DC ON d.id = DC.DoctorId\n"
+                + "FULL JOIN DoctorService AS DS ON DS.doctorId = d.id\n"
+                + "FULL JOIN ServiceTag AS ST ON ST.id = DS.serviceId\n"
+                + "FULL JOIN Department ON Department.id = ST.departmentId\n"
+                + "FULL JOIN CurriculumVitae AS CV On CV.id = d.CVId\n"
+                + "WHERE d.displayName COLLATE SQL_Latin1_General_CP1_CI_AI LIKE ?\n"
                 + "GROUP BY d.ARId, d.branchId, d.CVId, d.displayName, d.email, d.id, d.phone, d.profilePicture, d.salary, d.status, d.workplace,\n"
                 + "b.[name], a.[name], DC.Certificates,  Department.[name], Department.id, CV.education, CV.introduce, CV.workHistory, CV.startYear,\n"
                 + "d.[password], d.isDelete, d.gender, d.birthDate\n"
-                + "HAVING d.id IS NOT NULL \n"
+                + "HAVING d.id IS NOT NULL\n"
                 + "ORDER BY d.id\n"
                 + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;";
 
@@ -461,20 +461,19 @@ public class DoctorDAO extends DBContext {
                         rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
-                        rs.getString(5),
+                        String.valueOf(rs.getFloat(5)),
                         rs.getString(6),
                         rs.getString(7),
-                        rs.getString(9),
-                        String.valueOf(rs.getInt(10)),
+                        String.valueOf(rs.getInt(8)),
                         rs.getString(11),
-                        rs.getString(12),
+                        String.valueOf(rs.getString(9)),
+                        rs.getString(10),
+                        String.valueOf(rs.getInt(12)),
                         rs.getString(13),
                         rs.getString(14),
-                        String.valueOf(rs.getInt(15)),
-                        String.valueOf(rs.getFloat(16)),
-                        rs.getString(17),
-                        rs.getString(18),
-                        String.valueOf(rs.getInt(19))
+                        String.valueOf(rs.getString(15)),
+                        String.valueOf(rs.getString(16)),
+                        String.valueOf(rs.getInt(17))
                 );
 
                 list.add(d);
@@ -530,19 +529,19 @@ public class DoctorDAO extends DBContext {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, Integer.parseInt(branchId));
             st.setInt(2, Integer.parseInt(serviceId));
-            
+
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Doctor d = new Doctor(rs.getString("id"), 
-                                      rs.getString("displayName"));
+                Doctor d = new Doctor(rs.getString("id"),
+                        rs.getString("displayName"));
                 list.add(d);
             }
-        } catch (SQLException|NumberFormatException e) {
+        } catch (SQLException | NumberFormatException e) {
             System.out.println("getAllDoctorsByBranchIdAndServiceId: " + e);
         }
         return list;
     }
-    
+
     public static void main(String[] args) {
         DoctorDAO dd = new DoctorDAO();
         ArrayList<Doctor> list = dd.getDoctorsByPattern("a", 0, 0);

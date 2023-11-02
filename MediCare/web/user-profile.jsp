@@ -11,7 +11,7 @@
 <html>
     <head>
         <jsp:include page="user-head.jsp"/>
-        <title>Profile</title>
+        <title>Danh sách hồ sơ | MediCare</title>
     </head>
     <body>
         <jsp:include page="user-header.jsp"/>

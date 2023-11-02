@@ -17,7 +17,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1">
         <!-- site metas -->
-        <title>Health</title>
+        <title>Chi tiết chi nhánh | MediCare</title>
         <meta name="keywords" content="">
         <meta name="description" content="">
         <meta name="author" content="">

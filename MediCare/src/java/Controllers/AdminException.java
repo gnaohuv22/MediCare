@@ -95,6 +95,7 @@ public class AdminException {
         public BirthDateException() {
         }
         
+        @Override
         public String getMessage(){
 //            return "The birthdate is invalid";
             return "Ngày sinh không hợp lệ";
@@ -112,8 +113,9 @@ public class AdminException {
         public NotHaveRole(String msg) {
             this.msg=" "+msg;
         }
+        @Override
         public String getMessage(){
-            return "Bạn không có quyền để thực hiện hành động này"+msg;
+            return "Bạn không có quyền để thực hiện hành động này. " + msg;
         }
     }
 }

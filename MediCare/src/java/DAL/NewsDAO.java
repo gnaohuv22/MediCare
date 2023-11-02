@@ -48,7 +48,8 @@ public class NewsDAO extends DBContext {
         String SQL = "SELECT n.id, n.title, n.subtitle, n.content, n.author, nc.id AS categoryId, nc.name AS category, nc.href AS categorySlug, nc.parentId AS categoryParentId, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.slug FROM [News] n\n"
                 + "LEFT JOIN [NewsCategory] nc \n"
                 + "ON n.categoryId = nc.id \n"
-                + "WHERE type IS NULL";
+                + "WHERE type IS NULL\n"
+                + "ORDER BY n.createdAt DESC, n.viewCount DESC";
         ArrayList<News> list = new ArrayList<>();
 
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
