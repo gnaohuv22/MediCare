@@ -4,6 +4,8 @@
  */
 package Models;
 
+import java.util.Objects;
+
 /**
  *
  * @author hoang
@@ -92,5 +94,17 @@ public class NewsCategory {
         this.parentId = parentId;
     }
     
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NewsCategory Category = (NewsCategory) o;
+        return Objects.equals(name, Category.getName()) && 
+                Objects.equals(href, Category.getHref());
+    }
     
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, href);
+    }
 }

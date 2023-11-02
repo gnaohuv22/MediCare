@@ -2225,6 +2225,21 @@ span.name-each-family-profile {
     background-color: unset;
 }
 
+#editProfileButton {
+    margin-top: 10px;
+    background-color: #68B2A0;
+    width: 100%;
+    height: 5vh;
+}
+
+#deleteProfileButton {
+    margin-top: 10px;
+    background-color: #fff;
+    width: 100%;
+    height: 5vh;
+    color: red;
+}
+
 #female,#male{
     width: auto;
 }
@@ -2240,6 +2255,36 @@ span.name-each-family-profile {
 
 .display-sidebar {
     margin-bottom: 300px;
+}
+
+.category-content {
+    background-color: #E0ECDE;
+    padding: 20px;
+    margin: 20px;
+}
+
+.category-content .main-category a {
+    color: #2C6975;
+    font-weight: bolder;
+    font-size: 1.5em;
+    border-bottom: 1px solid #2C6975;
+}
+
+.category-content .main-category a:hover {
+    color: #68B2A0;
+    border-bottom: 1px solid #68B2A0;
+}
+
+/* Add styles for the sub-categories */
+.category-content .sub-categories a {
+    color: #2C6975;
+    font-weight: normal; /* Make the sub-category text not bold */
+    font-size: 1em; /* Make the sub-category text smaller */
+    margin-right: 20px;
+}
+
+.category-content .sub-categories a:hover {
+    color: #68B2A0;
 }
 
 .news-sidebar {
@@ -2295,6 +2340,20 @@ span.name-each-family-profile {
 
 .news-sidebar li ul a {
     color: #68B2A0;
+}
+
+.news-sidebar li ul a.active {
+    color: black; /* Đặt màu chữ thành đen */
+    font-weight: bold; /* In đậm chữ */
+    pointer-events: none; /* Ngăn chặn sự kiện click */
+    cursor: default; /* Thay đổi con trỏ chuột để không hiển thị như một liên kết */
+}
+
+.news-sidebar a.active {
+    color: black; /* Đặt màu chữ thành đen */
+    font-weight: bold; /* In đậm chữ */
+    pointer-events: none; /* Ngăn chặn sự kiện click */
+    cursor: default; /* Thay đổi con trỏ chuột để không hiển thị như một liên kết */
 }
 
 .news-sidebar li ul a:hover {
@@ -2359,6 +2418,31 @@ span.name-each-family-profile {
     color: #68B2A0;
 }
 
+#back-to-top {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    z-index: 1;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    background: #2C6975;
+    color: #E0ECDE;
+    cursor: pointer;
+    border: 0;
+    border-radius: 50%; 
+    text-decoration: none;
+    transition: opacity 0.2s ease-out;
+    opacity: 0;
+    font-size: 1.2em;
+}
+#back-to-top:hover {
+    background: #68B2A0;
+}
+#back-to-top.show {
+    opacity: 1;
+}
 
 /*Style 25/10/2023 - tubinh - start:*/
 .appointment-header-text {

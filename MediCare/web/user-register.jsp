@@ -17,34 +17,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
         <!-- site metas -->
-        <title>Medical Service</title>
+        <title>Đăng ký | MediCare</title>
         <meta name="keywords" content="" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <!-- bootstrap css -->
-        <link rel="stylesheet" href="assets/client/css/bootstrap.min.css" />
-        <!-- style css -->
-        <link rel="stylesheet" href="assets/client/css/style.css" />
-        <!-- Responsive-->
-        <link rel="stylesheet" href="assets/client/css/responsive.css" />
-        <!-- fevicon -->
-        <link rel="icon" href="assets/client/imagesimages/fevicon.png" type="image/gif" />
-        <!-- Scrollbar Custom CSS -->
-        <link rel="stylesheet" href="assets/client/css/jquery.mCustomScrollbar.min.css" />
-        <!-- Tweaks for older IEs-->
-        <link
-            rel="stylesheet"
-            href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css"
-            />
-        <!-- owl stylesheets -->
-        <link rel="stylesheet" href="assets/client/css/owl.carousel.min.css" />
-        <link rel="stylesheet" href="assets/client/css/owl.theme.default.min.css" />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
-            media="screen"
-            />
-        <title>JSP Page</title>
+        <jsp:include page="user-head.jsp"/>
     </head>
     <body>
 
@@ -116,6 +93,9 @@
             <div class="account-image account-image-register">
                 <img src="assets/client/images/login-banner.jpg" alt="Medicare Login Banner"/>
             </div>
+
+        </div>
+        <button id="back-to-top" title="Back to top">↑</button>
             <c:if test="${not empty confirmSuccess}">
                 <script>
                     //Set a delay for 3 seconds

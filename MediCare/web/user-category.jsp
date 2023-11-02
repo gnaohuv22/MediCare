@@ -15,29 +15,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
         <title>${nc.getName()} | MediCare</title>
-        <!-- bootstrap css -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/bootstrap.min.css" />
-        <!-- style css -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/style.css" />
-        <!-- Responsive-->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/responsive.css" />
-        <!-- fevicon -->
-        <link rel="icon" href="${pageContext.request.contextPath}/assets/client/images/favicon.png" type="image/gif" />
-        <!-- Scrollbar Custom CSS -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/jquery.mCustomScrollbar.min.css" />
-        <!-- Tweaks for older IEs-->
-        <link
-            rel="stylesheet"
-            href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
-            />
-        <!-- owl stylesheets -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.carousel.min.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.theme.default.min.css" />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
-            media="screen"
-            />
+        <jsp:include page="user-head.jsp"/>
     </head>
     <body>
         <%@include file="user-header.jsp" %>
@@ -82,34 +60,70 @@
                     </c:forEach>
                 </div>
                 <div class="col-md-9">
-                    <!-- display other news-->     
-                    <c:forEach items="${news}" var="n" varStatus="status">
-                        <div class="row grid-news">
-                            <div class="grid-img col-md-4">
-                                <a href="${pageContext.request.contextPath}/news/${n.getCategorySlug()}/${n.getSlug()}">
-                                    <img src="${n.getCoverImage()}" alt="${n.getTitle()}"/>
-                                </a>
-                            </div>
-                            <div class="news-information col-md-8">
-                                <a href="${pageContext.request.contextPath}/news/${n.getCategorySlug()}/${n.getSlug()}">
-                                    <h3 class="grid-title">
-                                        ${n.getTitle()}
-                                    </h3>
-                                </a>
-                                <span class="grid-subtitle">
-                                    ${n.getSubtitle()}
-                                </span>
-                                <a class="news-href" href="${pageContext.request.contextPath}/news/${n.getCategorySlug()}">
-                                    <i class="fas fa-tags"></i> ${n.getCategory()}
-                                </a>
-                            </div>
-                        </div>
+                    <c:forEach items="${topLevel}" var="top">
+                        <c:forEach items="${parentIds}" var="id">
+                            <c:if test="${top.getId() eq id}">
+                                <c:set var="isParent" value="true" />
+                            </c:if>
+                        </c:forEach>
+                        <!-- display other news-->     
+                        <c:forEach items="${news}" var="n" varStatus="status">
+                            <c:choose>
+                                <c:when test="${n.getCategory().getLocateId() eq top.getId() and isParent}">
+                                    <div class="row grid-news">
+                                        <div class="grid-img col-md-4">
+                                            <a href="${pageContext.request.contextPath}/news/${top.getHref()}/${n.getCategory().getHref()}/${n.getSlug()}">
+                                                <img src="${n.getCoverImage()}" alt="${n.getTitle()}"/>
+                                            </a>
+                                        </div>
+                                        <div class="news-information col-md-8">
+                                            <a href="${pageContext.request.contextPath}/news/${top.getHref()}/${n.getCategory().getHref()}/${n.getSlug()}">
+                                                <h3 class="grid-title">
+                                                    ${n.getTitle()}
+                                                </h3>
+                                            </a>
+                                            <span class="grid-subtitle">
+                                                ${n.getSubtitle()}
+                                            </span>
+                                            <a class="news-href" href="${pageContext.request.contextPath}/news/${top.getHref()}/${n.getCategory().getHref()}">
+                                                <i class="fas fa-tags"></i> ${n.getCategory().getName()}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:if test="${top.getId() eq n.getCategory().getId()}">
+                                        <div class="row grid-news">
+                                            <div class="grid-img col-md-4">
+                                                <a href="${pageContext.request.contextPath}/news/${n.getCategory().getHref()}/${n.getSlug()}">
+                                                    <img src="${n.getCoverImage()}" alt="${n.getTitle()}"/>
+                                                </a>
+                                            </div>
+                                            <div class="news-information col-md-8">
+                                                <a href="${pageContext.request.contextPath}/news/${n.getCategory().getHref()}/${n.getSlug()}">
+                                                    <h3 class="grid-title">
+                                                        ${n.getTitle()}
+                                                    </h3>
+                                                </a>
+                                                <span class="grid-subtitle">
+                                                    ${n.getSubtitle()}
+                                                </span>
+                                                <a class="news-href" href="${pageContext.request.contextPath}/news/${n.getCategory().getHref()}">
+                                                    <i class="fas fa-tags"></i> ${n.getCategory().getName()}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </c:if>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
                     </c:forEach>
                 </div>
             </div>
         </div>
     </div>
     <%@include file="user-footer.jsp" %>
+    <button id="back-to-top" title="Back to top">↑</button>
 
     <%@include file="user-script.jsp" %>
 
@@ -146,5 +160,27 @@
             });
         });
     </script>
+
+<!--    <script>
+        $(document).ready(function () {
+            var pathArray = window.location.pathname.split("/");
+            var currentCategory = pathArray[2]; // Lấy danh mục từ URL
+            var currentSubCategory = pathArray[3]; // Lấy danh mục con từ URL (nếu có)
+
+            $(".news-sidebar a").each(function () {
+                var hrefArray = $(this).attr('href').split("/");
+                var category = hrefArray[2]; // Lấy danh mục từ href
+                var subCategory = hrefArray[3]; // Lấy danh mục con từ href (nếu có)
+
+                if (category === currentCategory && (!currentSubCategory || subCategory === currentSubCategory)) { // Nếu liên kết này trỏ đến danh mục hiện tại và không có danh mục con hoặc liên kết này trỏ đến danh mục con hiện tại
+                    $(this).addClass('active'); // Đặt nó thành "active"
+                    if ($(this).parent().parent().is('ul')) { // Nếu nó là một danh mục con
+                        $(this).parent().parent().show(); // Hiển thị danh mục cha
+                        $(this).parent().parent().siblings('.caret-icon').children('i').css('transform', 'rotate(90deg)'); // Xoay icon caret
+                    }
+                }
+            });
+        });
+    </script>-->
 </body>
 </html>

@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Medicine Page</title>
+        <title>Danh sách bác sĩ theo dịch vụ | MediCare</title>
 
         <!-- basic -->
         <meta charset="utf-8">
@@ -17,26 +17,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1">
         <!-- site metas -->
-        <title>Medicine</title>
         <meta name="keywords" content="">
         <meta name="description" content="">
         <meta name="author" content="">
-        <!-- bootstrap css -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/bootstrap.min.css">
-        <!-- style css -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/style.css">
-        <!-- Responsive-->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/responsive.css">
-        <!-- fevicon -->
-        <link rel="icon" href="${pageContext.request.contextPath}/assets/client/images/fevicon.png" type="image/gif" />
-        <!-- Scrollbar Custom CSS -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/jquery.mCustomScrollbar.min.css">
-        <!-- Tweaks for older IEs-->
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
-        <!-- owl stylesheets --> 
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.carousel.min.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.theme.default.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+        <jsp:include page="user-head.jsp"/>
     </head>
 
     <body>
@@ -82,16 +66,7 @@
         <!--list all doctors end-->
         <!--list doctors in a service end-->
         <%@include file="user-footer.jsp" %>
-        <script src="${pageContext.request.contextPath}/assets/client/js/jquery.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/client/js/popper.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/client/js/bootstrap.bundle.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/client/js/jquery-3.0.0.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/client/js/plugin.js"></script>
-        <!-- sidebar -->
-        <script src="${pageContext.request.contextPath}/assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/client/js/custom.js"></script>
-        <!-- javascript --> 
-        <script src="${pageContext.request.contextPath}/assets/client/js/owl.carousel.js"></script>
-        <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+        <button id="back-to-top" title="Back to top">↑</button>
+        <%@include file="user-script.jsp" %>
     </body>
 </html>

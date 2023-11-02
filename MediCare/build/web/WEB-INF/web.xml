@@ -25,8 +25,8 @@
         <servlet-class>Controllers.UserProfileController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>LoadHtmlServlet</servlet-name>
-        <servlet-class>Controllers.LoadHtmlServlet</servlet-class>
+        <servlet-name>LoadFamilyProfileByOwnerIdServlet</servlet-name>
+        <servlet-class>Controllers.LoadFamilyProfileByOwnerIdServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UserPaymentHistoryServlet</servlet-name>
@@ -35,6 +35,18 @@
     <servlet>
         <servlet-name>UserAppointmentController</servlet-name>
         <servlet-class>Controllers.UserAppointmentController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DoctorHomeServlet</servlet-name>
+        <servlet-class>Controllers.DoctorHomeServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetAppointmentServlet</servlet-name>
+        <servlet-class>Controllers.GetAppointmentServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DoctorScheduleServlet</servlet-name>
+        <servlet-class>Controllers.DoctorScheduleServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserLoginServlet</servlet-name>
@@ -141,19 +153,29 @@
         <servlet-name>UserLoadDoctorsByServiceId</servlet-name>
         <url-pattern>/load-doctors-by-serviceid</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>LoadHtmlServlet</servlet-name>
-        <url-pattern>/load-html</url-pattern>
-    </servlet-mapping>
-    
     <servlet>
         <servlet-name>UserLoadEachFamilyProfile</servlet-name>
         <servlet-class>Controllers.UserLoadEachFamilyProfile</servlet-class>
     </servlet>
-    
     <servlet-mapping>
         <servlet-name>UserLoadEachFamilyProfile</servlet-name>
         <url-pattern>/load-each-family-profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DoctorHomeServlet</servlet-name>
+        <url-pattern>/doctor-home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetAppointmentServlet</servlet-name>
+        <url-pattern>/getAppointments</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadFamilyProfileByOwnerIdServlet</servlet-name>
+        <url-pattern>/load-html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DoctorScheduleServlet</servlet-name>
+        <url-pattern>/schedule</url-pattern>
     </servlet-mapping>
     
     <servlet>

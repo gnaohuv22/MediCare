@@ -29,6 +29,20 @@ public class FamilyProfile {
         this.email = email;
         this.ownerId = ownerId;
     }
+    public FamilyProfile(String profileId, String email, String name, String birthDate, String gender, String address, String identity, String medicalId, String ethnic, String phone, String profilePicture) {
+        this.profileId = profileId;
+        this.email = email;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.address = address;
+        this.identity = identity;
+        this.medicalId = medicalId;
+        this.ethnic = ethnic;
+        this.phone = phone;
+        this.profilePicture = profilePicture;
+    }
+    
 
     public FamilyProfile(String profileId, String email, String name, String birthDate, String gender, String address, String provinceId, String identity, String medicalId, String ethnic, String phone, String profilePicture, String createdAt, String relationId, String ownerId, Relationship relationship) {
         this.profileId = profileId;

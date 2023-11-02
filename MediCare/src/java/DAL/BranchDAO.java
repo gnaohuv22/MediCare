@@ -37,7 +37,7 @@ public class BranchDAO extends DBContext {
     }
 
     public Branch getBranchByBranchId(String id) {
-        String sql = "SELECT * FROM Branch WHERE id = ?";
+        String sql = "SELECT * FROM [Branch] WHERE id = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, Integer.parseInt(id));

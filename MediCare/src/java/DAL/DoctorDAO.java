@@ -6,6 +6,7 @@ package DAL;
 
 import Models.Certificate;
 import Models.CertificateDoctor;
+import Controllers.PasswordEncryption;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,7 +41,6 @@ public class DoctorDAO extends DBContext {
             while (rs.next()) {
                 Doctor d = new Doctor(rs.getString("id"),
                         rs.getString("email"),
-                        rs.getString("password"),
                         rs.getString("displayName"),
                         String.valueOf(rs.getInt("branchId")),
                         rs.getString("phone"),
@@ -50,6 +50,7 @@ public class DoctorDAO extends DBContext {
                         rs.getString("workplace"),
                         rs.getString("profilePicture"),
                         String.valueOf(rs.getInt("status")),
+                        rs.getString("password"),
                         String.valueOf(rs.getDate("birthDate")),
                         String.valueOf(rs.getInt("gender")),
                         String.valueOf(rs.getInt("isDelete"))
@@ -72,7 +73,6 @@ public class DoctorDAO extends DBContext {
             while (rs.next()) {
                 Doctor d = new Doctor(rs.getString("id"),
                         rs.getString("email"),
-                        rs.getString("password"),
                         rs.getString("displayName"),
                         String.valueOf(rs.getInt("branchId")),
                         rs.getString("phone"),
@@ -82,6 +82,7 @@ public class DoctorDAO extends DBContext {
                         rs.getString("workplace"),
                         rs.getString("profilePicture"),
                         String.valueOf(rs.getInt("status")),
+                        rs.getString("password"),
                         String.valueOf(rs.getDate("birthDate")),
                         String.valueOf(rs.getInt("gender")),
                         String.valueOf(rs.getInt("isDelete"))
@@ -103,7 +104,6 @@ public class DoctorDAO extends DBContext {
             while (rs.next()) {
                 Doctor d = new Doctor(rs.getString("id"),
                         rs.getString("email"),
-                        rs.getString("password"),
                         rs.getString("displayName"),
                         String.valueOf(rs.getInt("branchId")),
                         rs.getString("phone"),
@@ -113,6 +113,7 @@ public class DoctorDAO extends DBContext {
                         rs.getString("workplace"),
                         rs.getString("profilePicture"),
                         String.valueOf(rs.getInt("status")),
+                        rs.getString("password"),
                         String.valueOf(rs.getDate("birthDate")),
                         String.valueOf(rs.getInt("gender")),
                         String.valueOf(rs.getInt("isDelete"))
@@ -709,21 +710,36 @@ public class DoctorDAO extends DBContext {
         return null;
     }
 
-    public boolean login(String email, String password) {
-        String SQL = "SELECT * FROM [Doctor] WHERE email = ? AND password = ?";
+    public Doctor login(String email, String password) {
+        String SQL = "SELECT email, password FROM [Doctor] WHERE email = ?";
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
             pstm.setString(1, email);
-            pstm.setString(2, password);
+            byte[] salt = PasswordEncryption.generateSalt();
             ResultSet rs = pstm.executeQuery();
             if (rs.next()) {
-                return true;
-            } else {
-                return false;
+                //get that doctor
+                if (PasswordEncryption.comparePasswords(password, rs.getString("password")));
+                return new DoctorDAO().getDoctorByEmail(email);
             }
         } catch (SQLException e) {
             System.out.println("dal.UserDAO.Login(): " + e);
         }
-        return false;
+        return null;
+    }
+
+    public Doctor login(String email) {
+        String SQL = "SELECT email, password FROM [Doctor] WHERE email = ?";
+        try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            pstm.setString(1, email);
+            ResultSet rs = pstm.executeQuery();
+            if (rs.next()) {
+                //get that doctor
+                return new DoctorDAO().getDoctorByEmail(email);
+            }
+        } catch (SQLException e) {
+            System.out.println("dal.UserDAO.Login(): " + e);
+        }
+        return null;
     }
 
     public static String concatenateNames(String jsonString) {
@@ -801,11 +817,11 @@ public class DoctorDAO extends DBContext {
                         String.valueOf(rs.getFloat("salary")),
                         rs.getString("workplace"),
                         rs.getString("profilePicture"),
-                        String.valueOf(rs.getInt("status")),
-                        String.valueOf(rs.getString("Certificates")),
+                        String.valueOf(rs.getString("status")),
+                        String.valueOf(rs.getInt("Certificates")),
                         rs.getString("branchName"),
                         rs.getString("ARName"),
-                        String.valueOf(rs.getInt("DepartmentId")),
+                        String.valueOf(rs.getString("DepartmentId")),
                         rs.getString("departmentName"),
                         String.valueOf(rs.getString("education")),
                         String.valueOf(rs.getString("introduce")),

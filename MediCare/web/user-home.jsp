@@ -15,33 +15,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
         <!-- site metas -->
-        <title>Medical Service</title>
+        <title>Trang chủ | MediCare</title>
         <meta name="keywords" content="" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <!-- bootstrap css -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/bootstrap.min.css" />
-        <!-- style css -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/style.css" />
-        <!-- Responsive-->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/responsive.css" />
-        <!-- fevicon -->
-        <link rel="icon" href="${pageContext.request.contextPath}/assets/client/images/favicon.png" type="image/gif" />
-        <!-- Scrollbar Custom CSS -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/jquery.mCustomScrollbar.min.css" />
-        <!-- Tweaks for older IEs-->
-        <link
-            rel="stylesheet"
-            href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
-            />
-        <!-- owl stylesheets -->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.carousel.min.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.theme.default.min.css" />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
-            media="screen"
-            />
+        <jsp:include page="user-head.jsp"/>
     </head>
 
 
@@ -140,13 +118,13 @@
         <!-- news section start -->
         <div class="news_section layout_padding">
             <div class="container">
-                <h1 class="health_taital">Bài viết nổi bật từ các Chuyên gia</h1>
+                <h1 class="health_taital" style="font-weight: bold">Bài viết nổi bật</h1>
                 <p class="health_text">
                     “Đi sâu vào các bài viết sâu sắc từ các chuyên gia chăm sóc sức khỏe hàng đầu, đưa ra những quan điểm mới mẻ về sức khỏe và thể chất.”
                 </p>
                 <div class="news_section_3 layout_padding">
                     <c:forEach items="${topNews}" var="news">
-                        <a class="news-block" href="${pageContext.request.contextPath}/news/${news.getCategorySlug()}/${news.getSlug()}">
+                        <a class="news-block" href="${pageContext.request.contextPath}/news/${news.getCategory().getHref()}/${news.getSlug()}">
                             <div class="news-cover">
                                 <img src="${news.getCoverImage()}" alt="Cover image of ${news.getTitle()}"/>
                             </div>
@@ -162,10 +140,10 @@
                             </c:forEach>
 
                             <div class="news-create-time">
-                                <i class="fas fa-calendar"> ${news.getCreatedAt()}</i>
+                                <i class="fas fa-calendar"> </i> <span>${news.getCreatedAt()}</span>
                             </div>
                             <div class="news-view-count">
-                                <i class="fas fa-eye"> ${news.getViewCount()}</i>
+                                <i class="fas fa-eye"> </i> <span>${news.getViewCount()}</span>
                             </div>
                         </a>
                     </c:forEach>
@@ -266,20 +244,10 @@
                 </div>
             </div>
         </div>
+        <button id="back-to-top" title="Back to top">↑</button>
         <!-- client section end -->
         <%@include file="user-footer.jsp" %>
-        <!-- Javascript files-->
-        <script src="${pageContext.request.contextPath}/assets/client/js/jquery.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/client/js/popper.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/client/js/bootstrap.bundle.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/client/js/jquery-3.0.0.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/client/js/plugin.js"></script>
-        <!-- sidebar -->
-        <script src="${pageContext.request.contextPath}/assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/client/js/custom.js"></script>
-        <!-- javascript -->
-        <script src="${pageContext.request.contextPath}/assets/client/js/owl.carousel.js"></script>
-        <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+        <%@include file="user-script.jsp" %>
         <script>
             $(document).ready(function () {
 

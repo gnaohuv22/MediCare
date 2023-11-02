@@ -81,7 +81,7 @@ public class PasswordEncryption {
         byte[] salt = PasswordEncryption.generateSalt();
         String encryptPassword = encryptPassword(password, salt);
         System.out.println("encrypt password: " + encryptPassword);
-        System.out.println("Compare password: " + comparePasswords(password, encryptPassword));
+        System.out.println("Compare password: " + comparePasswords(password, "19772918d6eb06a2c8ee321cbfd0bd4636aaf86111d5a7da5f1e5161ec433006768900227b40aa933dbc6673cefd6730"));
     }
 
 }

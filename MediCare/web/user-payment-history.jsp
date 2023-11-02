@@ -10,7 +10,7 @@
 <html>
     <head>
         <jsp:include page="user-head.jsp"/>
-        <title>Profile</title>
+        <title>Lịch sử thanh toán | MediCare</title>
     </head>
     <body>
         <jsp:include page="user-header.jsp"/>
@@ -63,6 +63,7 @@
             </div>
         </main>                       
         <jsp:include page="user-footer.jsp"/>
+        <button id="back-to-top" title="Back to top">↑</button>
         <jsp:include page="user-script.jsp"/>
         <script>
             $(document).ready(function () {

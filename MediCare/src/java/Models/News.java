@@ -4,39 +4,24 @@
  */
 package Models;
 
+
 /**
  *
  * @author hoang
  */
 public class News {
-    private String id, title, subtitle, content, author, categoryId, category, categorySlug, createdAt, lastModified, viewCount, coverImage, slug, type;
+    private String id, title, subtitle, content, author, createdAt, lastModified, viewCount, coverImage, slug, type;
+    private NewsCategory category;
 
     public News() {
     }
 
-    public News(String id, String title, String subtitle, String content, String author, String categoryId, String createdAt, String lastModified, String viewCount, String coverImage, String slug) {
+    public News(String id, String title, String subtitle, String content, String author, String createdAt, String lastModified, String viewCount, String coverImage, String slug, String type) {
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
         this.content = content;
         this.author = author;
-        this.categoryId = categoryId;
-        this.createdAt = createdAt;
-        this.lastModified = lastModified;
-        this.viewCount = viewCount;
-        this.coverImage = coverImage;
-        this.slug = slug;
-    }
-    
-    
-
-    public News(String id, String title, String subtitle, String content, String author, String categoryId, String createdAt, String lastModified, String viewCount, String coverImage, String slug, String type) {
-        this.id = id;
-        this.title = title;
-        this.subtitle = subtitle;
-        this.content = content;
-        this.author = author;
-        this.categoryId = categoryId;
         this.createdAt = createdAt;
         this.lastModified = lastModified;
         this.viewCount = viewCount;
@@ -44,22 +29,23 @@ public class News {
         this.slug = slug;
         this.type = type;
     }
-
-    public News(String id, String title, String subtitle, String content, String author, String categoryId, String category, String categorySlug, String createdAt, String lastModified, String viewCount, String coverImage, String slug) {
+    
+    public News(String id, String title, String subtitle, String content, String author, String createdAt, String lastModified, String viewCount, String coverImage, String slug, String type, NewsCategory category) {
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
         this.content = content;
         this.author = author;
-        this.categoryId = categoryId;
-        this.category = category;
-        this.categorySlug = categorySlug;
         this.createdAt = createdAt;
         this.lastModified = lastModified;
         this.viewCount = viewCount;
         this.coverImage = coverImage;
         this.slug = slug;
+        this.type = type;
+        this.category = category;
     }
+
+    
 
     public News(String id, String title, String type) {
         this.id = id;
@@ -67,32 +53,11 @@ public class News {
         this.type = type;
     }
     
-    
-
-    public String getType() {
-        return type;
+    @Override
+    public String toString() {
+        return "{" + this.id + ", " + this.title + ", " + content + ", " + author + ", " + category.getName() + "}\n";
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-    
-    public String getSubtitle() {
-        return subtitle;
-    }
-
-    public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
-    }
-    
     public String getId() {
         return id;
     }
@@ -109,6 +74,14 @@ public class News {
         this.title = title;
     }
 
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
+
     public String getContent() {
         return content;
     }
@@ -123,14 +96,6 @@ public class News {
 
     public void setAuthor(String author) {
         this.author = author;
-    }
-
-    public String getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
     }
 
     public String getCreatedAt() {
@@ -165,26 +130,28 @@ public class News {
         this.coverImage = coverImage;
     }
 
-    public String getCategory() {
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public NewsCategory getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(NewsCategory category) {
         this.category = category;
-    }
-
-    public String getCategorySlug() {
-        return categorySlug;
-    }
-
-    public void setCategorySlug(String categorySlug) {
-        this.categorySlug = categorySlug;
-    }
-
-
-    @Override
-    public String toString() {
-        return "{" + this.id + ", " + this.title + ", " + content + ", " + author + ", " + category + "}\n";
     }
 
 

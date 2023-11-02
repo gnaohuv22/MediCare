@@ -37,36 +37,36 @@ public class UserProfileController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        response.setContentType("text/html;charset=UTF-8");
-//        FamilyProfileDAO fpDAO = new FamilyProfileDAO();
-//        HttpSession session = request.getSession();
-//        List<FamilyProfile> fpList;
-//        UserDAO uDAO = new UserDAO();
-//
-//        String id;
-//
-//        if (request.getParameter("id") == null || request.getParameter("id").isEmpty()) {
-//            id = String.valueOf(1);
-//        } else {
-//            id = String.valueOf(request.getParameter("id"));
-//        }
-//        System.out.println(id);
-//
-//        RelationshipDAO rDAO = new RelationshipDAO();
-//        ArrayList<Relationship> rList = rDAO.getRelationshipList();
-//
-//        String ownerId = uDAO.getIdByEmail(String.valueOf(session.getAttribute("email")));
-//        fpList = fpDAO.getFamilyProfileListByUserOwnerId(ownerId);
-//        if (session.getAttribute("email") == null) {
-//            response.sendRedirect("user-login");
-//        } else {
-//            if (!fpList.isEmpty()) {
-//                request.setAttribute("fpList", fpList);
-//                request.setAttribute("currentfp", fpList.get(Integer.parseInt(id) - 1));
-//            }
-//            request.setAttribute("rList", rList);
-//            request.getRequestDispatcher("user-profile.jsp").forward(request, response);
-//        }
+        response.setContentType("text/html;charset=UTF-8");
+        FamilyProfileDAO fpDAO = new FamilyProfileDAO();
+        HttpSession session = request.getSession();
+        List<FamilyProfile> fpList;
+        UserDAO uDAO = new UserDAO();
+
+        String id;
+
+        if (request.getParameter("id") == null || request.getParameter("id").isEmpty()) {
+            id = String.valueOf(1);
+        } else {
+            id = String.valueOf(request.getParameter("id"));
+        }
+        System.out.println(id);
+
+        RelationshipDAO rDAO = new RelationshipDAO();
+        ArrayList<Relationship> rList = rDAO.getRelationshipList();
+
+        String ownerId = uDAO.getIdByEmail(String.valueOf(session.getAttribute("email")));
+        fpList = fpDAO.getFamilyProfileListByUserOwnerId(ownerId);
+        if (session.getAttribute("email") == null) {
+            response.sendRedirect("user-login");
+        } else {
+            if (!fpList.isEmpty()) {
+                request.setAttribute("fpList", fpList);
+                request.setAttribute("currentfp", fpList.get(Integer.parseInt(id) - 1));
+            }
+            request.setAttribute("rList", rList);
+            request.getRequestDispatcher("user-profile.jsp").forward(request, response);
+        }
 
     }
 

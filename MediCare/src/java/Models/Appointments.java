@@ -21,6 +21,9 @@ public class Appointments {
     private Branch branch; // tubinh add
     private FamilyProfile profile; // tubinh add
     private String createBy, modifyAt, modifyBy;
+    private String userId, doctorId, serviceId, branchId, profileId;
+    private ServiceTag st;
+    private FamilyProfile fp;
 
     public Appointments(String id, User user, Doctor doctor, ServiceTag serviceTag, String plannedAt, String status, String createBy, String modifyAt, String modifyBy) {
         this.id = id;
@@ -95,6 +98,7 @@ public class Appointments {
     public void setProfile(FamilyProfile profile) {
         this.profile = profile;
     }
+    
 
     public Appointments() {
     }
@@ -102,6 +106,24 @@ public class Appointments {
     public Appointments(Doctor doctor, ServiceTag serviceTag, String plannedAt, Branch branch, String symptoms) {
         this.doctor = doctor;
         this.serviceTag = serviceTag;
+    }
+    
+    public Appointments(String id, String plannedAt, String status, String branchId, String createdAt, String symptoms, ServiceTag st, FamilyProfile fp) {
+        this.id = id;
+        this.plannedAt = plannedAt;
+        this.status = status;
+        this.branchId = branchId;
+        this.createdAt = createdAt;
+        this.symptoms = symptoms;
+        this.st = st;
+        this.fp = fp;
+    }
+
+    public Appointments(String id, String userId, String doctorId, String serviceId, String plannedAt, String status) {
+        this.id = id;
+        this.userId = userId;
+        this.doctorId = doctorId;
+        this.serviceId = serviceId;
         this.plannedAt = plannedAt;
         this.branch = branch;
         this.symptoms = symptoms;
@@ -208,4 +230,20 @@ public class Appointments {
         return "Appointments{" + "id=" + id + ", appointmentDay=" + appointmentDay + ", appointmentTime=" + appointmentTime + ", user=" + user + ", doctor=" + doctor + ", serviceTag=" + serviceTag + ", plannedAt=" + plannedAt + ", createdAt=" + createdAt + ", status=" + status + ", symptoms=" + symptoms + ", branch=" + branch + ", profile=" + profile + ", createBy=" + createBy + ", modifyAt=" + modifyAt + ", modifyBy=" + modifyBy + '}';
     }
 
+    public ServiceTag getSt() {
+        return st;
+    }
+
+    public void setSt(ServiceTag st) {
+        this.st = st;
+    }
+
+    public FamilyProfile getFp() {
+        return fp;
+    }
+
+    public void setFp(FamilyProfile fp) {
+        this.fp = fp;
+    }
+    
 }

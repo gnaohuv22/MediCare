@@ -10,7 +10,7 @@
 <html>
     <head>
         <jsp:include page="user-head.jsp"/>
-        <title>Profile</title>
+        <title>Danh sách hồ sơ | MediCare</title>
     </head>
     <body>
         <jsp:include page="user-header.jsp"/>
@@ -74,14 +74,14 @@
                     <input type="tel" id="phone" name="phone"  placeholder="0xxxxxxxx" pattern="[0]{1}[0-9]{9,10}" required=""><br/>
 
                     <label for="birthDate">Ngày sinh:</label><br/>
-                    <input type="date" id="birthDate" name="birthDate" placeholder="01/01/1990" required=""><br/>
+                    <input type="date" id="birthDate" name="birthDate" placeholder="dd/MM/yyyy" required=""><br/>
                     <label>Giới tính:</label><br/>
                     <input type="radio" name="gender" id="male" value="Male" required="">
                     <label for="male">Nam</label>
 
                     <input type="radio" name="gender" id="female" value="Female" required="">
                     <label for="female">Nữ</label><br/>
-                    
+
                     <label for="name">Địa chỉ:</label><br/>
                     <input type="text" id="address" name="address" placeholder="Ex: 123 Nguyễn Chí Thanh" required=""><br/>
                     <label for="medicalId">Mã BHYT:</label><br/>
@@ -102,6 +102,7 @@
                     </select>   
                     <!-- Add more input fields as needed -->
                     <input type="hidden" name="method" id="method" value=""/><br/>
+                    <input type="hidden" name="profileId" id="profileId" value=""/><br/>
                     <button class="button-container" id="submit-button" type="submit"></button>
                     <button type="button" id="close-button" onclick="closeProfileForm()">Close</button>
                 </form>
@@ -109,12 +110,13 @@
 
         </main>                       
         <jsp:include page="user-footer.jsp"/>
+        <button id="back-to-top" title="Back to top">↑</button>
         <jsp:include page="user-script.jsp"/>
         <script>
             $(document).ready(function () {
                 // Trigger a click event on the first <li> element
                 $(".profile-list li:first").trigger("click");
-            });
+            }); 
 
             function loadProfile(id) {
                 $.ajax({
@@ -126,6 +128,7 @@
                         $(".profile-list li").removeClass("profile-item-active");
                         var current = document.getElementById(id);
                         current.className += " profile-item-active";
+                        document.getElementById("profileId").value = id;
                     },
                     error: function (jqXHR) {
 
