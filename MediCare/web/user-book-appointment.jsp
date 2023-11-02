@@ -19,23 +19,7 @@
         <meta name="keywords" content="">
         <meta name="description" content="">
         <meta name="author" content="">
-        <!-- bootstrap css -->
-        <link rel="stylesheet" href="assets/client/css/bootstrap.min.css">
-        <!-- style css -->
-        <link rel="stylesheet" href="assets/client/css/style.css">
-        <!-- Responsive-->
-        <link rel="stylesheet" href="assets/client/css/responsive.css">
-        <!-- fevicon -->
-        <link rel="icon" href="assets/client/imagesimages/fevicon.png" type="image/gif" />
-        <!-- Scrollbar Custom CSS -->
-        <link rel="stylesheet" href="assets/client/css/jquery.mCustomScrollbar.min.css">
-        <!-- Tweaks for older IEs-->
-        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-        <!-- owl stylesheets --> 
-        <link rel="stylesheet" href="assets/client/css/owl.carousel.min.css">
-        <link rel="stylesheet" href="assets/client/css/owl.theme.default.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
-        <title>Client Page</title>
+        <jsp:include page="user-head.jsp"/>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     </head>
@@ -202,12 +186,11 @@
             </div>
             <!--Popup - End-->
         </div>
-        <!--Step-3-container - end
-
-    </div>
+        <!--Step-3-container - end -->
 
 
 
+        <button id="back-to-top" title="Back to top">↑</button>
         <%@include file="user-footer.jsp" %>
         <!-- client section end -->
 
@@ -750,18 +733,7 @@
                 }
             };
         </script>
-        <!-- Javascript files-->
-        <script src="assets/client/js/jquery.min.js"></script>
-        <script src="assets/client/js/popper.min.js"></script>
-        <script src="assets/client/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/client/js/jquery-3.0.0.min.js"></script>
-        <script src="assets/client/js/plugin.js"></script>
-        <!-- sidebar -->
-        <script src="assets/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="assets/client/js/custom.js"></script>
-        <!-- javascript --> 
-        <script src="assets/client/js/owl.carousel.js"></script>
-        <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+        <%@include file="user-script.jsp" %>
 
     </body>
 </html>

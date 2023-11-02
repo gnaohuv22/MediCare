@@ -11,23 +11,28 @@ import Models.FamilyProfile;
 import Models.Relationship;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 /**
  *
  * @author phuon
  */
+@MultipartConfig
 public class UserProfileController extends HttpServlet {
 
     /**
@@ -131,16 +136,10 @@ public class UserProfileController extends HttpServlet {
             //add photo
             Part filePart = request.getPart("photo");
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // Extract file name
+            System.out.println(fileName);
             String fileType = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
-
-            if (!fileType.equals("jpg") && !fileType.equals("png")) {
-                // Handle invalid file type
-            } else {
-                String uploadPath = "Medicare/assets/images/profile"; // Replace with your directory path
-                String newFileName = name + "_" + birthDate + "." + fileType; // Replace 'newName' with the new name you want
-                File file = new File(uploadPath + File.separator + newFileName);
-                filePart.write(file.getAbsolutePath());
-            }
+            String uploadPath = getServletContext().getRealPath("") + "assets\\client\\images\\profile";
+            String newFileName = name + "_" + birthDate + "." + fileType; // Replace 'newName' with the new name you want
 
             String method = request.getParameter("method");
             System.out.println("method: " + method);
@@ -157,17 +156,23 @@ public class UserProfileController extends HttpServlet {
                     if (!fileType.equals("jpg") && !fileType.equals("png")) {
                         // Handle invalid file type
                     } else {
-                        String uploadPath = "Medicare/assets/images/profile"; // Replace with your directory path
-                        String newFileName = name + "_" + birthDate + "." + fileType; // Replace 'newName' with the new name you want
-                        File file = new File(uploadPath + File.separator + newFileName);
-                        filePart.write(file.getAbsolutePath());
+                        if (!fileName.isEmpty()) {
+                            System.out.println(uploadPath);// Replace with your directory path
+                            File dir = new File(uploadPath);
+                            if (!dir.exists()) {
+                                dir.mkdirs();
+                            }
+                            File file = new File(uploadPath + File.separator, fileName);
+                            System.out.println("Absolute Path: " + file.getAbsolutePath());
+                            filePart.write(file.getAbsolutePath());
+                        }
                     }
 
                     LocalDate date = LocalDate.now();
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                     String currentDate = date.format(formatter);
                     String relationId = request.getParameter("relation");
-                    FamilyProfile fp = new FamilyProfile(email, name, birthDate, gender, address, identity, medicalId, ethnic, phone, fileName, currentDate, relationId, ownerId);
+                    FamilyProfile fp = new FamilyProfile(email, name, birthDate, gender, address, identity, medicalId, ethnic, phone, newFileName, currentDate, relationId, ownerId);
                     System.out.println(fp.toString());
                     fpDAO.addNewUserProfile(fp);
                     request.setAttribute("fpList", fpList);
@@ -177,6 +182,9 @@ public class UserProfileController extends HttpServlet {
                 case "delete":
                     String profileId = request.getParameter("profileId");
 
+                    break;
+                case "edit":
+                        
                     break;
                 default:
                     throw new AssertionError();

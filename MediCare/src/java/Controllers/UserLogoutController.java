@@ -5,7 +5,6 @@
 package Controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,10 +28,19 @@ public class UserLogoutController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session=request.getSession();
-        session.removeAttribute("email");
-        session.setAttribute("loginValue", "false");
-        response.sendRedirect("user-home");
+        HttpSession session = request.getSession();
+        boolean doctorLoggedIn = session.getAttribute("doctorLoggedIn") != null;
+        System.out.println("doctorLoggedIn: " + doctorLoggedIn);
+        if (doctorLoggedIn) {
+            session.removeAttribute("doctorLoggedIn");
+            session.removeAttribute("d");
+            session.setAttribute("error", "Bạn cần đăng nhập để tiếp tục.");
+            response.sendRedirect("user-login");
+        } else {
+            session.removeAttribute("email");
+            session.setAttribute("loginValue", "false");
+            response.sendRedirect("user-home");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

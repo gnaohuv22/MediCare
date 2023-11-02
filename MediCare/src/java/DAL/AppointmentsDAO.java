@@ -9,8 +9,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import Models.Appointments;
+import Models.Doctor;
 import Models.FamilyProfile;
+import Models.ServiceTag;
 import Models.User;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -38,7 +42,7 @@ public class AppointmentsDAO extends DBContext {
             return list;
         } catch (SQLException e) {
             System.out.println("AppointmentsDAO.getListAppointments: " + e.getMessage());
-        } 
+        }
         return null;
     }
 
@@ -312,23 +316,139 @@ public class AppointmentsDAO extends DBContext {
     public List<Appointments> getListAppointmentsByOwnerId(String ownerId) {
         ArrayList<Appointments> list = new ArrayList<>();
         String SQL = "SELECT * FROM [Appointments] where userId=?";
-        
-        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Appointments a = new Appointments(
-                    String.valueOf(rs.getInt(1)),
-                    rs.getString(2),
-                    rs.getString(3),
-                    String.valueOf(rs.getInt(4)),
-                    String.valueOf(rs.getDate(5)),
-                    String.valueOf(rs.getInt(6)));
+                        String.valueOf(rs.getInt(1)),
+                        rs.getString(2),
+                        rs.getString(3),
+                        String.valueOf(rs.getInt(4)),
+                        String.valueOf(rs.getDate(5)),
+                        String.valueOf(rs.getInt(6)));
                 list.add(a);
             }
             return list;
         } catch (SQLException e) {
             System.out.println("AppointmentsDAO.getListAppointments: " + e.getMessage());
-        } 
+        }
         return null;
+    }
+
+    public ArrayList<Appointments> getListAppointmentByDoctor(Doctor d) {
+        String SQL = "SELECT a.id, a.plannedAt, a.status, a.branchId, a.createdAt, a.symptoms, st.id AS 'ServiceID', st.nametag AS 'ServiceName', fp.profileId AS 'ProfileID', fp.email AS 'Email', fp.name AS 'ProfileName', fp.birthDate AS 'DoB', fp.gender AS 'Gender', fp.address AS 'Address', fp.[identity] AS 'IdentityNumber', fp.medicalId AS 'MedicalID', fp.ethnic AS 'Ethnic', fp.phone AS 'PhoneNumber', fp.profilePicture AS 'ProfilePicture' FROM [Appointments] a\n"
+                + "LEFT JOIN [ServiceTag] st ON st.id = a.serviceId\n"
+                + "LEFT JOIN [FamilyProfile] fp ON fp.profileId = a.profileId\n"
+                + "WHERE a.doctorId LIKE ?";
+
+        ArrayList<Appointments> list = new ArrayList<>();
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setString(1, d.getId());
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                list.add(new Appointments(
+                        String.valueOf(rs.getInt("id")),
+                        String.valueOf(rs.getDate("plannedAt")),
+                        String.valueOf(rs.getInt("status")),
+                        String.valueOf(rs.getInt("branchId")),
+                        String.valueOf(rs.getDate("createdAt")),
+                        rs.getString("symptoms"),
+                        new ServiceTag(
+                                String.valueOf(rs.getInt("ServiceID")),
+                                rs.getString("ServiceName")
+                        ),
+                        new FamilyProfile(
+                                String.valueOf(rs.getString("ProfileID")),
+                                rs.getString("Email"),
+                                rs.getString("ProfileName"),
+                                String.valueOf(rs.getDate("DoB")),
+                                rs.getInt("Gender") == 1 ? "Male" : "Female",
+                                rs.getString("Address"),
+                                rs.getString("IdentityNumber"),
+                                rs.getString("MedicalID"),
+                                rs.getString("Ethnic"),
+                                rs.getString("PhoneNumber"),
+                                rs.getString("ProfilePicture")
+                        )
+                )
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("getListAppointmentByDoctor: " + e.getMessage());
+        }
+        return list.isEmpty() ? list : null;
+    }
+
+    public ArrayList<Appointments> getAppointmentsByDay(String date, String doctorId) {
+        ArrayList<Appointments> list = new ArrayList<>();
+        String SQL = "SELECT a.id, a.plannedAt, a.status, a.branchId, a.createdAt, a.symptoms, st.id AS 'ServiceID', st.nametag AS 'ServiceName', fp.profileId AS 'ProfileID', fp.email AS 'Email', fp.name AS 'ProfileName', fp.birthDate AS 'DoB', fp.gender AS 'Gender', fp.address AS 'Address', fp.[identity] AS 'IdentityNumber', fp.medicalId AS 'MedicalID', fp.ethnic AS 'Ethnic', fp.phone AS 'PhoneNumber', fp.profilePicture AS 'ProfilePicture' FROM [Appointments] a\n"
+                + "LEFT JOIN [ServiceTag] st ON st.id = a.serviceId\n"
+                + "LEFT JOIN [FamilyProfile] fp ON fp.profileId = a.profileId\n"
+                + "WHERE CONVERT(date, plannedAt) = ? AND doctorId = ?\n"
+                + "ORDER BY a.status ASC, a.plannedAt ASC";
+
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setDate(1, java.sql.Date.valueOf(date));
+            ps.setString(2, doctorId);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Timestamp timestamp = rs.getTimestamp("plannedAt");
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                String dateString = "";
+                if (timestamp != null && !timestamp.toString().isEmpty())
+                    dateString = format.format(timestamp);
+                list.add(new Appointments(
+                        String.valueOf(rs.getInt("id")),
+                        dateString,
+                        String.valueOf(rs.getInt("status")),
+                        String.valueOf(rs.getInt("branchId")),
+                        String.valueOf(rs.getDate("createdAt")),
+                        rs.getString("symptoms"),
+                        new ServiceTag(
+                                String.valueOf(rs.getInt("ServiceID")),
+                                rs.getString("ServiceName")
+                        ),
+                        new FamilyProfile(
+                                String.valueOf(rs.getString("ProfileID")),
+                                rs.getString("Email"),
+                                rs.getString("ProfileName"),
+                                String.valueOf(rs.getDate("DoB")),
+                                rs.getInt("Gender") == 1 ? "Male" : "Female",
+                                rs.getString("Address"),
+                                rs.getString("IdentityNumber"),
+                                rs.getString("MedicalID"),
+                                rs.getString("Ethnic"),
+                                rs.getString("PhoneNumber"),
+                                rs.getString("ProfilePicture")
+                        )
+                )
+                );
+//                System.out.println("ServiceName: " + rs.getString("ServiceName"));
+            }
+        } catch (SQLException e) {
+            System.out.println("getAppointmentsByDay: " + e.getMessage());
+        }
+        return list;
+    }
+
+    public boolean updateAppointmentStatus(String id, int status) {
+        String SQL = "UPDATE Appointments\n"
+                + "SET status = ?\n"
+                + "WHERE id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setInt(1, status);
+            ps.setInt(2, Integer.parseInt(id));
+            
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("updateAppointmentStatus: " + e.getMessage());
+        }
+        return false;
     }
 }

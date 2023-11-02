@@ -104,6 +104,28 @@ public class Doctor {
         this.departmentName = departmentName;
     }
 
+    public Doctor(String id, String email, String displayName, String phone, String salary, String workplace, String profilePicture, String status, String certificates, String branchName, String ARName, String departmentId, String departmentName, String education, String introduce, String workHistory, String startYear) {
+        this.id = id;
+        this.email = email;
+        this.displayName = displayName;
+        this.phone = phone;
+        this.salary = salary;
+        this.workplace = workplace;
+        this.profilePicture = profilePicture;
+        this.status = status;
+        this.certificates = certificates;
+        this.branchName = branchName;
+        this.ARName = ARName;
+        this.departmentId = departmentId;
+        this.departmentName = departmentName;
+        this.education = education;
+        this.introduce = introduce;
+        this.workHistory = workHistory;
+        this.startYear = startYear;
+    }
+    
+    
+
     public Doctor(String id, String email, String displayName, String branchId, 
             String phone, String ARId, String CVId, String salary, String workplace, String profilePicture, 
             String status, String branchName, String ARName, String certificates, String departmentId, String departmentName, 

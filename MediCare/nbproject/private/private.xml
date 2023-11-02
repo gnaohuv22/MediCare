@@ -3,12 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/src/java/Controllers/UserProfileController.java</file>
-            <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/src/java/Models/FamilyProfile.java</file>
-            <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/web/assets/client/css/style.css</file>
-            <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/web/user-profile.jsp</file>
+            <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/test/Controller/Test/FamilyProfileDAOTest.java</file>
             <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/src/java/DAL/FamilyProfileDAO.java</file>
-            <file>file:/C:/Users/phuon/Documents/git/medicalserviceproject/MediCare/src/java/Controllers/LoadFamilyProfileByOwnerIdServlet.java</file>
         </group>
     </open-files>
 </project-private>

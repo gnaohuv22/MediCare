@@ -10,8 +10,21 @@ package Models;
  */
 public class Appointments {
     private String id, userId, doctorId, serviceId, plannedAt, status, branchId, createdAt, symptoms, profileId;
+    private ServiceTag st;
+    private FamilyProfile fp;
 
     public Appointments() {
+    }
+
+    public Appointments(String id, String plannedAt, String status, String branchId, String createdAt, String symptoms, ServiceTag st, FamilyProfile fp) {
+        this.id = id;
+        this.plannedAt = plannedAt;
+        this.status = status;
+        this.branchId = branchId;
+        this.createdAt = createdAt;
+        this.symptoms = symptoms;
+        this.st = st;
+        this.fp = fp;
     }
 
     public Appointments(String id, String userId, String doctorId, String serviceId, String plannedAt, String status) {
@@ -114,6 +127,22 @@ public class Appointments {
     @Override
     public String toString() {
         return "Appointments{" + "id=" + id + ", userId=" + userId + ", doctorId=" + doctorId + ", serviceId=" + serviceId + ", plannedAt=" + plannedAt + ", status=" + status + ", branchId=" + branchId + ", createdAt=" + createdAt + ", symptoms=" + symptoms + ", profileId=" + profileId + '}';
+    }
+
+    public ServiceTag getSt() {
+        return st;
+    }
+
+    public void setSt(ServiceTag st) {
+        this.st = st;
+    }
+
+    public FamilyProfile getFp() {
+        return fp;
+    }
+
+    public void setFp(FamilyProfile fp) {
+        this.fp = fp;
     }
     
 }

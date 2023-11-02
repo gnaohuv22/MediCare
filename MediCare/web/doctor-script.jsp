@@ -4,24 +4,7 @@
     Author     : hoang
 --%>
 
-<script>
-    $(document).ready(function () {
-        $(window).scroll(function () {
-            if ($(this).scrollTop() > 50) {
-                $('#back-to-top').fadeIn();
-            } else {
-                $('#back-to-top').fadeOut();
-            }
-        });
-        // scroll body to 0px on click
-        $('#back-to-top').click(function () {
-            $('body,html').animate({
-                scrollTop: 0
-            }, 400);
-            return false;
-        });
-    });
-</script>
+
 
 <!-- Javascript files-->
 <script src="${pageContext.request.contextPath}/assets/doctor/js/popper.min.js"></script>
@@ -35,3 +18,21 @@
 <!-- javascript -->
 <script src="${pageContext.request.contextPath}/assets/doctor/js/owl.carousel.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 50) {
+                $('#back-to-top').fadeIn().addClass('show');
+            } else {
+                $('#back-to-top').fadeOut().removeClass('show');
+            }
+        });
+        // scroll body to 0px on click
+        $('#back-to-top').click(function () {
+            $('body,html').animate({
+                scrollTop: 0
+            }, 200);
+            return false;
+        });
+    });
+</script>

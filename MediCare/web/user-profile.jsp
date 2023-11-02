@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -45,11 +46,11 @@
                                 <li class="profile-item" onclick="loadProfile(${fp.getProfileId()})" id="${fp.getProfileId()}">
                                     <div class="profile-item-pics ">
                                         <c:choose>
-                                            <c:when test="${fp.getProfilePicture() != null || !fp.getProfilePicture().isEmpty()}">
-                                                <img src="${pageContext.request.contextPath}/assets/client/images/profile" width="50px" height="50px" alt="client-img"/>
+                                            <c:when test="${fp.getProfilePicture() != null && fn:length(fp.getProfilePicture()) > 0}">
+                                                <img class="profile-pics" src="${pageContext.request.contextPath}/assets/client/images/profile/${fp.getProfilePicture()}" alt="client-img"/>
                                             </c:when>
                                             <c:otherwise>
-                                                <img src="https://www.svgrepo.com/show/497407/profile-circle.svg" width="50px" height="50px" alt="client-img"/> 
+                                                <img class="profile-pics" src="https://www.svgrepo.com/show/497407/profile-circle.svg" alt="client-img"/> 
                                             </c:otherwise>
                                         </c:choose>
                                         <span class="profile-item-pics-relation">${fp.getRelationship().getRelation()}</span>
@@ -128,7 +129,7 @@
                                     <option value="${r.getId()}">${r.getRelation()}</option>
                                 </c:if>
                             </c:forEach>
-                        </select>
+                        </select><br/>
                     </div>
                     <div class="form-group">
                         <label for="photo">Ảnh đại diện:</label>
@@ -161,6 +162,7 @@
 
         </main>                       
         <jsp:include page="user-footer.jsp"/>
+        <button id="back-to-top" title="Back to top">↑</button>
         <jsp:include page="user-script.jsp"/>
         <script>
             $(document).ready(function () {
@@ -193,9 +195,13 @@
                 document.getElementById("submit-button").innerHTML = "Thêm hồ sơ mới";
                 document.getElementById("form-title").innerHTML = "Thêm hồ sơ mới";
                 // Close the modal if the user clicks outside of it
+                var selectElement = document.getElementById("relation");
+                selectElement.disabled = false;
+                $('select').niceSelect('destroy');
                 window.onclick = function (event) {
                     if (event.target === modal) {
                         modal.style.display = "none";
+                        
                         document.getElementById("method").value = "add";
                     }
                 };
@@ -219,6 +225,7 @@
                 document.getElementById("method").value = "edit";
                 document.getElementById("submit-button").innerHTML = "Cập nhật";
                 document.getElementById("form-title").innerHTML = "Thay đổi thông tin";
+                $('select').niceSelect('destroy');
 
                 document.getElementById("name").value = document.getElementById("display-name").textContent;
                 document.getElementById("phone").value = document.getElementById("display-phone").textContent;

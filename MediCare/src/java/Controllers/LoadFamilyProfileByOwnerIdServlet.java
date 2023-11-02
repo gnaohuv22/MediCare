@@ -63,7 +63,7 @@ public class LoadFamilyProfileByOwnerIdServlet extends HttpServlet {
     private String generateProfileHtml(FamilyProfile fp) {
         String html = "<div class=\"profile-display-header\">\n"
                 + "                        <div class=\"profile-display-pics \">\n"
-                + "                            <img src=\"https://www.svgrepo.com/show/497407/profile-circle.svg\" width=\"50px\" height=\"50px\" alt=\"client-img\"/> \n"
+                + (fp.getProfilePicture() == null || fp.getProfilePicture().isEmpty() ? "<img src=\"https://www.svgrepo.com/show/497407/profile-circle.svg\" width=\"50px\" height=\"50px\" alt=\"client-img\"/> \n" : "<img class='profile-pics' src='/MediCare/assets/client/images/profile/" + fp.getProfilePicture() + "' alt='client-img'/>")
                 + "                        </div>\n"
                 + "                        <div class=\"profile-display-info\">\n"
                 + "                            <h2>" + (fp.getName() != null ? fp.getName() : "--") + "</h2>\n"
@@ -85,9 +85,9 @@ public class LoadFamilyProfileByOwnerIdServlet extends HttpServlet {
                 + "                            <span>Số CMND/CCCD:</span><span id=\"display-identity\">" + (fp.getIdentity() != null ? fp.getIdentity() : "--") + "</span>\n"
                 + "                            <span>Dân tộc:</span><span id=\"display-ethnic\">" + (fp.getEthnic() != null ? fp.getEthnic() : "--") + "</span>\n"
                 + "                            <span>Email:</span><span id=\"display-email\">" + (fp.getEmail() != null ? fp.getEmail() : "--") + "</span>\n"
-                + "                             <input type=\"hidden\" name=\"relation\" id=\"display-relation\" value=\""+fp.getRelationship().getId()+"\">"
+                + "                             <input type=\"hidden\" name=\"relation\" id=\"display-relation\" value=\"" + fp.getRelationship().getId() + "\">"
                 + "                        </div>\n"
-                + (fp.getRelationship().getId().equals("0")? "<div></div>":"<button id=\"deleteProfileButton\" onclick=\"openDeleteProfileForm()\">Delete Profile</button>\n")
+                + (fp.getRelationship().getId().equals("0") ? "<div></div>" : "<button id=\"deleteProfileButton\" onclick=\"openDeleteProfileForm()\">Delete Profile</button>\n")
                 + "                        <button id=\"editProfileButton\" onclick=\"openEditProfileForm()\">Edit Profile</button>"
                 + "                    </div>";
         return html;

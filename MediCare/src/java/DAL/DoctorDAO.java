@@ -4,6 +4,7 @@
  */
 package DAL;
 
+import Controllers.PasswordEncryption;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -271,42 +272,56 @@ public class DoctorDAO extends DBContext {
         return null;
     }
 
-    public boolean login(String email, String password) {
-        String SQL = "SELECT * FROM [Doctor] WHERE email = ? AND password = ?";
+    public Doctor login(String email, String password) {
+        String SQL = "SELECT email, password FROM [Doctor] WHERE email = ?";
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
             pstm.setString(1, email);
-            pstm.setString(2, password);
+            byte[] salt = PasswordEncryption.generateSalt();
             ResultSet rs = pstm.executeQuery();
             if (rs.next()) {
-                return true;
-            } else {
-                return false;
-            }
+                //get that doctor
+                if (PasswordEncryption.comparePasswords(password, rs.getString("password")));
+                return new DoctorDAO().getDoctorByEmail(email);
+            } 
         } catch (SQLException e) {
             System.out.println("dal.UserDAO.Login(): " + e);
         }
-        return false;
+        return null;
+    }
+    
+    public Doctor login(String email) {
+        String SQL = "SELECT email, password FROM [Doctor] WHERE email = ?";
+        try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            pstm.setString(1, email);
+            ResultSet rs = pstm.executeQuery();
+            if (rs.next()) {
+                //get that doctor
+                return new DoctorDAO().getDoctorByEmail(email);
+            } 
+        } catch (SQLException e) {
+            System.out.println("dal.UserDAO.Login(): " + e);
+        }
+        return null;
     }
 
     public Doctor getDoctorByEmail(String email) {
-        String SQL = "SELECT * FROM [Doctor] WHERE email = ?";
+        String SQL = "SELECT id, email, displayName, branchId, phone, ARId, CVId, salary, workplace, profilePicture, status FROM [Doctor] WHERE email = ?";
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Doctor d = new Doctor(String.valueOf(rs.getInt(1)),
+                Doctor d = new Doctor(rs.getString(1),
                         rs.getString(2),
                         rs.getString(3),
-                        rs.getString(4),
-                        String.valueOf(rs.getInt(5)),
-                        rs.getString(6),
+                        String.valueOf(rs.getInt(4)),
+                        String.valueOf(rs.getString(5)),
+                        String.valueOf(rs.getInt(6)),
                         String.valueOf(rs.getInt(7)),
-                        String.valueOf(rs.getInt(8)),
-                        String.valueOf(rs.getFloat(9)),
+                        String.valueOf(rs.getFloat(8)),
+                        String.valueOf(rs.getString(9)),
                         rs.getString(10),
-                        rs.getString(11),
-                        String.valueOf(rs.getBoolean(12))
+                        String.valueOf(rs.getInt(11))
                 );
                 return d;
             }
@@ -358,7 +373,7 @@ public class DoctorDAO extends DBContext {
 
     }
 
-    public ArrayList<Doctor> getTrendingDoctors() {
+    public ArrayList<Doctor> getTrendingDoctors() {// KHONG PHAI FUNCTION CUA TU BINH
         ArrayList<Doctor> list = new ArrayList<>();
         String sql = "SELECT TOP(5) d.id, d.email, d.password, d.displayName, b.[name] AS branchName, d.phone, a.[name] AS ARName, "
                 + "COUNT(r.id) AS ReviewCount, DC.Certificates AS Certificates, Department.id as DepartmentId, "
@@ -384,24 +399,24 @@ public class DoctorDAO extends DBContext {
 
             while (rs.next()) {
                 Doctor d = new Doctor(
-                        rs.getString(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getString(6),
-                        rs.getString(7),
-                        rs.getString(9),
-                        String.valueOf(rs.getInt(10)),
-                        rs.getString(11),
-                        rs.getString(12),
-                        rs.getString(13),
-                        rs.getString(14),
-                        String.valueOf(rs.getInt(15)),
-                        String.valueOf(rs.getFloat(16)),
-                        rs.getString(17),
-                        rs.getString(18),
-                        String.valueOf(rs.getInt(19))
+                        rs.getString("id"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("displayName"),
+                        String.valueOf(rs.getString("branchName")),
+                        rs.getString("phone"),
+                        rs.getString("ARName"),
+                        String.valueOf(rs.getString("Certificates")),
+                        String.valueOf(rs.getInt("departmentId")),
+                        rs.getString("departmentName"),
+                        rs.getString("education"),
+                        String.valueOf(rs.getString("introduce")),
+                        rs.getString("workHistory"),
+                        String.valueOf(rs.getString("startYear")),
+                        String.valueOf(rs.getFloat("salary")),
+                        rs.getString("workplace"),
+                        String.valueOf(rs.getString("profilePicture")),
+                        String.valueOf(rs.getInt("ReviewCount"))
                 );
 
                 list.add(d);
@@ -425,7 +440,7 @@ public class DoctorDAO extends DBContext {
                 + "FULL JOIN ServiceTag AS ST ON ST.id = DS.serviceId \n"
                 + "FULL JOIN Department ON Department.id = ST.departmentId \n"
                 + "FULL JOIN CurriculumVitae AS CV On CV.id = d.CVId \n"
-                + "WHERE d.displayName = ?"
+                + "WHERE d.displayName LIKE ?"
                 + "GROUP BY d.ARId, d.branchId, d.CVId, d.displayName, d.email, d.id, d.phone, d.profilePicture, d.salary, d.status, d.workplace,\n"
                 + "b.[name], a.[name], DC.Certificates,  Department.[name], Department.id, CV.education, CV.introduce, CV.workHistory, CV.startYear,\n"
                 + "d.[password], d.isDelete, d.gender, d.birthDate\n"

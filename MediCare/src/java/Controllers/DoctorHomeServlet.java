@@ -31,7 +31,14 @@ public class DoctorHomeServlet extends HttpServlet {
 //            session.removeAttribute("email");
 //            session.removeAttribute("loginValue");
 //        }
-
+        
+        if (session.getAttribute("doctor") != null) {
+            session.setAttribute("isLoggedIn", true);
+            
+        } else {
+            
+        }
+ 
         NewsCategoryDAO ncd = new NewsCategoryDAO();
         NewsDAO nd = new NewsDAO();
 
@@ -40,6 +47,7 @@ public class DoctorHomeServlet extends HttpServlet {
         ArrayList<NewsCategory> contacts = ncd.getContacts();
         ArrayList<NewsCategory> references = ncd.getReferences();
         ArrayList<NewsCategory> snsList = ncd.getSocial();
+        ArrayList<NewsCategory> profileMenu = ncd.getProfileMenu();
         ArrayList<News> pages = nd.getTopLevelMenu();
         ArrayList<News> topNews = nd.getTopNews();
 
@@ -50,6 +58,7 @@ public class DoctorHomeServlet extends HttpServlet {
         session.setAttribute("references", references);
         session.setAttribute("snsList", snsList);
         session.setAttribute("topNews", topNews);
+        session.setAttribute("profileMenu", profileMenu);
 
         request.getRequestDispatcher("doctor-home.jsp").forward(request, response);
     }
