@@ -818,7 +818,7 @@ public class DoctorDAO extends DBContext {
                         rs.getString("workplace"),
                         rs.getString("profilePicture"),
                         String.valueOf(rs.getString("status")),
-                        String.valueOf(rs.getInt("Certificates")),
+                        String.valueOf(rs.getString("Certificates")),
                         rs.getString("branchName"),
                         rs.getString("ARName"),
                         String.valueOf(rs.getString("DepartmentId")),

@@ -107,6 +107,11 @@
     <servlet-mapping>
         <servlet-name>UserProfileController</servlet-name>
         <url-pattern>/user-profile</url-pattern>
+        <multipart-config>
+            <max-file-size>10485760</max-file-size> <!-- This is 10 MB -->
+            <max-request-size>20971520</max-request-size> <!-- This is 20 MB -->
+            <file-size-threshold>0</file-size-threshold>
+        </multipart-config>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserNewsServlet</servlet-name>

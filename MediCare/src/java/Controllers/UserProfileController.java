@@ -11,19 +11,28 @@ import Models.FamilyProfile;
 import Models.Relationship;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 /**
  *
  * @author phuon
  */
+@MultipartConfig
 public class UserProfileController extends HttpServlet {
 
     /**
@@ -96,94 +105,93 @@ public class UserProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        FamilyProfileDAO fpDAO = new FamilyProfileDAO();
-//        HttpSession session = request.getSession();
-//        List<FamilyProfile> fpList;
-//        UserDAO uDAO = new UserDAO();
-//
-//        String search;
-//        search = request.getParameter("search-profile");
-//
-//        String id;
-//        String ownerId = uDAO.getIdByEmail(String.valueOf(session.getAttribute("email")));
-//
-//        RelationshipDAO rDAO = new RelationshipDAO();
-//        ArrayList<Relationship> rList = rDAO.getRelationshipList();
-//
-//        if (request.getParameter("id") == null) {
-//            id = String.valueOf(1);
-//        } else {
-//            id = String.valueOf(request.getParameter("id"));
-//        }
-//
-//        fpList = fpDAO.getFamilyProfileListByUserOwnerId(ownerId);
-//
-//        if (session.getAttribute("email") == null) {
-//            response.sendRedirect("user-login");
-//        } else {
-//            String method = request.getParameter("method");
-//            switch (method) {
-//                case "search":
-//                    FamilyProfile fd;
-//                    if (getIndexById(id, fpList) == -1) {
-//                        fd = null;
-//                    } else {
-//                        int i = getIndexById(id, fpList);
-//                        fd = fpList.get(i);
-//                    }   fpList = fpDAO.getFamilyProfileListByUserName(search, ownerId);
-//                    request.setAttribute("fpList", fpList);
-//                    request.setAttribute("currentfp", fd);
-//                    request.setAttribute("rList", rList);
-//                    request.getRequestDispatcher("user-profile.jsp").forward(request, response);
-//                    break;
-//                case "add":
-//                    String name = request.getParameter("name");
-//                    String phone = request.getParameter("phone");
-//                    String birthDate = request.getParameter("birthDate");
-//                    String gender = request.getParameter("gender");
-//                    String medicalId = request.getParameter("medicalId");
-//                    String identity = request.getParameter("identity");
-//                    String address = request.getParameter("address");
-//                    String ethnic = request.getParameter("ethnic");
-//                    String email = request.getParameter("email");
-//                    LocalDate date = LocalDate.now();
-//                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//                    String currentDate = date.format(formatter);
-//                    String relationId = request.getParameter("relation");
-//                    FamilyProfile fp = new FamilyProfile(email, name, birthDate, gender, address, identity, medicalId, ethnic, phone, currentDate, relationId, ownerId);
-//                    fpDAO.addNewUserProfile(fp);
-//                    request.setAttribute("fpList", fpList);
-//                    request.setAttribute("rList", rList);
-//                    response.sendRedirect("user-profile");
-//                    break;
-//                case "edit":
-//                    name = request.getParameter("name");
-//                    phone = request.getParameter("phone");
-//                    birthDate = request.getParameter("birthDate");
-//                    gender = request.getParameter("gender");
-//                    medicalId = request.getParameter("medicalId");
-//                    identity = request.getParameter("identity");
-//                    address = request.getParameter("address");
-//                    ethnic = request.getParameter("ethnic");
-//                    email = request.getParameter("email");
-//                    date = LocalDate.now();
-//                    formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//                    currentDate = date.format(formatter);
-//                    relationId = request.getParameter("relation");
-//                    fp = new FamilyProfile(email, name, birthDate, gender, address, identity, medicalId, ethnic, phone, currentDate, relationId, ownerId);
-//                    fpDAO.addNewUserProfile(fp);
-//                    request.setAttribute("fpList", fpList);
-//                    request.setAttribute("rList", rList);
-//                    response.sendRedirect("user-profile");
-//                    break;
-//                default:
-//                    throw new AssertionError();
-//            }
-//
-//        }
-    }
+        FamilyProfileDAO fpDAO = new FamilyProfileDAO();
+        HttpSession session = request.getSession();
+        List<FamilyProfile> fpList;
+        UserDAO uDAO = new UserDAO();
 
-    
+        String search;
+        search = request.getParameter("search-profile");
+
+        String ownerId = uDAO.getIdByEmail(String.valueOf(session.getAttribute("email")));
+
+        RelationshipDAO rDAO = new RelationshipDAO();
+        ArrayList<Relationship> rList = rDAO.getRelationshipList();
+
+        fpList = fpDAO.getFamilyProfileListByUserOwnerId(ownerId);
+
+        if (session.getAttribute("email") == null) {
+            response.sendRedirect("user-login");
+        } else {
+            String name = request.getParameter("name");
+            String phone = request.getParameter("phone");
+            String birthDate = request.getParameter("birthDate");
+            String gender = request.getParameter("gender");
+            String medicalId = request.getParameter("medicalId");
+            String identity = request.getParameter("identity");
+            String address = request.getParameter("address");
+            String ethnic = request.getParameter("ethnic");
+            String email = request.getParameter("email");
+
+            //add photo
+            Part filePart = request.getPart("photo");
+            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // Extract file name
+            System.out.println(fileName);
+            String fileType = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+            String uploadPath = getServletContext().getRealPath("") + "assets\\client\\images\\profile";
+            String newFileName = name + "_" + birthDate + "." + fileType; // Replace 'newName' with the new name you want
+
+            String method = request.getParameter("method");
+            System.out.println("method: " + method);
+            System.out.println("name: " + name);
+            switch (method) {
+                case "search":
+                    fpList = fpDAO.getFamilyProfileListByUserName(search, ownerId);
+                    request.setAttribute("fpList", fpList);
+                    request.setAttribute("rList", rList);
+                    request.getRequestDispatcher("user-profile.jsp").forward(request, response);
+                    break;
+                case "add":
+
+                    if (!fileType.equals("jpg") && !fileType.equals("png")) {
+                        // Handle invalid file type
+                    } else {
+                        if (!fileName.isEmpty()) {
+                            System.out.println(uploadPath);// Replace with your directory path
+                            File dir = new File(uploadPath);
+                            if (!dir.exists()) {
+                                dir.mkdirs();
+                            }
+                            File file = new File(uploadPath + File.separator, fileName);
+                            System.out.println("Absolute Path: " + file.getAbsolutePath());
+                            filePart.write(file.getAbsolutePath());
+                        }
+                    }
+
+                    LocalDate date = LocalDate.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    String currentDate = date.format(formatter);
+                    String relationId = request.getParameter("relation");
+                    FamilyProfile fp = new FamilyProfile(email, name, birthDate, gender, address, identity, medicalId, ethnic, phone, newFileName, currentDate, relationId, ownerId);
+                    System.out.println(fp.toString());
+                    fpDAO.addNewUserProfile(fp);
+                    request.setAttribute("fpList", fpList);
+                    request.setAttribute("rList", rList);
+                    response.sendRedirect("user-profile");
+                    break;
+                case "delete":
+                    String profileId = request.getParameter("profileId");
+
+                    break;
+                case "edit":
+                        
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+
+        }
+    }
 
     private int getIndexById(String id, List<FamilyProfile> fpList) {
         if (fpList == null || fpList.isEmpty()) {
