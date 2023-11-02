@@ -172,7 +172,7 @@
                 var dayElement = document.createElement('div');
                 dayElement.className = 'col';
                 var dateString = day.toISOString().split('T')[0];
-                dayElement.innerHTML = '<a href="?day=' + dateString + '">' + day.getDate() + '</a>';
+                dayElement.innerHTML = '<a href="?day=' + dateString + '">' + (day.getDate < 10 ? '0' + day.getDate() : day.getDate()) + '</a>';
                 dayElement.querySelector('a').addEventListener('click', createClickHandler(dateString));
                 weekDaysContainer.appendChild(dayElement);
             }

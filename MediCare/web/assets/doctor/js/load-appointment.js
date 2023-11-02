@@ -18,6 +18,10 @@ function loadAppointments(dateString) {
                 alertElement.className = 'row alert alert-warning';
                 alertElement.role = 'alert';
                 var parts = dateString.split('-');
+                if (parts[2].length < 2)
+                    parts[2] = '0' + parts[2];
+                if (parts[1].length < 2)
+                    parts[1] = '0' + parts[1];
                 var formatted = parts.reverse().join('/');
 
                 alertElement.textContent = 'Ngày ' + formatted + ' không có cuộc hẹn với bệnh nhân nào.';
@@ -32,7 +36,13 @@ function loadAppointments(dateString) {
 
                     var titleElement = document.createElement('h5');
                     titleElement.className = 'card-title';
-                    titleElement.textContent = 'Thời gian: ' + appointment.plannedAt.split(' ')[1];
+                    var plannedAtParts = appointment.plannedAt.split(' ')[0].split('-');
+                    if (plannedAtParts[2].length < 2)
+                        plannedAtParts[2] = '0' + plannedAtParts[2];
+                    if (plannedAtParts[1].length < 2)
+                        plannedAtParts[1] = '0' + plannedAtParts[1];
+                    var plannedAtFormatted = plannedAtParts.reverse().join('/');
+                    titleElement.textContent = 'Thời gian: ' + appointment.plannedAt.split(' ')[1] + ', ' + plannedAtFormatted;
 
                     var subtitleElement = document.createElement('h6');
                     subtitleElement.className = 'card-subtitle mb-2 text-muted';
@@ -261,8 +271,12 @@ function loadAppointments(dateString) {
                         document.getElementById('profile-picture').src = appointment.fp.profilePicture;
 
                         var parts = appointment.plannedAt.split(' ')[0].split('-');
+                        if (parts[2].length < 2)
+                            parts[2] = '0' + parts[2];
+                        if (parts[1].length < 2)
+                            parts[1] = '0' + parts[1];
                         var formatted = parts.reverse().join('/');
-                        document.getElementById('modalTitle').textContent = 'Chi tiết lịch hẹn - ' + formatted + ' ' + appointment.plannedAt.split(' ')[1];
+                        document.getElementById('modalTitle').textContent = 'Chi tiết lịch hẹn - ' + appointment.plannedAt.split(' ')[1] + ' ' + formatted;
                         document.getElementById('appointmentModal').style.display = "block";
                     });
 

@@ -41,20 +41,30 @@
                                     <c:choose>
                                         <c:when test="${nav.getName() eq 'Tin tức'}">
                                             <a class="nav-link" href="${pageContext.request.contextPath}/${nav.getHref()}">${nav.getName()} <img src="https://www.svgrepo.com/show/495005/arrow-down.svg" width="10px" height="10px" alt="alt"/></a>
-                                            </c:when>
-                                            <c:otherwise>
+                                            <ul class="list-child">
+                                                <c:forEach items="${sessionScope.subMenu}" var="sub">
+                                                    <c:if test="${sub.getParentId() eq nav.getId()}">
+                                                        <li>
+                                                            <a href="${pageContext.request.contextPath}/${nav.getHref()}/${sub.getHref()}">${sub.getName()}</a>
+                                                        </li>
+                                                    </c:if>
+                                                </c:forEach>
+                                            </ul>
+                                        </c:when>
+                                        <c:otherwise>
                                             <a class="nav-link" href="${nav.getHref()}">${nav.getName()} <img src="https://www.svgrepo.com/show/495005/arrow-down.svg" width="10px" height="10px" alt="alt"/></a>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    <ul class="list-child">
+                                            <ul class="list-child">
                                         <c:forEach items="${sessionScope.subMenu}" var="sub">
                                             <c:if test="${sub.getParentId() eq nav.getId()}">
                                                 <li>
-                                                    <a href="${pageContext.request.contextPath}/${nav.getHref()}/${sub.getHref()}">${sub.getName()}</a>
+                                                    <a href="${pageContext.request.contextPath}/${sub.getHref()}">${sub.getName()}</a>
                                                 </li>
                                             </c:if>
                                         </c:forEach>
                                     </ul>
+                                            </c:otherwise>
+                                        </c:choose>
+
                                 </li>
                             </c:when>
                             <c:otherwise>

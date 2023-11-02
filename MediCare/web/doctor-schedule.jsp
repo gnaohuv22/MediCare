@@ -16,7 +16,7 @@
         <div class="container">
             <div class="schedule-doctor">
                 <div class="card">
-                    <div class="card-header text-center align-items-center">
+                    <div class="card-header schedule-header">
                         <span id="prev" class="fas fa-chevron-left float-left mt-2 nav-button"></span>
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="monthYear" data-toggle="dropdown">
@@ -77,7 +77,7 @@
         <jsp:include page="doctor-script.jsp"/>
         <script src="${pageContext.request.contextPath}/assets/doctor/js/load-appointment.js"></script>
         <script>
-            var activeDate = new string();
+            var activeDate = '';
 
             function createClickHandler(dateString) {
                 return function (e) {
@@ -132,15 +132,22 @@
                             calendarBody.append(row);
                         }
                         var dayCell = 0;
-                        if (i < 10)
-                            dayCell = $('<td><a class="schedule-day" href="?day=' + year + '-' + (month + 1) + '-' + i + '">' + '0' + i + '</a></td>');
-                        else
-                            dayCell = $('<td><a class="schedule-day" href="?day=' + year + '-' + (month + 1) + '-' + i + '">' + i + '</a></td>');
-                        var dayString = year + '-' + (month + 1) + '-' + i;
+                        var dayString = '';
+                        if (i < 10) {
+                            dayCell = $('<td><a class="schedule-day" href="?day=' + year + '-' + (month + 1 < 10 ? '0' + (month + 1) : (month + 1)) + '-' + '0' + i + '">' + '0' + i + '</a></td>');
+                            dayString = year + '-' + (month + 1 < 10 ? '0' + (month + 1) : (month + 1)) + '-' +  '0' + i;
+                        }
+                        else {
+                            dayCell = $('<td><a class="schedule-day" href="?day=' + year + '-' + (month + 1 < 10 ? '0' + (month + 1) : (month + 1)) + '-' + i + '">' + i + '</a></td>');
+                            dayString = year + '-' + (month + 1 < 10 ? '0' + (month + 1) : (month + 1)) + '-' + i;
+                        }
                         if (dayString === activeDate) {
                             dayCell.find('a').addClass('active');
                         }
-                        dayCell.find('a').click(createClickHandler(year + '-' + (month + 1) + '-' + i));
+//                        console.log('activeDate: ', activeDate);
+//                        console.log('dayString: ', dayString);
+
+                        dayCell.find('a').click(createClickHandler(dayString));
                         row.append(dayCell);
                         ++cellCount;
                     }
@@ -148,23 +155,31 @@
 
 
                 $('#prev').click(function () {
-                    if (month === 0) {
-                        --year;
-                        month = 11;
+                    if (year === date.getFullYear() - 2 && month === 0) {
+                        
                     } else {
-                        --month;
+                        if (month === 0) {
+                            --year;
+                            month = 11;
+                        } else {
+                            --month;
+                        }
+                        createCalendar();
                     }
-                    createCalendar();
                 });
 
                 $('#next').click(function () {
-                    if (month === 11) {
-                        month = 0;
-                        ++year;
+                    if (year === date.getFullYear() + 2 && month === 11) {
+                        
                     } else {
-                        ++month;
+                        if (month === 11) {
+                            month = 0;
+                            ++year;
+                        } else {
+                            ++month;
+                        }
+                        createCalendar();
                     }
-                    createCalendar();
                 });
 
                 createCalendar();
@@ -182,7 +197,7 @@
                     var monthDropdownMenu = $('<div class="dropdown-menu"></div>');
                     yearDropdownItem.append(monthDropdownMenu);
                     for (var j = 0; j < 12; ++j) {
-                        var monthDropdownItem = $('<a class="dropdown-item" href="#">Tháng ' + (j + 1) + '</a>');
+                        var monthDropdownItem = $('<a class="dropdown-item" href="#">Tháng ' + (j + 1) + ', ' + i + '</a>');
                         monthDropdownItem.click(createClickHandlerForChangeDate(i, j));
                         monthDropdownMenu.append(monthDropdownItem);
                     }

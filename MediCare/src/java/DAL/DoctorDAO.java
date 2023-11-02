@@ -373,7 +373,7 @@ public class DoctorDAO extends DBContext {
 
     }
 
-    public ArrayList<Doctor> getTrendingDoctors() {// KHONG PHAI FUNCTION CUA TU BINH
+    public ArrayList<Doctor> getTrendingDoctors() {
         ArrayList<Doctor> list = new ArrayList<>();
         String sql = "SELECT TOP(5) d.id, d.email, d.password, d.displayName, b.[name] AS branchName, d.phone, a.[name] AS ARName, "
                 + "COUNT(r.id) AS ReviewCount, DC.Certificates AS Certificates, Department.id as DepartmentId, "

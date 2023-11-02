@@ -1405,7 +1405,7 @@ button {
     font-weight: bolder;
 }
 
-.card-header {
+.schedule-header {
     display: flex;
     flex-direction: row;
     justify-content: center;
