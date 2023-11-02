@@ -10,6 +10,21 @@ package Models;
  */
 public class CertificateDoctor {
     private String certId, doctorId;
+    private String certName;
+
+    public CertificateDoctor(String certId, String doctorId, String certName) {
+        this.certId = certId;
+        this.doctorId = doctorId;
+        this.certName = certName;
+    }
+
+    public String getCertName() {
+        return certName;
+    }
+
+    public void setCertName(String certName) {
+        this.certName = certName;
+    }
 
     public CertificateDoctor() {
     }

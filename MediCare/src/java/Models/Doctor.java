@@ -265,7 +265,7 @@ public class Doctor {
         this.birthDate = birthDate;
     }
 
-    public String getGender() {
+    public String getGender(){
         return gender;
     }
 
@@ -422,7 +422,7 @@ public class Doctor {
     }
 
     public String getProfilePicture() {
-        return profilePicture == null ? "default-img.jpg" : profilePicture;
+        return profilePicture;
     }
 
     public void setProfilePicture(String profilePicture) {
