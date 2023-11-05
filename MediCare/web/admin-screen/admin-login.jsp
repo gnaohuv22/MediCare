@@ -51,7 +51,7 @@
             function forgotPassword(){
                 var email = document.getElementById("email").value;
 //                window.location.href = "admin-send-email-forgot-password?email="+email;
-                window.location.href = "admin-forgot-password?email="+email;
+                window.location.href = "../admin-forgot-password?email="+email;
             }
         </script>
         <jsp:include page="../admin-general/admin-script.jsp"/>
