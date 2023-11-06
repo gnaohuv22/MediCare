@@ -38,10 +38,10 @@
                     <div class="content">
                         <div class="row">
                             <div class="col-sm-4 col-3">
-                                <h4 class="page-title">Quản lí danh sách cuộc hẹn</h4>
+                                <h4 class="page-title">Quản lí cuộc hẹn đang chờ xác nhận</h4>
                             </div>
                             <div class="col-sm-8 col-9 text-right m-b-20">
-                                <a href="add-appointment.html" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Appointment</a>
+                                <!--<a href="add-appointment.html" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Appointment</a>-->
                             </div>
                         </div>
                         <div class="row">
@@ -304,28 +304,41 @@
                                     container.style.display = "none";
                                 });
 
-                                // Hiển thị checkbox tương ứng nếu trạng thái là 1, 2 hoặc 3
-                                if (this.value === "1") {
-                                    mailCheckboxContainers[0].style.display = "block"; // Hiện checkbox 1
-                                } else if (this.value === "2") {
-                                    mailCheckboxContainers[1].style.display = "block"; // Hiện checkbox 2
-                                } else if (this.value === "3") {
-                                    mailCheckboxContainers[2].style.display = "block"; // Hiện checkbox 3
-                                }
                                 if (doctorSelect.value !== "-1") {
                                     console.log("doctorId != -1");
                                     // Bác sĩ đã được chọn, cho phép chọn các trạng thái cụ thể
-                                    if (this.value === "0" || this.value === "3") {
-                                        this.checked = true;
+//                                    if (this.value === "0" || this.value === "3") {
+//                                        this.checked = true;
+//                                        if (this.value === "3") {
+//                                            mailCheckboxContainers[2].style.display = "block"; // Hiện checkbox 3
+//                                        }
+//                                    }
+
+                                    if (this.value === "1") {
+                                        mailCheckboxContainers[0].style.display = "block"; // Hiện checkbox 1
+                                    } else if (this.value === "2") {
+                                        mailCheckboxContainers[1].style.display = "block"; // Hiện checkbox 2
+                                    } else if (this.value === "3") {
+                                        mailCheckboxContainers[2].style.display = "block"; // Hiện checkbox 3
                                     }
                                 } else {
                                     if (this.value === "0" || this.value === "3") {
                                         this.checked = true;
+                                        if (this.value === "3") {
+                                            mailCheckboxContainers[2].style.display = "block"; // Hiện checkbox 3
+                                        }
                                     } else {
                                         // Bác sĩ chưa được chọn, báo lỗi và không cho phép chọn các trạng thái cụ thể
                                         this.checked = false;
                                         document.querySelector('input[name="status"][value="' + previousStatus + '"]').checked = true;
                                         console.log("Select value = previous status success");
+                                        if (previousStatus === "1") {
+                                            mailCheckboxContainers[0].style.display = "block"; // Hiện checkbox 1
+                                        } else if (previousStatus === "2") {
+                                            mailCheckboxContainers[1].style.display = "block"; // Hiện checkbox 2
+                                        } else if (previousStatus === "3") {
+                                            mailCheckboxContainers[2].style.display = "block"; // Hiện checkbox 3
+                                        }
                                         // Báo lỗi
                                         alert("Vui lòng chọn bác sĩ trước khi chọn trạng thái.");
                                     }

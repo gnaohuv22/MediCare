@@ -331,7 +331,7 @@ public class EmployeeDAO extends DBContext {
     }
     
     public Boolean setEmployeeById(Employee emp) {
-        String SQL = "UPDATE Employee SET email = ?, password = ?, branchId = ?, name = ?, birthDate = ?, gender = ?, address = ?, workplace = ?, provinceId = ?, phone = ?, ethnic = ?, roleId = ? WHERE id = ? ";
+        String SQL = "UPDATE Employee SET email = ?, password = ?, branchId = ?, name = ?, birthDate = ?, gender = ?, address = ?, workplace = ?, provinceId = ?, phone = ?, ethnic = ?, roleId = ?, modifyAt = GETDATE(), modifyBy = ? WHERE id = ? ";
         try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
             pstm.setString(1,emp.getEmail());
             pstm.setString(2,emp.getPassword());
@@ -345,7 +345,8 @@ public class EmployeeDAO extends DBContext {
             pstm.setString(10,emp.getPhone());
             pstm.setString(11,emp.getEthnic());
             pstm.setString(12,emp.getEmployeeRole().getId());
-            pstm.setString(13,emp.getId());
+            pstm.setString(13,emp.getModifyBy());
+            pstm.setString(14,emp.getId());
             pstm.execute();
             return true;
         }catch (Exception e) {
@@ -391,21 +392,22 @@ public class EmployeeDAO extends DBContext {
         return false;
     }
     public boolean addEmployee(Employee emp) {
-        String SQL = "INSERT INTO Employee VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE())";
+        String SQL = "INSERT INTO Employee(id,email,password,branchId,name,birthDate,gender,address,workplace,provinceId,phone,ethnic,roleId,createAt,createBy,isDelete) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(),?,0)";
         try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
-            pstm.setInt(1, Integer.parseInt(emp.getId()));
+            pstm.setString(1, emp.getId());
             pstm.setString(2, emp.getEmail());
             pstm.setString(3, emp.getPassword());
-            pstm.setInt(4, Integer.parseInt(emp.getBranch().getId()));
-            pstm.setString(5, emp.getName());
+            pstm.setString(4, emp.getBranch().getId());
+            pstm.setNString(5, emp.getName());
             pstm.setString(6, emp.getBirthDate());
             pstm.setString(7, emp.getGender());
-            pstm.setString(8, emp.getAddress());
-            pstm.setString(9, emp.getWorkplace());
-            pstm.setInt(10, Integer.parseInt(emp.getProvince().getId()));
+            pstm.setNString(8, emp.getAddress());
+            pstm.setNString(9, emp.getWorkplace());
+            pstm.setString(10, emp.getProvince().getId());
             pstm.setString(11, emp.getPhone());
-            pstm.setString(12, emp.getEthnic());
-            pstm.setInt(13, Integer.parseInt(emp.getEmployeeRole().getId()));
+            pstm.setNString(12, emp.getEthnic());
+            pstm.setString(13, emp.getEmployeeRole().getId());
+            pstm.setString(14, emp.getCreateBy());
             pstm.execute();
             return true;
         } catch (Exception e) {

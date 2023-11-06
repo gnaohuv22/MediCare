@@ -449,7 +449,10 @@ public class AdminUser extends HttpServlet {
                 msg.setPhoneError(e.getMessage());
             }
             Province province = new Province(provinceId, "");
-            User user = new User(id, email, password, name, birthDate, gender, address, province, identity, medicalId, ethnic, phone, profilePicture, createdAt);
+            String createBy = checkEmp.getId();
+            String modifyAt = "";
+            String modifyBy = "";
+            User user = new User(id, email, password, name, birthDate, gender, address, province, identity, medicalId, ethnic, phone, profilePicture, createdAt,createBy,modifyAt,modifyBy);
             request.setAttribute("ADD_USER", user);
             profilePicture = request.getParameter("profilePicture");
             request.setAttribute("profilePicture", profilePicture);
@@ -460,7 +463,7 @@ public class AdminUser extends HttpServlet {
                 request.getRequestDispatcher(REGISTER_USER).forward(request, response);
             } else {
                 //return massage
-                if (udao.addUser(user)) {
+                if (udao.addUserByAdmin(user)) {
                     AdminEmailContext.sendEmailnewPassword(email, sendPassword, name);
                     request.setAttribute("MESSAGE", "Đăng kí thành công!");
                     request.getRequestDispatcher(REGISTER_USER).forward(request, response);
@@ -637,7 +640,10 @@ public class AdminUser extends HttpServlet {
             profilePicture = request.getParameter("profilePicture");
             request.setAttribute("ALL_PROVINCE", pdao.getAllProvinceId());
             Province province = new Province(provinceId, "");
-            User user = new User(id, email, password, name, birthDate, gender, address, province, identity, medicalId, ethnic, phone, profilePicture, createdAt);
+            String createBy = "";
+            String modifyAt = "";
+            String modifyBy = checkEmp.getId();
+            User user = new User(id, email, password, name, birthDate, gender, address, province, identity, medicalId, ethnic, phone, profilePicture, createdAt,createBy,modifyAt,modifyBy);
             request.setAttribute("EDIT_USER", user);
             if (error) {
                 request.setAttribute("MESSAGE", "Không sửa được!");

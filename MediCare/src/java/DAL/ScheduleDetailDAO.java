@@ -304,6 +304,23 @@ public class ScheduleDetailDAO extends DBContext {
                 + "SELECT DATEADD(DAY, number, @StartOfWeek) AS WeekDay\n"
                 + "FROM master.dbo.spt_values\n"
                 + "WHERE type = 'P' AND number BETWEEN 1 AND 7;";
+//        String sql = "DECLARE @Today DATE = GETDATE();\n"
+//                + "DECLARE @StartOfWeek DATE = DATEADD(DAY, 1 - DATEPART(WEEKDAY, @Today), @Today);\n"
+//                + "\n"
+//                + "IF DATEPART(WEEKDAY, @Today) = 1\n"
+//                + "    SET @StartOfWeek = DATEADD(DAY, -6, @StartOfWeek);\n"
+//                + "\n"
+//                + "WITH Numbers AS (\n"
+//                + "    SELECT 1 AS Number\n"
+//                + "    UNION ALL\n"
+//                + "    SELECT Number + 1\n"
+//                + "    FROM Numbers\n"
+//                + "    WHERE Number < 7\n"
+//                + ")\n"
+//                + "\n"
+//                + "SELECT DATEADD(DAY, Number - 1, @StartOfWeek) AS WeekDay\n"
+//                + "FROM Numbers\n"
+//                + "OPTION (MAXRECURSION 0);";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
@@ -463,28 +480,28 @@ public class ScheduleDetailDAO extends DBContext {
         System.out.println("--- End Update StatusOfDoctorScheduleDetail ---");
         return false;
     }
-    
+
     public int compareDates(String dateString1, String dateString2) {
-    // Định dạng của chuỗi ngày
-    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        // Định dạng của chuỗi ngày
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    try {
-        // Chuyển đổi chuỗi ngày thành đối tượng LocalDate
-        LocalDate date1 = LocalDate.parse(dateString1, dateFormatter);
-        LocalDate date2 = LocalDate.parse(dateString2, dateFormatter);
+        try {
+            // Chuyển đổi chuỗi ngày thành đối tượng LocalDate
+            LocalDate date1 = LocalDate.parse(dateString1, dateFormatter);
+            LocalDate date2 = LocalDate.parse(dateString2, dateFormatter);
 
-        // So sánh hai ngày
-        if (date1.isBefore(date2)) {
-            return -1; // Ngày 1 trước Ngày 2
-        } else if (date1.isAfter(date2)) {
-            return 1; // Ngày 1 sau Ngày 2
-        } else {
-            return 0; // Ngày 1 bằng Ngày 2
+            // So sánh hai ngày
+            if (date1.isBefore(date2)) {
+                return -1; // Ngày 1 trước Ngày 2
+            } else if (date1.isAfter(date2)) {
+                return 1; // Ngày 1 sau Ngày 2
+            } else {
+                return 0; // Ngày 1 bằng Ngày 2
+            }
+        } catch (Exception e) {
+            return -2; // Lỗi: Sai định dạng ngày
         }
-    } catch (Exception e) {
-        return -2; // Lỗi: Sai định dạng ngày
     }
-}
 
     public static void main(String[] args) {
         ScheduleDetailDAO sdd = new ScheduleDetailDAO();
@@ -494,6 +511,11 @@ public class ScheduleDetailDAO extends DBContext {
         String currentDate = sdd.getCurrentDate();
         System.out.println("current date: " + currentDate);
         System.out.println(sdd.compareDates("2023-10-05", "2023-10-05"));
+
+        ArrayList<String> list = sdd.getDaysOfCurrentWeek();
+        for (String string : list) {
+            System.out.println(string);
+        }
     }
 
 }

@@ -50,7 +50,7 @@ public class AdminEmailContext {
             msg.addHeader("Content-type", "text/html;charset=UTF-8");
             msg.setFrom(new InternetAddress(from));
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
-            msg.setSubject(subject, "text/html;charset=UTF-8");
+            msg.setSubject(subject);
             msg.setSentDate(new Date());
             msg.setContent(mailContent, "text/html;charset=UTF-8");
             Transport.send(msg);

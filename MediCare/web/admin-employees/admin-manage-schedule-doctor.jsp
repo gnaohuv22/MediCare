@@ -61,7 +61,7 @@
                         <!--Add schedule, delete schedule - start-->
                         <div class="row">
                             <div class="text-right m-b-20 add-doctor-schedule-btn">
-                                <a href="${pageContext.request.contextPath}/admin-list-employee?add-employee=true" class="btn btn-primary float-right btn-rounded"><i class="fa fa-plus"></i> Thêm lịch cho nhân viên</a>
+                                <a href="${pageContext.request.contextPath}/admin-manage-schedule-doctor" class="btn btn-primary float-right btn-rounded"><i class="fa fa-plus"></i> Thêm lịch cho nhân viên</a>
                             </div>
                         </div>
                         <!--Add schedule, delete schedule - end-->

@@ -20,7 +20,23 @@
         <meta name="keywords" content="">
         <meta name="description" content="">
         <meta name="author" content="">
-        <jsp:include page="user-head.jsp"/>
+        <!-- bootstrap css -->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/bootstrap.min.css">
+        <!-- style css -->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/style.css">
+        <!-- Responsive-->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/responsive.css">
+        <!-- fevicon -->
+        <link rel="icon" href="${pageContext.request.contextPath}/assets/client/imagesimages/fevicon.png" type="image/gif" />
+        <!-- Scrollbar Custom CSS -->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/jquery.mCustomScrollbar.min.css">
+        <!-- Tweaks for older IEs-->
+        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+        <!-- owl stylesheets --> 
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/client/css/owl.theme.default.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+        <%--<jsp:include page="user-head.jsp"/>--%>
     </head>
 
     <body>
@@ -53,7 +69,7 @@
                 <li  class="tab-component">
                     <a href="#images">Images</a>
                 </li>
-                <li class="tab-component booking-tab"><a href="user-book-appointment">Booking</a></li>
+                <li class="tab-component booking-tab"><a class="redirect" href="user-book-appointment">Booking</a></li>
             </ul>
         </div>
         <!--profile field of a doctor start-->
@@ -87,7 +103,7 @@
 
                                             </c:forEach>
                                             <%--<c:forEach begin="1" end="${5 - intRating}">--%>
-                                                <!--<i class="fas fa-star fa-star-grey"></i>-->
+                                            <!--<i class="fas fa-star fa-star-grey"></i>-->
                                             <%--</c:forEach>--%>
                                         </div>
 
@@ -259,9 +275,9 @@
                         <c:if test="${requestScope.numberOfReviews!=0}">
 
                             <div class="overview-rating1 detail-field">
-                                
-                                
-                                
+
+
+
                                 <div class="detail-field-header" data-target="#overview-rating1-content">
                                     <div class="detail-field-header-overview-rating">
                                         <h2>Overview</h2>
@@ -272,7 +288,7 @@
 
                                             </c:forEach>
                                             <%--<c:forEach begin="1" end="${5 - intRating}">--%>
-                                                <!--<i class="fas fa-star fa-star-grey"></i>-->
+                                            <!--<i class="fas fa-star fa-star-grey"></i>-->
                                             <%--</c:forEach>--%>
                                         </div>
 
@@ -392,7 +408,12 @@
 
                 tabLinks.forEach(function (link) {
                     link.addEventListener("click", function (e) {
-                        e.preventDefault();
+                        if (this.classList.contains('redirect')) {
+                            console.log("Link " + link + ": contain 'redirect'");
+                        } else {
+                            console.log("Link " + link + ": not contain 'redirect'");
+                            e.preventDefault();
+                        }
 
                         // Xóa lớp 'active' từ tất cả các li
                         tabLinks.forEach(function (tabLink) {
@@ -412,7 +433,8 @@
                         });
 
                         // Hiển thị div tương ứng với tab đã chọn
-                        document.getElementById(tabId).style.display = "block";
+                        if (!this.classList.contains('redirect')) 
+                            document.getElementById(tabId).style.display = "block";
                     });
                 });
             });

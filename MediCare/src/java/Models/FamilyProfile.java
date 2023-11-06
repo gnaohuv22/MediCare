@@ -4,21 +4,41 @@
  */
 package Models;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author hoang
  */
 public class FamilyProfile {
 
-    private String profileId, email, name, birthDate, gender, address, provinceId, identity, medicalId, ethnic, phone, profilePicture, createdAt, relationId, ownerId;
+    private String profileId, email, name, birthDate, gender, address, provinceId, identity, medicalId, ethnic, phone, profilePicture, createdAt, relationId, ownerId, createBy, modifyAt, modifyBy;
     private Relationship relationship;
+    private Branch branch;
+    private ArrayList<Appointments> appointments;
 
+    public ArrayList<Appointments> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(ArrayList<Appointments> appointments) {
+        this.appointments = appointments;
+    }
+    
     public Relationship getRelationship() {
         return relationship;
     }
 
     public void setRelationship(Relationship relationship) {
         this.relationship = relationship;
+    }
+
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
     }
 
     public FamilyProfile() {
@@ -38,6 +58,7 @@ public class FamilyProfile {
         this.email = email;
         this.ownerId = ownerId;
     }
+
     public FamilyProfile(String profileId, String email, String name, String birthDate, String gender, String address, String identity, String medicalId, String ethnic, String phone, String profilePicture) {
         this.profileId = profileId;
         this.email = email;
@@ -51,7 +72,20 @@ public class FamilyProfile {
         this.phone = phone;
         this.profilePicture = profilePicture;
     }
-    
+    public FamilyProfile(String profileId, Branch branch, String email, String name, String birthDate, String gender, String address, String identity, String medicalId, String ethnic, String phone, String profilePicture) {
+        this.profileId = profileId;
+        this.branch = branch;
+        this.email = email;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.address = address;
+        this.identity = identity;
+        this.medicalId = medicalId;
+        this.ethnic = ethnic;
+        this.phone = phone;
+        this.profilePicture = profilePicture;
+    }
 
     public FamilyProfile(String profileId, String email, String name, String birthDate, String gender, String address, String provinceId, String identity, String medicalId, String ethnic, String phone, String profilePicture, String createdAt, String relationId, String ownerId, Relationship relationship) {
         this.profileId = profileId;
@@ -103,6 +137,22 @@ public class FamilyProfile {
         this.ownerId = ownerId;
     }
 
+    public FamilyProfile(String profileId, String email, String name, String birthDate, String gender, String address, String identity, String medicalId, String ethnic, String phone, ArrayList<Appointments> appointments) {
+        this.profileId = profileId;
+        this.email = email;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.address = address;
+        this.identity = identity;
+        this.medicalId = medicalId;
+        this.ethnic = ethnic;
+        this.phone = phone;
+        this.appointments = appointments;
+    }
+
+    
+    
     public FamilyProfile(String email, String name, String birthDate, String gender, String address, String identity, String medicalId, String ethnic, String phone, String profilePicture, String createdAt, String relationId, String ownerId) {
         this.email = email;
         this.name = name;
@@ -118,8 +168,6 @@ public class FamilyProfile {
         this.relationId = relationId;
         this.ownerId = ownerId;
     }
-    
-    
 
     public FamilyProfile(String profileId) {
         this.profileId = profileId;
@@ -245,8 +293,34 @@ public class FamilyProfile {
         this.ownerId = ownerId;
     }
 
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public String getModifyAt() {
+        return modifyAt;
+    }
+
+    public void setModifyAt(String modifyAt) {
+        this.modifyAt = modifyAt;
+    }
+
+    public String getModifyBy() {
+        return modifyBy;
+    }
+
+    public void setModifyBy(String modifyBy) {
+        this.modifyBy = modifyBy;
+    }
+
     @Override
     public String toString() {
-        return "FamilyProfile{" + "profileId=" + profileId + ", email=" + email + ", name=" + name + ", birthDate=" + birthDate + ", gender=" + gender + ", address=" + address + ", provinceId=" + provinceId + ", identity=" + identity + ", medicalId=" + medicalId + ", ethnic=" + ethnic + ", phone=" + phone + ", profilePicture=" + profilePicture + ", createdAt=" + createdAt + ", relationId=" + relationId + ", ownerId=" + ownerId + '}';
+        return "FamilyProfile{" + "profileId=" + profileId + ", email=" + email + ", name=" + name + ", birthDate=" + birthDate + ", gender=" + gender + ", address=" + address + ", provinceId=" + provinceId + ", identity=" + identity + ", medicalId=" + medicalId + ", ethnic=" + ethnic + ", phone=" + phone + ", profilePicture=" + profilePicture + ", createdAt=" + createdAt + ", relationId=" + relationId + ", ownerId=" + ownerId + ", createBy=" + createBy + ", modifyAt=" + modifyAt + ", modifyBy=" + modifyBy + ", relationship=" + relationship + ", branch=" + branch + ", appointments=" + appointments + '}';
     }
+
+
 }

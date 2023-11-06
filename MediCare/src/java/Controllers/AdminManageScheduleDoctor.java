@@ -259,7 +259,9 @@ public class AdminManageScheduleDoctor extends HttpServlet {
 
                             if (daysInWeekInRange_raw.get(i - 1).equals(s.getWorkDate()) && slot.getSlotId().equals(s.getSlotId())) {
                                 if (sdd.compareDates(daysInWeekInRange_raw.get(i - 1), currentDate) >= 0) {
-                                    out.println("<i class=\"fas fa-close delete-schedule-icon\"   data-scheduleDetailId=\"" + s.getId() + "\" onclick=\"eventClickDeleteScheduleIcon(this)\"></i>");
+                                    if (s.getSlotStatus().equals("1")) {
+                                        out.println("<i class=\"fas fa-close delete-schedule-icon\"   data-scheduleDetailId=\"" + s.getId() + "\" onclick=\"eventClickDeleteScheduleIcon(this)\"></i>");
+                                    }
                                 }
 //                                out.println("<span class=\"bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom font-size16 xs-font-size10\">Dance</span>");
 //                                out.println("<div class=\"font-size10 text-light-gray\">Ivana Wong</div>");
@@ -375,7 +377,9 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                         for (ScheduleDetail s : slotsofDoctor) {
                             if (daysInWeekInRange_raw.get(i - 1).equals(s.getWorkDate()) && slot.getSlotId().equals(s.getSlotId())) {
                                 if (sdd.compareDates(daysInWeekInRange_raw.get(i - 1), currentDate) >= 0) {
-                                    out.println("<i class=\"fas fa-close delete-schedule-icon\"   data-scheduleDetailId=\"" + s.getId() + "\" onclick=\"eventClickDeleteScheduleIcon(this)\"></i>");
+                                    if (s.getSlotStatus().equals("1")) {
+                                        out.println("<i class=\"fas fa-close delete-schedule-icon\"   data-scheduleDetailId=\"" + s.getId() + "\" onclick=\"eventClickDeleteScheduleIcon(this)\"></i>");
+                                    }
                                 }
 //                                out.println("<span class=\"bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom font-size16 xs-font-size10\">Dance</span>");
 //                                out.println("<div class=\"font-size10 text-light-gray\">Ivana Wong</div>");
@@ -428,9 +432,16 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                 System.out.println(dateFormat.format(java.sql.Date.valueOf(s)));
                 daysInWeekInRange.add(dateFormat.format(java.sql.Date.valueOf(s)));
             }
+            System.out.println("Thuc hien function getScheduleOfDoctorByDoctorIdAndDateRange voi: ");
+            System.out.println("doctorId = " + doctorId);
+            System.out.println("daysOfCurrentWeek_raw.get(0) = " + daysOfCurrentWeek_raw.get(0));
+            System.out.println("daysOfCurrentWeek_raw.get(6) = " + daysOfCurrentWeek_raw.get(6));
 
             slotsofDoctor = sdd.getScheduleOfDoctorByDoctorIdAndDateRange(doctorId, daysOfCurrentWeek_raw.get(0), daysOfCurrentWeek_raw.get(6));
-
+            System.out.println("Schedule in current week:");
+            for (ScheduleDetail s : slotsofDoctor) {
+                System.out.println(s.getWorkDate() + " - " + s.getEndTime() + " : " + s.getScheduleId() + " || slot id = " + s.getSlotId());
+            }
             try ( PrintWriter out = response.getWriter()) {
                 out.println("<p id=\"year-schedule-doctor-txt\">YEAR</p>\n"
                         + "            <select class=\"year-schedule-doctor\" name=\"year-schedule-doctor\" id=\"year-schedule-doctor\" onchange=\"eventLoadWeekByYear(this)\">\n");
@@ -497,7 +508,9 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                         for (ScheduleDetail s : slotsofDoctor) {
                             if (daysInWeekInRange_raw.get(i - 1).equals(s.getWorkDate()) && slot.getSlotId().equals(s.getSlotId())) {
                                 if (sdd.compareDates(daysInWeekInRange_raw.get(i - 1), currentDate) >= 0) {
-                                    out.println("<i class=\"fas fa-close delete-schedule-icon\"  data-scheduleDetailId=\"" + s.getId() + "\" onclick=\"eventClickDeleteScheduleIcon(this)\"></i>");
+                                    if (s.getSlotStatus().equals("1")) {
+                                        out.println("<i class=\"fas fa-close delete-schedule-icon\"  data-scheduleDetailId=\"" + s.getId() + "\" onclick=\"eventClickDeleteScheduleIcon(this)\"></i>");
+                                    }
                                 }
 //                                out.println("<span class=\"bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom font-size16 xs-font-size10\">Dance</span>");
 //                                out.println("<div class=\"font-size10 text-light-gray\">Ivana Wong</div>");
@@ -622,7 +635,9 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                         for (ScheduleDetail s : slotsofDoctor) {
                             if (daysInWeekInRange_raw.get(i - 1).equals(s.getWorkDate()) && slot.getSlotId().equals(s.getSlotId())) {
                                 if (sdd.compareDates(daysInWeekInRange_raw.get(i - 1), currentDate) >= 0) {
-                                    out.println("<i class=\"fas fa-close delete-schedule-icon\"   data-scheduleDetailId=\"" + s.getId() + "\" onclick=\"eventClickDeleteScheduleIcon(this)\"></i>");
+                                    if (s.getSlotStatus().equals("1")) {
+                                        out.println("<i class=\"fas fa-close delete-schedule-icon\"   data-scheduleDetailId=\"" + s.getId() + "\" onclick=\"eventClickDeleteScheduleIcon(this)\"></i>");
+                                    }
                                 }
 //                                out.println("<span class=\"bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom font-size16 xs-font-size10\">Dance</span>");
 //                                out.println("<div class=\"font-size10 text-light-gray\">Ivana Wong</div>");

@@ -84,7 +84,7 @@
                                                                 <!--<div class="dropdown dropdown-action">-->
                                                                 <!--<a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>-->
                                                                 <!--<div class="dropdown-menu dropdown-menu-right">-->
-                                                                <a data-pending-appointment-id="${appointment.id}" data-doctor-name="${appointment.doctor.getDisplayName()}" class="dropdown-item edit-appointment-button" href="#" onclick="eventClickSolvePendingAppointments(this)"><i class="fa fa-pencil m-r-5"></i> Xử lí cuộc hẹn</a>
+                                                                <a data-pending-appointment-id="${appointment.id}" data-doctor-name="${appointment.doctor.getDisplayName()}" class="dropdown-item edit-appointment-button" href="#" onclick="eventClickSolvePendingAppointments(this)"><i class="fa fa-pencil m-r-5"></i> Chỉnh sửa</a>
                                                                 <!--<a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_appointment"><i class="fa fa-trash-o m-r-5"></i> Xóa cuộc hẹn</a>-->
                                                                 <!--</div>-->
                                                                 <!--</div>-->

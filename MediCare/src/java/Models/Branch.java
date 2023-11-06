@@ -9,6 +9,7 @@ package Models;
  * @author hoang
  */
 public class Branch {
+
     private String id, name, description, locateId;
 
     public Branch() {
@@ -18,7 +19,11 @@ public class Branch {
         this.id = id;
     }
 
-    
+    public Branch(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Branch(String id, String name, String description, String locateId) {
         this.id = id;
         this.name = name;
@@ -57,6 +62,5 @@ public class Branch {
     public void setLocateId(String locateId) {
         this.locateId = locateId;
     }
-    
-    
+
 }

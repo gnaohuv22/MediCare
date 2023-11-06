@@ -656,8 +656,8 @@ public class AppointmentsDAO extends DBContext {
             st.setInt(1, Integer.parseInt(appointmentId));
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                return new Appointments(new Doctor(rs.getString("doctorId"), rs.getString("DoctorEmail"), rs.getString("DisplayName")), 
-                        new FamilyProfile(rs.getInt("profileId")+"", rs.getString("PatientEmail"), rs.getString("ownerId")));
+                return new Appointments(new Doctor(rs.getString("doctorId"), rs.getString("DoctorEmail"), rs.getString("DisplayName")),
+                        new FamilyProfile(rs.getInt("profileId") + "", rs.getString("PatientEmail"), rs.getString("ownerId")));
             }
         } catch (SQLException | NumberFormatException e) {
             System.out.println("getPatientAndDoctorEmailById: " + e);
@@ -698,14 +698,6 @@ public class AppointmentsDAO extends DBContext {
             System.out.println("updateAppointment: " + e);
         }
         return false;
-    }
-
-    public static void main(String[] args) {
-        AppointmentsDAO ad = new AppointmentsDAO();
-        ArrayList<Appointments> list = ad.getAllAppointment();
-        for (Appointments appointments : list) {
-            System.out.println(appointments);
-        }
     }
 
     public List<Appointments> getListAppointmentsByOwnerId(String ownerId) {
@@ -785,7 +777,7 @@ public class AppointmentsDAO extends DBContext {
                 + "WHERE CONVERT(date, plannedAt) = ? AND doctorId = ?\n"
                 + "ORDER BY a.status ASC, a.plannedAt ASC";
 
-        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setDate(1, java.sql.Date.valueOf(date));
             ps.setString(2, doctorId);
 
@@ -795,8 +787,9 @@ public class AppointmentsDAO extends DBContext {
                 Timestamp timestamp = rs.getTimestamp("plannedAt");
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 String dateString = "";
-                if (timestamp != null && !timestamp.toString().isEmpty())
+                if (timestamp != null && !timestamp.toString().isEmpty()) {
                     dateString = format.format(timestamp);
+                }
                 list.add(new Appointments(
                         String.valueOf(rs.getInt("id")),
                         dateString,
@@ -835,15 +828,52 @@ public class AppointmentsDAO extends DBContext {
         String SQL = "UPDATE Appointments\n"
                 + "SET status = ?\n"
                 + "WHERE id = ?";
-        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setInt(1, status);
             ps.setInt(2, Integer.parseInt(id));
-            
+
             ps.execute();
             return true;
         } catch (SQLException e) {
             System.out.println("updateAppointmentStatus: " + e.getMessage());
         }
         return false;
+    }
+
+    public ArrayList<Appointments> getListAppointmentsByProfileId(String profileId) {
+        ArrayList<Appointments> list = new ArrayList<>();
+        String sql = "SELECT A.* FROM FamilyProfile AS F JOIN Appointments AS A ON F.profileId = A.profileId WHERE F.profileId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, Integer.parseInt(profileId));
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                User u = new User(rs.getString("userId"));
+                Doctor d = new Doctor(rs.getString("doctorId"));
+                ServiceTag s = new ServiceTag(String.valueOf(rs.getInt("serviceId")));
+                Branch b = new Branch(rs.getInt("branchId") + "");
+                FamilyProfile p = new FamilyProfile(rs.getInt("profileId") + "");
+                String appointmentDay = "";
+                String appointmentTime = "";
+                Appointments a = new Appointments(String.valueOf(rs.getInt("id")),
+                        u, d, s,
+                        String.valueOf(rs.getString("plannedAt")),
+                        String.valueOf(rs.getInt("status")), b,
+                        String.valueOf(rs.getDate("createdAt")),
+                        rs.getString("symptoms"), p, appointmentDay, appointmentTime);
+                list.add(a);
+            }
+        } catch (NumberFormatException | SQLException e) {
+            System.out.println("getListAppointmentsByProfileId: " + e);
+        }
+        return list;
+    }
+
+    public static void main(String[] args) {
+        AppointmentsDAO ad = new AppointmentsDAO();
+        ArrayList<Appointments> list = ad.getListAppointmentsByProfileId("59");
+        for (Appointments appointments : list) {
+            System.out.println(appointments);
+        }
     }
 }

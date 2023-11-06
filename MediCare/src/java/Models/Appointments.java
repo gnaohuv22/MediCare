@@ -113,6 +113,9 @@ public class Appointments {
     public Appointments(Doctor doctor, ServiceTag serviceTag, String plannedAt, Branch branch, String symptoms) {
         this.doctor = doctor;
         this.serviceTag = serviceTag;
+        this.plannedAt = plannedAt;
+        this.branch = branch;
+        this.symptoms = symptoms;
     }
     
     public Appointments(String id, String plannedAt, String status, String branchId, String createdAt, String symptoms, ServiceTag st, FamilyProfile fp) {
