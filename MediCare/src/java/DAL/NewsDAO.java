@@ -7,12 +7,90 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import Models.News;
 import Models.NewsCategory;
+import java.util.List;
+import org.apache.poi.util.LocaleID;
 
 /**
  *
  * @author hoang
  */
 public class NewsDAO extends DBContext {
+
+    public ArrayList<News> getListNews(int offset, int fetch) {
+        ArrayList<News> list = new ArrayList<>();
+        String SQL = "SELECT [News].[id][newsId],[title],[content],[author],[categoryId],[createdAt],[lastModified],[viewCount],[coverImage], [subtitle],[slug],\n"
+                + "                         [NewsCategory].name[cName],type,[href]\n"
+                + "                         FROM [News]   \n"
+                + "                         LEFT JOIN [NewsCategory] on [News].categoryId = [NewsCategory].id  \n"
+                + "                         GROUP BY [News].[id],[title],[content],[author],[categoryId],[createdAt],[lastModified],[viewCount],type,[coverImage], [subtitle],[slug],\n"
+                + "                         [NewsCategory].name,[href]   \n"
+                + "                         HAVING [News].id IS NOT NULL AND type IS NULL \n"
+                + "                         ORDER BY COUNT([News].id) DESC \n"
+                + "                         OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            pstm.setInt(1, offset);
+            pstm.setInt(2, fetch);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                String id = rs.getString("newsId");
+                String title = rs.getString("title");
+                String content = rs.getString("content");
+                String author = rs.getString("author");
+                String categoryId = rs.getString("categoryId");
+                String createdAt = rs.getString("createdAt");
+                String lastModified = rs.getString("lastModified");
+                String viewCount = rs.getString("viewCount");
+                String coverImage = rs.getString("coverImage");
+                String categoryName = rs.getString("cName");
+                String subtitle = rs.getString("subtitle");
+                String href = rs.getString("href");
+                String slug = rs.getString("slug");
+                NewsCategory newsCategory = new NewsCategory(categoryId, categoryName, href);
+                News news = new News(id, title, content, author, newsCategory, createdAt, lastModified, viewCount, coverImage, subtitle, slug);
+                list.add(news);
+            }
+            return list;
+        } catch (Exception e) {
+            System.out.println("getListNews " + e.getMessage());
+        }
+        return null;
+    }
+
+    public ArrayList<News> getNewsByThai() {
+        String sql = "select n.id, n.title , n.content, n.author, n.categoryId, n.createdAt, n.lastModified, n.viewCount, n.coverImage, n.subtitle, n.slug, n.type, nc.name, nc.parentId, nc.href, nc.locateId from News n \n"
+                + "				 join NewsCategory nc on n.categoryId = nc.id";
+        ArrayList<News> list = new ArrayList<>();
+        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                News n = new News();
+                NewsCategory nc = new NewsCategory();
+                n.setId(String.valueOf(rs.getInt("id")));
+                n.setTitle(rs.getString("title"));
+                n.setContent(rs.getString("content"));
+                n.setAuthor(rs.getString("author"));
+                nc.setId(String.valueOf(rs.getInt("categoryId")));
+                n.setCreatedAt(String.valueOf(rs.getDate("createdAt")));
+                n.setLastModified(String.valueOf(rs.getDate("lastModified")));
+                n.setViewCount(String.valueOf(rs.getInt("viewCount")));
+                n.setCoverImage(rs.getString("coverImage"));
+                n.setSubtitle(rs.getString("subtitle"));
+                n.setSlug(rs.getString("slug"));
+                n.setType(String.valueOf(rs.getInt("type")));
+                nc.setName(rs.getString("name"));
+                nc.setParentId(String.valueOf(rs.getInt("parentId")));
+                nc.setHref(rs.getString("href"));
+                nc.setLocateId(String.valueOf(rs.getInt("locateId")));
+                n.setCategory(nc);
+                System.out.println("categoryId" + rs.getInt("categoryId"));
+                System.out.println("News: " + n.toString());
+                list.add(n);
+            }
+        } catch (SQLException e) {
+            System.out.println("getNewsByThai: " + e.getMessage());
+        }
+        return list;
+    }
 
     public ArrayList<News> getNewsList() {
         String SQL = "SELECT id, title, subtitle, content, author, categoryId, createdAt, lastModified, viewCount, coverImage, subtitle, slug FROM [News]"
@@ -413,4 +491,93 @@ public class NewsDAO extends DBContext {
         }
         return list;
     }
+
+    public int countAllNews() {
+        String SQL = "SELECT count([News].id)\n"
+                + "        FROM [News]  \n"
+                + "        LEFT JOIN [NewsCategory] on [News].categoryId = [NewsCategory].id \n"
+                + "        WHERE type IS NULL";
+        try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                String number = rs.getString(1);
+                return Integer.parseInt(number);
+            }
+        } catch (Exception e) {
+            System.out.println("countAllNews " + e.getMessage());
+        }
+        return -1;
+    }
+
+    public String generateId() {
+        String SQL = "select top(1) id from [News] order by id DESC";
+        try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            ResultSet rs = pstm.executeQuery();
+            String number = null;
+            while (rs.next()) {
+                number = rs.getString(1);
+            }
+            number = Integer.parseInt(number) + 1 + "";
+            return number;
+        } catch (Exception e) {
+            System.out.println("generateId news " + e.getMessage());
+        }
+        return null;
+    }
+
+    public Boolean deleteNewsById(String id) {
+        String SQL = "DELETE News WHERE id = ? ";
+        try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            pstm.setString(1, id);
+            pstm.execute();
+            return true;
+        } catch (Exception e) {
+            System.out.println("deleteNewsById " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean checkNews(String id) {
+        String SQL = "SELECT title from [News] WHERE id =? ";
+        try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            pstm.setString(1, id);
+            ResultSet rs = pstm.executeQuery();
+            //return false if id exist
+            while (rs.next()) {
+                rs.getString("title");
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("getListNews " + e.getMessage());
+        }
+        return false;
+    }
+
+    public Boolean setNewsById(News news) {
+        String SQL = "UPDATE News SET title = ?, content = ?, author = ?, categoryId = ?, lastModified = getDate(), viewCount = ?, coverImage = ?, subtitle = ? WHERE id = ? ";
+        try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            pstm.setString(1, news.getTitle());
+            pstm.setString(2, news.getContent());
+            pstm.setString(3, news.getAuthor());
+            pstm.setString(4, news.getCategory().getId());
+            pstm.setString(5, news.getViewCount());
+            pstm.setString(6, news.getCoverImage());
+            pstm.setString(7, news.getSubtitle());
+            pstm.setString(8, news.getId());
+            pstm.execute();
+            return true;
+        } catch (Exception e) {
+            System.out.println("setEmployeeById " + e.getMessage());
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        NewsDAO n = new NewsDAO();
+        ArrayList<News> list = n.getNewsByThai();
+        for (News news : list) {
+            System.out.println(news);
+        }
+    }
+
 }

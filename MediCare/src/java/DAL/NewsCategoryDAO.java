@@ -16,6 +16,24 @@ import java.util.List;
  * @author hoang
  */
 public class NewsCategoryDAO extends DBContext {
+    
+      public ArrayList<NewsCategory> getAllNewsCategory() {
+        ArrayList<NewsCategory> list = new ArrayList<>();
+        String SQL = "SELECT id,name FROM NewsCategory";
+        try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()){
+                String id = rs.getString("id");
+                String name = rs.getString("name");
+                NewsCategory obj = new NewsCategory(id,name);
+                list.add(obj);
+            }
+        } catch (Exception e) {
+            System.out.println("getAllNewsCategory" + e.getMessage());
+        }
+        return list;
+    }
+
 
     public ArrayList<NewsCategory> getTopLevelSideBar() {
         String SQL = "SELECT id, name, parentId, href FROM [NewsCategory]"

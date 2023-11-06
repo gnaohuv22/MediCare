@@ -39,19 +39,21 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <c:forEach var="list" items="${ALL_NEWS}">
+                                    <div>
+                                         <c:forEach var="list" items="${ALL_NEWS}">
+                                            
                                         <tr name="display-table-tr">
                                             <!--<td><img width="28" height="28" src="../assets/admin/img/user.jpg" class="rounded-circle m-r-5" alt=""> Linda Carpenter</td>-->
                                             <td >${list.getId()}</td>
-                                            <td >${list.getTitle()}</td>
-                                            <td >${list.getContent()}</td>
+                                            <td style="width: 10%;">${list.getTitle()}</td> <!-- ${list.getContent()} -->
+                                            <td ><a href="news/${list.getCategory().getHref()}/${list.getSlug()}">Xem</a></td>
                                             <td >${list.getAuthor()}</td>
-                                            <td >${list.getNewsCategory().getName()}</td>
+                                            <td >${list.getCategory().getName()}</td>
                                             <td >${list.getCreatedAt()}</td>
                                             <td >${list.getLastModified()}</td>
                                             <td >${list.getViewCount()}</td>
                                             <td ><img src="${list.getCoverImage()}" style="max-height: 100px;max-width:100px"/></td>
-                                            <td > ${list.getSubtitle()}</td>
+                                            <td > <p style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden">${list.getSubtitle()}</p></td>
                                             <td class="text-right">
                                                 <div class="dropdown dropdown-action">
                                                     <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
@@ -64,8 +66,13 @@
                                                 </div>
                                             </td>
                                         </tr>
+                                      
                                         </c:forEach>
+
+                                    </div>
                                         
+                                    
+                                                                               
                                     </tbody>
                                 </table>
                             </div>

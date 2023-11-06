@@ -24,6 +24,10 @@ public class NewsCategory {
         this.icon = icon;
         this.locateId = locateId;
     }
+    public NewsCategory(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
     
     public NewsCategory(String id, String name, String parentId, String href) {
         this.id = id;
