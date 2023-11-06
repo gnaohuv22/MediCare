@@ -766,9 +766,33 @@ public class UserDAO extends DBContext {
         }
         return false;
     }
-
-    public Boolean setUserById(User user) {
-        String SQL = "UPDATE [User] SET email = ?, password = ?, name = ?, birthDate = ?, gender = ?, address = ?, provinceId = ?, [identity] = ?, medicalId = ?, ethnic = ?, phone = ?, profilePicture = ? WHERE id = ? ";
+    //thu
+    public boolean addUserByAdmin(User user) {
+        String SQL = "INSERT [dbo].[User] ([id], [email], [password], [name], [birthDate], [gender], [address], [provinceId], [identity], [medicalId], [ethnic], [phone], [profilePicture], [createdAt],[createBy]) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(),?)";
+        try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            pstm.setInt(1, Integer.parseInt(user.getId()));
+            pstm.setString(2, user.getEmail());
+            pstm.setString(3, user.getPassword());
+            pstm.setString(4, user.getName());
+            pstm.setString(5, user.getBirthDate());
+            pstm.setString(6, user.getGender());
+            pstm.setString(7, user.getAddress());
+            pstm.setInt(8, Integer.parseInt(user.getProvince().getId()));
+            pstm.setString(9, user.getIdentity());
+            pstm.setString(10, user.getMedicalId());
+            pstm.setString(11, user.getEthnic());
+            pstm.setString(12, user.getPhone());
+            pstm.setString(13, user.getProfilePicture());
+            pstm.setString(14, user.getCreateBy());
+            pstm.execute();
+            return true;
+        } catch (Exception e) {
+            System.out.println("addUser " + e.getMessage());
+        }
+        return false;
+    }public Boolean setUserById(User user) {
+        String SQL = "UPDATE [User] SET email = ?, password = ?, name = ?, birthDate = ?, gender = ?, address = ?, provinceId = ?, [identity] = ?, medicalId = ?, ethnic = ?, phone = ?, profilePicture = ?, modifyAt=GETDATE(), modifyBy = ? WHERE id = ? ";
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
             pstm.setString(1, user.getEmail());
             pstm.setString(2, user.getPassword());
@@ -782,7 +806,8 @@ public class UserDAO extends DBContext {
             pstm.setString(10, user.getEthnic());
             pstm.setString(11, user.getPhone());
             pstm.setString(12, user.getProfilePicture());
-            pstm.setString(13, user.getId());
+            pstm.setString(13, user.getModifyBy());
+            pstm.setString(14, user.getId());
             pstm.execute();
             return true;
         } catch (Exception e) {

@@ -502,6 +502,7 @@ public class AdminEmployee extends HttpServlet {
                     }
                 }
             }
+            processRequest(request, response);
         }
     }
 
@@ -936,6 +937,7 @@ public class AdminEmployee extends HttpServlet {
                 }
             }
         }
+        processRequest(request, response);
     }
 
     /**
