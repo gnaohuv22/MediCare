@@ -654,7 +654,6 @@ public class AdminUser extends HttpServlet {
                 }
             }
         }
-        processRequest(request, response);
     }
 
     /**

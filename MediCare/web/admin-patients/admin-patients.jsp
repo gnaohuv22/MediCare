@@ -139,7 +139,7 @@
                                             <tr name="display-table-tr">
                                                 <!--<td><img width="28" height="28" src="../assets/admin/img/user.jpg" class="rounded-circle m-r-5" alt=""> Linda Carpenter</td>-->
                                                 <td>${list.getId()}</td>
-                                                <td><img src="${list.getProfilePicture()}"></td>
+                                                <td><img style="max-width:200px;max-height: 400px" src="${list.getProfilePicture()}"></td>
                                                 <td>${list.getEmail()}</td>
                                                 <!--<td>${list.getPassword()}</td>-->
                                                 <td>${list.getName()}</td>
