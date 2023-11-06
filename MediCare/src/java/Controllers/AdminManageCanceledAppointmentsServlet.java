@@ -10,7 +10,6 @@ import DAL.FamilyProfileDAO;
 import DAL.ScheduleDetailDAO;
 import DAL.ServiceTagDAO;
 import DAL.SubLevelMenuDAO;
-import DAL.UserDAO;
 import Models.AdminSidebarMenu;
 import Models.Appointments;
 import Models.Doctor;
@@ -164,13 +163,13 @@ public class AdminManageCanceledAppointmentsServlet extends HttpServlet {
                                 + "                                        <div class=\"col-md-6\">\n"
                                 + "                                            <div class=\"form-group\">\n"
                                 + "                                                <label>ID cuộc hẹn</label>\n"
-                                + "                                                <input class=\"form-control\" type=\"text\" value=\"" + appointmentId + "\" readonly=\"\">\n"
+                                + "                                                <input class=\"form-control disabled-hover\" type=\"text\" value=\"" + appointmentId + "\" readonly=\"\">\n"
                                 + "                                            </div>\n"
                                 + "                                        </div>\n"
                                 + "                                        <div class=\"col-md-6\">\n"
                                 + "                                            <div class=\"form-group\">\n"
                                 + "                                                <label>Tên bệnh nhân</label>\n"
-                                + "                                                <input class=\"form-control\" type=\"text\" value=\"" + profile.getName() + "\" disabled>\n"
+                                + "                                                <input class=\"form-control disabled-hover\" type=\"text\" value=\"" + profile.getName() + "\" disabled>\n"
                                 + "                                            </div>\n"
                                 + "                                        </div>\n"
                                 + "                                    </div>\n"
@@ -178,7 +177,7 @@ public class AdminManageCanceledAppointmentsServlet extends HttpServlet {
                                 + "                                        <div class=\"col-md-6\">\n"
                                 + "                                            <div class=\"form-group\">\n"
                                 + "                                                <label>Chuyên khoa</label>\n"
-                                + "                                                <select class=\"select form-control\" disabled>\n"
+                                + "                                                <select class=\"select form-control disabled-hover\" disabled>\n"
                                 + "                                                    <option value=\"-1\" disabled>Chọn chuyên khoa khám (*)</option>\n");
                         for (ServiceTag service : services) {
                             if (service.getId().equals(a.getServiceTag().getId())) {
@@ -196,7 +195,7 @@ public class AdminManageCanceledAppointmentsServlet extends HttpServlet {
                                 + "                                        <div class=\"col-md-6\">\n"
                                 + "                                            <div class=\"form-group\">\n"
                                 + "                                                <label>Bác sĩ phụ trách</label>\n"
-                                + "                                                <select disabled class=\"select form-control doctor-choice-edit-appointment\" data-status=\"" + a.getStatus() + "\">\n");
+                                + "                                                <select disabled  class=\"select form-control disabled-hover\" data-status=\"" + a.getStatus() + "\">\n");
 
                         out.println("                                \n" + "<option value=\"" + -1 + "\" disabled selected>" + doctorDisplayName + "</option>");
 
@@ -218,14 +217,14 @@ public class AdminManageCanceledAppointmentsServlet extends HttpServlet {
                                 + "                                            <div class=\"form-group\">\n"
                                 + "                                                <label>Ngày khám</label>\n"
                                 + "                                                <div>\n"
-                                + "                                                    <input type=\"date\" class=\"form-control\" name=\"date\" disabled value=\"" + a.getAppointmentDay() + "\">\n"
+                                + "                                                    <input type=\"date\" class=\"form-control disabled-hover\" name=\"date\" disabled value=\"" + a.getAppointmentDay() + "\">\n"
                                 + "                                                </div>\n"
                                 + "                                            </div>\n"
                                 + "                                        </div>\n"
                                 + "                                        <div class=\"col-md-6\">\n"
                                 + "                                            <div class=\"form-group\">\n"
                                 + "                                                <label>Slot</label>\n"
-                                + "                                                <select class=\"select form-control\" disabled>\n"
+                                + "                                                <select class=\"select form-control disabled-hover\" disabled>\n"
                                 //                                + "                                                    <option value=\"" + -1 + "\" disabled selected>Chọn giờ khám</option>\n"
                                 + "                                                    <option value=\"" + -1 + "\" disabled selected>" + a.getAppointmentTime().substring(0, 8) + "</option>\n"
                         );
@@ -239,19 +238,19 @@ public class AdminManageCanceledAppointmentsServlet extends HttpServlet {
                                 + "                                        <div class=\"col-md-6\">\n"
                                 + "                                            <div class=\"form-group\">\n"
                                 + "                                                <label>Email</label>\n"
-                                + "                                                <input class=\"form-control\" type=\"email\" value=\"" + profile.getEmail() + "\" disabled>\n"
+                                + "                                                <input class=\"form-control disabled-hover\" type=\"email\" value=\"" + profile.getEmail() + "\" disabled>\n"
                                 + "                                            </div>\n"
                                 + "                                        </div>\n"
                                 + "                                        <div class=\"col-md-6\">\n"
                                 + "                                            <div class=\"form-group\">\n"
                                 + "                                                <label>Số điện thoại</label>\n"
-                                + "                                                <input class=\"form-control\" type=\"text\" value=\"" + profile.getPhone() + "\" disabled>\n"
+                                + "                                                <input class=\"form-control disabled-hover\" type=\"text\" value=\"" + profile.getPhone() + "\" disabled>\n"
                                 + "                                            </div>\n"
                                 + "                                        </div>\n"
                                 + "                                    </div>\n"
                                 + "                                    <div class=\"form-group\">\n"
                                 + "                                        <label>Triệu chứng</label>\n"
-                                + "                                        <textarea cols=\"30\" rows=\"4\" class=\"form-control\" disabled>" + a.getSymptoms() + "</textarea>\n"
+                                + "                                        <textarea cols=\"30\" rows=\"4\" class=\"form-control disabled-hover\" disabled>" + a.getSymptoms() + "</textarea>\n"
                                 + "                                    </div>\n");
 //                                + "                                    <div class=\"form-group\">\n");
 //                                + "                                        <label class=\"display-block\">Trạng thái cuộc hẹn</label>\n");
