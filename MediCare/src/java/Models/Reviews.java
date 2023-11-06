@@ -17,6 +17,14 @@ public class Reviews {
     public Reviews() {
     }
 
+    public Reviews(String id, String rating, String reviewContent, String createdAt, Appointments appointment) {
+        this.id = id;
+        this.rating = rating;
+        this.reviewContent = reviewContent;
+        this.createdAt = createdAt;
+        this.appointment = appointment;
+    }
+
     public Reviews(String id, String userId, String doctorId, String appointmentId, String rating, String reviewContent, String createdAt) {
         this.id = id;
         this.userId = userId;

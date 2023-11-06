@@ -24,6 +24,15 @@ public class FamilyProfile {
     public FamilyProfile() {
     }
 
+    public FamilyProfile(String email, String name, String gender, String profilePicture) {
+        this.email = email;
+        this.name = name;
+        this.gender = gender;
+        this.profilePicture = profilePicture;
+    }
+    
+    
+
     public FamilyProfile(String profileId, String email, String ownerId) {
         this.profileId = profileId;
         this.email = email;

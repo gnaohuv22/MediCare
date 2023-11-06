@@ -11,7 +11,6 @@ package Models;
 public class Appointments {
 
     private String id, appointmentDay, appointmentTime;
-    ;
     private User user;
     private Doctor doctor;
     private ServiceTag serviceTag;
@@ -36,6 +35,14 @@ public class Appointments {
         this.modifyAt = modifyAt;
         this.modifyBy = modifyBy;
     }
+
+    public Appointments(String plannedAt, String symptoms, ServiceTag st, FamilyProfile fp) {
+        this.plannedAt = plannedAt;
+        this.symptoms = symptoms;
+        this.st = st;
+        this.fp = fp;
+    }
+    
 
     //thu
     public Appointments(Doctor doctor, ServiceTag serviceTag, String status, Branch branch) {

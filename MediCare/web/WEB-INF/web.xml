@@ -48,6 +48,10 @@
         <servlet-name>DoctorScheduleServlet</servlet-name>
         <servlet-class>Controllers.DoctorScheduleServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DoctorReviewServlet</servlet-name>
+        <servlet-class>Controllers.DoctorReviewServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserLoginServlet</servlet-name>
         <url-pattern>/user-login</url-pattern>
@@ -108,8 +112,10 @@
         <servlet-name>UserProfileController</servlet-name>
         <url-pattern>/user-profile</url-pattern>
         <multipart-config>
-            <max-file-size>10485760</max-file-size> <!-- This is 10 MB -->
-            <max-request-size>20971520</max-request-size> <!-- This is 20 MB -->
+            <max-file-size>10485760</max-file-size>
+            <!-- This is 10 MB -->
+            <max-request-size>20971520</max-request-size>
+            <!-- This is 20 MB -->
             <file-size-threshold>0</file-size-threshold>
         </multipart-config>
     </servlet-mapping>
@@ -182,17 +188,14 @@
         <servlet-name>DoctorScheduleServlet</servlet-name>
         <url-pattern>/schedule</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>AdminDoctorController</servlet-name>
         <servlet-class>Controllers.AdminDoctorController</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>AdminDoctorController</servlet-name>
         <url-pattern>/admin-doctor</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>UserRegisterGoogleHandler</servlet-name>
         <servlet-class>Controllers.UserRegisterGoogleHandler</servlet-class>
@@ -204,6 +207,10 @@
     <welcome-file-list>
         <welcome-file>admin-screen/admin-login.jsp</welcome-file>
     </welcome-file-list>
+    <servlet-mapping>
+        <servlet-name>DoctorReviewServlet</servlet-name>
+        <url-pattern>/view-review</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

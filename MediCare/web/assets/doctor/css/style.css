@@ -1441,3 +1441,31 @@ button {
     left: 100%;
     margin-top: -1px;
 }
+
+/*------------------------- Style for doctor-review.jsp -------------------------*/
+
+.container .review-container {
+    padding-top: 12%;
+    padding-bottom: 10%;
+
+}
+
+.review-title h1 {
+    font-weight: bolder;
+    font-size: 28px;
+    color: #2C6975;
+    padding: 20px;
+}
+
+.star-rating {
+    display: inline-flex;
+    padding-right: 20px;
+}
+
+.fa-star,
+.fa-star-half-stroke {
+    color: #ffbd1c;
+}
+.fa-star-grey {
+    color: #ccc;
+}
