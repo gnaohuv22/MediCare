@@ -215,34 +215,15 @@ public class AdminDoctorController extends HttpServlet {
         String[] certificates = request.getParameterValues("certificates");
         String birthDate = request.getParameter("birthDate");
         String gender = request.getParameter("gender");
-        //file handle : for upload picture -----------------------------------------------------------------------------
-//        String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads"; // Đường dẫn lưu trữ tệp
-//        File uploadDir = new File(uploadPath);
-//        if (!uploadDir.exists()) {
-//            uploadDir.mkdir();
-//        }
-
+    
         Part filePart = request.getPart("avatarUpload");
         System.out.println("filePart value at add : " + filePart);
         String imageFileName = "";
-//        System.out.println("Size file: " + (filePart.getSize() < 10 * 1024) + filePart.getSize());
 
-//        String fileName = getFileName(filePart); // Lấy tên tệp
-//        System.out.println("Path " + fileName);
-//        String imageFileName = null;
-//        if (!fileName.isEmpty()) {
-//            // Lưu tệp lên máy chủ
-//            System.out.println("Upload " + uploadPath);
-//            filePart.write(uploadPath + File.separator + fileName);
-//
-//            response.getWriter().println("Tải lên file thành công.");
-//            imageFileName = getFileName(filePart);
-//            System.out.println("File name : " + imageFileName);
-//        }
 //--------------------------------------------------------------------------------------------
         //add doctor function : 
         if ("add".equals(action)) {
-
+            
             boolean bool = true;
             if (!validateDisplayName(displayName)) {
                 request.setAttribute("displayNameError", "Display name should be contains letters and space only");
@@ -303,13 +284,19 @@ public class AdminDoctorController extends HttpServlet {
                     break;
             }
             System.out.println("Kết quả so sánh : " + (filePart.getSubmittedFileName().equals("")));
+            
             if (!filePart.getSubmittedFileName().equals("")){
+                if(filePart.getSubmittedFileName().toLowerCase().endsWith(".jpg") || filePart.getSubmittedFileName().toLowerCase().endsWith(".png")){
                 if (filePart.getSize() < 50 * 1024) {
                     InputStream imgStr = filePart.getInputStream();
                     byte[] fileContent = IOUtils.toByteArray(imgStr);
                     imageFileName = Base64.getEncoder().encodeToString(fileContent);
                 } else {
                     request.setAttribute("profilePictureError", "Ảnh không được có kích thước vượt quá 50kb, chọn ảnh có kích thước nhỏ hơn để tải lên");
+                    bool = false;
+                }
+                }else{
+                    request.setAttribute("profilePictureError", "Ảnh phải có định dạng PNG hoặc JPG");
                     bool = false;
                 }
             } else {
@@ -452,8 +439,9 @@ public class AdminDoctorController extends HttpServlet {
 //            if(fileName.isEmpty()){
 //                imageFileName = doc.getDoctorById(id).getProfilePicture();               
 //            }
-
+            
             if ((!filePart.getSubmittedFileName().equals(""))) {
+                if(filePart.getSubmittedFileName().toLowerCase().endsWith(".jpg") || filePart.getSubmittedFileName().toLowerCase().endsWith(".png")){
                 if (filePart.getSize() < 50 * 1024) {
                     InputStream imgStr = filePart.getInputStream();
                     byte[] fileContent = IOUtils.toByteArray(imgStr);
@@ -462,9 +450,15 @@ public class AdminDoctorController extends HttpServlet {
                     request.setAttribute("profilePictureError", "Ảnh không được có kích thước vượt quá 50kb, chọn ảnh có kích thước nhỏ hơn để tải lên");
                     bool = false;
                 }
+                }
+                else{
+                     request.setAttribute("profilePictureError", "Ảnh phải có định dạng là JPG hoặc PNG");
+                    bool = false;
+                }
             } else {
                 imageFileName = doc.getDoctorByDoctorId(id).getProfilePicture();
             }
+            
 
             System.out.println("Base64: " + imageFileName);
             System.out.println("Kết quả so sánh : " + (filePart.getSubmittedFileName().equals("")));
@@ -544,7 +538,8 @@ public class AdminDoctorController extends HttpServlet {
 
     public static boolean validateSalary(String salary) {
         try {
-            double number = Double.parseDouble(salary);
+            String cleanedSalary = salary.replace(".", "");
+            double number = Double.parseDouble(cleanedSalary);
             if (number > 0) {
                 return true;
             }

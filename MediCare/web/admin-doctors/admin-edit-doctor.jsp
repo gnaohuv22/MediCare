@@ -204,10 +204,10 @@
                                         <div class="form-group">
                                             <label>Mức lương  <span class="text-danger">*</span></label>
                                             <c:if test="${requestScope.action eq 'edit'}">
-                                                <input value="${requestScope.doc.getSalary()}" name="salary" class="form-control" type="text" required="" oninput="formatSalaryInput(this)" >
+                                                <input type="text" value="${requestScope.doc.getSalary()}" name="salary" class="form-control"  required="" oninput="formatSalaryInput(this)" >
                                             </c:if>
                                             <c:if test="${requestScope.action eq 'add'}">
-                                                <input name="salary" class="form-control" type="text" required="" value="${requestScope.salary}" oninput="formatSalaryInput(this)" >
+                                                <input type="text" name="salary" class="form-control"  required="" value="${requestScope.salary}" oninput="formatSalaryInput(this)" >
                                             </c:if>
                                         </div>
                                         <c:if test="${not empty requestScope.SalaryError}">
