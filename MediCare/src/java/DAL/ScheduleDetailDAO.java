@@ -503,16 +503,94 @@ public class ScheduleDetailDAO extends DBContext {
         }
     }
 
+    public ArrayList<String> getLastestScheduleByBranchId(String branchId) {
+        ArrayList<String> list = new ArrayList<>();
+        String sql = "DECLARE @branchid INT = ?\n"
+                + "SELECT DS.WorkDate\n"
+                + "FROM DoctorSchedule AS DS\n"
+                + "JOIN Doctor AS D ON DS.DoctorID = D.id\n"
+                + "JOIN Branch AS B ON D.branchId = B.id\n"
+                + "WHERE B.id = @branchid AND DATEPART(YEAR, DS.WorkDate) = (SELECT DATEPART(YEAR, MAX(WorkDate)) FROM DoctorSchedule AS DS JOIN Doctor AS D On DS.DoctorID = D.id WHERE D.branchId = @branchid)\n"
+                + "AND DATEPART(MONTH, DS.WorkDate) = (SELECT DATEPART(MONTH, MAX(WorkDate)) FROM DoctorSchedule AS DS JOIN Doctor AS D On DS.DoctorID = D.id WHERE D.branchId = @branchid)\n"
+                + "GROUP BY DS.WorkDate\n"
+                + "ORDER BY DS.WorkDate ASC\n";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, Integer.parseInt(branchId));
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                list.add(String.valueOf(rs.getDate("workdate")));
+            }
+        } catch (NumberFormatException | SQLException e) {
+            System.out.println("getLastestScheduleByBranchId: " + e);
+        }
+        return list;
+    }
+
+    public boolean addScheduleForMonthAndBranchId(String year, String month, String branchId, String monthSelect) {
+        String sql = "-- Xác định tháng và năm cụ thể (tháng 1, 2024) và ID của branch (ví dụ: BranchID = 3)\n"
+                + "DECLARE @TargetMonth INT = ?;\n"
+                + "DECLARE @TargetYear INT = ?;\n"
+                + "DECLARE @BranchID INT = ?;\n"
+                + "DECLARE @NumberOfMonths INT = ?; -- Số tháng bạn muốn tạo lịch\n"
+                + "-- Tạo biến để lưu trữ ngày bắt đầu và ngày kết thúc của tháng cụ thể\n"
+                + "DECLARE @StartDatetmp DATE = DATEFROMPARTS(@TargetYear, @TargetMonth, 1);\n"
+                + "DECLARE @StartDate DATE = DATEADD(MONTH, 1, @StartDatetmp);\n"
+                + "\n"
+                + "-- Tạo biến để lưu trữ ngày kết thúc của tháng cụ thể\n"
+                + "DECLARE @EndDatetmp DATE = DATEADD(MONTH, @NumberOfMonths-1, @StartDate);\n"
+                + "DECLARE @EndDate DATE = EOMONTH(@EndDatetmp);\n"
+                + "\n"
+                + "-- Kiểm tra xem đã có lịch cho tháng cụ thể và branch cụ thể chưa\n"
+                + "IF NOT EXISTS (\n"
+                + "    SELECT 1\n"
+                + "    FROM DoctorSchedule DS\n"
+                + "    JOIN Doctor D ON DS.DoctorID = D.id\n"
+                + "    WHERE DS.WorkDate BETWEEN @StartDate AND @EndDate\n"
+                + "    AND D.branchId = @BranchID\n"
+                + ")\n"
+                + "BEGIN\n"
+                + "    -- Thêm DoctorSchedule cho tháng cụ thể và branch cụ thể\n"
+                + "    INSERT INTO DoctorSchedule (DoctorID, WorkDate)\n"
+                + "    SELECT DISTINCT D.id, Dates.Date\n"
+                + "    FROM Doctor D\n"
+                + "    CROSS APPLY (\n"
+                + "        SELECT DATEADD(DAY, number, @StartDate) AS Date\n"
+                + "        FROM master.dbo.spt_values\n"
+                + "        WHERE type = 'P'\n"
+                + "            AND DATEADD(DAY, number, @StartDate) <= @EndDate\n"
+                + "    ) AS Dates\n"
+                + "    WHERE D.branchId = @BranchID;\n"
+                + "\n"
+                + "    -- Thêm ScheduleDetail cho DoctorSchedule và slot làm việc (nếu cần)\n"
+                + "    INSERT INTO ScheduleDetail (ScheduleID, SlotID, SlotStatus, isDelete)\n"
+                + "    SELECT DS.id, WS.id, '1', 0\n"
+                + "    FROM DoctorSchedule DS\n"
+                + "    JOIN WorkingSlot WS\n"
+                + "    ON DS.WorkDate BETWEEN @StartDate AND @EndDate;\n"
+                + "END";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, Integer.parseInt(month));
+            st.setInt(2, Integer.parseInt(year));
+            st.setInt(3, Integer.parseInt(branchId));
+            st.setInt(4, Integer.parseInt(monthSelect));
+            st.execute();
+            return true;
+        } catch (Exception e) {
+        }
+        
+        return false;
+    }
+
     public static void main(String[] args) {
         ScheduleDetailDAO sdd = new ScheduleDetailDAO();
-//        boolean list = sdd.updateStatusOfDoctorScheduleDetail("1", "2", "2023-10-30", "16:00:00", "10", 0);
-//
-//        System.out.println("list: " + list);
         String currentDate = sdd.getCurrentDate();
         System.out.println("current date: " + currentDate);
         System.out.println(sdd.compareDates("2023-10-05", "2023-10-05"));
 
-        ArrayList<String> list = sdd.getDaysOfCurrentWeek();
+        ArrayList<String> list = sdd.getLastestScheduleByBranchId("1");
+        System.out.println("List: " + list);
         for (String string : list) {
             System.out.println(string);
         }

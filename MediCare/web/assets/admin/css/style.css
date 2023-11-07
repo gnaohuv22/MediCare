@@ -4400,6 +4400,10 @@ blockquote p {
     cursor: unset;
 }
 
+.table-schedule-doctor th {
+    background-color: #138496;
+}
+
 /*popup for doctor schedule - start*/
 /* CSS for modal overlay */
 .form-popup {
@@ -5039,6 +5043,84 @@ span.name-each-family-profile {
 .booking-guide p {
     color: red;
     margin-left: 24px;
+}
+
+.lastest-month-schedule th,
+.lastest-month-schedule td{
+    background-color: #ffffcc;
+    border: 1px solid #333;
+    width: 100px;
+}
+
+.lastest-month-schedule {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.lastest-month-schedule th {
+    background-color: #138496;
+    color: #fff;
+}
+
+.non-month-day {
+    background-color: #ccc;
+}
+.add-schedule-info-input {
+    border-bottom: 1px solid #ccc;
+}
+.add-schedule-select-box-part {
+    text-align: center;
+    margin: auto;
+    color: green;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.add-schedule-select-box-part div:first-child {
+    margin-top: 10px;
+}
+
+.schedule-add-button {
+    border: none;
+    background-color: #073812;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #fff;
+    padding: 4px 16px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+
+.schedule-add-button:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.step2-add-schedule h3 {
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+
+.step2-add-schedule {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+}
+
+.step3-add-schedule {
+    justify-content: center;
+}
+
+.step3-add-schedule .btn {
+    background-color: #333;
+    padding: 6px 20px;
+}
+
+.step3-add-schedule .btn:hover {
+    opacity: 0.7;
+    border: none;
 }
 /*Tu Binh Code: Css for Screen Manage Schedule For Doctor - end*/
 

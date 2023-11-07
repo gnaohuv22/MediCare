@@ -4,10 +4,12 @@
  */
 package Controllers;
 
+import DAL.BranchDAO;
 import DAL.DoctorDAO;
 import DAL.ScheduleDetailDAO;
 import DAL.SubLevelMenuDAO;
 import Models.AdminSidebarMenu;
+import Models.Branch;
 import Models.Doctor;
 import Models.ScheduleDetail;
 import java.io.IOException;
@@ -18,8 +20,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -604,9 +611,6 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                         + "\n"
                         + "                <!--schedule table - start-->\n"
                         + "                <div class=\"container\">\n"
-                        + "                    <div class=\"timetable-img text-center\">\n"
-                        + "                        <img src=\"img/content/timetable.png\" alt=\"\">\n"
-                        + "                    </div>\n"
                         + "                    <div class=\"table-responsive\">\n"
                         + "                        <table class=\"table table-bordered text-center schedule-doctor-detail-table\">\n"
                         + "                            <thead>\n"
@@ -680,6 +684,195 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                         + "            </form>");
             }
         }
+        String action = request.getParameter("action");
+        String branchId = request.getParameter("branchId");
+        String monthSelect = request.getParameter("monthSelect");
+        PrintWriter out = response.getWriter();
+        BranchDAO bd = new BranchDAO();
+        ArrayList<Branch> branches = bd.getAllBranches();
+        ArrayList<String> lastestMonthSchedule = new ArrayList<>();
+        if (branchId != null) {
+            lastestMonthSchedule = sdd.getLastestScheduleByBranchId(branchId);
+        } else {
+            lastestMonthSchedule = sdd.getLastestScheduleByBranchId(branches.get(0).getId());
+        }
+        if (action != null) {
+            switch (action) {
+                case "add-schedule-all-doctor": {
+                    System.out.println("ACTION: add-schedule-all-doctor");
+                    ajaxFunction(out, branches, lastestMonthSchedule, branchId, monthSelect);
+                    break;
+                }
+                case "save-add-schedule": {
+                    System.out.println("ACTION: save-add-schedule");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                    try {
+                        Date date = dateFormat.parse(lastestMonthSchedule.get(0));
+                        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+                        SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
+
+                        year = yearFormat.format(date);
+                        String month = monthFormat.format(date);
+
+                        System.out.println("Year: " + year);
+                        System.out.println("Month: " + month);
+                        if (sdd.addScheduleForMonthAndBranchId(year, month, branchId, monthSelect)) {
+                            System.out.println("Add schedule success!");
+                        } else {
+                            System.out.println("Add schedule fail!");
+                        }
+                        System.out.println("line 725:");
+                        lastestMonthSchedule = sdd.getLastestScheduleByBranchId(branchId);
+                        ajaxFunction(out, branches, lastestMonthSchedule, branchId, monthSelect);
+                        System.out.println("line 728:");
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+                case "onchange-branch-add-schedule": {
+                    System.out.println("ACTION: onchange-branch-add-schedule");
+                    ajaxFunction(out, branches, lastestMonthSchedule, branchId, monthSelect);
+                    break;
+                }
+
+                default:
+                    throw new AssertionError();
+            }
+        }
+    }
+
+    public static void ajaxFunction(PrintWriter out, ArrayList<Branch> branches, ArrayList<String> lastestMonthSchedule, String branchId, String monthSelect) {
+        out.println("<div class=\"booking-container\">\n"
+                + "            <!--Step-1-container - start-->\n"
+                + "            <form action=\"user-book-appointment\" method=\"post\">\n"
+                + "                <div id=\"step-1-container\">\n"
+                + "                    <h2 class=\"booking-header\">Xếp lịch cho bác sĩ</h2>\n"
+                + "                    <div class=\"row add-schedule-info-input\">\n"
+                + "                        <!-- Cột 1 -->\n"
+                + "                        <div class=\"col-md-6\">\n"
+                + "                            <div><span>Chọn chi nhánh </span>\n"
+                + "                                <select id=\"branchId\" name=\"branchId\" class=\"booking-select-class\" onchange=\"onchangeBranchIdLoadSchedule()\">\n");
+        for (Branch b : branches) {
+            if (branchId != null && b.getId().equals(branchId)) {
+                out.println("<option selected value=\"" + b.getId() + "\">" + b.getName() + "</option>");
+            } else {
+                out.println("<option value=\"" + b.getId() + "\">" + b.getName() + "</option>");
+            }
+        }
+        out.println(
+                "                                </select>\n"
+                + "                            </div>\n"
+                + "                            <div> \n"
+                + "                            </div>\n"
+                + "                        </div>\n"
+                + "\n"
+                + "                        <!-- Cột 2 -->\n"
+                + "                        <div class=\"col-md-6 add-schedule-select-box-part\">  \n"
+                + "<div>Thêm lịch làm việc trong " + "<select id=\"monthSelect\">\n");
+        for (int i = 1; i < 4; i++) {
+            if (monthSelect != null && monthSelect.contains(i + "")) {
+                out.println("<option selected value=\"" + i + "\">" + i + "</option>\n");
+            } else {
+                out.println("<option value=\"" + i + "\">" + i + "</option>\n");
+            }
+        }
+        out.println(
+                "                </select>" + " tháng tiếp theo</div>"
+                + " <button type=\"button\" class=\"schedule-add-button\" onclick=\"saveAddScheduleOfDoctorForm()\">Thêm</button>"
+                + "                            </div>\n"
+                + "                        </div>\n"
+                + "                    </div>\n"
+                + "                            <div>\n"
+                + "                <!--Step-1-container - end-->\n"
+                + "</div>");
+        try {
+            // Chuyển chuỗi thành đối tượng Date
+            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(lastestMonthSchedule.get(0));
+
+            // Định dạng lại thành "tháng MM năm yyyy"
+            String outputDateStr = new SimpleDateFormat(" 'tháng' MM 'năm' yyyy").format(date);
+
+            System.out.println(outputDateStr);
+            for (Branch b : branches) {
+                if (branchId != null) {
+                    if (b.getId().equals(branchId)) {
+                        out.println("<div class=\"row step2-add-schedule\">\n"
+                                + "                        <div class=\"col-md-12\">\n"
+//                                +"                                <img id=\"loading\" src=\"/MediCare/assets/admin/images/c7e1b7b5753737039e1bdbda578132b8.gif\" alt=\"Loading...\" style=\"display: block;\">\n"
+                                + "<h3>Lịch mới nhất đến thời điểm hiện tại: <span style=\"color: green;\">" + outputDateStr + "</span> (chi nhánh " + b.getName() + ")</h3>");
+                    }
+                } else {
+                    out.println("<div class=\"row step2-add-schedule\">\n"
+                            + "                        <div class=\"col-md-12\">\n"
+                            + "<h3>Lịch mới nhất đến thời điểm hiện tại: <span style=\"color: green;\">" + outputDateStr + "</span> (chi nhánh " + branches.get(0).getName() + ")</h3>");
+                    break;
+                }
+            }
+        } catch (ParseException e) {
+            System.out.println(e);
+        }
+        // Ngày đầu tiên của tháng (ví dụ: 2023-03-01)
+        Date firstDayOfMonth = null;
+        try {
+            firstDayOfMonth = new SimpleDateFormat("yyyy-MM-dd").parse(lastestMonthSchedule.get(0));
+        } catch (ParseException ex) {
+            Logger.getLogger(AdminManageScheduleDoctor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Calendar để tính toán
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(firstDayOfMonth);
+        out.println("<table class=\"lastest-month-schedule\">");
+        out.println("<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>");
+        out.println("<tr>");
+
+// Tìm thứ của ngày đầu tiên của tháng
+        int firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        int emptyCells = firstDayOfWeek - 1; // Số ô trống để điền
+        int dayCounter = 1;
+
+// In các ô trống trước ngày đầu tiên
+        for (int i = 0; i < emptyCells; i++) {
+            out.println("<td style=\"background-color: #ccc;\" class='non-month-day'></td>");
+        }
+
+        while (calendar.get(Calendar.MONTH) == firstDayOfMonth.getMonth()) {
+            // Kiểm tra xem ngày có sự kiện hay không (dựa trên danh sách lastestMonthSchedule)
+            boolean hasEvent = lastestMonthSchedule.contains(String.valueOf(dayCounter));
+
+            // Đánh dấu ngày có sự kiện bằng lớp CSS event-day
+            if (hasEvent) {
+                out.println("<td class='event-day'>" + dayCounter + "</td>");
+            } else {
+                out.println("<td>" + dayCounter + "</td>");
+            }
+
+            // Nếu đủ 7 ngày trong tuần, bắt đầu hàng mới
+            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+                out.println("</tr><tr>");
+            }
+
+            calendar.add(Calendar.DAY_OF_MONTH, 1); // Chuyển sang ngày tiếp theo
+            dayCounter++;
+        }
+
+// Hoàn thiện hàng cuối cùng bằng cách in các ngày không phải của tháng với giá trị trống
+        while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+            out.println("<td style=\"background-color: #ccc;\" class='non-month-day'></td>");
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        out.println("</tr>");
+        out.println("</table>");
+
+        out.println("</div>\n");
+        out.println("</div>\n");
+        out.println("<div class=\"row step3-add-schedule\">\n");
+        out.println("<div class=\"btn btn-primary\" onclick=\"closeScheduleOfDoctorForm()\">Hủy</div>");
+        out.println("</div>\n");
     }
 
     /**
