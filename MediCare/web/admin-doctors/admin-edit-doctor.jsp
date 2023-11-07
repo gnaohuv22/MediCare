@@ -240,28 +240,29 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
-                                        <label>Trạng thái <span class="text-danger">*</span></label>
-                                        <c:if test="${requestScope.action eq 'edit'}">
-                                            <select name="status" required="" class="form-control">
-                                                <option value="1" 
-                                                        <c:if test="${requestScope.doc.getStatus() eq String.valueOf(1)}">
-                                                            selected
-                                                        </c:if>
-                                                        >Hợp đồng</option>
-                                                <option value="2" 
-                                                        <c:if test="${requestScope.doc.getStatus() eq String.valueOf(2)}">
-                                                            selected
-                                                        </c:if>
-                                                        >Chính thức</option>
-                                            </select>
-                                        </c:if>
-                                        <c:if test="${requestScope.action eq 'add'}">
-                                            <select name="status"  required="" class="form-control">
-                                                <option <% if ("1".equals(request.getAttribute("status"))) { %>selected<% } %> value="1">Hợp đồng</option>
-                                                <option <% if ("2".equals(request.getAttribute("status"))) { %>selected<% } %> value="2">Chinh thức </option>  
-                                            </select>
-                                        </c:if>
-
+                                        <div class="form-group">
+                                            <label>Trạng thái <span class="text-danger">*</span></label>
+                                            <c:if test="${requestScope.action eq 'edit'}">
+                                                <select name="status" required="" class="form-control">
+                                                    <option value="1" 
+                                                            <c:if test="${requestScope.doc.getStatus() eq String.valueOf(1)}">
+                                                                selected
+                                                            </c:if>
+                                                            >Hợp đồng</option>
+                                                    <option value="2" 
+                                                            <c:if test="${requestScope.doc.getStatus() eq String.valueOf(2)}">
+                                                                selected
+                                                            </c:if>
+                                                            >Chính thức</option>
+                                                </select>
+                                            </c:if>
+                                            <c:if test="${requestScope.action eq 'add'}">
+                                                <select name="status"  required="" class="form-control">
+                                                    <option <% if ("1".equals(request.getAttribute("status"))) { %>selected<% } %> value="1">Hợp đồng</option>
+                                                    <option <% if ("2".equals(request.getAttribute("status"))) { %>selected<% } %> value="2">Chinh thức </option>  
+                                                </select>
+                                            </c:if>
+                                        </div>
                                     </div>
 
 
@@ -292,7 +293,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                                 <c:if test="${not empty requestScope.profilePictureError}">
+                                        <c:if test="${not empty requestScope.profilePictureError}">
                                             <p style="color: red">${requestScope.profilePictureError}</p>
                                         </c:if>
                                     </div>

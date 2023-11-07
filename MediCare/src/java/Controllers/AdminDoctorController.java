@@ -421,24 +421,7 @@ public class AdminDoctorController extends HttpServlet {
             } else {
                 docError.setSalary(salary);
             }
-//            if (!fileName.isEmpty()) {
-//                // Lưu tệp lên máy chủ
-//                System.out.println("Upload " + uploadPath);
-//                filePart.write(uploadPath + File.separator + fileName);
-//
-//                response.getWriter().println("Upload file thành công.");
-//                imageFileName = getFileName(filePart);
-//                System.out.println("File name : " + imageFileName);
-//                if (imageFileName.endsWith(".png") || imageFileName.endsWith(".jpg")) {
-//                    bool = true;
-//                } else {
-//                    request.setAttribute("fileError", "Chỉ được upload ảnh dưới dạng file png hoặc jpg");
-//                    bool = false;
-//                }
-//            }
-//            if(fileName.isEmpty()){
-//                imageFileName = doc.getDoctorById(id).getProfilePicture();               
-//            }
+   
             
             if ((!filePart.getSubmittedFileName().equals(""))) {
                 if(filePart.getSubmittedFileName().toLowerCase().endsWith(".jpg") || filePart.getSubmittedFileName().toLowerCase().endsWith(".png")){
@@ -577,15 +560,5 @@ public class AdminDoctorController extends HttpServlet {
         return matcher.matches();
     }
 
-//    private String getFileName(Part part) {
-//        String contentDisposition = part.getHeader("content-disposition");
-//        System.out.println("File part: " + contentDisposition);
-//        String[] tokens = contentDisposition.split(";");
-//        for (String token : tokens) {
-//            if (token.trim().startsWith("filename")) {
-//                return token.substring(token.indexOf('=') + 1).trim().replace("\"", "");
-//            }
-//        }
-//        return "";
-//    }
+
 }
