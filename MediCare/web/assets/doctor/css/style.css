@@ -1514,3 +1514,49 @@ button {
     color: #E0ECDE;
     border: 1px solid #E0ECDE;
 }
+
+.filter-text {
+    font-size: 28px;
+    font-weight: bolder;
+    color: #2C6975;
+}
+
+.filter-element {
+    font-weight: bold;
+    color: #2C6975;
+    padding: 20px 0 10px 0;
+}
+
+.filter-content {
+    color: #2C6975;
+    padding-right: 20px;
+}
+
+.filter-button {
+    margin-left: 20px;
+    padding: 15px 30px 15px 30px;
+    color: #2C6975;
+    background-color: #E0ECDE;
+    border: 1px solid #2C6975;
+    border-radius: 10px;
+}
+
+.filter-button:hover {
+    color: #E0ECDE;
+    background-color: #2C6975;
+    border: 1px solid #E0ECDE;
+}
+
+.date-type {
+    padding: 10px 60px 10px 60px;
+    border-radius: 10px;
+    border: 1px solid #2C6975;
+    font-size: 16px;
+}
+
+.filter-date {
+    color: #2C6975;
+    padding-right: 20px;
+    padding-left: 20px;
+    font-size: 16px;
+}
