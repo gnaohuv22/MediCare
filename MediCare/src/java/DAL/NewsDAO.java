@@ -285,7 +285,7 @@ public class NewsDAO extends DBContext {
         String slug = RemoveAccent.removeAccent(news.getTitle());
 
         // Create the SQL query
-        String sql = "INSERT INTO News (id, title, content, author, categoryId, createdAt, lastModified, viewCount, coverImage, subtitle, slug) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO News (id, title, content, author, categoryId, createdAt, lastModified, viewCount, coverImage, subtitle, slug, type) VALUES (?, ?, ?, ?, ?, GETDATE(), GETDATE(), ?, ?, ?, ?, NULL)";
 
         try {
 
@@ -293,16 +293,16 @@ public class NewsDAO extends DBContext {
             PreparedStatement pstmt = connection.prepareStatement(sql);
 
             // Set the parameters in the PreparedStatement
+            pstmt.setInt(1, Integer.parseInt(news.getId()));
             pstmt.setString(2, news.getTitle());
             pstmt.setString(3, news.getContent());
             pstmt.setString(4, news.getAuthor());
             pstmt.setInt(5, Integer.parseInt(news.getCategory().getId()));
-            pstmt.setDate(6, java.sql.Date.valueOf(news.getCreatedAt()));
-            pstmt.setDate(7, java.sql.Date.valueOf(news.getLastModified()));
-            pstmt.setInt(8, Integer.parseInt(news.getViewCount()));
-            pstmt.setString(9, news.getCoverImage());
-            pstmt.setString(10, news.getSubtitle());
-            pstmt.setString(11, slug);
+            pstmt.setInt(6, Integer.parseInt(news.getViewCount()));
+            pstmt.setString(7, news.getCoverImage());
+            pstmt.setString(8, news.getSubtitle());
+            pstmt.setString(9, news.getSlug());
+
 
             // Execute the query
             pstmt.executeUpdate();
@@ -578,6 +578,8 @@ public class NewsDAO extends DBContext {
         for (News news : list) {
             System.out.println(news);
         }
+        News niga = n.getNewsById("11111");
+        System.out.println("Niga : " + niga);
     }
 
 }

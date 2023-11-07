@@ -39,7 +39,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <div>
                                          <c:forEach var="list" items="${ALL_NEWS}">
                                             
                                         <tr name="display-table-tr">
@@ -58,21 +57,14 @@
                                                 <div class="dropdown dropdown-action">
                                                     <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        
-                                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-news?edit-news=true&id=${list.getId()}&edit=0" >Xem bài viết</a>
                                                         <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-news?edit-news=true&id=${list.getId()}&edit=1"><i class="fa fa-pencil m-r-5"></i> Sửa</a>
                                                         <a class="dropdown-item" onclick="return confirm('Bạn có chắc chắn muốn xóa? (Khi xóa thì dữ liệu này cùng những dữ liệu liên kết sẽ biến mất hoàn toàn và không thể khôi phục lại)');" href="${pageContext.request.contextPath}/admin-list-news?delete-news=true&id=${list.getId()}"><i class="fa fa-trash-o m-r-5"></i> Xóa</a>
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                      
+                                        </tr>     
                                         </c:forEach>
-
                                     </div>
-                                        
-                                    
-                                                                               
                                     </tbody>
                                 </table>
                             </div>

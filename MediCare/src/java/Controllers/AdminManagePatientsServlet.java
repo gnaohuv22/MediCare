@@ -106,7 +106,7 @@ public class AdminManagePatientsServlet extends HttpServlet {
                             + "                            <div class=\"profile-view\">\n"
                             + "                                <div class=\"profile-img-wrap\">\n"
                             + "                                    <div class=\"profile-img\">\n"
-                            + "                                        <img class=\"avatar\" src=\"assets/admin/imgages/user.jpg\" alt=\"\">"
+                            + "                                        <img class=\"avatar\" src=\"/MediCare/assets/admin/imgages/user.jpg\" alt=\"\">"
                             + "                                    </div>\n"
                             + "                                </div>\n"
                             + "                                <div class=\"profile-basic\">\n"

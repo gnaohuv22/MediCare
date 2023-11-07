@@ -120,16 +120,16 @@ public class AdminNews extends HttpServlet {
                 NewsDAO newsdao = new NewsDAO();
                 NewsCategoryDAO ncdao = new NewsCategoryDAO();
                 String id = request.getParameter("id");
-                News getNews = newsdao.getNewsById(id);
                 String edit = request.getParameter("edit");
                 request.setAttribute("edit", edit);
-                request.setAttribute("EDIT_NEWS", getNews);
                 request.setAttribute("ALL_NEWSCATEGORY", ncdao.getAllNewsCategory());
-                if (getNews == null) {
+                if (id == null) {
                     request.setAttribute("add_news", true);
                     request.getRequestDispatcher(ADD_NEWS).forward(request, response);
                 } else {
+                   News getNews = newsdao.getNewsById(id);
                     request.setAttribute("edit_news", true);
+                    request.setAttribute("EDIT_NEWS", getNews);
                     request.getRequestDispatcher(ADD_NEWS).forward(request, response);
                 }
             } catch (AdminException.RedirecUrlException e2) {
@@ -184,6 +184,7 @@ public class AdminNews extends HttpServlet {
             if (request.getParameter("edit-news") != null) {
                 throw new AdminException.RedirecUrlException();
             }
+            RemoveAccent ra = new RemoveAccent();
             request.setAttribute("add_news", true);
             String id = null;
             String title = null;
@@ -196,6 +197,7 @@ public class AdminNews extends HttpServlet {
             request.setAttribute("ALL_NEWSCATEGORY", ncdao.getAllNewsCategory());
             boolean error = false;
             RegisterError msg = new RegisterError();
+          
             try {
                 id = newsdao.generateId();
                 //generate id if duplicate
@@ -258,9 +260,10 @@ public class AdminNews extends HttpServlet {
                 request.setAttribute("REGISTER_ERROR", msg);
                 request.getRequestDispatcher(ADD_NEWS).forward(request, response);
             } else {
-                
+                String slug = ra.removeAccent(title);
+                System.out.println("slug : " + slug);    
                 NewsCategory newsCategory = new NewsCategory(newsCategoryId, "");
-                News news = new News(id, title, content, checkEmp.getEmail(), newsCategory, "", "", "", coverImage, subtitle);
+                News news = new News(id, title, content,checkEmp.getEmail(),newsCategory, "", "", "0", coverImage, subtitle, slug);
                 newsdao.addNews(news);
                 //add news
                 request.setAttribute("MESSAGE", "Đăng kí thành công!");
@@ -269,7 +272,7 @@ public class AdminNews extends HttpServlet {
 
         } catch (AdminException.RedirecUrlException e) {
             request.setAttribute("edit_news", true);
-            String id;
+            String id = request.getParameter("id");
             String author;
             String title = null;
             String content = null;
@@ -281,24 +284,17 @@ public class AdminNews extends HttpServlet {
             NewsCategoryDAO ncdao = new NewsCategoryDAO();
             request.setAttribute("ALL_NEWSCATEGORY", ncdao.getAllNewsCategory());
             RegisterError msg = new RegisterError();
-            id = request.getParameter("id");
             request.setAttribute("id", id);
             request.setAttribute("edit", 1);
             News getNews = newsdao.getNewsById(id);
             try {
-                author = request.getParameter("author");
+                author = getNews.getAuthor();
                 request.setAttribute("author", author);
                 //check empty string
                 if (author.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
-                if (checkEmp==null||!author.equals(checkEmp.getEmail())) {
-                    throw new AdminException.NotHaveRole("bạn không phải tác giả");
-                }
             } catch (AdminException.EmptyStringException ex) {
-                error = true;
-                msg.setAuthorError(ex.getMessage());
-            }catch(AdminException.NotHaveRole ex){
                 error = true;
                 msg.setAuthorError(ex.getMessage());
             }

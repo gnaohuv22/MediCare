@@ -25,7 +25,7 @@ public class RemoveAccent {
 
     public static void main(String[] args) {
         NewsDAO nd = new NewsDAO();
-        News n = nd.getNewsById("5");
+        News n = nd.getNewsById("51111");
         System.out.println(removeAccent(n.getTitle()).replaceAll(" ", "-"));
     }
 }
