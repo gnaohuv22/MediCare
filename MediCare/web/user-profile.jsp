@@ -23,7 +23,7 @@
                             <c:choose>
                                 <c:when test="${'user-profile' eq item.getHref()}">
                                     <li class="sidebar-active">
-                                        <a href="${item.getHref()}">${item.getName()}</a>
+                                        <a href="#">${item.getName()}</a>
                                     </li>
                                 </c:when>
                                 <c:otherwise>
@@ -229,7 +229,7 @@
 
                 document.getElementById("name").value = document.getElementById("display-name").textContent;
                 document.getElementById("phone").value = document.getElementById("display-phone").textContent;
-                document.getElementById("birthDate").value = document.getElementById("display-dob").textContent;
+                document.getElementById("birthDate").value = document.getElementById("display-dob").textContent.split("/").reverse().join("-");
                 if (document.getElementById("display-dob").textContent === "Male") {
                     document.getElementById("male").checked = true;
                 } else {

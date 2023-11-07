@@ -702,18 +702,31 @@ public class AppointmentsDAO extends DBContext {
 
     public List<Appointments> getListAppointmentsByOwnerId(String ownerId) {
         ArrayList<Appointments> list = new ArrayList<>();
-        String SQL = "SELECT * FROM [Appointments] where userId=?";
-
+        String SQL = "SELECT a.id,a.status,a.plannedAt,d.displayName,d.profilePicture,fp.profileId,fp.name,"
+                + "fp.birthDate,fp.phone,fp.gender,fp.address FROM Appointments a\n"
+                + "JOIN Doctor d ON a.doctorId = d.id\n"
+                + "JOIN ServiceTag st ON a.serviceId = st.id\n"
+                + "JOIN FamilyProfile fp ON a.profileId = fp.profileId\n"
+                + "where fp.ownerId = ?";
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setString(1, ownerId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Appointments a = new Appointments(
-                        String.valueOf(rs.getInt(1)),
-                        rs.getString(2),
-                        rs.getString(3),
-                        String.valueOf(rs.getInt(4)),
-                        String.valueOf(rs.getDate(5)),
-                        String.valueOf(rs.getInt(6)));
+                String gender = "Nam";
+                if(rs.getInt("gender") == 1){
+                    gender = "Nữ";
+                }
+                Appointments a = new Appointments();
+                a.setId(rs.getString("id"));
+                a.setStatus(rs.getString("status"));
+                a.setPlannedAt(rs.getString("plannedAt"));
+                a.getDoctor().setDisplayName(rs.getString("displayName"));
+                a.getDoctor().setProfilePicture(rs.getString("profilePicture"));
+                a.getFp().setName(rs.getString("name"));
+                a.getFp().setBirthDate(rs.getString("birthDate"));
+                a.getFp().setPhone(rs.getString("phone"));
+                a.getFp().setGender(gender);
+                a.getFp().setAddress(rs.getString("address"));
                 list.add(a);
             }
             return list;

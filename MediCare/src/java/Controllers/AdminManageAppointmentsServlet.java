@@ -35,7 +35,7 @@ import java.util.ArrayList;
  *
  * @author tubinh
  */
-@WebServlet(name = "AdminManageAppointmentsServlet", urlPatterns = {"/admin-manage-appointments"})
+//@WebServlet(name = "AdminManageAppointmentsServlet", urlPatterns = {"/admin-manage-appointments"})
 public class AdminManageAppointmentsServlet extends HttpServlet {
 
     private final String STATISTIC_APPOINTMENT = "admin-appointments/admin-manage-appointments.jsp";

@@ -20,7 +20,7 @@ import java.util.Random;
  *
  * @author DELL
  */
-@WebServlet(name="AdminForgotPassword", urlPatterns={"/admin-forgot-password"})
+//@WebServlet(name="AdminForgotPassword", urlPatterns={"/admin-forgot-password"})
 public class AdminForgotPassword extends HttpServlet {
     private final String LOGIN_PAGE = "admin-screen/admin-login.jsp";
    

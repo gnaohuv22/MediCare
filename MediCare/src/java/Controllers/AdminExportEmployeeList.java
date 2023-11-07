@@ -26,7 +26,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * @author DELL
  */
-@WebServlet(name="AdminExportEmployeeList", urlPatterns={"/admin-export-employee-list"})
+//@WebServlet(name="AdminExportEmployeeList", urlPatterns={"/admin-export-employee-list"})
 public class AdminExportEmployeeList extends HttpServlet {
    
     /** 
