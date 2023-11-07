@@ -134,16 +134,7 @@ public class UserProfileController extends HttpServlet {
             String email = request.getParameter("email");
 
             //add photo
-            Part filePart = request.getPart("photo");
-            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // Extract file name
-            System.out.println(fileName);
-            String fileType = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
-            String uploadPath = getServletContext().getRealPath("") + "assets\\client\\images\\profile";
-            String newFileName = name + "_" + birthDate + "." + fileType; // Replace 'newName' with the new name you want
-
             String method = request.getParameter("method");
-            System.out.println("method: " + method);
-            System.out.println("name: " + name);
             switch (method) {
                 case "search":
                     fpList = fpDAO.getFamilyProfileListByUserName(search, ownerId);
@@ -152,7 +143,14 @@ public class UserProfileController extends HttpServlet {
                     request.getRequestDispatcher("user-profile.jsp").forward(request, response);
                     break;
                 case "add":
-
+                    Part filePart = request.getPart("photo");
+                    String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // Extract file name
+                    System.out.println(fileName);
+                    String fileType = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+                    String uploadPath = getServletContext().getRealPath("") + "assets\\client\\images\\profile";
+                    String newFileName = name + "_" + birthDate + "." + fileType; // Replace 'newName' with the new name you want
+                    System.out.println("method: " + method);
+                    System.out.println("name: " + name);
                     if (!fileType.equals("jpg") && !fileType.equals("png")) {
                         // Handle invalid file type
                     } else {
@@ -162,7 +160,7 @@ public class UserProfileController extends HttpServlet {
                             if (!dir.exists()) {
                                 dir.mkdirs();
                             }
-                            File file = new File(uploadPath + File.separator, fileName);
+                            File file = new File(uploadPath + File.separator, newFileName);
                             System.out.println("Absolute Path: " + file.getAbsolutePath());
                             filePart.write(file.getAbsolutePath());
                         }
@@ -181,10 +179,22 @@ public class UserProfileController extends HttpServlet {
                     break;
                 case "delete":
                     String profileId = request.getParameter("profileId");
-
+                    fpDAO.deleteFamilyProfileByID(profileId);
+                    request.setAttribute("fpList", fpList);
+                    request.setAttribute("rList", rList);
+                    response.sendRedirect("user-profile");
                     break;
                 case "edit":
-                        if (!fileType.equals("jpg") && !fileType.equals("png")) {
+                    filePart = request.getPart("photo");
+                    fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // Extract file name
+                    System.out.println(fileName);
+                    fileType = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+                    uploadPath = getServletContext().getRealPath("") + "assets\\client\\images\\profile";
+                    newFileName = name + "_" + birthDate + "." + fileType; // Replace 'newName' with the new name you want
+
+                    System.out.println("method: " + method);
+                    System.out.println("name: " + name);
+                    if (!fileType.equals("jpg") && !fileType.equals("png")) {
                         // Handle invalid file type
                     } else {
                         if (!fileName.isEmpty()) {
@@ -193,12 +203,12 @@ public class UserProfileController extends HttpServlet {
                             if (!dir.exists()) {
                                 dir.mkdirs();
                             }
-                            File file = new File(uploadPath + File.separator, fileName);
+                            File file = new File(uploadPath + File.separator, newFileName);
                             System.out.println("Absolute Path: " + file.getAbsolutePath());
                             filePart.write(file.getAbsolutePath());
                         }
                     }
-                    profileId = request.getParameter("id");
+                    profileId = request.getParameter("profileId");
                     relationId = request.getParameter("relation");
                     fp = new FamilyProfile();
                     fp.setProfileId(profileId);

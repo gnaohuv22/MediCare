@@ -147,12 +147,12 @@
                 </form>
             </div>
             <div id="deleteForm" class="form-popup">
-                <form action="user-profile" class="form-container" method="post">
+                <form action="user-profile" class="form-container" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <p>Bạn có chắc chắn muốn xóa hồ sơ?</p>
                     </div>
                     <input type="hidden" name="profileId" id="profileId" value="">
-                    <input type="hidden" name="method" id="delete-method" value="">
+                    <input type="hidden" name="method" id="delete-method" value="delete">
                     <div class="form-buttons">
                         <button type="button" id="delete-close-button" onclick="closeDeleteProfileForm()">Đóng</button>
                         <button class="button-container" id="delete-submit-button" type="submit">Chắc chắn</button>

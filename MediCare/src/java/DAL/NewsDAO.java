@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import Models.News;
 import Models.NewsCategory;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import org.apache.poi.util.LocaleID;
 
@@ -37,8 +39,12 @@ public class NewsDAO extends DBContext {
                 String content = rs.getString("content");
                 String author = rs.getString("author");
                 String categoryId = rs.getString("categoryId");
-                String createdAt = rs.getString("createdAt");
-                String lastModified = rs.getString("lastModified");
+                
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                Timestamp ts = rs.getTimestamp("createdAt");
+                String createdAt = format.format(ts);
+                ts = rs.getTimestamp("lastModified");
+                String lastModified = format.format(ts);
                 String viewCount = rs.getString("viewCount");
                 String coverImage = rs.getString("coverImage");
                 String categoryName = rs.getString("cName");

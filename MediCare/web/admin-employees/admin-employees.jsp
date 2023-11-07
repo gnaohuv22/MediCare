@@ -48,20 +48,20 @@
                             <div class="col-sm-6 col-md-3">
                                 <div class="form-group form-focus">
                                     <label class="focus-label">ID nhân viên</label>
-                                    <input type="text" class="form-control floating" name="searchId" id="searchId" value="${searchId}">
+                                    <input type="text" class="form-control floating" placeholder="ID nhân viên" name="searchId" id="searchId" value="${searchId}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-md-3">
                                 <div class="form-group form-focus">
                                     <label class="focus-label">Tên nhân viên</label>
-                                    <input type="text" class="form-control floating" name ="searchName" id ="searchName" value="${searchName}">
+                                    <input type="text" class="form-control floating" name ="searchName" placeholder="Tên nhân viên" id ="searchName" value="${searchName}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-md-3">
                                 <div class="form-group form-focus select-focus">
                                     <label class="focus-label">Quyền</label>
                                     <select class="select floating" name="searchRole" id="searchRole" style="min-width: 100%">
-                                        <option value="Select Role">Chọn quyền</option>
+                                        <option value="Select Role">Tất cả</option>
                                         <c:forEach var="list" items="${ALL_EMPLOYEEROLE}">
                                             <option value="${list.getId()}" <c:if test="${list.getId() eq searchRole}">selected</c:if>>${list.getRole()}</option>
                                         </c:forEach>

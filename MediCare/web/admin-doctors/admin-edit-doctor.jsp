@@ -292,7 +292,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                                 <c:if test="${not empty requestScope.profilePictureError}">
+                                        <c:if test="${not empty requestScope.profilePictureError}">
                                             <p style="color: red">${requestScope.profilePictureError}</p>
                                         </c:if>
                                     </div>
@@ -323,16 +323,17 @@
             }
         </script>
         <script>
-            function mydate1() {
+           function mydate1() {
                 d = new Date(document.getElementById("dt").value);
                 dt = d.getDate();
                 mn = d.getMonth();
                 mn++;
                 yy = d.getFullYear();
-                document.getElementById("ndt").value = dt + "/" + mn + "/" + yy
+                document.getElementById("ndt").value = dt + "/" + mn + "/" + yy;
                 document.getElementById("ndt").hidden = false;
                 document.getElementById("dt").hidden = true;
             }
+
         </script>
     </body>
 </html>

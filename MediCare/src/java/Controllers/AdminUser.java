@@ -30,7 +30,7 @@ import java.util.Random;
  *
  * @author DELL
  */
-//@WebServlet(name = "User", urlPatterns = {"/admin-list-user"})
+@WebServlet(name = "User", urlPatterns = {"/admin-list-user"})
 public class AdminUser extends HttpServlet {
 
     private final String REGISTER_USER = "admin-patients/admin-add-patient.jsp";
