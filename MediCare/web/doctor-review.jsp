@@ -14,22 +14,46 @@
         <div class="container">
             <div class="review-container">
                 <div class="row">
-
                     <div class="col-md-3">
-                        filter: 
-                        <p>rating</p>
-                        <p>date</p>
-                        <p>service name</p>
+                        <h1 class="filter-text">Bộ lọc</h1>
+                        <div class="star-filter">
+                            <h3 class="filter-element">Đánh giá</h3>
+                            <!-- dynamic rating filter -->
+                            <c:forEach var="rating" items="${requestScope.uniqueRatings}">
+                                <c:if test="${rating lt 5.0}">
+                                    <input type="checkbox" id="rating${rating}" name="rating" value="${rating}">
+                                    <label class="filter-content" for="rating${rating}">${rating} <i class="fa-solid fa-star"></i> - ${rating + 0.5} <i class="fa-solid fa-star"></i></label><br>
+                                    </c:if>
+                                </c:forEach>
+                            <input type="checkbox" id="rating5" name="rating" value="5">
+                            <label class="filter-content" for="rating5">5.0 <i class="fa-solid fa-star"></i></label><br>
+                        </div>
+                        <div class="service-filter">
+                            <h3 class="filter-element">Tên dịch vụ</h3>
+                            <c:forEach var="service" items="${requestScope.uniqueServicesSet}">
+                                <input type="checkbox" id="service${service}" name="service" value="${service}">
+                                <label class="filter-content" for="service${service}">${service}</label><br>
+                            </c:forEach>
+                        </div>
                     </div>
                     <div class="col-md-9">
                         <div id="reviews">
                             <div class="review-title">
                                 <h1 class="text-center">Đánh giá của người dùng</h1>
                             </div>
-                            <!-- Each review will be a card with the user's name, rating, and comment -->
-                            <!-- This will be populated dynamically using JSTL -->
+                            <div class="date-filter">
+                                <label class="filter-date" for="start-date">Từ</label>
+                                <input class="date-type" type="date" id="startDate" name="startDate">
+                                
+                                <label class="filter-date" for="end-date">Đến</label>
+                                <input class="date-type" type="date" id="endDate" name="endDate">
+                                <button class="filter-button" id="submitDate">Lọc</button>
+                            </div>
                             <c:forEach var="review" items="${requestScope.reviewList}">
-                                <div class="card review-section">
+                                <c:set var="rating" value="${Double.parseDouble(review.getRating())}"></c:set>
+                                <c:set var="intRating" value="${Math.floor(rating)}"></c:set>
+                                <div class="card review-section" data-rating="${intRating}" data-service="${review.getAppointment().getSt().getNametag()}" date-date="${review.getCreatedAt()}">
+                                    <!--<p>${intRating}</p>-->
                                     <div class="card-header">
                                         <div class="row">
                                             <div class="col">
@@ -80,40 +104,51 @@
             </div>
         </div>
 
-
-        <!-- pagination section -->
-        <nav aria-label="Pagination">
-            <ul class="pagination justify-content-center">
-                <c:if test="${currentPage != 1}">
-                    <li class="page-item">
-                        <a class="page-link" href="${pageContext.request.contextPath}/view-review?page=${currentPage - 1}"><<</a>
-                    </li>
-                </c:if>
-
-                <c:forEach begin="1" end="${pages}" var="i">
-                    <c:choose>
-                        <c:when test="${currentPage eq i}">
-                            <li class="page-item active">
-                                <a class="page-link" href="#" >${i}</a>
-                            </li>
-                        </c:when>
-                        <c:otherwise>
-                            <li class="page-item">
-                                <a class="page-link" href="${pageContext.request.contextPath}/view-review?page=${i}">${i}</a>
-                            </li>
-                        </c:otherwise>
-                    </c:choose>
-                </c:forEach>
-                <c:if test="${currentPage lt pages}">
-                    <li class="page-item">
-                        <a class="page-link" href="${pageContext.request.contextPath}/view-review?page=${currentPage + 1}">>></a>
-                    </li>
-                </c:if>
-            </ul>
-        </nav>
-        <!-- pagination section -->
-
         <jsp:include page="doctor-footer.jsp"/>
         <jsp:include page="doctor-script.jsp"/>
+        <script>
+            $('input[name="rating"], input[name="service"]').change(function () {
+                var checkedRatingBoxes = $('input[name="rating"]:checked');
+                var checkedServiceBoxes = $('input[name="service"]:checked');
+
+                if (checkedRatingBoxes.length === 0 && checkedServiceBoxes.length === 0) {
+                    // If no checkboxes are checked, show all reviews
+                    $('.review-section').show();
+                } else {
+                    // If some checkboxes are checked, show only the reviews with matching ratings and services
+                    $('.review-section').hide();
+                    $('.review-section').each(function () {
+                        var reviewRating = parseFloat($(this).attr('data-rating'));
+                        var reviewService = $(this).attr('data-service');
+                        var matchRating = checkedRatingBoxes.length === 0 || Array.from(checkedRatingBoxes).some(function (checkbox) {
+                            var rating = parseFloat(checkbox.value);
+                            return rating <= reviewRating && reviewRating < rating + 1;
+                        });
+                        var matchService = checkedServiceBoxes.length === 0 || Array.from(checkedServiceBoxes).some(function (checkbox) {
+                            return checkbox.value === reviewService;
+                        });
+                        if (matchRating && matchService) {
+                            $(this).show();
+                        }
+                    });
+                }
+            });
+
+        </script>
+        <script>
+            $('#submitDate').click(function() {
+               var startDate = new Date($('#startDate').val());
+               var endDate = new Date($('#endDate').val());
+               
+               $('.review-section').each(function() {
+                  var reviewDate = new Date($(this).attr('data-date'));
+                  if (reviewDate >= startDate && reviewDate <= endDate) {
+                      $(this).show();
+                  } else {
+                      $(this).hide();
+                  }
+               });
+            });
+        </script>
     </body>
 </html>

@@ -323,18 +323,5 @@
                 input.value = value.toLocaleString('vi-VN'); // Định dạng và hiển thị giá trị
             }
         </script>
-        <script>
-           function mydate1() {
-                d = new Date(document.getElementById("dt").value);
-                dt = d.getDate();
-                mn = d.getMonth();
-                mn++;
-                yy = d.getFullYear();
-                document.getElementById("ndt").value = dt + "/" + mn + "/" + yy;
-                document.getElementById("ndt").hidden = false;
-                document.getElementById("dt").hidden = true;
-            }
-
-        </script>
     </body>
 </html>
