@@ -4,6 +4,7 @@
  */
 package DAL;
 
+import Models.Branch;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -308,7 +309,7 @@ public class FamilyProfileDAO extends DBContext {
 
     public FamilyProfile getFamilyProfileByInfoGuest(String patientName, String gender, String birthDate, String phone, String emailPatient, String ownerId) {
         String sql = "SELECT * FROM FamilyProfile\n"
-                + "WHERE email = ? AND birthDate = ? AND gender = ? AND [name] =? AND phone = ? AND ownerId = ?";
+                + "WHERE email = ? AND birthDate = ? AND gender = ? AND [name] =? AND phone = ? AND ownerId = ? AND relationId IS NULL";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -330,7 +331,7 @@ public class FamilyProfileDAO extends DBContext {
 
     public FamilyProfile getFamilyProfileByInfoUser(String patientName, String gender, String birthDate, String phone, String emailPatient, String ownerId) {
         String sql = "SELECT * FROM FamilyProfile\n"
-                + "WHERE email = ? AND birthDate = ? AND gender = ? AND [name] =? AND phone = ? AND ownerId = ?";
+                + "WHERE email = ? AND birthDate = ? AND gender = ? AND [name] =? AND phone = ? AND ownerId = ? AND relationId IS NULL";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -413,7 +414,7 @@ public class FamilyProfileDAO extends DBContext {
             if (fp.getGender().equals("Female")) {
                 gender = "1";
             }
-            st.setString(1, fp.getEmail()); 
+            st.setString(1, fp.getEmail());
             st.setString(2, fp.getName());
             st.setString(3, fp.getBirthDate());
             st.setString(4, gender);
@@ -463,4 +464,59 @@ public class FamilyProfileDAO extends DBContext {
         }
         return false;
     }
+    public ArrayList<FamilyProfile> getAllPatients() {
+        ArrayList<FamilyProfile> list = new ArrayList<>();
+        String sql = "SELECT A.profileId, A.branchId, F.[address], F.birthDate, F.createBy, F.createdAt, F.email, F.ethnic, F.gender, F.[identity], F.medicalId, F.modifyAt, F.modifyBy, F.[name], F.phone, F.profilePicture, F.provinceId FROM Appointments AS A\n"
+                + "JOIN FamilyProfile AS F ON A.profileId = F.profileId\n"
+                + "WHERE A.status IN (1,2)\n"
+                + "GROUP BY A.profileId, A.branchId, F.[address], F.birthDate, F.createBy, F.createdAt, F.email, F.ethnic, F.gender, F.[identity], F.medicalId, F.modifyAt, F.modifyBy, F.[name], F.phone, F.profilePicture, F.provinceId";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                //(String profileId, String email, String name, String birthDate, 
+                //String gender, String address, String identity, String medicalId, 
+                //String ethnic, String phone, String profilePicture)
+                FamilyProfile f = new FamilyProfile(rs.getInt("profileId") + "", new BranchDAO().getBranchByBranchId(rs.getInt("branchId") + ""),
+                        rs.getString("email"), rs.getString("name"), String.valueOf(rs.getDate("birthDate")),
+                        rs.getString("gender"), rs.getString("address"), rs.getString("identity"), rs.getString("medicalId"),
+                        rs.getString("ethnic"), rs.getString("phone"), rs.getString("profilePicture"));
+                list.add(f);
+            }
+        } catch (SQLException e) {
+            System.out.println("getAllPatients: " + e);
+        }
+        return list;
+    }
+
+    public FamilyProfile getPatientInfoById(String patientId) {
+        String sql = "SELECT * FROM FamilyProfile WHERE profileId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, Integer.parseInt(patientId));
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                String gender = "Nam";
+                if (rs.getInt("gender") == 1) {
+                    gender = "Nữ";
+                }
+                return new FamilyProfile(patientId, rs.getString("email"), rs.getString("name"),
+                        String.valueOf(rs.getDate("birthDate")), gender, rs.getString("address"),
+                        rs.getString("identity"), rs.getString("medicalId"), rs.getString("ethnic"),
+                        rs.getString("phone"), new AppointmentsDAO().getListAppointmentsByProfileId(patientId));
+            }
+        } catch (NumberFormatException | SQLException e) {
+            System.out.println("getPatientInfoById: " + e);
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        FamilyProfileDAO fpd = new FamilyProfileDAO();
+        String idByEmail = "";
+        FamilyProfile p = fpd.getPatientInfoById("59");
+        System.out.println(p);
+
+    }
+
 }

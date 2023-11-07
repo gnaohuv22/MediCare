@@ -65,7 +65,7 @@ public class UserHomeServlet extends HttpServlet {
         ArrayList<NewsCategory> subMenu = ncd.getAllSubMenu();
 
         EmployeeDAO ed = new EmployeeDAO();
-        ArrayList<Employee> employees = ed.getEmployeeList();
+//        ArrayList<Employee> employees = ed.getEmployeeList();
 
 //        TopLevelMenuDAO tlmd = new TopLevelMenuDAO();
 //        ArrayList<TopLevelMenu> pages = tlmd.getTopLevelMenu();
@@ -83,7 +83,7 @@ public class UserHomeServlet extends HttpServlet {
         session.setAttribute("subMenu", subMenu);
         session.setAttribute("topNews", topNews);
         session.setAttribute("categories", categories);
-        session.setAttribute("employees", employees);
+//        session.setAttribute("employees", employees);
         session.setAttribute("bannerList", bannerList);
         session.setAttribute("bannerDetailsList", bannerDetailsList);
         session.setAttribute("trendDoctors", trendDoctors);

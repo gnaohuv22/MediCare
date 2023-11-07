@@ -37,7 +37,7 @@ public class BranchDAO extends DBContext {
     }
 
     public Branch getBranchByBranchId(String id) {
-        String sql = "SELECT * FROM Branch WHERE id = ?";
+        String sql = "SELECT * FROM [Branch] WHERE id = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, Integer.parseInt(id));
@@ -132,7 +132,22 @@ public class BranchDAO extends DBContext {
         }
         return list;
     }
-
+    
+//thu
+    public String getBranchId(String name) {
+        String sql = "SELECT id FROM Branch WHERE name = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setNString(1, name);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getString("id");
+            }
+        } catch (SQLException e) {
+            System.out.println("getBranchId: " + e);
+        }
+        return null;
+    }
     public static void main(String[] args) {
         BranchDAO bd = new BranchDAO();
         ArrayList<Doctor> list = bd.getAllDoctorsByBranchId("1");

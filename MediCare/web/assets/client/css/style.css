@@ -1925,18 +1925,18 @@ ul .tab-component a:hover {
 /* CSS code style for user-news.jsp  */
 /*TU BINH - SEP 28 2023 - CSS Screen: Booking Appointment:*/
 .booking-container {
-    margin: 10%;
+     margin: 10%;
     border: 1px solid #ccc;
     background-color: #fff;
-    padding-left: 5%;
-    padding-right: 5%;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 20px 5%;
     border-radius: 10px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
 .btn-booking .btn-primary {
     background-color: #1ead5b;
+    width: 130px;
+    margin: 20px;
     border: none;
 }
 
@@ -2257,6 +2257,21 @@ button{
     height: 5vh;
     border-radius: 10px;
 }
+#editProfileButton{
+    margin-top: 10px;
+    background-color: #68B2A0;
+    width: 100%;
+    height: 5vh;
+}
+
+#deleteProfileButton{
+    font-size: 1.5rem;
+    color: #e93535;
+    margin-top: 10px;
+    width: 100%;
+    height: 5vh;
+    background-color: unset;
+}
 
 #editProfileButton {
     margin-top: 10px;
@@ -2486,3 +2501,13 @@ button{
 #back-to-top.show {
     opacity: 1;
 }
+
+/*Style 25/10/2023 - tubinh - start:*/
+.appointment-header-text {
+    margin: 15%;
+    margin-bottom: -10%;
+    margin-top: 0;
+    font-weight: 800;
+    font-size: 30px;
+}
+/*Style 25/10/2023 - tubinh - end:*/

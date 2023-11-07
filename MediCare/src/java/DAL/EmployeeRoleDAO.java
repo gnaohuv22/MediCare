@@ -4,33 +4,58 @@
  */
 package DAL;
 
+import Models.EmployeeRole;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import Models.EmployeeRole;
 
 /**
  *
- * @author hoang
+ * @author DELL
  */
-public class EmployeeRoleDAO extends DBContext {
-    public ArrayList<EmployeeRole> getEmployeeRoleList() {
-        String SQL = "SELECT * FROM [EmployeeRole]";
+public class EmployeeRoleDAO extends DBContext{
+    public ArrayList<EmployeeRole> getAllEmployeeRole() {
         ArrayList<EmployeeRole> list = new ArrayList<>();
-        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
-            ResultSet rs = ps.executeQuery();
-            
-            while (rs.next()) {
-                EmployeeRole er = new EmployeeRole(
-                        String.valueOf(rs.getInt(1)), 
-                        rs.getString(2));
-                list.add(er);
+        String SQL = "SELECT id,role FROM EmployeeRole";
+        try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()){
+                String id = rs.getString(1);
+                String role = rs.getString(2);
+                EmployeeRole obj = new EmployeeRole(id,role);
+                list.add(obj);
             }
-            return list;
-        } catch (SQLException e) {
-            System.out.println("getEmployeeRoleList: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("getAllEmployeeRole " + e.getMessage());
         }
         return list;
+    }
+    public String getRoleIdByName(String role) {
+        String SQL = "SELECT id FROM EmployeeRole WHERE role = ?";
+        try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            pstm.setNString(1,role);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()){
+                return rs.getString("id");
+            }
+        }catch (Exception e) {
+            System.out.println("getRoleIdByName " + e.getMessage());
+        }
+        return "";
+    }
+    public EmployeeRole getEmployeeRoleById(String id) {
+        String SQL = "SELECT role FROM EmployeeRole WHERE id = ?";
+        try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            pstm.setString(1,id);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()){
+                String name = rs.getString(2);
+                EmployeeRole obj = new EmployeeRole(id,name);
+                return obj;
+            }
+        }catch (Exception e) {
+            System.out.println("getEmployeeRoleById " + e.getMessage());
+        }
+        return null;
     }
 }

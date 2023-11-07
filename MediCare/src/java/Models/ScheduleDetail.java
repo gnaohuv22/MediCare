@@ -10,7 +10,7 @@ package Models;
  * @author tubinh
  */
 public class ScheduleDetail {
-    private String id, scheduleId, slotId, slotStatus, startTime;
+    private String id, scheduleId, slotId, slotStatus, startTime, endTime, workDate, isDelete;
 
     public ScheduleDetail() {
     }
@@ -34,10 +34,20 @@ public class ScheduleDetail {
         this.startTime = startTime;
     }
     
-    
-    
-    
+    public ScheduleDetail(String slotId, String startTime, String endTime, int n) {
+        this.slotId = slotId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
 
+    public String getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(String isDelete) {
+        this.isDelete = isDelete;
+    }
+    
     public String getId() {
         return id;
     }
@@ -78,6 +88,30 @@ public class ScheduleDetail {
         this.startTime = startTime;
     }
 
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getWorkDate() {
+        return workDate;
+    }
+
+    public void setWorkDate(String workDate) {
+        this.workDate = workDate;
+    }
+
+    public ScheduleDetail(String id, String scheduleId, String slotId, String slotStatus, String workDate, int n) {
+        this.id = id;
+        this.scheduleId = scheduleId;
+        this.slotId = slotId;
+        this.slotStatus = slotStatus;
+        this.workDate = workDate;
+    }
+    
     @Override
     public String toString() {
         return "ScheduleDetail{" + "id=" + id + ", scheduleId=" + scheduleId + ", slotId=" + slotId + ", slotStatus=" + slotStatus + ", startTime=" + startTime + '}';

@@ -2,15 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package Models;
 
 /**
  *
- * @author tubinh
+ * @author DELL
  */
 public class Department {
-    private String id, name, description;
+    private String id;
+    private String name;
+    private String description;
 
     public Department() {
     }
@@ -43,11 +44,6 @@ public class Department {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    @Override
-    public String toString() {
-        return "Department{" + "id=" + id + ", name=" + name + ", description=" + description + '}';
     }
     
 }
