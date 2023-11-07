@@ -23,7 +23,7 @@
                         </div>
 
                         <div class="col-sm-5 col-6 text-right m-b-30">
-                            <a  class="dropdown-item" href="admin-doctor?id=${requestScope.doc.getId()}&action=edit" data-toggle="modal" data-target="#edit_doctor" onclick="setDoctorId(${doc.getId()})"> <i class="fa fa-plus"></i> Edit Profile</a>
+                            <a  class="dropdown-item" href="admin-doctor?id=${requestScope.doc.getId()}&action=edit" data-toggle="modal" data-target="#edit_doctor" onclick="setDoctorId(${doc.getId()})"> <i class="fa fa-plus"></i> Chỉnh sửa thông tin cá nhân</a>
                         </div>
                     </div>
                     <div class="card-box profile-header">
@@ -88,16 +88,18 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="card-box">
-                                            <h3 class="card-title">Giới thiệu</h3>
+                                            <h3 class="card-title">Thông tin</h3>
                                             <div class="experience-box">
                                                 <ul class="experience-list">
                                                     <li>
                                                         <div class="experience-user">
                                                             <div class="before-circle"></div>
                                                         </div>
+                                                        
                                                         <div class="experience-content">
-                                                            <div class="timeline-content">
-                                                                <div>${requestScope.doc.getIntroduce()}</div>
+                                                            <span class="title">Chức vụ : </span>
+                                                            <div class="timeline-content">                                  
+                                                                <div>${requestScope.doc.getARName()}</div>
                                                             </div>
                                                         </div>
                                                     </li>

@@ -867,8 +867,20 @@ public class UserDAO extends DBContext {
         return null;
     }
 
-    public String getIdByEmail(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String getIdByEmail(String email) {
+        System.out.println("UserDAO.getIdByEmail: email:" + email);
+        String sql = "SELECT id FROM [User] WHERE email=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, email);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (NumberFormatException | SQLException e) {
+            System.out.println("UserDAO.getIdByEmail: " + e);
+        }
+        return "";
     }
 
 }

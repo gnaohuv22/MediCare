@@ -67,7 +67,7 @@ public class LoadFamilyProfileByOwnerIdServlet extends HttpServlet {
                 + "                        </div>\n"
                 + "                        <div class=\"profile-display-info\">\n"
                 + "                            <h2>" + (fp.getName() != null ? fp.getName() : "--") + "</h2>\n"
-                + "                            <span>Patient Code: " + fp.getProfileId() + "</span>\n"
+                + "                            <span>Patient Code:</span><span id=\"display-id\">" + fp.getProfileId() + "</span>\n"
                 + "                        </div>\n"
                 + "                    </div>\n"
                 + "                    <div class=\"profile-display-body\">\n"

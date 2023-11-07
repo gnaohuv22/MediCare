@@ -39,33 +39,32 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <c:forEach var="list" items="${ALL_NEWS}">
+                                         <c:forEach var="list" items="${ALL_NEWS}">
+                                            
                                         <tr name="display-table-tr">
                                             <!--<td><img width="28" height="28" src="../assets/admin/img/user.jpg" class="rounded-circle m-r-5" alt=""> Linda Carpenter</td>-->
                                             <td >${list.getId()}</td>
-                                            <td >${list.getTitle()}</td>
-                                            <td >${list.getContent()}</td>
+                                            <td style="width: 10%;">${list.getTitle()}</td> <!-- ${list.getContent()} -->
+                                            <td ><a href="news/${list.getCategory().getHref()}/${list.getSlug()}">Xem</a></td>
                                             <td >${list.getAuthor()}</td>
-                                            <td >${list.getNewsCategory().getName()}</td>
+                                            <td >${list.getCategory().getName()}</td>
                                             <td >${list.getCreatedAt()}</td>
                                             <td >${list.getLastModified()}</td>
                                             <td >${list.getViewCount()}</td>
                                             <td ><img src="${list.getCoverImage()}" style="max-height: 100px;max-width:100px"/></td>
-                                            <td > ${list.getSubtitle()}</td>
+                                            <td > <p style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden">${list.getSubtitle()}</p></td>
                                             <td class="text-right">
                                                 <div class="dropdown dropdown-action">
                                                     <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        
-                                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-news?edit-news=true&id=${list.getId()}&edit=0" >Xem bài viết</a>
                                                         <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-list-news?edit-news=true&id=${list.getId()}&edit=1"><i class="fa fa-pencil m-r-5"></i> Sửa</a>
                                                         <a class="dropdown-item" onclick="return confirm('Bạn có chắc chắn muốn xóa? (Khi xóa thì dữ liệu này cùng những dữ liệu liên kết sẽ biến mất hoàn toàn và không thể khôi phục lại)');" href="${pageContext.request.contextPath}/admin-list-news?delete-news=true&id=${list.getId()}"><i class="fa fa-trash-o m-r-5"></i> Xóa</a>
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
+                                        </tr>     
                                         </c:forEach>
-                                        
+                                    </div>
                                     </tbody>
                                 </table>
                             </div>
