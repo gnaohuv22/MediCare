@@ -184,25 +184,47 @@ public class UserProfileController extends HttpServlet {
 
                     break;
                 case "edit":
-                        
+                        if (!fileType.equals("jpg") && !fileType.equals("png")) {
+                        // Handle invalid file type
+                    } else {
+                        if (!fileName.isEmpty()) {
+                            System.out.println(uploadPath);// Replace with your directory path
+                            File dir = new File(uploadPath);
+                            if (!dir.exists()) {
+                                dir.mkdirs();
+                            }
+                            File file = new File(uploadPath + File.separator, fileName);
+                            System.out.println("Absolute Path: " + file.getAbsolutePath());
+                            filePart.write(file.getAbsolutePath());
+                        }
+                    }
+                    profileId = request.getParameter("id");
+                    relationId = request.getParameter("relation");
+                    fp = new FamilyProfile();
+                    fp.setProfileId(profileId);
+                    fp.setEmail(email);
+                    fp.setName(name);
+                    fp.setBirthDate(birthDate);
+                    fp.setGender(gender);
+                    fp.setAddress(address);
+                    fp.setIdentity(identity);
+                    fp.setMedicalId(medicalId);
+                    fp.setEthnic(ethnic);
+                    fp.setPhone(phone);
+                    fp.setProfilePicture(newFileName);
+                    fp.setRelationId(relationId);
+                    fp.setOwnerId(ownerId);
+                    System.out.println(fp.toString());
+                    fpDAO.editFamilyProfileById(fp);
+                    request.setAttribute("fpList", fpList);
+                    request.setAttribute("rList", rList);
+                    response.sendRedirect("user-profile");
                     break;
                 default:
                     throw new AssertionError();
             }
 
         }
-    }
-
-    private int getIndexById(String id, List<FamilyProfile> fpList) {
-        if (fpList == null || fpList.isEmpty()) {
-            return -1;
-        }
-        for (FamilyProfile fp : fpList) {
-            if (fp.getProfileId().equals(id)) {
-                return fpList.indexOf(fp);
-            }
-        }
-        return -1;
     }
 
     /**

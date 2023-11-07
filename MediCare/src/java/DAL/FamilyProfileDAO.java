@@ -433,4 +433,34 @@ public class FamilyProfileDAO extends DBContext {
         }
         return false;
     }
+
+    public boolean editFamilyProfileById(FamilyProfile fp) {
+        String sql = "INSERT INTO [dbo].[FamilyProfile] ([email], [name], [birthDate], [gender], [address], [identity], [medicalId], [ethnic], [phone], [profilePicture], [createdAt], [ownerId], [relationId]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        //update FamilyProfile set email=?, [name]=?
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            String gender = "0";
+            if (fp.getGender().equals("Female")) {
+                gender = "1";
+            }
+            st.setString(1, fp.getEmail()); 
+            st.setString(2, fp.getName());
+            st.setString(3, fp.getBirthDate());
+            st.setString(4, gender);
+            st.setString(5, fp.getAddress());
+            st.setString(6, fp.getIdentity());
+            st.setString(7, fp.getMedicalId());
+            st.setString(8, fp.getEthnic());
+            st.setString(9, fp.getPhone());
+            st.setString(10, fp.getProfilePicture());
+            st.setString(11, fp.getCreatedAt());
+            st.setString(12, fp.getOwnerId());
+            st.setInt(13, Integer.parseInt(fp.getRelationId()));
+            st.execute();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("FamilyProfileDAO.addNewUserProfile: " + e);
+        }
+        return false;
+    }
 }
