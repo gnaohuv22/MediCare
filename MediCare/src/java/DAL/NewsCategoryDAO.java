@@ -16,10 +16,10 @@ import java.util.List;
  * @author hoang
  */
 public class NewsCategoryDAO extends DBContext {
-    
+    //updated by Thu 
       public ArrayList<NewsCategory> getAllNewsCategory() {
         ArrayList<NewsCategory> list = new ArrayList<>();
-        String SQL = "SELECT id,name FROM NewsCategory";
+        String SQL = "SELECT id,name FROM NewsCategory where parentId = 55";
         try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
             ResultSet rs = pstm.executeQuery();
             while (rs.next()){
@@ -33,6 +33,9 @@ public class NewsCategoryDAO extends DBContext {
         }
         return list;
     }
+ 
+
+      
 
 
     public ArrayList<NewsCategory> getTopLevelSideBar() {
