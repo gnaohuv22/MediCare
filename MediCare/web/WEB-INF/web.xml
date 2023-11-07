@@ -88,6 +88,14 @@
         <servlet-name>UserBranchDetailServlet</servlet-name>
         <url-pattern>/user-branch-detail</url-pattern>
     </servlet-mapping>
+        <servlet>
+        <servlet-name>AdminNews</servlet-name>
+        <servlet-class>Controllers.AdminNews</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminNews</servlet-name>
+        <url-pattern>/admin-list-news</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>UserListAllDoctorServlet</servlet-name>
         <servlet-class>Controllers.UserListAllDoctorServlet</servlet-class>
