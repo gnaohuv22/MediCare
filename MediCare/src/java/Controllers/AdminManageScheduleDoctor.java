@@ -737,6 +737,15 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                     ajaxFunction(out, branches, lastestMonthSchedule, branchId, monthSelect);
                     break;
                 }
+                case "add-event": {
+                    System.out.println("ACTION: add-event");
+                    ajaxFunctionAddEvent(out, branches, branchId);
+                    break;
+                }
+                case "save-add-event": {
+                    System.out.println("ACTION: save-add-event");
+                    break;
+                }
 
                 default:
                     throw new AssertionError();
@@ -801,7 +810,7 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                     if (b.getId().equals(branchId)) {
                         out.println("<div class=\"row step2-add-schedule\">\n"
                                 + "                        <div class=\"col-md-12\">\n"
-//                                +"                                <img id=\"loading\" src=\"/MediCare/assets/admin/images/c7e1b7b5753737039e1bdbda578132b8.gif\" alt=\"Loading...\" style=\"display: block;\">\n"
+                                //                                +"                                <img id=\"loading\" src=\"/MediCare/assets/admin/images/c7e1b7b5753737039e1bdbda578132b8.gif\" alt=\"Loading...\" style=\"display: block;\">\n"
                                 + "<h3>Lịch mới nhất đến thời điểm hiện tại: <span style=\"color: green;\">" + outputDateStr + "</span> (chi nhánh " + b.getName() + ")</h3>");
                     }
                 } else {
@@ -871,6 +880,59 @@ public class AdminManageScheduleDoctor extends HttpServlet {
         out.println("</div>\n");
         out.println("</div>\n");
         out.println("<div class=\"row step3-add-schedule\">\n");
+        out.println("<div class=\"btn btn-primary\" onclick=\"closeScheduleOfDoctorForm()\">Hủy</div>");
+        out.println("</div>\n");
+    }
+
+    public static void ajaxFunctionAddEvent(PrintWriter out, ArrayList<Branch> branches, String branchId) {
+        out.println("<div class=\"booking-container\">\n"
+                + "            <!--Step-1-container - start-->\n"
+                + "            <form action=\"user-book-appointment\" method=\"post\">\n"
+                + "                <div id=\"step-1-container\">\n"
+                + "                    <h2 class=\"booking-header\">Thêm lịch nghỉ lễ</h2>\n"
+                + "                    <div class=\"row add-event-info-input\">\n"
+                + "                        <!-- Cột 1 -->\n"
+                + "                        <div class=\"col-md-6\">\n"
+                + "                            <div class=\"form-group\"><label>Chọn chi nhánh <span class=\"text-danger\">*</span></label>"
+                + "                                <select id=\"branchId\" name=\"branchId\" class=\"booking-select-class\" onchange=\"onchangeBranchIdLoadSchedule()\">\n");
+        for (Branch b : branches) {
+            if (branchId != null && b.getId().equals(branchId)) {
+                out.println("<option selected value=\"" + b.getId() + "\">" + b.getName() + "</option>");
+            } else {
+                out.println("<option value=\"" + b.getId() + "\">" + b.getName() + "</option>");
+            }
+        }
+        out.println(
+                "                                </select>\n");
+        out.println(
+                "                            </div>\n"
+                + "                        </div>\n"
+                + "                    </div>\n"
+                + "                            <div>\n"
+                + "                <!--Step-1-container - end-->\n"
+                + "<div class=\"row\">\n"
+                + "                            <div class=\"form-group col-md-6\">\n"
+                + "                                <label>Tên ngày lễ <span class=\"text-danger\">*</span></label>\n"
+                + "                                <input id=\"eventName\" class=\"form-control\" type=\"text\">\n"
+                + "                            </div>\n"
+                + "                            </div>\n"
+                + "<div class=\"row\">\n"
+                + "                            <div class=\"form-group col-md-6\">\n"
+                + "                                <label>Ngày bắt đầu <span class=\"text-danger\">*</span></label>\n"
+                + "                                <input id=\"fromDate\" class=\"form-control\" type=\"date\">\n"
+                + "                            </div>\n"
+                + "                            <div class=\"form-group col-md-6\">\n"
+                + "                                <label>Kết thúc vào <span class=\"text-danger\">*</span></label>\n"
+                + "                                <div>\n"
+                + "                                    <input id=\"toDate\" class=\"form-control\" type=\"date\">\n"
+                + "                                </div>\n"
+                + "                            </div>\n"
+                + "                </div>"
+                                                        + "<p class=\"text-center\" id=\"error-save-add-appointment\">Error</p>"
+                + "                </div>"
+                + "</div>");
+        out.println("<div class=\"row step3-add-event\">\n");
+        out.println("<div class=\"btn btn-primary\" onclick=\"saveAddEvent()\">Thêm ngày lễ</div>");
         out.println("<div class=\"btn btn-primary\" onclick=\"closeScheduleOfDoctorForm()\">Hủy</div>");
         out.println("</div>\n");
     }

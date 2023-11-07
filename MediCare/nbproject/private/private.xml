@@ -3,11 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Learn/Semester_5/swp391/Html-to-jsp/medicalserviceproject/MediCare/web/admin-news/admin-add-news.jsp</file>
-            <file>file:/E:/Learn/Semester_5/swp391/Html-to-jsp/medicalserviceproject/MediCare/src/java/Controllers/AdminNews.java</file>
-            <file>file:/E:/Learn/Semester_5/swp391/Html-to-jsp/medicalserviceproject/MediCare/src/java/Models/News.java</file>
-            <file>file:/E:/Learn/Semester_5/swp391/Html-to-jsp/medicalserviceproject/MediCare/src/java/Controllers/RemoveAccent.java</file>
-            <file>file:/E:/Learn/Semester_5/swp391/Html-to-jsp/medicalserviceproject/MediCare/src/java/DAL/NewsDAO.java</file>
+            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/src/java/DAL/ReviewDAO.java</file>
+            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/src/java/Controllers/DoctorScheduleServlet.java</file>
+            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/web/assets/doctor/js/load-appointment.js</file>
+            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/src/java/Models/Appointments.java</file>
+            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/web/doctor-schedule.jsp</file>
+            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/src/java/Models/ServiceTag.java</file>
+            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/web/doctor-review.jsp</file>
+            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/src/java/Controllers/DoctorReviewServlet.java</file>
+            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/web/doctor-head.jsp</file>
         </group>
     </open-files>
 </project-private>
