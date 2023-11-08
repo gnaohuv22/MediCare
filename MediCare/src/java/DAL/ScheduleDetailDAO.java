@@ -577,8 +577,15 @@ public class ScheduleDetailDAO extends DBContext {
             st.setInt(4, Integer.parseInt(monthSelect));
             st.execute();
             return true;
-        } catch (Exception e) {
-        }
+        } catch (NumberFormatException | SQLException e) {
+            System.out.println("addScheduleForMonthAndBranchId: " + e);
+        } 
+        return false;
+    }
+
+    public boolean setDayOffForDoctorByEvent(String fromDate, String toDate) {
+        String sql = "";
+        
         
         return false;
     }

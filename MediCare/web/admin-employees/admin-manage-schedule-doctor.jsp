@@ -277,23 +277,21 @@
                 });
             }
             function saveAddEvent() {
+                console.log("Event - save add event:");
                 var branchId = document.getElementById("branchId");
                 var eventName = document.getElementById("eventName");
-                var fromDate = document.getElementById("fromDate");
-                var toDate = document.getElementById("toDate");
+                var fromDate = document.getElementById("fromDate").value;
+                var toDate = document.getElementById("toDate").value;
                 console.log("branchId = " + branchId.value);
                 var modal = document.getElementById("scheduleDoctorForm");
                 var error = document.getElementById("error-save-add-appointment");
                 console.log("error: " + error.innerHTML);
                 modal.style.display = "block";
-//                document.getElementById("method").value = "add";
-//                document.getElementById("schedule-submit-button").innerHTML = "Update";
 
                 // Close the modal if the user clicks outside of it
                 window.onclick = function (event) {
                     if (event.target === modal) {
                         modal.style.display = "none";
-//                        document.getElementById("method").value = "add";
                     }
                 };
 
@@ -302,290 +300,292 @@
                 } else {
                     console.log("eventName.value = " + eventName.value);
                 }
-                if (fromDate.value === null || fromDate.value === "") {
-                    console.log("fromDate.value === null");
+                if (fromDate == "Invalid Date") {
+                    console.log("fromDate.value is invalid");
                 } else {
-                    console.log("fromDate.value = " + fromDate.value);
+                    console.log("fromDate.value = " + fromDate);
                 }
 
-                if (eventName.value === "" || fromDate.value === "" || toDate.value === "") {
+                if (eventName.value === "" || fromDate == "Invalid Date" || toDate == "Invalid Date") {
                     error.innerHTML = "Vui lòng điền tất cả thông tin bắt buộc!";
                 }
 
                 // Check if fromDate is less than or equal to toDate
-                if (fromDate.value > toDate.value) {
+                if (fromDate > toDate) {
                     error.innerHTML = "Ngày bắt đầu phải nhỏ hơn hoặc bằng ngày kết thúc";
                 }
-                $.ajax({
-                    url: "/MediCare/admin-manage-schedule-doctor",
-                    data: {
-                        branchId: branchId.value,
-                        action: "save-add-event"
-                    },
-                    cache: false,
-                    type: "POST",
-                    success: function (response) {
-//                        var step3container = document.getElementById("step-3-container");
-//                        step3container.innerHTML = response;
-//                        var scheduleDoctorForm = document.getElementById("scheduleDoctorForm");
-//                        scheduleDoctorForm.innerHTML = response;
-//                        alert("Save success");
-                        console.log("success");
-//                        setTimeout(function () {
-//                            window.location.href = "admin-manage-pending-appointments";
-//                        }, 500);
 
-                    },
-                    error: function (xhr) {
-                        console.log("Error: " + xhr);
-                    }
-                });
+
+                if (eventName.value !== "" && fromDate !== "Invalid Date" && toDate !== "Invalid Date" && fromDate <= toDate) {
+                    $.ajax({
+                        url: "/MediCare/admin-manage-schedule-doctor",
+                        data: {
+                            branchId: branchId.value,
+                            eventName: eventName.value,
+                            fromDate: fromDate, // Chuyển đổi thành chuỗi ngày hợp lệ
+                            toDate: toDate, // Chuyển đổi thành chuỗi ngày hợp lệ
+                            action: "save-add-event"
+                        },
+                        cache: false,
+                        type: "POST",
+                        success: function (response) {
+                            alert("Thêm ngày lễ thành công!");
+                            console.log("success");
+                            setTimeout(function () {
+                                window.location.href = "admin-manage-schedule-doctor";
+                            }, 500);
+                        },
+                        error: function (xhr) {
+                            console.log("Error: " + xhr);
+                        }
+                    });
+                }
             }
 
-            function eventClickScheduleDoctor(event) {
-                console.log("Doctor is click: " + event.getAttribute("data-doctorId"));
-                var modal = document.getElementById("scheduleDoctorForm");
-                modal.setAttribute("data-doctorId", event.getAttribute("data-doctorId"));
-                modal.style.display = "block";
+                    function eventClickScheduleDoctor(event) {
+                        console.log("Doctor is click: " + event.getAttribute("data-doctorId"));
+                        var modal = document.getElementById("scheduleDoctorForm");
+                        modal.setAttribute("data-doctorId", event.getAttribute("data-doctorId"));
+                        modal.style.display = "block";
 //                document.getElementById("method").value = "add";
 //                document.getElementById("schedule-submit-button").innerHTML = "Update";
 
-                // Close the modal if the user clicks outside of it
-                window.onclick = function (event) {
-                    if (event.target === modal) {
-                        modal.style.display = "none";
+                        // Close the modal if the user clicks outside of it
+                        window.onclick = function (event) {
+                            if (event.target === modal) {
+                                modal.style.display = "none";
 //                        document.getElementById("method").value = "add";
-                    }
-                };
+                            }
+                        };
 
 
-                console.log("Event - Load Slots By Popup (&& year && doctorId)");
+                        console.log("Event - Load Slots By Popup (&& year && doctorId)");
 //                var year = document.getElementById("year-schedule-doctor").value;
-                var modal = document.getElementById("scheduleDoctorForm");
-                var doctorId = modal.getAttribute("data-doctorId");
-                console.log("DoctorId: " + doctorId);
+                        var modal = document.getElementById("scheduleDoctorForm");
+                        var doctorId = modal.getAttribute("data-doctorId");
+                        console.log("DoctorId: " + doctorId);
 //                console.log("Year: " + year);
 
 //                console.log("Year: " + year);
 //                console.log("Week: " + event.value);
 
-                $.ajax({
-                    url: "/MediCare/admin-manage-schedule-doctor",
-                    data: {
+                        $.ajax({
+                            url: "/MediCare/admin-manage-schedule-doctor",
+                            data: {
 //                        year: year,
-                        doctorId: doctorId,
+                                doctorId: doctorId,
 //                        week: event.value,
-                        onclickPopup: "true"
-                    },
-                    cache: false,
-                    type: "POST",
-                    success: function (response) {
-                        console.log("ScheduleForm HTML is changed!");
-                        var scheduleDoctorForm = document.getElementById("scheduleDoctorForm");
-                        scheduleDoctorForm.innerHTML = response;
-                    },
-                    error: function (xhr) {
+                                onclickPopup: "true"
+                            },
+                            cache: false,
+                            type: "POST",
+                            success: function (response) {
+                                console.log("ScheduleForm HTML is changed!");
+                                var scheduleDoctorForm = document.getElementById("scheduleDoctorForm");
+                                scheduleDoctorForm.innerHTML = response;
+                            },
+                            error: function (xhr) {
 
+                            }
+                        });
                     }
-                });
-            }
 
-            function closeScheduleOfDoctorForm() {
-                var modal = document.getElementById("scheduleDoctorForm");
-                modal.style.display = "none";
-                document.getElementById("method").value = "";
-                document.getElementById("schedule-submit-button").innerHTML = "";
-            }
+                    function closeScheduleOfDoctorForm() {
+                        var modal = document.getElementById("scheduleDoctorForm");
+                        modal.style.display = "none";
+                        document.getElementById("method").value = "";
+                        document.getElementById("schedule-submit-button").innerHTML = "";
+                    }
 
-            function eventClickCreateScheduleDoctor(event) {
-                console.log("Doctor is click: " + event.getAttribute("data-doctorId"));
-            }
+                    function eventClickCreateScheduleDoctor(event) {
+                        console.log("Doctor is click: " + event.getAttribute("data-doctorId"));
+                    }
 
 //             Load all week by Year:
-            function eventLoadWeekByYear(event) {
-                console.log("Event: " + event.value);
-                var modal = document.getElementById("scheduleDoctorForm");
-                var doctorId = modal.getAttribute("data-doctorId");
-                console.log("DoctorId: " + doctorId);
-                $.ajax({
-                    url: "/MediCare/admin-manage-schedule-doctor",
-                    data: {
-                        year: event.value,
-                        doctorId: doctorId,
-                        onchangeYear: "true"
-                    },
-                    cache: false,
-                    type: "POST",
-                    success: function (response) {
-                        var scheduleDoctorForm = document.getElementById("scheduleDoctorForm");
-                        scheduleDoctorForm.innerHTML = response;
-                    },
-                    error: function (xhr) {
+                    function eventLoadWeekByYear(event) {
+                        console.log("Event: " + event.value);
+                        var modal = document.getElementById("scheduleDoctorForm");
+                        var doctorId = modal.getAttribute("data-doctorId");
+                        console.log("DoctorId: " + doctorId);
+                        $.ajax({
+                            url: "/MediCare/admin-manage-schedule-doctor",
+                            data: {
+                                year: event.value,
+                                doctorId: doctorId,
+                                onchangeYear: "true"
+                            },
+                            cache: false,
+                            type: "POST",
+                            success: function (response) {
+                                var scheduleDoctorForm = document.getElementById("scheduleDoctorForm");
+                                scheduleDoctorForm.innerHTML = response;
+                            },
+                            error: function (xhr) {
 
+                            }
+                        });
                     }
-                });
-            }
 //             Load all week by Week (And Year):
-            function eventLoadSlotsByWeek(event) {
-                console.log("Event - Load Slots By Week (&& year && doctorId)");
-                console.log("Event is onchange: " + event.value);
-                var year = document.getElementById("year-schedule-doctor").value;
-                var modal = document.getElementById("scheduleDoctorForm");
-                var doctorId = modal.getAttribute("data-doctorId");
-                console.log("DoctorId: " + doctorId);
-                console.log("Year: " + year);
-                console.log("Week: " + event.value);
+                    function eventLoadSlotsByWeek(event) {
+                        console.log("Event - Load Slots By Week (&& year && doctorId)");
+                        console.log("Event is onchange: " + event.value);
+                        var year = document.getElementById("year-schedule-doctor").value;
+                        var modal = document.getElementById("scheduleDoctorForm");
+                        var doctorId = modal.getAttribute("data-doctorId");
+                        console.log("DoctorId: " + doctorId);
+                        console.log("Year: " + year);
+                        console.log("Week: " + event.value);
 
-                $.ajax({
-                    url: "/MediCare/admin-manage-schedule-doctor",
-                    data: {
-                        year: year,
-                        doctorId: doctorId,
-                        week: event.value,
-                        onchangeWeek: "true"
-                    },
-                    cache: false,
-                    type: "POST",
-                    success: function (response) {
-                        var scheduleDoctorForm = document.getElementById("scheduleDoctorForm");
-                        scheduleDoctorForm.innerHTML = response;
-                    },
-                    error: function (xhr) {
+                        $.ajax({
+                            url: "/MediCare/admin-manage-schedule-doctor",
+                            data: {
+                                year: year,
+                                doctorId: doctorId,
+                                week: event.value,
+                                onchangeWeek: "true"
+                            },
+                            cache: false,
+                            type: "POST",
+                            success: function (response) {
+                                var scheduleDoctorForm = document.getElementById("scheduleDoctorForm");
+                                scheduleDoctorForm.innerHTML = response;
+                            },
+                            error: function (xhr) {
 
+                            }
+                        });
                     }
-                });
-            }
 
 //            Delete a slot (delete ScheduleDetail object by id) by id:
-            function eventClickDeleteScheduleIcon(event) {
+                    function eventClickDeleteScheduleIcon(event) {
 
-                console.log("Event: Click To Delete Schedule By ScheduleDetailId:");
-                console.log("ScheduleDetailId = " + event.getAttribute("data-scheduleDetailId"));
-                var year = document.getElementById("year-schedule-doctor").value;
-                var week = document.getElementById("week-schedule-doctor").value;
-                var modal = document.getElementById("scheduleDoctorForm");
-                var doctorId = modal.getAttribute("data-doctorId");
-                var scheduleDetailId = event.getAttribute("data-scheduleDetailId");
-                console.log("Year = " + year);
-                console.log("Week = " + week);
-                console.log("DoctorId = " + doctorId);
-                var confirmed = confirm("Bạn có chắc chắn muốn xóa slot này của bác sĩ " + doctorId + "?");
-                if (confirmed) {
-                    $.ajax({
-                        url: "/MediCare/admin-manage-schedule-doctor",
-                        data: {
-                            year: year,
-                            doctorId: doctorId,
-                            week: week,
-                            scheduleDetailId: scheduleDetailId,
-                            deleteSchedule: "true"
-                        },
-                        cache: false,
-                        type: "POST",
-                        success: function (response) {
-                            var scheduleDoctorForm = document.getElementById("scheduleDoctorForm");
-                            scheduleDoctorForm.innerHTML = response;
-                            window.alert("Xóa thành công!");
-                        },
-                        error: function (xhr) {
+                        console.log("Event: Click To Delete Schedule By ScheduleDetailId:");
+                        console.log("ScheduleDetailId = " + event.getAttribute("data-scheduleDetailId"));
+                        var year = document.getElementById("year-schedule-doctor").value;
+                        var week = document.getElementById("week-schedule-doctor").value;
+                        var modal = document.getElementById("scheduleDoctorForm");
+                        var doctorId = modal.getAttribute("data-doctorId");
+                        var scheduleDetailId = event.getAttribute("data-scheduleDetailId");
+                        console.log("Year = " + year);
+                        console.log("Week = " + week);
+                        console.log("DoctorId = " + doctorId);
+                        var confirmed = confirm("Bạn có chắc chắn muốn xóa slot này của bác sĩ " + doctorId + "?");
+                        if (confirmed) {
+                            $.ajax({
+                                url: "/MediCare/admin-manage-schedule-doctor",
+                                data: {
+                                    year: year,
+                                    doctorId: doctorId,
+                                    week: week,
+                                    scheduleDetailId: scheduleDetailId,
+                                    deleteSchedule: "true"
+                                },
+                                cache: false,
+                                type: "POST",
+                                success: function (response) {
+                                    var scheduleDoctorForm = document.getElementById("scheduleDoctorForm");
+                                    scheduleDoctorForm.innerHTML = response;
+                                    window.alert("Xóa thành công!");
+                                },
+                                error: function (xhr) {
 
+                                }
+                            });
                         }
-                    });
-                }
-            }
-            function eventClickAddSchedule(event) {
-                console.log("Event: Click To Add Main schedule: " + event);
-                var modal = document.getElementById("scheduleDoctorForm");
-                modal.setAttribute("data-doctorId", event.getAttribute("data-doctorId"));
-                modal.style.display = "block";
+                    }
+                    function eventClickAddSchedule(event) {
+                        console.log("Event: Click To Add Main schedule: " + event);
+                        var modal = document.getElementById("scheduleDoctorForm");
+                        modal.setAttribute("data-doctorId", event.getAttribute("data-doctorId"));
+                        modal.style.display = "block";
 //                document.getElementById("method").value = "add";
 //                document.getElementById("schedule-submit-button").innerHTML = "Update";
 
-                // Close the modal if the user clicks outside of it
-                window.onclick = function (event) {
-                    if (event.target === modal) {
-                        modal.style.display = "none";
+                        // Close the modal if the user clicks outside of it
+                        window.onclick = function (event) {
+                            if (event.target === modal) {
+                                modal.style.display = "none";
 //                        document.getElementById("method").value = "add";
-                    }
-                };
-                $.ajax({
-                    url: "/MediCare/admin-manage-schedule-doctor",
-                    data: {
-                        action: "add-schedule-all-doctor"
-                    },
-                    cache: false,
-                    type: "POST",
-                    success: function (response) {
-                        var scheduleDoctorForm = document.getElementById("scheduleDoctorForm");
-                        scheduleDoctorForm.innerHTML = response;
-                    },
-                    error: function (xhr) {
+                            }
+                        };
+                        $.ajax({
+                            url: "/MediCare/admin-manage-schedule-doctor",
+                            data: {
+                                action: "add-schedule-all-doctor"
+                            },
+                            cache: false,
+                            type: "POST",
+                            success: function (response) {
+                                var scheduleDoctorForm = document.getElementById("scheduleDoctorForm");
+                                scheduleDoctorForm.innerHTML = response;
+                            },
+                            error: function (xhr) {
 
+                            }
+                        });
                     }
-                });
-            }
-            function eventClickAddEvent(event) {
-                console.log("Event: Click To Add Event schedule: " + event);
-                var modal = document.getElementById("scheduleDoctorForm");
-                modal.setAttribute("data-doctorId", event.getAttribute("data-doctorId"));
-                modal.style.display = "block";
+                    function eventClickAddEvent(event) {
+                        console.log("Event: Click To Add Event schedule: " + event);
+                        var modal = document.getElementById("scheduleDoctorForm");
+                        modal.setAttribute("data-doctorId", event.getAttribute("data-doctorId"));
+                        modal.style.display = "block";
 //                document.getElementById("method").value = "add";
 //                document.getElementById("schedule-submit-button").innerHTML = "Update";
 
-                // Close the modal if the user clicks outside of it
-                window.onclick = function (event) {
-                    if (event.target === modal) {
-                        modal.style.display = "none";
+                        // Close the modal if the user clicks outside of it
+                        window.onclick = function (event) {
+                            if (event.target === modal) {
+                                modal.style.display = "none";
 //                        document.getElementById("method").value = "add";
-                    }
-                };
-                $.ajax({
-                    url: "/MediCare/admin-manage-schedule-doctor",
-                    data: {
-                        action: "add-event"
-                    },
-                    cache: false,
-                    type: "POST",
-                    success: function (response) {
-                        var scheduleDoctorForm = document.getElementById("scheduleDoctorForm");
-                        scheduleDoctorForm.innerHTML = response;
-                    },
-                    error: function (xhr) {
+                            }
+                        };
+                        $.ajax({
+                            url: "/MediCare/admin-manage-schedule-doctor",
+                            data: {
+                                action: "add-event"
+                            },
+                            cache: false,
+                            type: "POST",
+                            success: function (response) {
+                                var scheduleDoctorForm = document.getElementById("scheduleDoctorForm");
+                                scheduleDoctorForm.innerHTML = response;
+                            },
+                            error: function (xhr) {
 
+                            }
+                        });
                     }
-                });
-            }
-            function eventClickAddLeave(event) {
-                console.log("Event: Click To Add Leave " + event);
-                var modal = document.getElementById("scheduleDoctorForm");
-                modal.setAttribute("data-doctorId", event.getAttribute("data-doctorId"));
-                modal.style.display = "block";
+                    function eventClickAddLeave(event) {
+                        console.log("Event: Click To Add Leave " + event);
+                        var modal = document.getElementById("scheduleDoctorForm");
+                        modal.setAttribute("data-doctorId", event.getAttribute("data-doctorId"));
+                        modal.style.display = "block";
 //                document.getElementById("method").value = "add";
 //                document.getElementById("schedule-submit-button").innerHTML = "Update";
 
-                // Close the modal if the user clicks outside of it
-                window.onclick = function (event) {
-                    if (event.target === modal) {
-                        modal.style.display = "none";
+                        // Close the modal if the user clicks outside of it
+                        window.onclick = function (event) {
+                            if (event.target === modal) {
+                                modal.style.display = "none";
 //                        document.getElementById("method").value = "add";
-                    }
-                };
-                $.ajax({
-                    url: "/MediCare/admin-manage-schedule-doctor",
-                    data: {
-                        action: "add-leave"
-                    },
-                    cache: false,
-                    type: "POST",
-                    success: function (response) {
-                        var scheduleDoctorForm = document.getElementById("scheduleDoctorForm");
-                        scheduleDoctorForm.innerHTML = response;
-                    },
-                    error: function (xhr) {
+                            }
+                        };
+                        $.ajax({
+                            url: "/MediCare/admin-manage-schedule-doctor",
+                            data: {
+                                action: "add-leave"
+                            },
+                            cache: false,
+                            type: "POST",
+                            success: function (response) {
+                                var scheduleDoctorForm = document.getElementById("scheduleDoctorForm");
+                                scheduleDoctorForm.innerHTML = response;
+                            },
+                            error: function (xhr) {
 
+                            }
+                        });
                     }
-                });
-            }
         </script>
     </body>
 </html>

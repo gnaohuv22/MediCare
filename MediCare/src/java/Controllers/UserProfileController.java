@@ -196,7 +196,8 @@ public class UserProfileController extends HttpServlet {
                     System.out.println("name: " + name);
                     if (!fileType.equals("jpg") && !fileType.equals("png")) {
                         // Handle invalid file type
-                    } else {
+                    }
+                    else {
                         if (!fileName.isEmpty()) {
                             System.out.println(uploadPath);// Replace with your directory path
                             File dir = new File(uploadPath);

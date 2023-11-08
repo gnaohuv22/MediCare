@@ -18,35 +18,31 @@
             <div class="main-wrapper profile-wrapper">
                 <div class="sidebar">
                     <ul>
-                        <c:forEach items="${sessionScope.subMenu}" var="item">
-                            <c:if test="${item.getCategoryId() eq 9}">
-                                <c:choose>
-                                    <c:when test="${'user-payment-history' eq item.getHref()}">
-                                        <li class="sidebar-active">
-                                            <a href="${item.getHref()}">${item.getContent()}</a>
-                                        </li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li> 
-                                            <a href="${item.getHref()}">${item.getContent()}</a>
-                                        </li>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:if>
+                       <c:forEach items="${sessionScope.profileSidebar}" var="item">
+                            <c:choose>
+                                <c:when test="${'user-payment-history' eq item.getHref()}">
+                                    <li class="sidebar-active">
+                                        <a href="#">${item.getName()}</a>
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li> 
+                                        <a href="${item.getHref()}">${item.getName()}</a>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
                         </c:forEach>
                     </ul>
                 </div>
                 <div class="search-box">
                     <form action="" method="post" class="search-bar">
-                        <input placeholder="Tìm nhanh hồ sơ" type="search" name="search-profile" id="search-profile">
+                        <input placeholder="Tên bệnh nhân, số điện thoại, mã cuộc hẹn" type="search" name="search-profile" id="search-profile">
                     </form>
                     <div class="profile-list">
                         <ul>
                             <c:forEach items="${requestScope.fpList}" var="fp">
                                 <li class="profile-item" onclick="loadProfile(${fp.getProfileId()})" id="${fp.getProfileId()}">
-                                    <div class="profile-item-pics ">
-                                        <img src="https://www.svgrepo.com/show/497407/profile-circle.svg" width="50px" height="50px" alt="client-img"/> 
-                                    </div>
+
                                     <div class="profile-item-info">
                                         <h3>${fp.getName()}</h3>
                                         <span>${fp.getBirthDate()}</span>

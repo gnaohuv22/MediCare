@@ -54,12 +54,12 @@ public class UserAppointmentController extends HttpServlet {
         String ownerId = uDAO.getUserIdByEmail((String)session.getAttribute("email"));
         
         AppointmentsDAO aDAO = new AppointmentsDAO();
-//        List<Appointments> aList = aDAO.getListAppointmentsByOwnerId(ownerId);
+        List<Appointments> aList = aDAO.getListAppointmentsByOwnerId(ownerId);
         
         if (session.getAttribute("email") == null) {
             response.sendRedirect("user-login");
         } else {
-//            request.setAttribute("aList", aList);
+            request.setAttribute("aList", aList);
             request.getRequestDispatcher("user-appointment.jsp").forward(request, response);
         }
     }

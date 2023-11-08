@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author DELL
  */
-@WebServlet(name = "Logout", urlPatterns = {"/admin-logout-controller"})
+//@WebServlet(name = "Logout", urlPatterns = {"/admin-logout-controller"})
 public class AdminLogout extends HttpServlet {
     private String HOME = "admin-screen/admin-login.jsp";
     public AdminLogout() {

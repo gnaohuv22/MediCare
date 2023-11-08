@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  *
  * @author DELL
  */
-@WebServlet(name = "EditEmployeeProfile", urlPatterns = {"/admin-edit-profile"})
+//@WebServlet(name = "EditEmployeeProfile", urlPatterns = {"/admin-edit-profile"})
 public class AdminProfile extends HttpServlet {
 
     private final String EMPLOYEE_PROFILE_PAGE = "admin-profile/admin-profile.jsp";

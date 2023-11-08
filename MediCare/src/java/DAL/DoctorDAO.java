@@ -742,6 +742,36 @@ public class DoctorDAO extends DBContext {
         return null;
     }
 
+<<<<<<< HEAD
+    public Doctor getDoctorByEmail(String email) {
+        String SQL = "SELECT id, email, displayName, branchId, phone, ARId, CVId, salary, workplace, profilePicture, status FROM [Doctor] WHERE email = ?";
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Doctor d = new Doctor(rs.getString("id"),
+                        rs.getString("email"),
+                        rs.getString("displayName"),
+                        String.valueOf(rs.getInt("branchId")),
+                        String.valueOf(rs.getString("phone")),
+                        String.valueOf(rs.getInt("ARId")),
+                        String.valueOf(rs.getInt("CVId")),
+                        String.valueOf(rs.getFloat("salary")),
+                        String.valueOf(rs.getString("workplace")),
+                        rs.getString("profilePicture"),
+                        String.valueOf(rs.getInt("status"))
+                );
+                return d;
+            }
+        } catch (SQLException e) {
+            System.out.println("getDoctorByEmail: " + e.getMessage());
+        }
+        return null;
+    }
+
+=======
+>>>>>>> 6ff62cf4d8de6dd2cbd9435ce610a9d56170b10b
     public static String concatenateNames(String jsonString) {
         if (jsonString == null) {
             return "";
