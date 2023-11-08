@@ -18,7 +18,7 @@
                     <div class="row">
                         <div class="col-sm-7 col-6">
                             <h4 class="page-title">Hồ sơ của tôi</h4>
-                            <h3>${MESSAGE}</h3>
+                            <h3 style="color:red">${MESSAGE}</h3>
                         </div>
 
                         <div class="col-sm-5 col-6 text-right m-b-30">

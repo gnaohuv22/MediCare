@@ -194,10 +194,10 @@
                     </ul>
                 </nav>
                 <!-- pagination section -->
-                <div><a href="admin-export-employee-list">Lấy file excel</a></div>
-                <div><a href="admin-import-employee-list" id="linkExcel"">Truyền file excel</a></div>
-                <p style="color:red">${IMPORT_EXCEL_ERROR}</p>
-                <p style="color:red">${IMPORT_EXCEL_ERRORNULL}</p>
+                <div class="col-md-12"><a href="admin-export-employee-list">Lấy file excel</a></div>
+                <!--<div><a href="admin-import-employee-list" id="linkExcel"">Truyền file excel</a></div>-->
+<!--                <p style="color:red">${IMPORT_EXCEL_ERROR}</p>
+                <p style="color:red">${IMPORT_EXCEL_ERRORNULL}</p>-->
                 <jsp:include page="../admin-general/admin-notifications-box.jsp"/>
             </div>
         </div>
