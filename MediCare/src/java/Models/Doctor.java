@@ -36,8 +36,6 @@ public class Doctor {
         this.profilePicture = profilePicture;
         this.status = status;
     }
-    
-    
 
     public Doctor(String id) {
         this.id = id;

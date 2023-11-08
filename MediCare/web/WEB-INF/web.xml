@@ -52,6 +52,10 @@
         <servlet-name>DoctorReviewServlet</servlet-name>
         <servlet-class>Controllers.DoctorReviewServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DoctorWorkingHistoryServlet</servlet-name>
+        <servlet-class>Controllers.DoctorWorkingHistoryServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserLoginServlet</servlet-name>
         <url-pattern>/user-login</url-pattern>
@@ -298,6 +302,10 @@
     <servlet-mapping>
         <servlet-name>DoctorReviewServlet</servlet-name>
         <url-pattern>/view-review</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DoctorWorkingHistoryServlet</servlet-name>
+        <url-pattern>/appointment-history</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -60,7 +60,14 @@ public class UserLoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("user-login.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        if (session.getAttribute("loginValue") != null) {
+            response.sendRedirect("user-home");
+        } else if (session.getAttribute("doctorLoggedIn") != null) {
+            response.sendRedirect("doctor-home");
+        } else {
+            request.getRequestDispatcher("user-login.jsp").forward(request, response);
+        }
     }
 
     /**
@@ -83,6 +90,7 @@ public class UserLoginServlet extends HttpServlet {
         DoctorDAO dd = new DoctorDAO();
 
         HttpSession session = request.getSession();
+
 //        String loginValue = "";
         session.setAttribute("email", email);
 //        session.setAttribute("password", password);
@@ -113,12 +121,10 @@ public class UserLoginServlet extends HttpServlet {
             } else if (d == null && u != null) {
                 session.setAttribute("email", email);
                 session.setAttribute("name", u.getName());
-                System.out.println("Login successfully!");
                 session.setAttribute("loginValue", "true");
                 response.sendRedirect("user-home");
             } else if (d != null && u == null) {
                 session.setAttribute("d", d);
-                System.out.println("Login successfully!");
                 session.setAttribute("doctorLoggedIn", "true");
                 response.sendRedirect("doctor-home");
             }

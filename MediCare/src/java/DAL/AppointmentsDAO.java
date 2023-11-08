@@ -800,6 +800,53 @@ public class AppointmentsDAO extends DBContext {
         }
         return list.isEmpty() ? list : null;
     }
+    
+    public ArrayList<Appointments> getListAppointmentByDoctor(String doctorId) {
+        String SQL = "SELECT a.id, a.plannedAt, a.status, a.branchId, a.createdAt, a.symptoms, st.id AS 'ServiceID', st.nametag AS 'ServiceName', fp.profileId AS 'ProfileID', fp.email AS 'Email', fp.name AS 'ProfileName', fp.birthDate AS 'DoB', fp.gender AS 'Gender', fp.address AS 'Address', fp.[identity] AS 'IdentityNumber', fp.medicalId AS 'MedicalID', fp.ethnic AS 'Ethnic', fp.phone AS 'PhoneNumber', fp.profilePicture AS 'ProfilePicture' FROM [Appointments] a\n"
+                + "LEFT JOIN [ServiceTag] st ON st.id = a.serviceId\n"
+                + "LEFT JOIN [FamilyProfile] fp ON fp.profileId = a.profileId\n"
+                + "WHERE a.doctorId LIKE ? AND a.status != 0"
+                + "ORDER BY a.createdAt DESC, a.status ASC";
+
+        ArrayList<Appointments> list = new ArrayList<>();
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setString(1, doctorId);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                list.add(new Appointments(
+                        String.valueOf(rs.getInt("id")),
+                        String.valueOf(rs.getDate("plannedAt")),
+                        String.valueOf(rs.getInt("status")),
+                        String.valueOf(rs.getInt("branchId")),
+                        String.valueOf(rs.getDate("createdAt")),
+                        rs.getString("symptoms"),
+                        new ServiceTag(
+                                String.valueOf(rs.getInt("ServiceID")),
+                                rs.getString("ServiceName")
+                        ),
+                        new FamilyProfile(
+                                String.valueOf(rs.getString("ProfileID")),
+                                rs.getString("Email"),
+                                rs.getString("ProfileName"),
+                                String.valueOf(rs.getDate("DoB")),
+                                rs.getInt("Gender") == 1 ? "Male" : "Female",
+                                rs.getString("Address"),
+                                rs.getString("IdentityNumber"),
+                                rs.getString("MedicalID"),
+                                rs.getString("Ethnic"),
+                                rs.getString("PhoneNumber"),
+                                rs.getString("ProfilePicture")
+                        )
+                )
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("getListAppointmentByDoctor: " + e.getMessage());
+        }
+        return list.isEmpty() ? null : list;
+    }
 
     public ArrayList<Appointments> getAppointmentsByDay(String date, String doctorId) {
         ArrayList<Appointments> list = new ArrayList<>();

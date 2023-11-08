@@ -326,6 +326,29 @@ public class NewsCategoryDAO extends DBContext {
         }
         return list;
     }
+    
+    public ArrayList<NewsCategory> getDoctorProfileMenu() {
+        String SQL = "SELECT id, name, href, icon, locateId FROM [NewsCategory]"
+                + "WHERE locateId = 13";
+        ArrayList<NewsCategory> list = new ArrayList<>();
+
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                list.add(new NewsCategory(
+                        String.valueOf(rs.getInt("id")),
+                        rs.getString("name"),
+                        rs.getString("href"),
+                        rs.getString("icon"),
+                        rs.getString("locateId")
+                ));
+            }
+        } catch (SQLException e) {
+            System.out.println("getDoctorProfileMenu: " + e.getMessage());
+        }
+        return list;
+    }
 
     public ArrayList<NewsCategory> getProfileSidebar() {
         String SQL = "SELECT id, name, href, icon, locateId FROM [NewsCategory]"
