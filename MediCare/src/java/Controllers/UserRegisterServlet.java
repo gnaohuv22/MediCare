@@ -97,7 +97,6 @@ public class UserRegisterServlet extends HttpServlet {
             request.getRequestDispatcher("user-register.jsp").forward(request, response);
         } else {
             request.removeAttribute("confirmSuccess");
-            System.out.println("Register fail!");
             request.setAttribute("errorMessage", "Register not successful. Your username is already existed.");
             request.setAttribute("email", email);
             request.setAttribute("name", name);

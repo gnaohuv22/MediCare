@@ -7,16 +7,33 @@ package DAL;
 import Models.Certificate;
 import Models.CertificateDoctor;
 import Controllers.PasswordEncryption;
+import Models.AcademicRank;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import Models.Department;
 import Models.Doctor;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.FuzzyQuery;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.WildcardQuery;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.RAMDirectory;
 
 /**
  *
@@ -384,7 +401,7 @@ public class DoctorDAO extends DBContext {
                 d.setPhone(rs.getString("phone"));
                 d.setARId(String.valueOf(rs.getInt("ARId")));
                 d.setCVId(String.valueOf(rs.getInt("CVId")));
-                d.setSalary(String.valueOf(rs.getFloat("salary")));
+                d.setSalary(String.valueOf((int) rs.getFloat("salary")));
                 d.setWorkHistory(rs.getString("workplace"));
                 d.setProfilePicture(rs.getString("profilePicture"));
                 d.setStatus(String.valueOf(rs.getInt("status")));
@@ -424,7 +441,6 @@ public class DoctorDAO extends DBContext {
         }
         return null;
     }
-     
 
     //display doctor deleted + null + active
 //method của Tu Binh
@@ -680,9 +696,14 @@ public class DoctorDAO extends DBContext {
         return null;
     }
 
-
     public Doctor getDoctorByEmail(String email) {
-        String SQL = "SELECT id, email, displayName, branchId, phone, ARId, CVId, salary, workplace, profilePicture, status FROM [Doctor] WHERE email = ?";
+        String SQL = "SELECT d.id, d.email, d.displayName, b.name AS BranchName, d.phone, ar.name AS ARName, c.Certificates, cv.introduce, cv.workHistory, cv.startYear, d.birthDate, d.gender, d.status, d.workplace, d.profilePicture, d.status \n"
+                + "FROM [Doctor] d\n"
+                + "LEFT JOIN [AcademicRank] ar ON ar.id = d.ARId\n"
+                + "LEFT JOIN [Branch] b ON b.id = d.branchId\n"
+                + "LEFT JOIN [CurriculumVitae] cv ON cv.id = d.CVId\n"
+                + "FULL JOIN [DoctorCertificates] c on c.DoctorId = d.Id\n"
+                + "WHERE email = ?";
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
@@ -692,14 +713,19 @@ public class DoctorDAO extends DBContext {
                         rs.getString("id"),
                         rs.getString("email"),
                         rs.getString("displayName"),
-                        String.valueOf(rs.getInt("branchId")),
                         String.valueOf(rs.getString("phone")),
-                        String.valueOf(rs.getInt("ARId")),
-                        String.valueOf(rs.getInt("CVId")),
-                        String.valueOf(rs.getFloat("salary")),
                         String.valueOf(rs.getString("workplace")),
+                        DoctorDAO.concatenateNames(rs.getString("Certificates")),
+                        String.valueOf(rs.getString("branchName")),
+                        String.valueOf(rs.getString("ARName")),
+                        String.valueOf(rs.getString("introduce")),
+                        String.valueOf(rs.getString("workHistory")),
+                        String.valueOf(rs.getInt("startYear")),
+                        String.valueOf(rs.getDate("birthDate")),
+                        String.valueOf(rs.getString("gender")),
+                        String.valueOf(rs.getInt("status")),
                         rs.getString("profilePicture"),
-                        String.valueOf(rs.getInt("status"))
+                        new AcademicRank()
                 );
                 return d;
             }
@@ -952,6 +978,66 @@ public class DoctorDAO extends DBContext {
         return list;
     }
 
+    public ArrayList<Doctor> searchDoctorFuzzy(String searchTerm) throws IOException {
+        ArrayList<Doctor> doctorList = new ArrayList<Doctor>();
+        doctorList = new DoctorDAO().getAllDoctors();
+        for (Doctor doctor : doctorList) {
+            System.out.println(doctor.getDisplayName());
+        }
+
+        StandardAnalyzer analyzer = new StandardAnalyzer();
+        Directory index = new RAMDirectory();
+        IndexWriterConfig config = new IndexWriterConfig(analyzer);
+        IndexWriter writer = new IndexWriter(index, config);
+
+        // Thêm tất cả tên bác sĩ vào chỉ mục
+        for (Doctor doctor : doctorList) {
+            Document doc = new Document();
+            doc.add(new org.apache.lucene.document.StringField("name", doctor.getDisplayName(), org.apache.lucene.document.Field.Store.YES));
+            writer.addDocument(doc);
+        }
+
+        writer.close();
+
+        // Tạo danh sách result chứa các tên phù hợp với pattern
+//        String searchTerm = "Liêm";
+        int maxEdits = 2; // Số thay đổi tối đa cho phép
+        FuzzyQuery fuzzyQuery = new FuzzyQuery(new Term("name", searchTerm), maxEdits);
+        WildcardQuery wildcardQuery = new WildcardQuery(new Term("name", "*" + searchTerm + "*"));
+
+        BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
+        queryBuilder.add(fuzzyQuery, BooleanClause.Occur.SHOULD);
+        queryBuilder.add(wildcardQuery, BooleanClause.Occur.SHOULD);
+
+        IndexSearcher searcher = new IndexSearcher(DirectoryReader.open(index));
+        TopDocs docs = searcher.search(queryBuilder.build(), 10);
+
+        ArrayList<String> resultList = new ArrayList<String>();
+        for (ScoreDoc scoreDoc : docs.scoreDocs) {
+            Document doc = searcher.doc(scoreDoc.doc);
+            String name = doc.get("name");
+            if (!resultList.contains(name)) {
+                resultList.add(name);
+            }
+        }
+
+        // Lọc ra danh sách bác sĩ có displayName thuộc danh sách resultList
+        ArrayList<Doctor> searchResults = new ArrayList<Doctor>();
+        for (Doctor doctor : doctorList) {
+            if (resultList.contains(doctor.getDisplayName())) {
+                searchResults.add(doctor);
+            }
+        }
+
+        // In kết quả
+        System.out.println("Search Results:");
+        for (Doctor doctor : searchResults) {
+            System.out.println("Doctor ID: " + doctor.getId());
+            System.out.println("Doctor Name: " + doctor.getDisplayName());
+        }
+        return searchResults;
+    }
+
     public static void main(String[] args) {
         DoctorDAO dd = new DoctorDAO();
 //        List<Doctor> list = dd.getAllDoctors();
@@ -967,9 +1053,8 @@ public class DoctorDAO extends DBContext {
 //        for (Doctor d : paging) {
 //            System.out.println(d);
 //        }
-           String id = dd.autoGenerateID();
-           System.out.println("ID : " + id);
-           
+        String id = dd.autoGenerateID();
+        System.out.println("ID : " + id);
 
     }
 }

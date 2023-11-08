@@ -23,15 +23,9 @@ public class DoctorHomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        String pathInfo = request.getPathInfo();
-//        String value = request.getParameter("value");
-//        System.out.println("value: " + pathInfo);
+
         HttpSession session = request.getSession();
-//        if (value != null) {
-//            session.removeAttribute("email");
-//            session.removeAttribute("loginValue");
-//        }
-        
+
         if (session.getAttribute("doctor") != null) {
             session.setAttribute("doctorLoggedIn", true);
             
@@ -47,7 +41,7 @@ public class DoctorHomeServlet extends HttpServlet {
         ArrayList<NewsCategory> contacts = ncd.getContacts();
         ArrayList<NewsCategory> references = ncd.getReferences();
         ArrayList<NewsCategory> snsList = ncd.getSocial();
-        ArrayList<NewsCategory> profileMenu = ncd.getProfileMenu();
+        ArrayList<NewsCategory> doctorProfileMenu = ncd.getDoctorProfileMenu();
         ArrayList<News> pages = nd.getTopLevelMenu();
         ArrayList<News> topNews = nd.getTopNews();
 
@@ -58,7 +52,7 @@ public class DoctorHomeServlet extends HttpServlet {
         session.setAttribute("references", references);
         session.setAttribute("snsList", snsList);
         session.setAttribute("topNews", topNews);
-        session.setAttribute("profileMenu", profileMenu);
+        session.setAttribute("doctorProfileMenu", doctorProfileMenu);
 
         request.getRequestDispatcher("doctor-home.jsp").forward(request, response);
     }

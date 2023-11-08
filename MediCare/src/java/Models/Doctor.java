@@ -23,6 +23,27 @@ public class Doctor {
         this.displayName = displayName;
     }
 
+    public Doctor(String id, String email, String displayName, String phone, String workplace, String certificates, String branchName, String ARName, String introduce, String workHistory, String startYear, String birthDate, String gender, String status, String profilePicture, AcademicRank academicRank) {
+        this.id = id;
+        this.email = email;
+        this.displayName = displayName;
+        this.phone = phone;
+        this.workplace = workplace;
+        this.certificates = certificates;
+        this.branchName = branchName;
+        this.ARName = ARName;
+        this.introduce = introduce;
+        this.workHistory = workHistory;
+        this.startYear = startYear;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.status = status;
+        this.profilePicture = profilePicture;
+        this.academicRank = academicRank;
+    }
+    
+    
+
     public Doctor(String id, String email, String displayName, String branchId, String phone, String ARId, String CVId, String salary, String workplace, String profilePicture, String status) {
         this.id = id;
         this.email = email;
@@ -36,8 +57,6 @@ public class Doctor {
         this.profilePicture = profilePicture;
         this.status = status;
     }
-    
-    
 
     public Doctor(String id) {
         this.id = id;

@@ -204,10 +204,10 @@
                                         <div class="form-group">
                                             <label>Mức lương  <span class="text-danger">*</span></label>
                                             <c:if test="${requestScope.action eq 'edit'}">
-                                                <input type="text" value="${requestScope.doc.getSalary()}" name="salary" class="form-control"  required="" oninput="formatSalaryInput(this)" >
+                                                <input type="text" value="${requestScope.doc.getSalary()}" name="salary" class="form-control"  required="" id="numberInput" oninput="myFunction()" >
                                             </c:if>
                                             <c:if test="${requestScope.action eq 'add'}">
-                                                <input type="text" name="salary" class="form-control"  required="" value="${requestScope.salary}" oninput="formatSalaryInput(this)" >
+                                                <input type="text" name="salary" class="form-control"  required="" value="${requestScope.salary}" id="numberInput" oninput="myFunction()" >
                                             </c:if>
                                         </div>
                                         <c:if test="${not empty requestScope.SalaryError}">
@@ -315,13 +315,24 @@
             </div>
         </div>
         <div class="sidebar-overlay" data-reff=""></div>
-        <jsp:include page="../admin-general/admin-script.jsp"/>
         <script>
-            function formatSalaryInput(input) {
-                let value = input.value.replace(/\D/g, ''); // Lọc ra chỉ còn số
-                value = parseInt(value, 10); // Chuyển giá trị thành số nguyên
-                input.value = value.toLocaleString('vi-VN'); // Định dạng và hiển thị giá trị
+            function myFunction() {
+              let text = document.getElementById("numberInput").value;
+              const regex = /\d+/g;
+              const matches = text.match(regex);
+            const formattedNumber = new Intl.NumberFormat('vi-VN', {
+              maximumFractionDigits: 0,
+              minFractionDigits: 0,
+              groupingSeparator: '.',
+              decimalSeparator: ',',
+              thousandsSeparator: ' ',
+            }).format(matches.join(''));
+                document.getElementById("numberInput").value = formattedNumber;
+                document.getElementById("demo").innerHTML = "You wrote: " + matches.join('');
             }
+
+            myFunction()
         </script>
+        <jsp:include page="../admin-general/admin-script.jsp"/>
     </body>
 </html>

@@ -15,6 +15,7 @@ import Models.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -86,6 +87,7 @@ public class AppointmentDAO extends DBContext {
 
     public ArrayList<Appointments> getListAppointment(int offset, int fetch) {
         ArrayList<Appointments> list = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String SQL = "SELECT Appointments.id, userId, doctorId, serviceId, plannedAt, Appointments.status,"
                 + " [User].name[uName], Doctor.displayName[dName], ServiceTag.nametag[nameTag]"
                 + " FROM Appointments"
@@ -106,7 +108,7 @@ public class AppointmentDAO extends DBContext {
                 String userId = rs.getString("userId");
                 String doctorId = rs.getString("doctorId");
                 String serviceId = rs.getString("serviceId");
-                String plannedAt = rs.getString("plannedAt");
+                String plannedAt = format.format(rs.getDate("plannedAt"));
                 String status = rs.getString("status");
                 String userName = rs.getString("uName");
                 String doctorName = rs.getString("dName");

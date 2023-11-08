@@ -579,14 +579,32 @@ public class ScheduleDetailDAO extends DBContext {
             return true;
         } catch (NumberFormatException | SQLException e) {
             System.out.println("addScheduleForMonthAndBranchId: " + e);
-        } 
+        }
         return false;
     }
 
-    public boolean setDayOffForDoctorByEvent(String fromDate, String toDate) {
-        String sql = "";
-        
-        
+    public boolean setDayOffForDoctorByEvent(String fromDate, String toDate, String branchId) {
+        String sql = "DECLARE @startDate DATE = ?; \n"
+                + "DECLARE @endDate DATE = ?;   \n"
+                + "DECLARE @branchID INT = ?; \n"
+                + "\n"
+                + "UPDATE ScheduleDetail\n"
+                + "SET isDelete = 1 \n"
+                + "WHERE ScheduleID IN (\n"
+                + "    SELECT DS.id\n"
+                + "    FROM DoctorSchedule DS\n"
+                + "    WHERE DS.WorkDate BETWEEN @startDate AND @endDate\n"
+                + ")";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, fromDate);
+            st.setString(2, toDate);
+            st.setInt(3, Integer.parseInt(branchId));
+            st.execute();
+            return true;
+        } catch (NumberFormatException | SQLException e) {
+            System.out.println("setDayOffForDoctorByEvent: " + e);
+        }
         return false;
     }
 

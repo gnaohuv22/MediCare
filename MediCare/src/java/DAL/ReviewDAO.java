@@ -67,6 +67,7 @@ public class ReviewDAO extends DBContext {
 
     public ArrayList<Reviews> getListReview(int offset, int fetch) {
         ArrayList<Reviews> list = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
         String SQL = "SELECT Reviews.id[rId], Reviews.userId[rUserId], doctorId, appointmentId, rating, reviewContent, Reviews.createdAt,"
                 + " [User].name[uName], Doctor.displayName[dName]"
@@ -89,7 +90,14 @@ public class ReviewDAO extends DBContext {
                 String appointmentId = rs.getString("appointmentId");
                 String rating = rs.getString("rating");
                 String reviewContent = rs.getString("reviewContent");
-                String createdAt = rs.getString("createdAt");
+//                String createdAt = rs.getString("createdAt");
+                Timestamp ts = rs.getTimestamp("createdAt");
+                String createdAt;
+                if (ts!=null){
+                    createdAt = format.format(ts);
+                }else{
+                    createdAt = "";
+                }
                 String userName = rs.getString("uName");
                 String doctorName = rs.getString("dName");
                 User user = new User(userId, "", "", userName, "", "", "", new Province(), "", "", "", "", "", "");
@@ -263,27 +271,6 @@ public class ReviewDAO extends DBContext {
                 )
                 );
             }
-//            rs.close();
-//
-//            SQL = "SELECT COUNT(*)\n"
-//                    + "FROM (\n"
-//                    + "SELECT fp.name AS profileName, fp.profilePicture, fp.email AS profileEmail, fp.gender AS profileGender, a.plannedAt, a.status, a.symptoms, st.id AS ServiceID, st.nametag AS ServiceName, r.id as reviewID, r.rating AS ReviewRating, r.reviewContent, r.createdAt AS ReviewTime FROM [Reviews] r\n"
-//                    + "LEFT JOIN [Appointments] a ON a.id = r.appointmentId\n"
-//                    + "LEFT JOIN [FamilyProfile] fp ON fp.profileId = a.profileId\n"
-//                    + "LEFT JOIN [ServiceTag] st ON st.id = a.serviceId\n"
-//                    + "WHERE r.doctorId = ?\n"
-//                    + ") AS subquery";
-//
-//            try ( PreparedStatement psm = connection.prepareStatement(SQL)) {
-//                psm.setString(1, doctorId);
-//                rs = psm.executeQuery();
-//
-//                while (rs.next()) {
-//                    this.numberRecord = rs.getInt(1);
-//                }
-//            } catch (SQLException e) {
-//                System.out.println("ReviewsDAO, countRecords: " + e.getMessage());
-//            }
         } catch (SQLException e) {
             System.out.println("ReviewsDAO, getReviewsByDoctorId: " + e.getMessage());
         }
