@@ -56,47 +56,18 @@ public class BranchDAO extends DBContext {
 
     public ArrayList<Doctor> getAllDoctorsByBranchId(String branchId) {
         ArrayList<Doctor> list = new ArrayList<>();
-        String sql = "/****** Script for SelectTopNRows command from SSMS  ******/\n"
-                + "SELECT d.*, b.[name] AS branchName, a.[name] AS ARName, \n"
-                + "DC.Certificates AS Certificates, Department.id as DepartmentId, Department.[name] AS departmentName, CV.education, CV.introduce, CV.workHistory, CV.startYear\n"
+        String sql = "SELECT d.*, b.[name] AS branchName, a.[name] AS ARName, DC.Certificates AS Certificates, Department.id as DepartmentId, Department.[name] AS departmentName, CV.education, CV.introduce, CV.workHistory, CV.startYear\n"
                 + "FROM Doctor AS d\n"
-                + "\n"
-                + "FULL JOIN\n"
-                + "\n"
-                + "Branch AS b On b.id = d.branchId\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "\n"
-                + "AcademicRank AS a\n"
-                + "On a.id = d.ARId\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "\n"
-                + "DoctorCertificates DC \n"
-                + "ON d.id = DC.DoctorId\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "\n"
-                + "DoctorService AS DS\n"
-                + "ON DS.doctorId = d.id\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "ServiceTag AS ST\n"
-                + "ON ST.id = DS.serviceId\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "\n"
-                + "Department\n"
-                + "ON Department.id = ST.departmentId\n"
-                + "\n"
-                + "FULL JOIN \n"
-                + "\n"
-                + "CurriculumVitae AS CV\n"
-                + "On CV.id = d.CVId\n"
-                + "\n"
-                + "WHERE d.branchId = ? \n"
-                + "GROUP BY d.ARId, d.branchId, d.CVId, d.displayName, d.email, d.id, d.phone, d.profilePicture, d.salary, d.status, d.workplace, \n"
-                + "b.[name], a.[name], DC.Certificates,  Department.[name], Department.id, CV.education, CV.introduce, CV.workHistory, CV.startYear, d.[password]\n"
+                + "FULL JOIN Branch AS b ON b.id = d.branchId\n"
+                + "FULL JOIN AcademicRank AS a ON a.id = d.ARId\n"
+                + "FULL JOIN DoctorCertificates DC ON d.id = DC.DoctorId\n"
+                + "FULL JOIN DoctorService AS DS ON DS.doctorId = d.id\n"
+                + "FULL JOIN ServiceTag AS ST ON ST.id = DS.serviceId\n"
+                + "FULL JOIN Department ON Department.id = ST.departmentId\n"
+                + "FULL JOIN CurriculumVitae AS CV ON CV.id = d.CVId\n"
+                + "WHERE d.branchId = ?\n"
+                + "GROUP BY d.ARId, d.branchId,d.gender,d.isDelete, d.birthDate, d.CVId, d.displayName, d.email, d.id, d.phone, d.profilePicture, d.salary, d.status, d.workplace,\n"
+                + "b.[name], a.[name], DC.Certificates, Department.[name], Department.id, CV.education, CV.introduce, CV.workHistory, CV.startYear, d.[password]\n"
                 + "HAVING d.id IS NOT NULL";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -132,7 +103,7 @@ public class BranchDAO extends DBContext {
         }
         return list;
     }
-    
+
 //thu
     public String getBranchId(String name) {
         String sql = "SELECT id FROM Branch WHERE name = ?";
@@ -148,6 +119,7 @@ public class BranchDAO extends DBContext {
         }
         return null;
     }
+
     public static void main(String[] args) {
         BranchDAO bd = new BranchDAO();
         ArrayList<Doctor> list = bd.getAllDoctorsByBranchId("1");

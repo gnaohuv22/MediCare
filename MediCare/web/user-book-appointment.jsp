@@ -189,17 +189,17 @@
                     <!-- Add more input fields as needed -->
                     <input type="hidden" name="method" id="method" value=""/><br/>
                     <button class="button-container" id="submit-button" type="submit"></button>
-                    <button type="button" id="close-button" onclick="closeAddProfileForm()">Close</button>
+                    <button type="button" id="close-button" onclick="closeAddProfileForm()">Hủy</button>
                 </form>
             </div>
             <!--Popup - End-->
             <!--Popup - Start-->
             <div id="confirm-OTP-Form" class="form-popup">
-                <div  class="form-container">
+                <div  class="form-container  text-center">
                     <h3><b>Vui lòng kiểm tra email để lấy mã OTP gồm 6 chữ số!</b></h3>
                     <!-- Your form fields go here -->
                     <label for="name">Mã OTP</label><br/>
-                    <input type="text" id="otp" name="otp" placeholder="123456" required=""><br/>
+                    <input type="text" id="otp" name="otp" placeholder="eg: 123456" required=""><br/>
                     <!--                    <input type="hidden" name="method" id="method" value=""/><br/>-->
                     <button class="button-container" id="submit-otp-button" onclick="onclickSubmitOTP(this)">Xác nhận</button>
                     <!--<button type="button" id="close-button" onclick="closeAddProfileForm()">Close</button>-->
