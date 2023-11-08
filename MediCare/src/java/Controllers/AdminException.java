@@ -116,4 +116,16 @@ public class AdminException {
             return "Bạn không có quyền để thực hiện hành động này"+msg;
         }
     }
+
+    static class NotCorrectPasswordException extends java.lang.Exception {
+
+        public NotCorrectPasswordException() {
+        }
+        public String getMessage(){
+//            return "This password did't match";
+            return "Mật khẩu hiện tại không đúng";
+        }
+    }
+
+  
 }

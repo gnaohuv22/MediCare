@@ -81,11 +81,17 @@
 
                             <div class="card-box">
                                 <h3 class="card-title">Bảo mật</h3>
-                                
+                                   <p class="error-notice">${error.getPasswordError()}</p>
                                 <div class="form-group row justify-content-center">
                                     <label for="input-id" class="col-sm-2 col-form-label" style="font-size: 15px">ID</label>
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control" value="${EMPLOYEE.getId()}" id="input-id" readonly="true">
+                                </div>
+                            </div>
+                                 <div class="form-group row justify-content-center">
+                                <label for="input-id" class="col-sm-2 col-form-label" style="font-size: 15px">Mật khẩu hiện tại</label>
+                                <div class="col-sm-6">
+                                    <input type="password" class="form-control" name="oldPassword"  id="input-id" >
                                 </div>
                             </div>
                             <div class="form-group row justify-content-center">
@@ -94,7 +100,7 @@
                                     <input type="password" class="form-control" name="newPassword"  id="input-id" >
                                 </div>
                             </div>
-                            <p class="error-notice">${error.getPasswordError()}</p>
+                         
                             <div class="form-group row justify-content-center">
                                 <label for="input-id" class="col-sm-2 col-form-label" style="font-size: 15px">Xác nhận mật khẩu mới</label>
                                 <div class="col-sm-6">
