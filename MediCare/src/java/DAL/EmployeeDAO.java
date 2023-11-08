@@ -12,7 +12,10 @@ import Models.Province;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -122,12 +125,13 @@ public class EmployeeDAO extends DBContext {
             pstm.setInt(3, offset);
             pstm.setInt(4, fetch);
             ResultSet rs = pstm.executeQuery();
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             while (rs.next()) {
                 String id = rs.getString("eId");
                 String email = rs.getString("email");
                 String branchId = rs.getString("branchId");
                 String name = rs.getString("eName");
-                String birthDate = rs.getString("birthDate");
+                String birthDate = format.format(rs.getDate("birthDate"));
                 String gender = rs.getString("gender");
                 String address = rs.getString("address");
                 String workplace = rs.getString("workplace");
@@ -175,12 +179,13 @@ public class EmployeeDAO extends DBContext {
             pstm.setInt(3, offset);
             pstm.setInt(4, fetch);
             ResultSet rs = pstm.executeQuery();
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             while (rs.next()) {
                 String id = rs.getString("eId");
                 String email = rs.getString("email");
                 String branchId = rs.getString("branchId");
                 String name = rs.getString("eName");
-                String birthDate = rs.getString("birthDate");
+                String birthDate = format.format(rs.getDate("birthDate"));
                 String gender = rs.getString("gender");
                 String address = rs.getString("address");
                 String workplace = rs.getString("workplace");
@@ -188,9 +193,18 @@ public class EmployeeDAO extends DBContext {
                 String phone = rs.getString("phone");
                 String ethnic = rs.getString("ethnic");
                 String roleId = rs.getString("roleId");
-                String createAt = rs.getString("createAt");
+//                String createAt = rs.getString("createAt");
+                Timestamp ts = rs.getTimestamp("createAt");
+                String createAt = format.format(ts);
                 String createBy = rs.getString("createBy");
-                String modifyAt = rs.getString("modifyAt");
+//                String modifyAt = rs.getString("modifyAt");
+                ts = rs.getTimestamp("modifyAt");
+                String modifyAt;
+                if (ts!=null){
+                    modifyAt = format.format(ts);
+                }else{
+                    modifyAt = "";
+                }
                 String modifyBy = rs.getString("modifyBy");
                 String branchName = rs.getString("bName");
                 String branchDescription = "";
@@ -253,6 +267,7 @@ public class EmployeeDAO extends DBContext {
     }
 
     public Employee getEmployeeById(String id) {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String SQL = "SELECT Employee.id[eId], email, password, branchId, Employee.name, birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, createAt,"
                 + " Branch.name[bName], Branch.description[bDescrip], Branch.locateId[bLocateId], Province.name[pName], EmployeeRole.role[erRole] "
                 + " FROM Employee"
@@ -268,7 +283,7 @@ public class EmployeeDAO extends DBContext {
                 String password = rs.getString("password");
                 String branchId = rs.getString("branchId");
                 String name = rs.getString(5);
-                String birthDate = rs.getString("birthDate");
+                String birthDate = format.format(rs.getDate("birthDate"));
                 String gender = rs.getString("gender");
                 String address = rs.getString("address");
                 String workplace = rs.getString("workplace");
@@ -451,6 +466,7 @@ public class EmployeeDAO extends DBContext {
     //thu
     public ArrayList<Employee> searchEmployee(String keyId, String keyName, String keyRoleId, String keyBranchId, int offset, int fetch, String isDelete) {
         ArrayList<Employee> list = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String SQL = "SELECT Employee.id[eId], email, branchId, Employee.name[eName], birthDate, gender, address, workplace, provinceId, phone, ethnic, "
                 + "Branch.name[bName], Province.name[pName], EmployeeRole.role[erRole] "
                 + "FROM Employee "
@@ -496,7 +512,7 @@ public class EmployeeDAO extends DBContext {
                 String email = rs.getString("email");
                 String branchId = rs.getString("branchId");
                 String name = rs.getString(5);
-                String birthDate = rs.getString("birthDate");
+                String birthDate = format.format(rs.getDate("birthDate"));
                 String gender = rs.getString("gender");
                 String address = rs.getString("address");
                 String workplace = rs.getString("workplace");
@@ -525,6 +541,7 @@ public class EmployeeDAO extends DBContext {
     //thu
     public ArrayList<Employee> searchMoreEmployee(String keyId, String keyName, String keyRoleId, String keyBranchId, int offset, int fetch, String isDelete) {
         ArrayList<Employee> list = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String SQL = "SELECT Employee.id[eId], email, branchId, Employee.name[eName], birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, createAt, CreateBy, modifyAt, modifyBy,"
                 + "        Branch.name[bName], Province.name[pName], EmployeeRole.role[erRole]  "
                 + "        FROM Employee  "
@@ -570,7 +587,7 @@ public class EmployeeDAO extends DBContext {
                 String email = rs.getString("email");
                 String branchId = rs.getString("branchId");
                 String name = rs.getString(5);
-                String birthDate = rs.getString("birthDate");
+                String birthDate = format.format(rs.getDate("birthDate"));
                 String gender = rs.getString("gender");
                 String address = rs.getString("address");
                 String workplace = rs.getString("workplace");
@@ -578,9 +595,18 @@ public class EmployeeDAO extends DBContext {
                 String phone = rs.getString("phone");
                 String ethnic = rs.getString("ethnic");
                 String roleId = rs.getString("roleId");
-                String createAt = rs.getString("createAt");
+//                String createAt = rs.getString("createAt");
+                Timestamp ts = rs.getTimestamp("createAt");
+                String createAt = format.format(ts);
                 String createBy = rs.getString("createBy");
-                String modifyAt = rs.getString("modifyAt");
+//                String modifyAt = rs.getString("modifyAt");
+                ts = rs.getTimestamp("modifyAt");
+                String modifyAt;
+                if (ts!=null){
+                    modifyAt = format.format(ts);
+                }else{
+                    modifyAt = "";
+                }
                 String modifyBy = rs.getString("modifyBy");
                 String branchName = rs.getString("bName");
                 String branchDescription = "";

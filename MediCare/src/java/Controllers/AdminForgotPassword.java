@@ -65,7 +65,7 @@ public class AdminForgotPassword extends HttpServlet {
         String encryptedPassword = PasswordEncryption.encryptPassword(password, salt);
         if(eDao.setEmployeePasswordById(emp.getId(),encryptedPassword)){
             request.setAttribute("MESSAGE","Thành công! Hãy kiểm tra email để lấy mật khẩu mới");
-            AdminEmailContext.sendEmailForgotPassword(emp.getName(),password);
+            AdminEmailContext.sendEmailForgotPassword(emp.getEmail(),password,emp.getName());
             request.getRequestDispatcher(LOGIN_PAGE).forward(request, response);
         }else{
             request.setAttribute("MESSAGE","Thất bại! Có vẻ có lỗi gì đó xảy ra! Hãy liên hệ với bộ phận hỗ trợ");
