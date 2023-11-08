@@ -22,10 +22,10 @@
                     <div class="row">
                         <div class="col-lg-8 offset-lg-2">
                             <c:if test="${add_user}">
-                                <h4 class="page-title">Thêm người dùng</h4>
+                                <h2 class="page-title">Thêm người dùng</h2>
                             </c:if>
                             <c:if test="${edit_user}">
-                                <h4 class="page-title">Sửa người dùng</h4>
+                                <h2 class="page-title">Sửa người dùng</h2>
                             </c:if>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Email </label>
-                                            <input class="form-control" type="email" name="email" value="${user.email}">
+                                            <input class="form-control" type="email" name="email" placeholder="Ví dụ: example@gmail.com" value="${user.email}">
                                         </div>
                                         <p class="error-notice">${error.getEmailError()}</p>
                                     </div>
@@ -58,7 +58,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Tên </label>
-                                            <input class="form-control" type="text" name="name" value="${user.name}">
+                                            <input class="form-control" type="text" name="name" placeholder="Ví dụ: Nguyễn Văn A" value="${user.name}">
                                         </div>
                                         <p class="error-notice">${error.getNameError()}</p>
                                     </div>
@@ -74,7 +74,7 @@
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label>Giới tính </label>
+                                            <label>Giới tính </label><br>
                                             <span style="font-size:20px;color:#000;margin-left:36px;padding:5px 5px;">
                                                 <input type="radio" name="gender" value="0" <c:if test="${user.gender != 1}">checked="checked"</c:if>/>Nam
                                                 <input type="radio" name="gender" value="1" <c:if test="${user.gender == 1}">checked="checked"</c:if>/>Nữ
@@ -84,13 +84,13 @@
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label>Địa chỉ </label>
-                                                <input class="form-control" type="text" name="address" value="${user.address}" >
+                                                <input class="form-control" type="text" name="address" placeholder="Ví dụ: 123/3 đường Lê Lợi, phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh" value="${user.address}" >
                                         </div>
                                         <p class="error-notice">${error.getAddressError()}</p>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label>Tỉnh</label>
+                                            <label>Tỉnh</label><br>
                                             <select class="select" name="provinceId" value="${provinceId}">
                                                 <c:forEach var="list" items="${ALL_PROVINCE}">
                                                     <option value="${list.getId()}" <c:if test="${list.getId() eq user.getProvince().getId()}">selected</c:if>>${list.getName()}</option>
@@ -101,38 +101,40 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Số CCCD</label>
-                                            <input class="form-control" type="text" name="identity" value="${user.identity}" >
+                                            <h6 style="color: #D7D7D7">CCCD có 10 chữ số</h6>
+                                            <input class="form-control" type="text" name="identity" placeholder="Ví dụ: 0123456789" value="${user.identity}" >
                                         </div>
                                         <p class="error-notice">${error.getIdentityError()}</p>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Số BHYT</label>
-                                            <input class="form-control" type="text" name="medicalId" value="${user.medicalId}" >
+                                            <h6 style="color: #D7D7D7">BHYT có 12 chữ số</h6>
+                                            <input class="form-control" type="text" name="medicalId" placeholder="Ví dụ: 012345678910" value="${user.medicalId}" >
                                         </div>
                                         <p class="error-notice">${error.getMedicalIdError()}</p>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Dân tộc </label>
-                                            <input class="form-control" type="text" name="ethnic" value="${user.ethnic}" >
+                                            <input class="form-control" type="text" name="ethnic" placeholder="Ví dụ: Kinh, Thái,.." value="${user.ethnic}" >
                                         </div>
                                         <p class="error-notice">${error.getEthnicError()}</p>
                                     </div> 
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label>Số điện thoại</label>
-                                            <input class="form-control" type="text" name="phone" value="${user.phone}" >
+                                            <label>Số điện thoại</label><h6 style="color: #D7D7D7">Số điện thoại có 10 chữ số</h6>
+                                            <input class="form-control" type="text" name="phone" placeholder="Ví dụ: 0989123456" value="${user.phone}" >
                                         </div>
                                         <p class="error-notice">${error.getPhoneError()}</p>
                                     </div> 
-                                    <div class="col-sm-12">
+<!--                                    <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Ảnh</label>
                                             <input class="form-control" type="text" name="profilePicture" value="${user.profilePicture}" >
                                         </div>
                                         <p class="error-notice">${error.getProfilePictureError()}</p>
-                                    </div>
+                                    </div>-->
 
                                     <!--                                    <div class="col-sm-12">
                                                                             <div class="form-group">

@@ -11,9 +11,31 @@ package Models;
 public class Holiday {
 
     private String id, name, fromDate, toDate, createdAt, modyfyAt, createdBy, modifyBy;
-
+    private Branch branch;
     public Holiday() {
     }
+
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
+    }
+
+    
+    public Holiday(String id, String name, String fromDate, String toDate, String createdAt, String modyfyAt, String createdBy, String modifyBy, Branch branch) {
+        this.id = id;
+        this.name = name;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
+        this.createdAt = createdAt;
+        this.modyfyAt = modyfyAt;
+        this.createdBy = createdBy;
+        this.modifyBy = modifyBy;
+        this.branch = branch;
+    }
+    
 
     public Holiday(String id, String name, String fromDate, String toDate, String createdAt, String modyfyAt, String createdBy, String modifyBy) {
         this.id = id;

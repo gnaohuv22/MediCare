@@ -6,12 +6,17 @@ package Controllers;
 
 import DAL.BranchDAO;
 import DAL.DoctorDAO;
+import DAL.EmployeeDAO;
+import DAL.HolidayDAO;
 import DAL.ScheduleDetailDAO;
 import DAL.SubLevelMenuDAO;
 import Models.AdminSidebarMenu;
 import Models.Branch;
 import Models.Doctor;
+import Models.Employee;
+import Models.Holiday;
 import Models.ScheduleDetail;
+import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -32,7 +37,7 @@ import java.util.logging.Logger;
  *
  * @author tubinh
  */
-@WebServlet(name = "AdminManageScheduleDoctor", urlPatterns = {"/admin-manage-schedule-doctor"})
+//@WebServlet(name = "AdminManageScheduleDoctor", urlPatterns = {"/admin-manage-schedule-doctor"})
 public class AdminManageScheduleDoctor extends HttpServlet {
 
     /**
@@ -136,6 +141,8 @@ public class AdminManageScheduleDoctor extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        Employee employee = (Employee) session.getAttribute("EMPLOYEE");
         String year = request.getParameter("year");
         String week_raw = request.getParameter("week");
         String doctorId = request.getParameter("doctorId");
@@ -694,6 +701,7 @@ public class AdminManageScheduleDoctor extends HttpServlet {
         BranchDAO bd = new BranchDAO();
         ArrayList<Branch> branches = bd.getAllBranches();
         ArrayList<String> lastestMonthSchedule = new ArrayList<>();
+        HolidayDAO hd = new HolidayDAO();
         if (branchId != null) {
             lastestMonthSchedule = sdd.getLastestScheduleByBranchId(branchId);
         } else {
@@ -746,19 +754,58 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                     break;
                 }
                 case "save-add-event": {
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    out = response.getWriter();
                     System.out.println("ACTION: save-add-event");
-                    // isDelete = 1 -> Nghi le:
-                    if (sdd.setDayOffForDoctorByEvent(fromDate, toDate)) {
-                        System.out.println("Set day off from " + fromDate + " to" + toDate + " success!");
+                    JsonObject jsonResponse = new JsonObject();
+                    // check exist event:
+                    Holiday holiday = hd.getEventByBranchNameFromTo(branchId, eventName, fromDate, toDate);
+                    if (holiday != null) {
+//                        out.println("Ngày lễ đã tồn tại, được sửa đổi lần cuối bởi " + employee.getName() + "!");
+                        // Simulate data or retrieve data from a database
+                        String message = "Ngày lễ đã tồn tại, được sửa đổi lần cuối bởi " + new EmployeeDAO().getEmployeeById(holiday.getModifyBy()).getName() + "! Bạn có muốn tiếp tục thêm ngày lễ?";
+
+                        // Create a JSON object with attributes
+                        jsonResponse.addProperty("status", "fail");
+                        jsonResponse.addProperty("message", message);
+
+                        System.out.println("jsonResponse: " + jsonResponse);
+                        out.println(jsonResponse);
                     } else {
-                        System.out.println("Set day off from " + fromDate + " to" + toDate + " success!");
+                        // isDelete = 1 -> Nghi le:
+                        if (sdd.setDayOffForDoctorByEvent(fromDate, toDate, branchId)) {
+                            System.out.println("Set day off from " + fromDate + " to" + toDate + " success!");
+                            // add holiday to Database:
+                            System.out.println("Employee: " + employee);
+                            if (hd.addEvent(eventName, fromDate, toDate, branchId, employee)) {
+                                System.out.println("Add new Event success!");
+                            } else {
+                                System.out.println("Add new Event fail!");
+                            }
+                        } else {
+                            System.out.println("Set day off from " + fromDate + " to" + toDate + " success!");
+                        }
+                        // Simulate data or retrieve data from a database
+                        String message = " Thêm ngày lễ thành công!";
+
+                        // Create a JSON object with attributes
+                        jsonResponse.addProperty("status", "success");
+                        jsonResponse.addProperty("message", message);
+
+                        System.out.println("jsonResponse: " + jsonResponse);
+                        out.println(jsonResponse);
                     }
-                    
+
                     System.out.println("Event-name: " + eventName);
                     System.out.println("From-date: " + fromDate);
                     System.out.println("To-date: " + toDate);
-                    // add holiday to Database:
-                    
+
+                    break;
+                }
+                case "add-leave": {
+                    System.out.println("ACTION: add-leave");
+                    ajaxFunctionAddLeave(out, null, branchId);
                     break;
                 }
 
@@ -943,11 +990,55 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                 + "                                </div>\n"
                 + "                            </div>\n"
                 + "                </div>"
-                                                        + "<p class=\"text-center\" id=\"error-save-add-appointment\">Error</p>"
+                + "<p class=\"text-center\" id=\"error-save-add-appointment\"></p>"
                 + "                </div>"
                 + "</div>");
         out.println("<div class=\"row step3-add-event\">\n");
         out.println("<div class=\"btn btn-primary\" onclick=\"saveAddEvent()\">Thêm ngày lễ</div>");
+        out.println("<div class=\"btn btn-primary\" onclick=\"closeScheduleOfDoctorForm()\">Hủy</div>");
+        out.println("</div>\n");
+    }
+
+    public static void ajaxFunctionAddLeave(PrintWriter out, ArrayList<Doctor> doctorList, String branchId) {
+        doctorList = new DoctorDAO().getAllDoctors();
+        out.println("<div class=\"booking-container\">\n"
+                + "            <!--Step-1-container - start-->\n"
+                + "                <div id=\"step-1-container\">\n"
+                + "                    <h2 class=\"booking-header\">Thêm ngày nghỉ cho bác sĩ</h2>\n"
+                + "                    <div class=\"row add-event-info-input\">\n"
+                + "                        <!-- Cột 1 -->\n"
+                + "                        <div class=\"col-md-6\">\n"
+                + "                            <div class=\"form-group\"><label>Tìm kiếm bác sĩ qua tên</label>"
+                + "                                <input type=\"text\" id=\"searchPattern\" name=\"searchPattern\" class=\"form-control\">\n"
+                + "                            </div>\n");
+        out.println(" <table border=\"1\">\n"
+                + "        <tr>\n"
+                + "            <th>ID</th>\n"
+                + "            <th>Tên</th>\n"
+                + "            <th>Chi nhánh</th>\n"
+                + "            <th>Chuyên khoa</th>\n"
+                + "            <th>Email</th>\n"
+                + "        </tr>\n");
+        for (Doctor doctor : doctorList) {
+
+            out.println("            <tr>\n"
+                    + "                <td>" + 2 + "</td>\n"
+                    + "                <td>" + 2 + "</td>\n"
+                    + "                <td>" + 2 + "</td>\n"
+                    + "                <td>" + 2 + "</td>\n"
+                    + "                <td>" + 2 + "</td>\n"
+                    + "            </tr>\n");
+        }
+        out.println("    </table>");
+        out.println("                        </div>\n"
+                + "<div class=\"form-group col-md-6\">\n"
+                + "                                <span>Ngày bắt đầu <span class=\"text-danger\">*</span></span>\n"
+                + "                                <input id=\"fromDate\" class=\"form-control\" type=\"date\">\n"
+                + "                                <span>Kết thúc vào <span class=\"text-danger\">*</span></span>\n"
+                + "                                <input id=\"fromDate\" class=\"form-control\" type=\"date\">\n"
+                + "<div class=\"btn btn-primary\" onclick=\"saveAddEvent()\">Thêm ngày lễ</div>"
+                + "                            </div>\n");
+        out.println("</div></div>");
         out.println("<div class=\"btn btn-primary\" onclick=\"closeScheduleOfDoctorForm()\">Hủy</div>");
         out.println("</div>\n");
     }

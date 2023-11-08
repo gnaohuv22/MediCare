@@ -5,8 +5,12 @@
 package Controllers;
 
 import DAL.AppointmentsDAO;
+import DAL.FamilyProfileDAO;
+import DAL.RelationshipDAO;
 import DAL.UserDAO;
 import Models.Appointments;
+import Models.FamilyProfile;
+import Models.Relationship;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,6 +18,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -75,6 +80,42 @@ public class UserAppointmentController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        AppointmentsDAO aDAO = new AppointmentsDAO();
+        HttpSession session = request.getSession();
+        List<Appointments> aList;
+        UserDAO uDAO = new UserDAO();
+
+        String search;
+        search = request.getParameter("search-appointment");
+
+        String ownerId = uDAO.getIdByEmail(String.valueOf(session.getAttribute("email")));
+
+
+        if (session.getAttribute("email") == null){
+            response.sendRedirect("user-login");
+        }
+        else{
+            String method = request.getParameter("method");
+            switch(method){
+                case "search":
+                    if(aDAO.getListAppointmentsByPatientName(search,ownerId)!=null){
+                        aList = aDAO.getListAppointmentsByPatientName(search,ownerId);
+                        
+                        request.setAttribute("aList", aList);
+                        request.getRequestDispatcher("user-appointment.jsp").forward(request, response);
+                    }  
+                    else if(aDAO.getListAppointmentsByPhone(search)!=null){
+                        aList = aDAO.getListAppointmentsByPhone(search);
+                        
+                        request.setAttribute("aList", aList);
+                        request.getRequestDispatcher("user-appointment.jsp").forward(request, response);
+                        
+                    }
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+        }
     }
 
     /**

@@ -23,7 +23,7 @@ import java.util.ArrayList;
  *
  * @author tubinh
  */
-@WebServlet(name = "AdminManagePatientsServlet", urlPatterns = {"/admin-manage-patients"})
+//@WebServlet(name = "AdminManagePatientsServlet", urlPatterns = {"/admin-manage-patients"})
 public class AdminManagePatientsServlet extends HttpServlet {
 
     /**

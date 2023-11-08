@@ -36,7 +36,7 @@
                 </div>
                 <div class="search-box">
                     <form action="" method="post" class="search-bar">
-                        <input placeholder="Tên bệnh nhân, số điện thoại, mã cuộc hẹn" type="search" name="search-appointment" id="search-appointment">
+                        <input placeholder="Tên bệnh nhân, số điện thoại" type="search" name="search-appointment" id="search-appointment">
                         <input type="hidden" name="method" value="search"/>
                     </form>
                     <div class="profile-list">
