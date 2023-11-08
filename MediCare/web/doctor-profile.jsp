@@ -8,15 +8,21 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <jsp:include page="user-head.jsp"/>
-        <title>Profile</title>
+        <jsp:include page="doctor-head.jsp"/>
+        <title>Hồ sơ bác sĩ | MediCare</title>
     </head>
     <body>
-        <jsp:include page="user-header.jsp"/>
-        <main>
-            
-        </main>
-        <jsp:include page="user-footer.jsp"/>
-        <jsp:include page="user-script.jsp"/>
+        <jsp:include page="doctor-header.jsp"/>
+        
+        <div class="container">
+            <div class="profile-container">
+                <div class="text-center">
+                    <h1 class="profile-title">Hồ sơ bác sĩ</h1>
+                </div>
+            </div>
+        </div>
+        
+        <jsp:include page="doctor-footer.jsp"/>
+        <jsp:include page="doctor-script.jsp"/>
     </body>
 </html>

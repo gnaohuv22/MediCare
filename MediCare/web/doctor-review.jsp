@@ -53,7 +53,7 @@
                                 <input class="date-type" type="date" id="endDate" name="endDate" value="">
                                 <button class="filter-button" id="submitDate">Lọc</button><br>
 
-                                <p id="errorMessage"></p>
+                                <p id="errorMessage" style="color: red; font-size: 16px; font-weight: bolder"></p>
                             </div>
                             <c:forEach var="review" items="${requestScope.reviewList}">
                                 <c:set var="rating" value="${Double.parseDouble(review.getRating())}"></c:set>
@@ -107,11 +107,11 @@
                     </div>
                 </div>
                 <!-- Review section -->
-                
+
                 <!-- Dynamic Pagination section -->
                 <nav aria-label="Pagination">
                     <ul id="pagination" class="pagination justify-content-center">
-                        
+
                     </ul>
                 </nav>
                 <!-- Dynamic Pagination section -->
@@ -172,15 +172,15 @@
                     // Add "Previous" button
                     if (currentPage !== 1) {
                         var prevlink = $('<li>').addClass('page-item').append($('<a>').addClass('page-link').attr('href', '#').text('<<').click(function (e) {
-                                e.preventDefault();
+                            e.preventDefault();
 
-                                //Update the current page
-                                --currentPage;
+                            //Update the current page
+                            --currentPage;
 
-                                //Update the reviews list
-                                updateReviews();
-                            })
-                        );
+                            //Update the reviews list
+                            updateReviews();
+                        })
+                                );
                         pagination.append(prevlink);
                     }
 
@@ -205,22 +205,22 @@
                     //Add a "next" button
                     if (currentPage < totalPages) {
                         var nextLink = $('<li>').addClass('page-item').append($('<a>').addClass('page-link').attr('href', '#').text('>>').click(function (e) {
-                                e.preventDefault();
+                            e.preventDefault();
 
-                                //Update the current page
-                                ++currentPage;
+                            //Update the current page
+                            ++currentPage;
 
-                                //Update the reviews
-                                updateReviews();
-                            })
-                        );
+                            //Update the reviews
+                            updateReviews();
+                        })
+                                );
                         pagination.append(nextLink);
                     }
                 }
 
 
                 // Update the reviews when a checkbox is changed
-                $('input[name="rating"], input[name="service"]').change(function() {
+                $('input[name="rating"], input[name="service"]').change(function () {
                     currentPage = 1;
                     updateReviews();
                 });
@@ -235,24 +235,35 @@
                     // Trigger the change event to update the reviews
                     $('input[name="rating"], input[name="service"]').change();
                 });
+
+                $('#submitDate').click(function () {
+                    var startDate = new Date($('#startDate').val());
+                    var endDate = new Date($('#endDate').val());
+
+                    // Filter the reviews based on the date
+                    var filteredReviews = $('.review-section').filter(function () {
+                        var reviewDate = new Date($(this).attr('data-date'));
+                        return reviewDate >= startDate && reviewDate <= endDate;
+                    });
+
+                    // Hide all reviews
+                    $('.review-section').hide();
+
+                    // Show the filtered reviews
+                    filteredReviews.show();
+
+                    // Reset the current page to 1
+                    currentPage = 1;
+
+                    // Update the reviews
+                    updateReviews();
+                });
             });
         </script>
 
         <!-- This script let date filter work -->
         <script>
-            $('#submitDate').click(function () {
-                var startDate = new Date($('#startDate').val());
-                var endDate = new Date($('#endDate').val());
 
-                $('.review-section').each(function () {
-                    var reviewDate = new Date($(this).attr('data-date'));
-                    if (reviewDate >= startDate && reviewDate <= endDate) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
-            });
         </script>
         <!-- This script disabled the Reset Filter button if no filters applied -->
         <script>
