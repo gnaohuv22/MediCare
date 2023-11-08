@@ -15,7 +15,8 @@ import org.apache.commons.io.IOUtils;
  * @author Asus
  */
 public class Base64Encoding {
-
+    
+//Chuyển Ảnh  -> Base64 String - Cho phép không nhập hoặc nhập jpg , png 
     public static String convertImageToBase64(Part filePart) {
         String imageFileName = null;
         try {
@@ -33,7 +34,7 @@ public class Base64Encoding {
         }
         return imageFileName;
     }
-
+//Validate file nhập vào 
     public static boolean isFileValid(Part filePart) {
         if (!filePart.getSubmittedFileName().equals("")) {
             if (filePart.getSubmittedFileName().toLowerCase().endsWith(".jpg") || filePart.getSubmittedFileName().toLowerCase().endsWith(".png")) {

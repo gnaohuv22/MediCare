@@ -20,14 +20,11 @@ public class AdminEmailContext {
 
     static String from = "thunvhe176252@fpt.edu.vn";
     static String password = "egej dvml estl papk";
-//    static String password = "TEST";
 
     public static void sendEmailForgotPassword(String mail,String newPassword) {
-//        EmployeeDAO eDAO = new EmployeeDAO();
         String to = mail;
-        String subject = "Xin chào " + mail;
-
-        String mailContent = "Mật khẩu mới của bạn là: "+newPassword;
+        String subject = "[MediCare] - Quên mật khẩu ";
+        String mailContent = "Xin chào " + mail +"<br>"+ "Mật khẩu mới của bạn là: " + newPassword;
 
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");

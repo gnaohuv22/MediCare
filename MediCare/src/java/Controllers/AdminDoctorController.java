@@ -205,7 +205,7 @@ public class AdminDoctorController extends HttpServlet {
         String[] certificates = request.getParameterValues("certificates");
         String birthDate = request.getParameter("birthDate");
         String gender = request.getParameter("gender");
-
+        
         Part filePart = request.getPart("avatarUpload");
         System.out.println("filePart value at add : " + filePart);
         String imageFileName = "";

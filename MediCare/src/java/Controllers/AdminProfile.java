@@ -83,6 +83,7 @@ public class AdminProfile extends HttpServlet {
             String id = currentEmp.getId();
             String email;
             String name;
+            String oldPassword;
             String password;
             String birthDate;
             String gender;
@@ -123,6 +124,7 @@ public class AdminProfile extends HttpServlet {
                     Logger.getLogger(AdminProfile.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            oldPassword = request.getParameter("oldPassword");
             newPassword = request.getParameter("newPassword");
             if (!newPassword.equals("")) {
                 try {
@@ -142,6 +144,9 @@ public class AdminProfile extends HttpServlet {
                         if (currentEmp.getPassword()!=null&&currentEmp.getPassword().equals(newPassword)) {
                             throw new AdminException.PasswordNotChange();
                         }
+                        if (!PasswordEncryption.comparePasswords(oldPassword, emp.getPassword())){
+                            throw new AdminException.NotCorrectPasswordException();
+                        }
                         password = encryptedPassword;
                         if (error) {
                             throw new Exception();
@@ -160,7 +165,12 @@ public class AdminProfile extends HttpServlet {
                 } catch (AdminException.LengthException e) {
                     error = true;
                     msg.setPasswordError(e.getMessage());
-                } catch (Exception ex) {
+                }
+                catch (AdminException.NotCorrectPasswordException e2) {
+                    error = true;
+                    msg.setPasswordError(e2.getMessage());
+                }
+                catch (Exception ex) {
                     Logger.getLogger(AdminProfile.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
