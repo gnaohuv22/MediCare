@@ -67,6 +67,7 @@ public class ReviewDAO extends DBContext {
 
     public ArrayList<Reviews> getListReview(int offset, int fetch) {
         ArrayList<Reviews> list = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
         String SQL = "SELECT Reviews.id[rId], Reviews.userId[rUserId], doctorId, appointmentId, rating, reviewContent, Reviews.createdAt,"
                 + " [User].name[uName], Doctor.displayName[dName]"
@@ -89,7 +90,14 @@ public class ReviewDAO extends DBContext {
                 String appointmentId = rs.getString("appointmentId");
                 String rating = rs.getString("rating");
                 String reviewContent = rs.getString("reviewContent");
-                String createdAt = rs.getString("createdAt");
+//                String createdAt = rs.getString("createdAt");
+                Timestamp ts = rs.getTimestamp("createdAt");
+                String createdAt;
+                if (ts!=null){
+                    createdAt = format.format(ts);
+                }else{
+                    createdAt = "";
+                }
                 String userName = rs.getString("uName");
                 String doctorName = rs.getString("dName");
                 User user = new User(userId, "", "", userName, "", "", "", new Province(), "", "", "", "", "", "");
