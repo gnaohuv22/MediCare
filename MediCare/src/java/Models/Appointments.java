@@ -108,6 +108,8 @@ public class Appointments {
     
 
     public Appointments() {
+        doctor = new Doctor();
+        fp = new FamilyProfile();
     }
 
     public Appointments(Doctor doctor, ServiceTag serviceTag, String plannedAt, Branch branch, String symptoms) {

@@ -14,6 +14,7 @@ import Models.ServiceTag;
 import Models.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -338,6 +339,40 @@ public class AppointmentDAO extends DBContext {
             return number;
         }catch (Exception e) {
             System.out.println("generateId appointments " + e.getMessage());
+        }
+        return null;
+    }
+
+    public Appointments getAppointmentById(String id) {
+        String SQL = "SELECT a.id,a.status,a.plannedAt,d.displayName,d.profilePicture,fp.profileId,fp.name,"
+                + "fp.birthDate,fp.phone,fp.gender,fp.address FROM Appointments a\n"
+                + "JOIN Doctor d ON a.doctorId = d.id\n"
+                + "JOIN ServiceTag st ON a.serviceId = st.id\n"
+                + "JOIN FamilyProfile fp ON a.profileId = fp.profileId\n"
+                + "where a.id = ?";
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
+            Appointments a = new Appointments();
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String gender = "Nam";
+                if(rs.getInt("gender") == 1){
+                    gender = "Nữ";
+                }
+                a.setId(rs.getString("id"));
+                a.setStatus(rs.getString("status"));
+                a.setPlannedAt(rs.getString("plannedAt"));
+                a.getDoctor().setDisplayName(rs.getString("displayName"));
+                a.getDoctor().setProfilePicture(rs.getString("profilePicture"));
+                a.getFp().setName(rs.getString("name"));
+                a.getFp().setBirthDate(rs.getString("birthDate"));
+                a.getFp().setPhone(rs.getString("phone"));
+                a.getFp().setGender(gender);
+                a.getFp().setAddress(rs.getString("address"));
+            }
+            return a;
+        } catch (SQLException e) {
+            System.out.println("AppointmentsDAO.getListAppointments: " + e.getMessage());
         }
         return null;
     }

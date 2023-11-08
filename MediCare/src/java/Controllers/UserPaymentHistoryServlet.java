@@ -60,7 +60,7 @@ public class UserPaymentHistoryServlet extends HttpServlet {
         if (session.getAttribute("email") == null) {
             response.sendRedirect("user-login");
         } else {
-            request.getRequestDispatcher("user-payment-history.jsp").forward(request, response);
+//            request.getRequestDispatcher("user-payment-history.jsp").forward(request, response);
         }
     }
 

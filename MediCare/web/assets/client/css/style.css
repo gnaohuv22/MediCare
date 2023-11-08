@@ -1785,6 +1785,14 @@ ul .tab-component a:hover {
     text-align: center;
 }
 
+.profile-item-pics-relation{
+    color: #fff;
+    border-radius: 20px;
+    background-color: #1ead5b;
+    font-size: 12px;
+    padding: 3px;
+    text-align: center;
+}
 .profile-item-info {
     flex: 1; /* Allow this div to grow and take up remaining space */
 }

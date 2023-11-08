@@ -4,8 +4,10 @@
  */
 package Controllers;
 
+import DAL.AppointmentDAO;
 import DAL.FamilyProfileDAO;
 import DAL.UserDAO;
+import Models.Appointments;
 import Models.FamilyProfile;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,8 +16,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author phuon
@@ -32,11 +37,12 @@ public class LoadFamilyProfileByOwnerIdServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
         FamilyProfileDAO fpDAO = new FamilyProfileDAO();
         HttpSession session = request.getSession();
         UserDAO uDAO = new UserDAO();
+        AppointmentDAO aDAO = new AppointmentDAO();
 
         String id;
         String method = request.getParameter("method");
@@ -49,9 +55,19 @@ public class LoadFamilyProfileByOwnerIdServlet extends HttpServlet {
                     id = String.valueOf(request.getParameter("id"));
                 }
                 FamilyProfile fp = fpDAO.getFamilyProfileById(id, ownerId);
-                request.setAttribute("currentfp", fp);
                 try ( PrintWriter out = response.getWriter()) {
                     out.println(generateProfileHtml(fp));
+                }
+                break;
+            case "appointment":
+                if (request.getParameter("id") == null || request.getParameter("id").isEmpty()) {
+                    id = String.valueOf(1);
+                } else {
+                    id = String.valueOf(request.getParameter("id"));
+                }
+                Appointments a = aDAO.getAppointmentById(id);
+                try ( PrintWriter out = response.getWriter()) {
+                    out.println(generateAppointmentHtml(a));
                 }
                 break;
             default:
@@ -93,6 +109,42 @@ public class LoadFamilyProfileByOwnerIdServlet extends HttpServlet {
         return html;
     }
 
+    private String generateAppointmentHtml(Appointments a) throws ParseException {
+        String[] dt=a.getPlannedAt().split(" ");
+        String date = dt[0];
+        
+        SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+        Date as = formatter1.parse(date);
+
+        SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
+        String output = formatter2.format(as);
+        
+        String html = "<div class=\"profile-display-header\">\n"
+                + "                        <div class=\"profile-display-pics \">\n"
+                + (a.getDoctor().getProfilePicture() == null || a.getDoctor().getProfilePicture().isEmpty() ? "<img src=\"https://www.svgrepo.com/show/497407/profile-circle.svg\" width=\"50px\" height=\"50px\" alt=\"client-img\"/> \n" : "<img class='profile-pics' src='" + a.getDoctor().getProfilePicture() + "' alt='client-img'/>")
+                + "                        </div>\n"
+                + "                        <div class=\"profile-display-info\">\n"
+                + "                            <h2>" + (a.getDoctor().getDisplayName() != null ? a.getDoctor().getDisplayName() : "--") + "</h2>\n"
+                + "                        </div>\n"
+                + "                    </div>\n"
+                + "                    <div class=\"profile-display-body\">\n"
+                + "                        <h3>Thông tin đặt khám</h3>\n"
+                + "                        <div class=\"profile-display-addition\">\n"
+                + "                            <span>Mã phiếu khám:</span><span id=\"appointment-id\">" + a.getId() + "</span>\n"
+                + "                            <span>Ngày khám:</span><span id=\"planned-date\">" + output + "</span>\n"
+                + "                        </div>\n"
+                + "                        <h3>Thông tin bệnh nhân</h3>\n"
+                + "                        <div class=\"profile-display-basic\">\n"
+                + "                            <span>Họ và tên:</span><span id=\"display-name\">" + (a.getFp().getName() != null ? a.getFp().getName() : "--") + "</span>\n"
+                + "                            <span>Điện thoại:</span><span id=\"display-phone\">" + (a.getFp().getPhone() != null ? a.getFp().getPhone() : "--") + "</span>\n"
+                + "                            <span>Ngày sinh:</span><span id=\"display-dob\">" + (a.getFp().getBirthDate() != null ? a.getFp().getBirthDate() : "--") + "</span>\n"
+                + "                            <span>Giới tính:</span><span id=\"display-gender\">" + (a.getFp().getGender() != null ? a.getFp().getGender() : "--") + "</span>\n"
+                + "                            <span>Địa chỉ:</span><span id=\"display-address\">" + (a.getFp().getAddress() != null ? a.getFp().getAddress() : "Chưa cập nhật") + "</span>\n"
+                + "                        </div>\n"
+                + "                    </div>";
+        return html;
+    }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -105,7 +157,11 @@ public class LoadFamilyProfileByOwnerIdServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(LoadFamilyProfileByOwnerIdServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -119,7 +175,11 @@ public class LoadFamilyProfileByOwnerIdServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(LoadFamilyProfileByOwnerIdServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

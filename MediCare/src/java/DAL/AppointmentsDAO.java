@@ -702,24 +702,43 @@ public class AppointmentsDAO extends DBContext {
 
     public List<Appointments> getListAppointmentsByOwnerId(String ownerId) {
         ArrayList<Appointments> list = new ArrayList<>();
-        String SQL = "SELECT a.id,a.status,a.plannedAt,d.displayName,d.profilePicture,fp.profileId,fp.name,"
+        String SQL = "SELECT a.id,a.status,a.plannedAt,d.displayName,d.profilePicture,fp.profileId,fp.name,\n"
                 + "fp.birthDate,fp.phone,fp.gender,fp.address FROM Appointments a\n"
                 + "JOIN Doctor d ON a.doctorId = d.id\n"
                 + "JOIN ServiceTag st ON a.serviceId = st.id\n"
                 + "JOIN FamilyProfile fp ON a.profileId = fp.profileId\n"
-                + "where fp.ownerId = ?";
+                + "WHERE fp.ownerId = ?\n"
+                + "ORDER BY a.status ASC";
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, ownerId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String gender = "Nam";
-                if(rs.getInt("gender") == 1){
+                if (rs.getInt("gender") == 1) {
                     gender = "Nữ";
                 }
+
+                int i = rs.getInt("status");
+                String status = "Chờ xác nhận";
+                switch (i) {
+                    case 1:
+                        status = "Ðang chờ khám";
+                        break;
+                    case 2:
+                        status = "Ðã khám xong";
+                        break;
+                    case 3:
+                        status = "Ðã huỷ";
+                        break;
+                    default:
+                        break;
+                }
+
                 Appointments a = new Appointments();
                 a.setId(rs.getString("id"));
-                a.setStatus(rs.getString("status"));
+                a.setStatus(status);
                 a.setPlannedAt(rs.getString("plannedAt"));
+                System.out.println("displayName " + rs.getString("displayName"));
                 a.getDoctor().setDisplayName(rs.getString("displayName"));
                 a.getDoctor().setProfilePicture(rs.getString("profilePicture"));
                 a.getFp().setName(rs.getString("name"));
