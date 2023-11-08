@@ -883,4 +883,28 @@ public class UserDAO extends DBContext {
         return "";
     }
 
+    public boolean editUserByFp(FamilyProfile fp) {
+                String SQL = "UPDATE [dbo].[User] SET name = ?, birthDate = ?, gender = ?, address = ?, [identity] = ?,"
+                        + "medicalId = ?, ethnic = ?, phone = ?, profilePicture = ? WHERE id = ?";
+        try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            int gender = 0;
+            if (fp.getGender().equals("Female"))
+                gender = 1;
+            pstm.setString(1, fp.getName());
+            pstm.setString(2, fp.getBirthDate());
+            pstm.setInt(3, gender);
+            pstm.setString(4, fp.getAddress());
+            pstm.setString(5, fp.getIdentity());
+            pstm.setString(6, fp.getMedicalId());
+            pstm.setString(7, fp.getEthnic());
+            pstm.setString(8, fp.getPhone());
+            pstm.setString(9, fp.getProfilePicture());
+            pstm.setString(10, fp.getOwnerId());
+            pstm.execute();
+            return true;
+        } catch (Exception e) {
+            System.out.println("editUser " + e.getMessage());
+        }
+        return false;
+    }
 }

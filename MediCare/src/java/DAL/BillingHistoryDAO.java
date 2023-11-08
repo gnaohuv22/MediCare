@@ -4,11 +4,13 @@
  */
 package DAL;
 
+import Models.Appointments;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import Models.BillingHistory;
+import java.util.List;
 
 /**
  *
@@ -26,6 +28,23 @@ public class BillingHistoryDAO extends DBContext {
                                                 String.valueOf(rs.getInt(2)),
                                                 String.valueOf(rs.getFloat(3)),
                                                 String.valueOf(rs.getDate(4)));
+                list.add(bh);
+            }
+            return list;
+        } catch (SQLException e) {
+            System.out.println("getListBillingHistory: " + e.getMessage());
+        } 
+        return null;
+    }
+
+    public List<BillingHistory> getListBillingHistoryByOwnerId(String ownerId) {
+        List<BillingHistory> list = new ArrayList<>();
+        String SQL = "SELECT * FROM [BillingHistory]";
+        
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                BillingHistory bh = new BillingHistory ();
                 list.add(bh);
             }
             return list;

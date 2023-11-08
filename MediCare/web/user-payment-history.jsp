@@ -40,19 +40,19 @@
                     </form>
                     <div class="profile-list">
                         <ul>
-                            <c:forEach items="${requestScope.fpList}" var="fp">
-                                <li class="profile-item" onclick="loadProfile(${fp.getProfileId()})" id="${fp.getProfileId()}">
+                            <c:forEach items="" var="fp">
+                                <li class="profile-item" onclick="loadProfile()" id="">
 
                                     <div class="profile-item-info">
-                                        <h3>${fp.getName()}</h3>
-                                        <span>${fp.getBirthDate()}</span>
+                                        <h3></h3>
+                                        <span></span>
                                     </div>
                                 </li>   
                             </c:forEach>
                         </ul>
                     </div>
                 </div>
-                <c:set value="${requestScope.currentfp}" var="current"/>
+                <c:set value="" var="current"/>
                 <div class="profile-display" id="profile-display">
 
                 </div>
@@ -69,7 +69,7 @@
 
             function loadProfile(id) {
                 $.ajax({
-                    url: "/MediCare/load-profile?id=" + id,
+                    url: "/MediCare/load-profile?id=" + id + "&method=profile",
                     type: "GET",
                     success: function (data) {
                         var box = document.getElementById("profile-display");

@@ -104,8 +104,8 @@ public class UserAppointmentController extends HttpServlet {
                         request.setAttribute("aList", aList);
                         request.getRequestDispatcher("user-appointment.jsp").forward(request, response);
                     }  
-                    else if(aDAO.getListAppointmentsByPhone(search)!=null){
-                        aList = aDAO.getListAppointmentsByPhone(search);
+                    else if(aDAO.getListAppointmentsByPhone(search,ownerId)!=null){
+                        aList = aDAO.getListAppointmentsByPhone(search,ownerId);
                         
                         request.setAttribute("aList", aList);
                         request.getRequestDispatcher("user-appointment.jsp").forward(request, response);

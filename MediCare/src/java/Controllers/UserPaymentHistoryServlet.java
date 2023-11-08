@@ -4,6 +4,10 @@
  */
 package Controllers;
 
+import DAL.BillingHistoryDAO;
+import DAL.UserDAO;
+import Models.Appointments;
+import Models.BillingHistory;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,6 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  *
@@ -57,10 +62,16 @@ public class UserPaymentHistoryServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        
+        UserDAO uDAO = new UserDAO();
+        String ownerId = uDAO.getIdByEmail(String.valueOf(session.getAttribute("email")));
+        
+        BillingHistoryDAO bhDAO = new BillingHistoryDAO();
+        List<BillingHistory> bhList = bhDAO.getListBillingHistoryByOwnerId(ownerId);
         if (session.getAttribute("email") == null) {
             response.sendRedirect("user-login");
         } else {
-//            request.getRequestDispatcher("user-payment-history.jsp").forward(request, response);
+            request.getRequestDispatcher("user-payment-history.jsp").forward(request, response);
         }
     }
 

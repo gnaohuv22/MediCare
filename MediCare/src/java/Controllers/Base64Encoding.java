@@ -29,7 +29,6 @@ public class Base64Encoding {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
         }
         return imageFileName;
     }
@@ -42,7 +41,6 @@ public class Base64Encoding {
                 }
             }
             // Tất cả các kiểm tra đều hợp lệ
-
         }
         return false;
     }
