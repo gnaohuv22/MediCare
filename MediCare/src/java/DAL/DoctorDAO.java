@@ -64,68 +64,6 @@ public class DoctorDAO extends DBContext {
         return null;
     }
 
-    public Doctor getDoctorByEmail(String email) {
-        String SQL = "SELECT * FROM [Doctor] WHERE email = ?";
-        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
-            ps.setString(1, email);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                Doctor d = new Doctor(rs.getString("id"),
-                        rs.getString("email"),
-                        rs.getString("displayName"),
-                        String.valueOf(rs.getInt("branchId")),
-                        rs.getString("phone"),
-                        String.valueOf(rs.getInt("ARId")),
-                        String.valueOf(rs.getInt("CVId")),
-                        String.valueOf(rs.getFloat("salary")),
-                        rs.getString("workplace"),
-                        rs.getString("profilePicture"),
-                        String.valueOf(rs.getInt("status")),
-                        rs.getString("password"),
-                        String.valueOf(rs.getDate("birthDate")),
-                        String.valueOf(rs.getInt("gender")),
-                        String.valueOf(rs.getInt("isDelete"))
-                );
-                return d;
-            }
-        } catch (SQLException e) {
-            System.out.println("getDoctorByEmail: " + e.getMessage());
-        }
-        return null;
-    }
-
-    public Doctor getDoctorByCertID(String CertId) {
-        String SQL = "SELECT * FROM [Doctor] WHERE CVId = ?";
-        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
-            ps.setString(1, CertId);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                Doctor d = new Doctor(rs.getString("id"),
-                        rs.getString("email"),
-                        rs.getString("displayName"),
-                        String.valueOf(rs.getInt("branchId")),
-                        rs.getString("phone"),
-                        String.valueOf(rs.getInt("ARId")),
-                        String.valueOf(rs.getInt("CVId")),
-                        String.valueOf(rs.getFloat("salary")),
-                        rs.getString("workplace"),
-                        rs.getString("profilePicture"),
-                        String.valueOf(rs.getInt("status")),
-                        rs.getString("password"),
-                        String.valueOf(rs.getDate("birthDate")),
-                        String.valueOf(rs.getInt("gender")),
-                        String.valueOf(rs.getInt("isDelete"))
-                );
-                return d;
-            }
-        } catch (SQLException e) {
-            System.out.println("getDoctorByEmail: " + e.getMessage());
-        }
-        return null;
-    }
-
     public void addDoctor(Doctor d) throws ParseException {
         try {
             String sql = "INSERT INTO [dbo].[Doctor] "
@@ -742,7 +680,7 @@ public class DoctorDAO extends DBContext {
         return null;
     }
 
-<<<<<<< HEAD
+
     public Doctor getDoctorByEmail(String email) {
         String SQL = "SELECT id, email, displayName, branchId, phone, ARId, CVId, salary, workplace, profilePicture, status FROM [Doctor] WHERE email = ?";
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
@@ -750,7 +688,8 @@ public class DoctorDAO extends DBContext {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Doctor d = new Doctor(rs.getString("id"),
+                Doctor d = new Doctor(
+                        rs.getString("id"),
                         rs.getString("email"),
                         rs.getString("displayName"),
                         String.valueOf(rs.getInt("branchId")),
@@ -770,8 +709,6 @@ public class DoctorDAO extends DBContext {
         return null;
     }
 
-=======
->>>>>>> 6ff62cf4d8de6dd2cbd9435ce610a9d56170b10b
     public static String concatenateNames(String jsonString) {
         if (jsonString == null) {
             return "";
