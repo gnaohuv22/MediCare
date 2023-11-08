@@ -41,21 +41,19 @@
                     </form>
                     <div class="profile-list">
                         <ul>
-                            <c:forEach items="${requestScope.fpList}" var="fp">
-                                <li class="profile-item" onclick="loadProfile(${fp.getProfileId()})" id="${fp.getProfileId()}">
-                                    <div class="profile-item-pics ">
-                                        <img src="https://www.svgrepo.com/show/497407/profile-circle.svg" width="50px" height="50px" alt="client-img"/> 
-                                    </div>
+                            <c:forEach items="${requestScope.aList}" var="a">
+                                <li class="profile-item" onclick="loadAppointment(${a.getId()})" id="${a.getId()}">
                                     <div class="profile-item-info">
-                                        <h3>${fp.getName()}</h3>
-                                        <span>${fp.getBirthDate()}</span>
+                                        <h3>${a.getDoctor().getDisplayName()}</h3><span class="profile-item-pics-relation">${a.getStatus()}</span><br>
+                                        <span>${a.getPlannedAt()}</span><br>
+                                        <span>${a.getFp().getName()}</span>
+
                                     </div>
                                 </li>   
                             </c:forEach>
                         </ul>
                     </div>
                 </div>
-                <c:set value="${requestScope.currentfp}" var="current"/>
                 <div class="profile-display" id="profile-display">
 
                 </div>
@@ -70,7 +68,7 @@
                 $(".profile-list li:first").trigger("click");
             });
 
-            function loadProfile(id) {
+            function loadAppointment(id) {
                 $.ajax({
                     url: "/MediCare/load-html?id=" + id + "&method=appointment",
                     type: "GET",
@@ -86,6 +84,10 @@
                     }
                 });
             }
+
+// Get the span element
+            var span = document.getElementById('profile-item-pics-relation');
+
         </script>
     </body>
 </html>

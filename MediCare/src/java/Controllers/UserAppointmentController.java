@@ -51,7 +51,7 @@ public class UserAppointmentController extends HttpServlet {
         HttpSession session = request.getSession();
         
         UserDAO uDAO = new UserDAO();
-        String ownerId = uDAO.getUserIdByEmail((String)session.getAttribute("email"));
+        String ownerId = uDAO.getIdByEmail(String.valueOf(session.getAttribute("email")));
         
         AppointmentsDAO aDAO = new AppointmentsDAO();
         List<Appointments> aList = aDAO.getListAppointmentsByOwnerId(ownerId);
