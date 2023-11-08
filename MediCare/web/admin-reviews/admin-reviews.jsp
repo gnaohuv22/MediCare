@@ -69,7 +69,7 @@
     <ul class="pagination justify-content-center">
         <c:if test="${currentPage != 1}">
             <li class="page-item">
-                <a class="page-link" href="admin-list-reviews?page=${currentPage - 1}"><<</a>
+                <a class="page-link" href="admin-list-review?page=${currentPage - 1}"><<</a>
             </li>
         </c:if>
 
@@ -82,14 +82,14 @@
                 </c:when>
                 <c:otherwise>
                     <li class="page-item">
-                        <a class="page-link" href="admin-list-reviews?page=${i}">${i}</a>
+                        <a class="page-link" href="admin-list-review?page=${i}">${i}</a>
                     </li>
                 </c:otherwise>
             </c:choose>
         </c:forEach>
         <c:if test="${currentPage lt pageCount}">
             <li class="page-item">
-                <a class="page-link" href="admin-list-reviews?page=${currentPage + 1}">>></a>
+                <a class="page-link" href="admin-list-review?page=${currentPage + 1}">>></a>
             </li>
         </c:if>
     </ul>

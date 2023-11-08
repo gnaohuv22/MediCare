@@ -52,14 +52,14 @@
                             <div class="form-group row justify-content-center">
                                 <label for="input-address" class="col-sm-2 col-form-label" style="font-size: 15px">Địa chỉ</label>
                                 <div class="col-sm-6">
-                                    <input type="email" class="form-control" value="${EMPLOYEE.getAddress()}" id="input-address">
+                                    <input type="text" class="form-control" value="${EMPLOYEE.getAddress()}" id="input-address">
                                 </div>
                             </div>
                             <p class="error-notice">${error.getAddressError()}</p>
                             <div class="form-group row justify-content-center">
                                 <label for="input-phone" class="col-sm-2 col-form-label" style="font-size: 15px">Điện thoại</label>
                                 <div class="col-sm-6">
-                                    <input type="email" class="form-control" value="${EMPLOYEE.getPhone()}" id="input-phone">
+                                    <input type="text" class="form-control" value="${EMPLOYEE.getPhone()}" id="input-phone">
                                 </div>
                             </div>
                             <p class="error-notice">${error.getPhoneError()}</p>
@@ -85,7 +85,7 @@
                                 <div class="form-group row justify-content-center">
                                     <label for="input-id" class="col-sm-2 col-form-label" style="font-size: 15px">ID</label>
                                     <div class="col-sm-6">
-                                        <input type="email" class="form-control" value="${EMPLOYEE.getId()}" id="input-id" readonly="true">
+                                        <input type="text" class="form-control" value="${EMPLOYEE.getId()}" id="input-id" readonly="true">
                                 </div>
                             </div>
                             <div class="form-group row justify-content-center">

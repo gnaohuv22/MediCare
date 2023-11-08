@@ -239,7 +239,11 @@ public class AdminProfile extends HttpServlet {
 //                }
             try {
                 phone = request.getParameter("phone");
-                Integer.parseInt(phone);
+                String pattern = "^\\d{10}$";
+                //check if phone is number
+                if (!phone.matches(pattern)) {
+                    throw new NumberFormatException();
+                }
                 if (phone.trim().length() != 10) {
                     throw new AdminException.LackLengthException(10);
                 }
@@ -260,7 +264,7 @@ public class AdminProfile extends HttpServlet {
             if (error) {
                 request.setAttribute("MESSAGE", "Không sửa được!");
                 request.setAttribute("EDIT_ERROR", msg);
-                request.getRequestDispatcher(EMPLOYEE_PROFILE_PAGE).forward(request, response);
+                request.getRequestDispatcher(EMPLOYEE_EDIT_PROFILE_PAGE).forward(request, response);
             } else {
                 //return massage
                 if (eDao.setEmployeeById(emp)) {

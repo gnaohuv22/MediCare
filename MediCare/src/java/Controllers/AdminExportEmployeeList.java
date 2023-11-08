@@ -73,7 +73,7 @@ public class AdminExportEmployeeList extends HttpServlet {
 
         // Create the name of column:
         Row headerRow = sheet.createRow(0);
-        String[] columns = {"Id", "Email", "Mật khẩu", "Branch", "Tên", "Ngày sinh", "Giới tính", "Địa chỉ", "Nơi làm việc", "Tỉnh", "Số điện thoại", "Dân tộc", "Quyền", "Ngày tạo"};
+        String[] columns = {"Id", "Email", "Chi nhánh", "Tên", "Ngày sinh", "Giới tính", "Địa chỉ", "Nơi làm việc", "Tỉnh", "Số điện thoại", "Dân tộc", "Quyền"};
 
         for (int i = 0; i < columns.length; i++) {
             Cell cell = headerRow.createCell(i);
@@ -86,21 +86,19 @@ public class AdminExportEmployeeList extends HttpServlet {
             Row row = sheet.createRow(rowNum++);
             row.createCell(0).setCellValue(emp.getId());
             row.createCell(1).setCellValue(emp.getEmail());
-            row.createCell(2).setCellValue(emp.getPassword());
-            row.createCell(3).setCellValue(emp.getBranch().getName());
-            row.createCell(4).setCellValue(emp.getName());
-            row.createCell(5).setCellValue(emp.getBirthDate());
+            row.createCell(2).setCellValue(emp.getBranch().getName());
+            row.createCell(3).setCellValue(emp.getName());
+            row.createCell(4).setCellValue(emp.getBirthDate());
             if(emp.getGender().equals('0'))
-                row.createCell(6).setCellValue("Nam");
+                row.createCell(5).setCellValue("Nam");
             else
-                row.createCell(6).setCellValue("Nữ");
-            row.createCell(7).setCellValue(emp.getAddress());
-            row.createCell(8).setCellValue(emp.getWorkplace());
-            row.createCell(9).setCellValue(emp.getProvince().getName());
-            row.createCell(10).setCellValue(emp.getEthnic());
-            row.createCell(11).setCellValue(emp.getPhone());
-            row.createCell(12).setCellValue(emp.getEmployeeRole().getRole());
-            row.createCell(13).setCellValue(emp.getCreateAt());
+                row.createCell(5).setCellValue("Nữ");
+            row.createCell(6).setCellValue(emp.getAddress());
+            row.createCell(7).setCellValue(emp.getWorkplace());
+            row.createCell(8).setCellValue(emp.getProvince().getName());
+            row.createCell(9).setCellValue(emp.getEthnic());
+            row.createCell(10).setCellValue(emp.getPhone());
+            row.createCell(11).setCellValue(emp.getEmployeeRole().getRole());
         }
 
         // Initialize headers and file:
