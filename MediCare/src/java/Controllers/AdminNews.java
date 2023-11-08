@@ -19,6 +19,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -196,6 +197,10 @@ public class AdminNews extends HttpServlet {
             request.setAttribute("ALL_NEWSCATEGORY", ncdao.getAllNewsCategory());
             boolean error = false;
             RegisterError msg = new RegisterError();
+              Part filePart = request.getPart("coverImage");
+        System.out.println("filePart value at add : " + filePart);
+        String imageFileName = "";
+        Base64Encoding base = new Base64Encoding();
           
             try {
                 id = newsdao.generateId();

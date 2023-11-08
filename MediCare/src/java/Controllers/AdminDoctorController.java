@@ -209,6 +209,7 @@ public class AdminDoctorController extends HttpServlet {
         Part filePart = request.getPart("avatarUpload");
         System.out.println("filePart value at add : " + filePart);
         String imageFileName = "";
+        Base64Encoding base = new Base64Encoding();
 
 //--------------------------------------------------------------------------------------------
         //add doctor function : 
@@ -273,27 +274,37 @@ public class AdminDoctorController extends HttpServlet {
                     workplace = "Nha Trang";
                     break;
             }
-            System.out.println("Kết quả so sánh : " + (filePart.getSubmittedFileName().equals("")));
-
-            if (!filePart.getSubmittedFileName().equals("")) {
-                if (filePart.getSubmittedFileName().toLowerCase().endsWith(".jpg") || filePart.getSubmittedFileName().toLowerCase().endsWith(".png")) {
-                    if (filePart.getSize() < 50 * 1024) {
-                        InputStream imgStr = filePart.getInputStream();
-                        byte[] fileContent = IOUtils.toByteArray(imgStr);
-                        imageFileName = Base64.getEncoder().encodeToString(fileContent);
-                    } else {
-                        request.setAttribute("profilePictureError", "Ảnh không được có kích thước vượt quá 50kb, chọn ảnh có kích thước nhỏ hơn để tải lên");
-                        bool = false;
-                    }
-                } else {
-                    request.setAttribute("profilePictureError", "Ảnh phải có định dạng PNG hoặc JPG");
-                    bool = false;
-                }
-            } else {
+            //-----------------------Xử lý ảnh bằng Base64-----------------------------------------------------------------------------------------------
+            boolean fileCheck = Base64Encoding.isFileValid(filePart);
+            if (filePart.getSubmittedFileName().equals("")) {
                 imageFileName = DEFAULT_PIC;
+            } else if (fileCheck == true) {
+                imageFileName = Base64Encoding.convertImageToBase64(filePart);
+            } else {
+                request.setAttribute("profilePictureError", "Ảnh phải có định dạng .PNG hoặc .JPG và không được có kích thước vượt quá 50kb, chọn ảnh khác");
+                       bool = false;
             }
-            System.out.println("Base64: " + imageFileName);
 
+//
+//            if (!filePart.getSubmittedFileName().equals("")) {
+//                if (filePart.getSubmittedFileName().toLowerCase().endsWith(".jpg") || filePart.getSubmittedFileName().toLowerCase().endsWith(".png")) {
+//                    if (filePart.getSize() < 50 * 1024) {
+//                        InputStream imgStr = filePart.getInputStream();
+//                        byte[] fileContent = IOUtils.toByteArray(imgStr);
+//                        imageFileName = Base64.getEncoder().encodeToString(fileContent);
+//                    } else {
+//                        request.setAttribute("profilePictureError", "Ảnh không được có kích thước vượt quá 50kb, chọn ảnh có kích thước nhỏ hơn để tải lên");
+//                        bool = false;
+//                    }
+//                } else {
+//                    request.setAttribute("profilePictureError", "Ảnh phải có định dạng PNG hoặc JPG");
+//                    bool = false;
+//                }
+//            } else {
+//                imageFileName = DEFAULT_PIC;
+//            }
+            System.out.println("Base64: " + imageFileName);
+            //---------------------------------------------------------------------------------------------------------------------------------------------------
             if (bool == true) {
                 try {
                     id = dao.autoGenerateID();
@@ -412,22 +423,14 @@ public class AdminDoctorController extends HttpServlet {
                 docError.setSalary(salary);
             }
 
-            if ((!filePart.getSubmittedFileName().equals(""))) {
-                if (filePart.getSubmittedFileName().toLowerCase().endsWith(".jpg") || filePart.getSubmittedFileName().toLowerCase().endsWith(".png")) {
-                    if (filePart.getSize() < 50 * 1024) {
-                        InputStream imgStr = filePart.getInputStream();
-                        byte[] fileContent = IOUtils.toByteArray(imgStr);
-                        imageFileName = Base64.getEncoder().encodeToString(fileContent);
-                    } else {
-                        request.setAttribute("profilePictureError", "Ảnh không được có kích thước vượt quá 50kb, chọn ảnh có kích thước nhỏ hơn để tải lên");
-                        bool = false;
-                    }
-                } else {
-                    request.setAttribute("profilePictureError", "Ảnh phải có định dạng là JPG hoặc PNG");
-                    bool = false;
-                }
-            } else {
+            boolean fileCheck = base.isFileValid(filePart);
+            if (filePart.getSubmittedFileName().equals("")) {
                 imageFileName = doc.getDoctorByDoctorId(id).getProfilePicture();
+            } else if (fileCheck == true) {
+                imageFileName = base.convertImageToBase64(filePart);
+            } else {
+                request.setAttribute("profilePictureError", "Ảnh phải có định dạng .PNG hoặc .JPG và không được có kích thước vượt quá 50kb, chọn ảnh khác");
+                            bool = false;
             }
 
             System.out.println("Base64: " + imageFileName);
@@ -471,7 +474,7 @@ public class AdminDoctorController extends HttpServlet {
                 request.setAttribute("listCert", listCert);
                 request.setAttribute("listCertofDoc", listCertofDoc);
                 request.setAttribute("doc", docError);
-                request.setAttribute("error", "Update failed, try again!");
+                request.setAttribute("error", "Cập nhật không thành công, vui lòng kiểm tra lại!");
                 request.getRequestDispatcher("admin-doctors/admin-edit-doctor.jsp").forward(request, response);
                 //response.sendRedirect("admin-editdoctor?id=" + id);
             }
