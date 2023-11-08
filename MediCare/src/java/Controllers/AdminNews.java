@@ -201,10 +201,10 @@ public class AdminNews extends HttpServlet {
             request.setAttribute("ALL_NEWSCATEGORY", ncdao.getAllNewsCategory());
             boolean error = false;
             RegisterError msg = new RegisterError();
-            
+            //----------File Handle 
 //            Part filePart = request.getPart("coverImage");
 //            System.out.println("filePart value at add : " + filePart);
-//            String coverImage = "";
+            String coverImage = "";
 //            Base64Encoding base = new Base64Encoding();
 
             try {
@@ -219,9 +219,9 @@ public class AdminNews extends HttpServlet {
             }
             try {
                 title = request.getParameter("title");
-                request.setAttribute("title", title);
+//                request.setAttribute("title", title);
                 //check empty string
-                if (title.trim().isEmpty()) {
+                if (title != null && title.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
             } catch (AdminException.EmptyStringException e) {
@@ -240,6 +240,17 @@ public class AdminNews extends HttpServlet {
             }
             newsCategoryId = request.getParameter("newsCategoryId");
             request.setAttribute("newsCategoryId", newsCategoryId);
+             try {
+                coverImage = request.getParameter("coverImage");
+                request.setAttribute("coverImage", coverImage);
+                //check empty string
+                if (coverImage.trim().isEmpty()) {
+                    throw new AdminException.EmptyStringException();
+                }
+            } catch (AdminException.EmptyStringException e) {
+                error = true;
+                msg.setCoverImageError(e.getMessage());
+            }
 
             try {
                 subtitle = request.getParameter("subtitle");
@@ -251,6 +262,7 @@ public class AdminNews extends HttpServlet {
                 error = true;
                 msg.setSubtitleError(e.getMessage());
             }
+            //----------File Handle 
 //            boolean fileCheck = base.isFileValid(filePart);
 //            if (filePart.getSubmittedFileName().equals("")) {
 //                coverImage = "";
@@ -270,7 +282,7 @@ public class AdminNews extends HttpServlet {
                 String slug = ra.removeAccent(title);
                 System.out.println("slug : " + slug);
                 NewsCategory newsCategory = new NewsCategory(newsCategoryId, "");
-                News news = new News(id, title, content, checkEmp.getEmail(), newsCategory, "", "", "0", "", subtitle, slug);
+                News news = new News(id, title, content, checkEmp.getEmail(), newsCategory, coverImage, "", "0", "", subtitle, slug);
                 newsdao.addNews(news);
                 //add news
                 request.setAttribute("MESSAGE", "Đăng kí thành công!");
@@ -296,10 +308,12 @@ public class AdminNews extends HttpServlet {
             request.setAttribute("id", id);
             request.setAttribute("edit", 1);
             News getNews = newsdao.getNewsById(id);
+            //----------File Handle 
 //            Part filePart = request.getPart("coverImage");
 //            System.out.println("filePart value at add : " + filePart);
-//            String coverImage = "";
+            String coverImage = "";
 //            Base64Encoding base = new Base64Encoding();
+
             try {
                 author = getNews.getAuthor();
                 request.setAttribute("author", author);
@@ -335,6 +349,7 @@ public class AdminNews extends HttpServlet {
             }
             newsCategoryId = request.getParameter("newsCategoryId");
             request.setAttribute("newsCategoryId", newsCategoryId);
+            //----------File Handle 
 //            boolean fileCheck = base.isFileValid(filePart);
 //            if (filePart.getSubmittedFileName().equals("")) {
 //                coverImage = newsDao.getNewsById(id).getCoverImage();
@@ -344,6 +359,17 @@ public class AdminNews extends HttpServlet {
 //                request.setAttribute("profilePictureError", "Ảnh phải có định dạng .PNG hoặc .JPG và không được có kích thước vượt quá 50kb, chọn ảnh khác");
 //                error = true;
 //            }
+               try {
+                coverImage = request.getParameter("coverImage");
+                request.setAttribute("coverImage", coverImage);
+                //check empty string
+                if (coverImage.trim().isEmpty()) {
+                    throw new AdminException.EmptyStringException();
+                }
+            } catch (AdminException.EmptyStringException ep) {
+                error = true;
+                msg.setCoverImageError(ep.getMessage());
+            }
             try {
                 subtitle = request.getParameter("subtitle");
                 request.setAttribute("subtitle", subtitle);
@@ -363,7 +389,7 @@ public class AdminNews extends HttpServlet {
                 request.getRequestDispatcher(ADD_NEWS).forward(request, response);
             } else {
                 NewsCategory newCategory = new NewsCategory(newsCategoryId, "");
-                News news = new News(id, title, content, getNews.getAuthor(), newCategory, "", "", "", "", subtitle);
+                News news = new News(id, title, content, getNews.getAuthor(), newCategory, coverImage, "", "", "", subtitle);
                 //return massage
                 if (newsdao.setNewsById(news)) {
                     request.setAttribute("EDIT_NEWS", news);

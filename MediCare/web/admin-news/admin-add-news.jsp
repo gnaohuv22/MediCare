@@ -76,13 +76,14 @@
                                         </div>
                                     </div>
 
-<!--                                    <div class="col-sm-12">
+                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label>Ảnh</label> 
-                                            <input name="coverImage" type="file" accept="image/*" multiple="false" class="form-control">
+                                            <label>Ảnh</label>
+                                            <input class="form-control" type="text" name="coverImage" value="${news.coverImage}" >
                                         </div>
                                         <p class="error-notice">${error.getCoverImageError()}</p>
-                                    </div>-->
+                                    </div>
+
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Subtitle </label>
@@ -90,8 +91,6 @@
                                         </div>
                                         <p class="error-notice">${error.getSubtitleError()}</p>
                                     </div>
-
-
                                 </div>
 
                                 <div class="m-t-20 text-center">

@@ -96,7 +96,7 @@
         <servlet-name>UserBranchDetailServlet</servlet-name>
         <url-pattern>/user-branch-detail</url-pattern>
     </servlet-mapping>
-    <!--        <servlet>
+<!--            <servlet>
         <servlet-name>AdminNews</servlet-name>
         <servlet-class>Controllers.AdminNews</servlet-class>
     </servlet>

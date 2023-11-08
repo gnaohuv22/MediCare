@@ -401,7 +401,7 @@ public class DoctorDAO extends DBContext {
                 d.setPhone(rs.getString("phone"));
                 d.setARId(String.valueOf(rs.getInt("ARId")));
                 d.setCVId(String.valueOf(rs.getInt("CVId")));
-                d.setSalary(String.valueOf(rs.getFloat("salary")));
+                d.setSalary(String.valueOf((int) rs.getFloat("salary")));
                 d.setWorkHistory(rs.getString("workplace"));
                 d.setProfilePicture(rs.getString("profilePicture"));
                 d.setStatus(String.valueOf(rs.getInt("status")));

@@ -26,6 +26,7 @@ public class Base64Encoding {
                         InputStream imgStr = filePart.getInputStream();
                         byte[] fileContent = IOUtils.toByteArray(imgStr);
                         imageFileName = Base64.getEncoder().encodeToString(fileContent);
+                        imageFileName = "data:image/png;base64, " + imageFileName;
                     }
                 }
             }
