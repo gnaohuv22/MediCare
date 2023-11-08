@@ -220,46 +220,46 @@
         <servlet-name>AdminHomePage</servlet-name>
         <url-pattern>/admin-home-page</url-pattern>
     </servlet-mapping>
-    <servlet>
+    <!--    <servlet>
         <servlet-name>AdminEmployee</servlet-name>
         <servlet-class>Controllers.AdminEmployee</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AdminEmployee</servlet-name>
         <url-pattern>/admin-list-employee</url-pattern>
-    </servlet-mapping>
-    <servlet>
+    </servlet-mapping>-->
+    <!--    <servlet>
         <servlet-name>AdminUser</servlet-name>
         <servlet-class>Controllers.AdminUser</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AdminUser</servlet-name>
         <url-pattern>/admin-list-user</url-pattern>
-    </servlet-mapping>
-    <servlet>
+    </servlet-mapping>-->
+    <!--    <servlet>
         <servlet-name>AdminReview</servlet-name>
         <servlet-class>Controllers.AdminReview</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AdminReview</servlet-name>
         <url-pattern>/admin-list-review</url-pattern>
-    </servlet-mapping>
-    <servlet>
+    </servlet-mapping>-->
+    <!--    <servlet>
         <servlet-name>AdminNews</servlet-name>
         <servlet-class>Controllers.AdminNews</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AdminNews</servlet-name>
         <url-pattern>/admin-list-news</url-pattern>
-    </servlet-mapping>
-    <servlet>
+    </servlet-mapping>-->
+    <!--    <servlet>
         <servlet-name>AdminAppointment</servlet-name>
         <servlet-class>Controllers.AdminAppointment</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AdminAppointment</servlet-name>
         <url-pattern>/admin-list-appointments</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
     <servlet>
         <servlet-name>AdminLogout</servlet-name>
         <servlet-class>Controllers.AdminLogout</servlet-class>
@@ -276,14 +276,14 @@
         <servlet-name>AdminForgotPassword</servlet-name>
         <url-pattern>/admin-forgot-password</url-pattern>
     </servlet-mapping>
-    <servlet>
+    <!--    <servlet>
         <servlet-name>AdminProfile</servlet-name>
         <servlet-class>Controllers.AdminProfile</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AdminProfile</servlet-name>
         <url-pattern>/admin-edit-profile</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
     <servlet>
         <servlet-name>UserRegisterGoogleHandler</servlet-name>
         <servlet-class>Controllers.UserRegisterGoogleHandler</servlet-class>
@@ -298,6 +298,46 @@
     <servlet-mapping>
         <servlet-name>DoctorReviewServlet</servlet-name>
         <url-pattern>/view-review</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AdminManageAppointmentsServlet</servlet-name>
+        <servlet-class>Controllers.AdminManageAppointmentsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminManageAppointmentsServlet</servlet-name>
+        <url-pattern>/admin-manage-appointments</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AdminManagePatientsServlet</servlet-name>
+        <servlet-class>Controllers.AdminManagePatientsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminManagePatientsServlet</servlet-name>
+        <url-pattern>/admin-manage-patients</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AdminManagePendingAppointmentsServlet</servlet-name>
+        <servlet-class>Controllers.AdminManagePendingAppointmentsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminManagePendingAppointmentsServlet</servlet-name>
+        <url-pattern>/admin-manage-pending-appointments</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AdminManageScheduleDoctor</servlet-name>
+        <servlet-class>Controllers.AdminManageScheduleDoctor</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminManageScheduleDoctor</servlet-name>
+        <url-pattern>/admin-manage-schedule-doctor</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AdminManageCanceledAppointmentsServlet</servlet-name>
+        <servlet-class>Controllers.AdminManageCanceledAppointmentsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminManageCanceledAppointmentsServlet</servlet-name>
+        <url-pattern>/admin-manage-canceled-appointments</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

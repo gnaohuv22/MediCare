@@ -76,7 +76,7 @@ public class UserProfileController extends HttpServlet {
             request.setAttribute("rList", rList);
             request.getRequestDispatcher("user-profile.jsp").forward(request, response);
         }
-
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
