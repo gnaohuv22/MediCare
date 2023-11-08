@@ -1389,7 +1389,7 @@ button {
 
 /*------------------------- Style for doctor-schedule.jsp -------------------------*/
 .container .schedule-doctor {
-    padding-top: 12%;
+    padding-top: 20%;
     padding-bottom: 10%;
 
 }
@@ -1445,9 +1445,13 @@ button {
 /*------------------------- Style for doctor-review.jsp -------------------------*/
 
 .container .review-container {
-    padding-top: 12%;
+    padding-top: 20%;
     padding-bottom: 10%;
 
+}
+
+.review-section {
+    margin: 20px;
 }
 
 .review-title h1 {
@@ -1457,9 +1461,22 @@ button {
     padding: 20px;
 }
 
+.review-img {
+    padding: 10px;
+    border-radius: 50%;
+}
+
+.review {
+    padding-left: 30px;
+    line-height: 2em;
+}
+
+.review-infor1 p {
+    color: gray;
+}
+
 .star-rating {
-    display: inline-flex;
-    padding-right: 20px;
+    padding-left: 35px;
 }
 
 .fa-star,
@@ -1468,4 +1485,78 @@ button {
 }
 .fa-star-grey {
     color: #ccc;
+}
+
+/*Style for pagination*/
+
+.pagination {
+    margin-bottom: 40px;
+    margin-top: 40px;
+}
+
+.page-item.active .page-link {
+    background-color: #2C6975;
+    color: #E0ECDE;
+    border: 1px solid #E0ECDE;
+    padding: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.page-link {
+    color: #2C6975;
+    padding: 15px;
+    font-size: 1.2em;
+}
+
+.page-item .page-link:hover {
+    background-color: #68B2A0;
+    color: #E0ECDE;
+    border: 1px solid #E0ECDE;
+}
+
+.filter-text {
+    font-size: 28px;
+    font-weight: bolder;
+    color: #2C6975;
+}
+
+.filter-element {
+    font-weight: bold;
+    color: #2C6975;
+    padding: 20px 0 10px 0;
+}
+
+.filter-content {
+    color: #2C6975;
+    padding-right: 20px;
+}
+
+.filter-button {
+    margin-left: 20px;
+    padding: 15px 30px 15px 30px;
+    color: #2C6975;
+    background-color: #E0ECDE;
+    border: 1px solid #2C6975;
+    border-radius: 10px;
+}
+
+.filter-button:hover {
+    color: #E0ECDE;
+    background-color: #2C6975;
+    border: 1px solid #E0ECDE;
+}
+
+.date-type {
+    padding: 10px 60px 10px 60px;
+    border-radius: 10px;
+    border: 1px solid #2C6975;
+    font-size: 16px;
+}
+
+.filter-date {
+    color: #2C6975;
+    padding-right: 20px;
+    padding-left: 20px;
+    font-size: 16px;
 }

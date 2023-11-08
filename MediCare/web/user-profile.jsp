@@ -23,7 +23,7 @@
                             <c:choose>
                                 <c:when test="${'user-profile' eq item.getHref()}">
                                     <li class="sidebar-active">
-                                        <a href="${item.getHref()}">${item.getName()}</a>
+                                        <a href="#">${item.getName()}</a>
                                     </li>
                                 </c:when>
                                 <c:otherwise>
@@ -137,7 +137,7 @@
                     </div>
 
                     <input type="hidden" name="method" id="method" value="">
-
+                    <input type="hidden" name="profileId" id="id" value="">
 
                     <div class="form-buttons">
                         <button type="button" id="close-button" onclick="closeProfileForm()">Đóng</button>
@@ -147,12 +147,12 @@
                 </form>
             </div>
             <div id="deleteForm" class="form-popup">
-                <form action="user-profile" class="form-container" method="post">
+                <form action="user-profile" class="form-container" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <p>Bạn có chắc chắn muốn xóa hồ sơ?</p>
                     </div>
                     <input type="hidden" name="profileId" id="profileId" value="">
-                    <input type="hidden" name="method" id="delete-method" value="">
+                    <input type="hidden" name="method" id="delete-method" value="delete">
                     <div class="form-buttons">
                         <button type="button" id="delete-close-button" onclick="closeDeleteProfileForm()">Đóng</button>
                         <button class="button-container" id="delete-submit-button" type="submit">Chắc chắn</button>
@@ -229,7 +229,7 @@
 
                 document.getElementById("name").value = document.getElementById("display-name").textContent;
                 document.getElementById("phone").value = document.getElementById("display-phone").textContent;
-                document.getElementById("birthDate").value = document.getElementById("display-dob").textContent;
+                document.getElementById("birthDate").value = document.getElementById("display-dob").textContent.split("/").reverse().join("-");
                 if (document.getElementById("display-dob").textContent === "Male") {
                     document.getElementById("male").checked = true;
                 } else {
@@ -240,6 +240,7 @@
                 document.getElementById("identity").value = document.getElementById("display-identity").textContent === '--' ? '' : document.getElementById("display-identity").textContent;
                 document.getElementById("ethnic").value = document.getElementById("display-ethnic").textContent === '--' ? '' : document.getElementById("display-ethnic").textContent;
                 document.getElementById("email").value = document.getElementById("display-email").textContent === '--' ? '' : document.getElementById("display-email").textContent;
+                document.getElementById("id").value = document.getElementById("display-id").textContent;
                 // Replace 'myValueToSelect' with the value you want to select.
                 var valueToSelect = document.getElementById("display-relation").value;
                 if (valueToSelect === '0') {

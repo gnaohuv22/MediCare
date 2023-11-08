@@ -26,7 +26,6 @@ import java.util.List;
  *
  * @author DELL
  */
-@WebServlet(name = "News", urlPatterns = {"/admin-list-news"})
 public class AdminNews extends HttpServlet {
 
     private final String STATISTIC_NEWS = "admin-news/admin-news.jsp";

@@ -25,7 +25,7 @@ import java.util.ArrayList;
  *
  * @author DELL
  */
-@WebServlet(name="AdminHomePage", urlPatterns={"/admin-home-page"})
+//@WebServlet(name="AdminHomePage", urlPatterns={"/admin-home-page"})
 public class AdminHomePage extends HttpServlet {
     private final String EMPLOYEE_PAGE = "admin-screen/admin-home.jsp";
     private final String LOGIN_PAGE = "admin-screen/admin-login.jsp";

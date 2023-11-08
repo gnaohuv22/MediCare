@@ -22,7 +22,7 @@ import java.util.List;
 public class FamilyProfileDAO extends DBContext {
 
     public ArrayList<FamilyProfile> getFamilyProfileList() {
-        String SQL = "SELECT * FROM [FamilyProfile]";
+        String SQL = "SELECT * FROM [FamilyProfile] where isDelete is null";
         ArrayList<FamilyProfile> list = new ArrayList<>();
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
@@ -63,7 +63,7 @@ public class FamilyProfileDAO extends DBContext {
     }
 
     public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
-        String SQL = "SELECT * FROM [FamilyProfile] where ownerid=? ORDER BY relationId ASC";
+        String SQL = "SELECT * FROM [FamilyProfile] where ownerid=? and isDelete is null ORDER BY relationId ASC";
         ArrayList<FamilyProfile> list = new ArrayList<>();
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, idByEmail);
@@ -152,7 +152,7 @@ public class FamilyProfileDAO extends DBContext {
     }
 
     public List<FamilyProfile> getFamilyProfileListByUserName(String name, String ownerId) {
-        String SQL = "SELECT * FROM [FamilyProfile] where ownerid=?";
+        String SQL = "SELECT * FROM [FamilyProfile] where ownerid=? and isDelete is null";
         ArrayList<FamilyProfile> list = new ArrayList<>();
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, ownerId);
@@ -435,6 +435,52 @@ public class FamilyProfileDAO extends DBContext {
         return false;
     }
 
+    public boolean editFamilyProfileById(FamilyProfile fp) {
+        String sql = "UPDATE [dbo].[FamilyProfile]\n"
+                + "SET [email] = ?,\n"
+                + "    [name] = ?,\n"
+                + "    [birthDate] = ?,\n"
+                + "    [gender] = ?,\n"
+                + "    [address] = ?,\n"
+                + "    [identity] = ?,\n"
+                + "    [medicalId] = ?,\n"
+                + "    [ethnic] = ?,\n"
+                + "    [phone] = ?,\n"
+                + "    [profilePicture] = ?,\n"
+                + "    [createdAt] = ?,\n"
+                + "    [ownerId] = ?,\n"
+                + "    [relationId] = ?\n"
+                + "WHERE [profileId] = ?";
+        //update FamilyProfile set email=?, [name]=?
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            System.out.println("relationid: " + fp.getRelationId());
+            String gender = "0";
+            if (fp.getGender().equals("Female")) {
+                gender = "1";
+            }
+            st.setString(1, fp.getEmail());
+            st.setString(2, fp.getName());
+            st.setString(3, fp.getBirthDate());
+            st.setString(4, gender);
+            st.setString(5, fp.getAddress());
+            st.setString(6, fp.getIdentity());
+            st.setString(7, fp.getMedicalId());
+            st.setString(8, fp.getEthnic());
+            st.setString(9, fp.getPhone());
+            st.setString(10, fp.getProfilePicture());
+            st.setString(11, fp.getCreatedAt());
+            st.setString(12, fp.getOwnerId());
+            st.setInt(13, fp.getRelationId() == null ? 0 : Integer.parseInt(fp.getRelationId()));
+            st.setString(14, fp.getProfileId());
+            st.execute();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("FamilyProfileDAO.addNewUserProfile: " + e);
+        }
+        return false;
+    }
+
     public ArrayList<FamilyProfile> getAllPatients() {
         ArrayList<FamilyProfile> list = new ArrayList<>();
         String sql = "SELECT A.profileId, A.branchId, F.[address], F.birthDate, F.createBy, F.createdAt, F.email, F.ethnic, F.gender, F.[identity], F.medicalId, F.modifyAt, F.modifyBy, F.[name], F.phone, F.profilePicture, F.provinceId FROM Appointments AS A\n"
@@ -488,6 +534,20 @@ public class FamilyProfileDAO extends DBContext {
         FamilyProfile p = fpd.getPatientInfoById("59");
         System.out.println(p);
 
+    }
+
+    public boolean deleteFamilyProfileByID(String profileId) {
+        String sql = "update FamilyProfile set isDelete = 1 where profileId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, profileId);
+            st.execute();
+            return true;
+        } catch (NumberFormatException | SQLException e) {
+            System.out.println("getPatientInfoById: " + e);
+        }
+        return false;
+        
     }
 
 }

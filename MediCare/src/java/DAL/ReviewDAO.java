@@ -17,6 +17,8 @@ import Models.ServiceTag;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -28,7 +30,7 @@ public class ReviewDAO extends DBContext {
     private int numberRecord;
 
     public int getNumberRecord() {
-        return this.numberRecord;
+        return numberRecord;
     }
 
     public ArrayList<Reviews> getAllReview() {
@@ -227,34 +229,58 @@ public class ReviewDAO extends DBContext {
                 + "LEFT JOIN [FamilyProfile] fp ON fp.profileId = a.profileId\n"
                 + "LEFT JOIN [ServiceTag] st ON st.id = a.serviceId\n"
                 + "WHERE r.doctorId = ?\n"
-                + "ORDER BY ReviewTime DESC;";
+                + "ORDER BY ReviewTime DESC\n";
 
         ArrayList<Reviews> list = new ArrayList<>();
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, doctorId);
 
             ResultSet rs = ps.executeQuery();
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
             while (rs.next()) {
+                Timestamp ts = rs.getTimestamp("plannedAt");
+                String plannedAt = format.format(ts);
                 list.add(new Reviews(
                         String.valueOf(rs.getInt("reviewID")),
                         String.valueOf(rs.getFloat("ReviewRating")),
                         rs.getString("reviewContent"),
                         String.valueOf(rs.getDate("ReviewTime")),
                         new Appointments(
-                                String.valueOf(rs.getDate("plannedAt")), 
-                                rs.getString("symptoms"), 
+                                plannedAt,
+                                rs.getString("symptoms"),
                                 new ServiceTag(
-                                        String.valueOf(rs.getInt("ServiceID")), 
-                                        rs.getString("ServiceName")), 
+                                        String.valueOf(rs.getInt("ServiceID")),
+                                        rs.getString("ServiceName")),
                                 new FamilyProfile(
-                                        rs.getString("profileEmail"), 
+                                        rs.getString("profileEmail"),
                                         rs.getString("profileName"),
-                                        rs.getString("profileGender"), 
+                                        rs.getString("profileGender"),
                                         rs.getString("profilePicture")))
-                    )
+                )
                 );
             }
+//            rs.close();
+//
+//            SQL = "SELECT COUNT(*)\n"
+//                    + "FROM (\n"
+//                    + "SELECT fp.name AS profileName, fp.profilePicture, fp.email AS profileEmail, fp.gender AS profileGender, a.plannedAt, a.status, a.symptoms, st.id AS ServiceID, st.nametag AS ServiceName, r.id as reviewID, r.rating AS ReviewRating, r.reviewContent, r.createdAt AS ReviewTime FROM [Reviews] r\n"
+//                    + "LEFT JOIN [Appointments] a ON a.id = r.appointmentId\n"
+//                    + "LEFT JOIN [FamilyProfile] fp ON fp.profileId = a.profileId\n"
+//                    + "LEFT JOIN [ServiceTag] st ON st.id = a.serviceId\n"
+//                    + "WHERE r.doctorId = ?\n"
+//                    + ") AS subquery";
+//
+//            try ( PreparedStatement psm = connection.prepareStatement(SQL)) {
+//                psm.setString(1, doctorId);
+//                rs = psm.executeQuery();
+//
+//                while (rs.next()) {
+//                    this.numberRecord = rs.getInt(1);
+//                }
+//            } catch (SQLException e) {
+//                System.out.println("ReviewsDAO, countRecords: " + e.getMessage());
+//            }
         } catch (SQLException e) {
             System.out.println("ReviewsDAO, getReviewsByDoctorId: " + e.getMessage());
         }

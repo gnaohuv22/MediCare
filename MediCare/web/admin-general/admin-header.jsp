@@ -100,7 +100,7 @@
                     <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
                         <span class="user-img"><img class="rounded-circle" src="${pageContext.request.contextPath}/assets/admin/img/user.jpg" width="40" alt="Admin">
                             <span class="status online"></span></span>
-                            <span>${EMPLOYEE.getEmail()}</span>
+                            <span>${EMPLOYEE.getName()}</span>
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/admin-profile/admin-profile.jsp ">Hồ sơ</a>

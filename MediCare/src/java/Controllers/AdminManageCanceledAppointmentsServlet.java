@@ -35,7 +35,7 @@ import java.util.logging.Logger;
  *
  * @author tubinh
  */
-@WebServlet(name = "AdminManageCanceledAppointmentsServlet", urlPatterns = {"/admin-manage-canceled-appointments"})
+//@WebServlet(name = "AdminManageCanceledAppointmentsServlet", urlPatterns = {"/admin-manage-canceled-appointments"})
 public class AdminManageCanceledAppointmentsServlet extends HttpServlet {
 
     private final String STATISTIC_APPOINTMENT = "admin-appointments/admin-manage-canceled-appointments.jsp";

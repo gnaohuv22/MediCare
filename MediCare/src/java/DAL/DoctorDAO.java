@@ -1000,8 +1000,8 @@ public class DoctorDAO extends DBContext {
 //        for (Doctor d : paging) {
 //            System.out.println(d);
 //        }
-           List<CertificateDoctor> cd = dd.getListCertOfDoc("1");
-           System.out.println("list cert of that doc : " + cd);
+           String id = dd.autoGenerateID();
+           System.out.println("ID : " + id);
            
 
     }

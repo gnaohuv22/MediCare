@@ -25,7 +25,7 @@ import java.util.List;
  *
  * @author DELL
  */
-@WebServlet(name = "AdminImportEmployeeList", urlPatterns = {"/admin-import-employee-list"})
+//@WebServlet(name = "AdminImportEmployeeList", urlPatterns = {"/admin-import-employee-list"})
 public class AdminImportEmployeeList extends HttpServlet {
 
     private final String STATISTIC_EMPLOYEE = "admin-list-employee";

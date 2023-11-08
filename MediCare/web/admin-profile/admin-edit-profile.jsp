@@ -31,7 +31,7 @@
                             <div class="form-group row justify-content-center">
                                 <label for="input-name" class="col-sm-2 col-form-label" style="font-size: 15px">Tên</label>
                                 <div class="col-sm-6">
-                                    <input type="email" class="form-control" value="${EMPLOYEE.getName()}" id="input-name">
+                                    <input type="text" class="form-control" value="${EMPLOYEE.getName()}" id="input-name">
                                 </div>
                             </div>
                             <p class="error-notice">${error.getNameError()}</p>
