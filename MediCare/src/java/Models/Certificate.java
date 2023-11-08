@@ -2,30 +2,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package Models;
 
 /**
  *
- * @author tubinh
+ * @author hoang
  */
 public class Certificate {
-    private String id;
-    private String name;
-    private String wage;
+    private String id, name, wage;
 
     public Certificate() {
     }
 
-    public Certificate(String certId, String name, String wage) {
-        this.id = certId;
+    public Certificate(String id, String name, String wage) {
+        this.id = id;
         this.name = name;
         this.wage = wage;
-    }
-
-    public Certificate(String certId, String name) {
-        this.id = certId;
-        this.name = name;
     }
 
     public String getId() {
@@ -51,12 +43,6 @@ public class Certificate {
     public void setWage(String wage) {
         this.wage = wage;
     }
-
-    @Override
-    public String toString() {
-        return "Certificate{" + "Id=" + id + ", name=" + name + ", wage=" + wage + '}';
-    }
-
     
     
 }

@@ -4,8 +4,10 @@
  */
 package Controllers;
 
+import DAL.AdminEmailContext;
 import DAL.AppointmentsDAO;
 import DAL.BranchDAO;
+import DAL.EmployeeDAO;
 import DAL.FamilyProfileDAO;
 import DAL.ScheduleDetailDAO;
 import DAL.ServiceTagDAO;
@@ -14,6 +16,7 @@ import Models.Branch;
 import Models.FamilyProfile;
 import Models.ServiceTag;
 import Models.User;
+import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -24,6 +27,7 @@ import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Random;
 
 /**
  *
@@ -69,7 +73,7 @@ public class UserBookAppointmentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        System.out.println("doGet - USER - BOOK - APPOINTMENT:");
         BranchDAO bd = new BranchDAO();
         ArrayList<Branch> branches = bd.getAllBranches();
 
@@ -84,10 +88,10 @@ public class UserBookAppointmentServlet extends HttpServlet {
         UserDAO ud = new UserDAO();
         User u = ud.login(email);
         if (u != null) {
+            System.out.println("user != null");
             FamilyProfileDAO fpd = new FamilyProfileDAO();
             ArrayList<FamilyProfile> profiles = (ArrayList<FamilyProfile>) fpd.getFamilyProfileListByUserOwnerIdForBooking(u.getId());
-            
-            System.out.println("doGET - to Booking Appointment:");
+            System.out.println("Profiles:");
             for (FamilyProfile profile : profiles) {
                 System.out.println(profile);
             }
@@ -113,20 +117,26 @@ public class UserBookAppointmentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("doPost - USER - BOOK - APPOINTMENT:");
+        response.setContentType("text/html;charset=UTF-8");
+        String action = request.getParameter("action");
+
         String branchId, serviceId, doctorId, date, slotId;
         branchId = request.getParameter("branchId");
         serviceId = request.getParameter("serviceId");
         doctorId = request.getParameter("doctorId");
-        date = request.getParameter("booking-calendar");
-        slotId = request.getParameter("booking-slot");
+        date = request.getParameter("date");
+        slotId = request.getParameter("slotId");
         String patientName = request.getParameter("patientName");
         String gender = request.getParameter("gender");
         String birthDate = request.getParameter("birthDate");
         String phone = request.getParameter("phone");
         String emailPatient = request.getParameter("email");
         String symptoms = request.getParameter("description");
-//        String password = request.getParameter("password");
+        String otp = request.getParameter("otp");
+        String trueOTP = request.getParameter("trueOTP");
 
+//        String password = request.getParameter("password");
         HttpSession session = request.getSession();
         String email = (String) session.getAttribute("email");
         String password = (String) session.getAttribute("password");
@@ -140,21 +150,52 @@ public class UserBookAppointmentServlet extends HttpServlet {
 //        ad.test(u==null?null:u.getId());
 
         ScheduleDetailDAO sdd = new ScheduleDetailDAO();
+        System.out.println("SlotId: " + slotId);
         String startTime = sdd.getStartTimeBySlotId(slotId);
 
+        System.out.println("Line 150: date + start-time = " + date + startTime);
         String plannedAt = date + " " + startTime;
-        if (ad.addNewAppointment(u == null ? null : u.getId(), branchId, serviceId, doctorId, plannedAt, slotId, createdAt.toString(),
-                patientName, gender, birthDate, phone, emailPatient, symptoms, email, password) && sdd.setStatusForBookingSlot(slotId, doctorId, date)) {
-            System.out.println("Add appointment to database successfully!");
-            System.out.println("Planned at :.... = " + plannedAt);
-        } else {
-            System.out.println("Planned at :.... = " + plannedAt);
-            System.out.println("Add appointment to database FAIL!!!");
-        }
-        System.out.println("email = " + email + " | branchId = " + branchId + " | serviceId = " + serviceId + " | doctorId = " + doctorId + " | date = " + date + " | slotId = " + slotId);
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            out.println("Yêu cầu đặt lịch của bạn thành công! Chúng tôi sẽ sớm liên hệ với bạn qua email để xác thực thông tin.");
+
+        if (action != null) {
+            switch (action) {
+                case "requestOTP": {
+                    System.out.println("Request OTP:");
+                    // send Email:
+                    email = emailPatient.trim();
+
+                    String OTP = AdminEmailContext.generateRandomVerificationCode(6);
+
+                    AdminEmailContext.sendVerificationCodeToEmail(email, OTP);
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("message", "Thành công! Hãy kiểm tra email để lấy mã OTP");
+                    jsonObject.addProperty("OTP", OTP);
+
+                    response.getWriter().write(OTP);
+                    // end - send email:
+                    break;
+                }
+                case "submitOTP": {
+                    if (otp != null && otp.equals(trueOTP)) {
+                        System.out.println("input OTP success");
+                        if (ad.addNewAppointment(u == null ? null : u.getId(), branchId, serviceId, doctorId, plannedAt, slotId, createdAt.toString(),
+                                patientName, gender, birthDate, phone, emailPatient, symptoms, email, password) && sdd.setStatusForBookingSlot(slotId, doctorId, date)) {
+                            System.out.println("Add appointment to database successfully!");
+                            System.out.println("Planned at :.... = " + plannedAt);
+                        } else {
+                            System.out.println("Planned at :.... = " + plannedAt);
+                            System.out.println("Add appointment to database FAIL!!!");
+                        }
+                        System.out.println("email = " + email + " | branchId = " + branchId + " | serviceId = " + serviceId + " | doctorId = " + doctorId + " | date = " + date + " | slotId = " + slotId);
+                        response.getWriter().write("Đặt lịch khám thành công!");
+                    } else {
+                        System.out.println("input OTP fail");
+                        response.getWriter().write("Mã OTP không khớp, vui lòng chọn 'Xác nhận đặt khám' để gửi yêu cầu OTP khác!");
+                    }
+                    break;
+                }
+                default:
+                    throw new AssertionError();
+            }
         }
     }
 

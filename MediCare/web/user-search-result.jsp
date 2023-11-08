@@ -73,7 +73,7 @@
                 <c:choose>
                     <c:when test="${currentPage eq i}">
                         <li class="page-item active">
-                            <a class="page-link" href="${pageContext.request.contextPath}/#">${i}</a>
+                            <a class="page-link" href="#">${i}</a>
                         </li>
                     </c:when>
                     <c:otherwise>

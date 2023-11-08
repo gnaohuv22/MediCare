@@ -1826,6 +1826,12 @@ ul .tab-component a:hover {
 .profile-display-addition span {
     font-weight: bold;
 }
+
+.profile-pics{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
 /* CSS code style for user-news.jsp  */
 
 .display-news {
@@ -1919,18 +1925,18 @@ ul .tab-component a:hover {
 /* CSS code style for user-news.jsp  */
 /*TU BINH - SEP 28 2023 - CSS Screen: Booking Appointment:*/
 .booking-container {
-    margin: 10%;
+     margin: 10%;
     border: 1px solid #ccc;
     background-color: #fff;
-    padding-left: 5%;
-    padding-right: 5%;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 20px 5%;
     border-radius: 10px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
 .btn-booking .btn-primary {
     background-color: #1ead5b;
+    width: 130px;
+    margin: 20px;
     border: none;
 }
 
@@ -2186,7 +2192,6 @@ span.name-each-family-profile {
     z-index: 1;
 }
 
-/* Center the form within the modal */
 .form-container {
     position: absolute;
     top: 50%;
@@ -2198,6 +2203,47 @@ span.name-each-family-profile {
     border-radius: 5px;
     z-index: 2;
     width: 40%;
+    max-height: 90vh; /* Adjust this value as needed */
+    overflow-y: auto; /* Adds a scrollbar if the content is taller than the max-height */
+}
+
+
+.form-container h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-container label {
+    font-weight: bold;
+}
+
+.form-container input[type=text],
+.form-container input[type=date],
+.form-container input[type=tel],
+.form-container select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+button{
+    border-radius: 5px;
+}
+.form-buttons {
+    text-align: right;
+}
+.button-container {
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+}
+
+.button-container:hover {
+    opacity: 0.8;
 }
 
 .form-container input{
@@ -2208,6 +2254,22 @@ span.name-each-family-profile {
     background-color: #68B2A0;
     width: 100%;
     height: 5vh;
+    border-radius: 10px;
+}
+#editProfileButton{
+    margin-top: 10px;
+    background-color: #68B2A0;
+    width: 100%;
+    height: 5vh;
+}
+
+#deleteProfileButton{
+    font-size: 1.5rem;
+    color: #e93535;
+    margin-top: 10px;
+    width: 100%;
+    height: 5vh;
+    background-color: unset;
 }
 
 #editProfileButton {
@@ -2215,6 +2277,7 @@ span.name-each-family-profile {
     background-color: #68B2A0;
     width: 100%;
     height: 5vh;
+    border-radius: 10px;
 }
 
 #deleteProfileButton {
@@ -2223,6 +2286,7 @@ span.name-each-family-profile {
     width: 100%;
     height: 5vh;
     color: red;
+    
 }
 
 #female,#male{
@@ -2233,6 +2297,14 @@ span.name-each-family-profile {
     background-color: #68B2A0;
 }
 #close-button{
+    padding: 10px;
+    background-color: #ccc;
+}
+#delete-submit-button{
+    padding: 10px;
+    background-color: #68B2A0;
+}
+#delete-close-button{
     padding: 10px;
     background-color: #ccc;
 }
@@ -2428,3 +2500,13 @@ span.name-each-family-profile {
 #back-to-top.show {
     opacity: 1;
 }
+
+/*Style 25/10/2023 - tubinh - start:*/
+.appointment-header-text {
+    margin: 15%;
+    margin-bottom: -10%;
+    margin-top: 0;
+    font-weight: 800;
+    font-size: 30px;
+}
+/*Style 25/10/2023 - tubinh - end:*/

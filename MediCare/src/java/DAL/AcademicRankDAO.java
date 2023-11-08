@@ -9,14 +9,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import Models.AcademicRank;
+import Models.WorkingSlot;
 
 /**
  *
- * @author tubinh
+ * @author hoang
  */
 public class AcademicRankDAO extends DBContext {
 
-    public ArrayList<AcademicRank> getAllAcademicRanks() {
+    public ArrayList<AcademicRank> getListAcademicRank() {
         ArrayList<AcademicRank> list = new ArrayList<>();
         String SQL = "SELECT * FROM [AcademicRank]";
 
@@ -33,13 +34,5 @@ public class AcademicRankDAO extends DBContext {
             System.out.println("getListAcademicRank: " + e.getMessage());
         }
         return null;
-    }
-
-    public static void main(String[] args) {
-        AcademicRankDAO ad = new AcademicRankDAO();
-        ArrayList<AcademicRank> list = ad.getAllAcademicRanks();
-        for (AcademicRank academicRank : list) {
-            System.out.println(academicRank);
-        }
     }
 }

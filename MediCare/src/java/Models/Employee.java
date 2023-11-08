@@ -9,28 +9,89 @@ package Models;
  * @author hoang
  */
 public class Employee {
-    private String id, email, password, branchId, name, birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, createAt;
+    private String id, email, password;
+    Branch branch;
+    String name, birthDate, gender, address, workplace;
+    Province province;
+    String phone, ethnic;
+    EmployeeRole employeeRole;
+    String createAt,createBy,modifyAt,modifyBy;
+    String isDelete;
 
     public Employee() {
     }
 
-    public Employee(String id, String email, String password, String branchId, String name, String birthDate, String gender, String address, String workplace, String provinceId, String phone, String ethnic, String roleId, String createAt) {
+    public Employee(String id, String email, String password, Branch branch, String name, String birthDate, String gender, String address, String workplace, Province province, String phone, String ethnic, EmployeeRole employeeRole) {
         this.id = id;
         this.email = email;
         this.password = password;
-        this.branchId = branchId;
+        this.branch = branch;
         this.name = name;
         this.birthDate = birthDate;
         this.gender = gender;
         this.address = address;
         this.workplace = workplace;
-        this.provinceId = provinceId;
+        this.province = province;
         this.phone = phone;
         this.ethnic = ethnic;
-        this.roleId = roleId;
-        this.createAt = createAt;
+        this.employeeRole = employeeRole;
     }
 
+    public Employee(String id, String email, String password, Branch branch, String name, String birthDate, String gender, String address, String workplace, Province province, String phone, String ethnic, EmployeeRole employeeRole, String createAt, String createBy, String modifyAt, String modifyBy) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.branch = branch;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.address = address;
+        this.workplace = workplace;
+        this.province = province;
+        this.phone = phone;
+        this.ethnic = ethnic;
+        this.employeeRole = employeeRole;
+        this.createAt = createAt;
+        this.createBy = createBy;
+        this.modifyAt = modifyAt;
+        this.modifyBy = modifyBy;
+    }
+
+    public Employee(String id, String email, Branch branch, String name, String birthDate, String gender, String address, String workplace, Province province, String phone, String ethnic, EmployeeRole employeeRole, String isDelete) {
+        this.id = id;
+        this.email = email;
+        this.branch = branch;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.address = address;
+        this.workplace = workplace;
+        this.province = province;
+        this.phone = phone;
+        this.ethnic = ethnic;
+        this.employeeRole = employeeRole;
+        this.isDelete = isDelete;
+    }
+
+    public Employee(String id, String email, Branch branch, String name, String birthDate, String gender, String address, String workplace, Province province, String phone, String ethnic, EmployeeRole employeeRole, String createAt, String createBy, String modifyAt, String modifyBy, String isDelete) {
+        this.id = id;
+        this.email = email;
+        this.branch = branch;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.address = address;
+        this.workplace = workplace;
+        this.province = province;
+        this.phone = phone;
+        this.ethnic = ethnic;
+        this.employeeRole = employeeRole;
+        this.createAt = createAt;
+        this.createBy = createBy;
+        this.modifyAt = modifyAt;
+        this.modifyBy = modifyBy;
+        this.isDelete = isDelete;
+    }
     public String getId() {
         return id;
     }
@@ -55,12 +116,12 @@ public class Employee {
         this.password = password;
     }
 
-    public String getBranchId() {
-        return branchId;
+    public Branch getBranch() {
+        return branch;
     }
 
-    public void setBranchId(String branchId) {
-        this.branchId = branchId;
+    public void setBranch(Branch branch) {
+        this.branch = branch;
     }
 
     public String getName() {
@@ -103,12 +164,12 @@ public class Employee {
         this.workplace = workplace;
     }
 
-    public String getProvinceId() {
-        return provinceId;
+    public Province getProvince() {
+        return province;
     }
 
-    public void setProvinceId(String provinceId) {
-        this.provinceId = provinceId;
+    public void setProvince(Province province) {
+        this.province = province;
     }
 
     public String getPhone() {
@@ -127,12 +188,12 @@ public class Employee {
         this.ethnic = ethnic;
     }
 
-    public String getRoleId() {
-        return roleId;
+    public EmployeeRole getEmployeeRole() {
+        return employeeRole;
     }
 
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
+    public void setEmployeeRole(EmployeeRole employeeRole) {
+        this.employeeRole = employeeRole;
     }
 
     public String getCreateAt() {
@@ -142,6 +203,37 @@ public class Employee {
     public void setCreateAt(String createAt) {
         this.createAt = createAt;
     }
-    
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public String getModifyAt() {
+        return modifyAt;
+    }
+
+    public void setModifyAt(String modifyAt) {
+        this.modifyAt = modifyAt;
+    }
+
+    public String getModifyBy() {
+        return modifyBy;
+    }
+
+    public void setModifyBy(String modifyBy) {
+        this.modifyBy = modifyBy;
+    }
+
+    public String getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(String isDelete) {
+        this.isDelete = isDelete;
+    }
     
 }

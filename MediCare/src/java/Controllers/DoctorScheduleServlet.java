@@ -28,7 +28,6 @@ public class DoctorScheduleServlet extends HttpServlet {
         } else {
             request.getRequestDispatcher("doctor-schedule.jsp").forward(request, response);
         }
-        
     } 
 
     @Override

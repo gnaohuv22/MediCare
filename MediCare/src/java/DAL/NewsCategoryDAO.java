@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import Models.News;
 import Models.NewsCategory;
 import java.util.List;
 
@@ -17,6 +16,27 @@ import java.util.List;
  * @author hoang
  */
 public class NewsCategoryDAO extends DBContext {
+    //updated by Thu 
+      public ArrayList<NewsCategory> getAllNewsCategory() {
+        ArrayList<NewsCategory> list = new ArrayList<>();
+        String SQL = "SELECT id,name FROM NewsCategory where parentId = 55";
+        try (PreparedStatement pstm = connection.prepareStatement(SQL)) {
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()){
+                String id = rs.getString("id");
+                String name = rs.getString("name");
+                NewsCategory obj = new NewsCategory(id,name);
+                list.add(obj);
+            }
+        } catch (Exception e) {
+            System.out.println("getAllNewsCategory" + e.getMessage());
+        }
+        return list;
+    }
+ 
+
+      
+
 
     public ArrayList<NewsCategory> getTopLevelSideBar() {
         String SQL = "SELECT id, name, parentId, href FROM [NewsCategory]"
@@ -326,6 +346,24 @@ public class NewsCategoryDAO extends DBContext {
             }
         } catch (SQLException e) {
             System.out.println("getProfileSidebar: " + e.getMessage());
+        }
+        return list;
+    }
+    
+    //thu
+    public ArrayList<String> getAllStatus(){
+        String SQL = "select name from NewsCategory where locateId=5002";
+        ArrayList<String> list = new ArrayList<>();
+        
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                String name = rs.getString("name");
+                list.add(name);
+            }
+        } catch (SQLException e) {
+            System.out.println("getAllStatus: " + e.getMessage());
         }
         return list;
     }
