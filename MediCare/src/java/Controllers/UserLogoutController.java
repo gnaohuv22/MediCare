@@ -38,7 +38,7 @@ public class UserLogoutController extends HttpServlet {
             response.sendRedirect("user-login");
         } else {
             session.removeAttribute("email");
-            session.setAttribute("loginValue", "false");
+            session.removeAttribute("loginValue");
             response.sendRedirect("user-home");
         }
     }

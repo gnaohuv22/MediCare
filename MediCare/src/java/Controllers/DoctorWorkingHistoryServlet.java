@@ -41,10 +41,12 @@ public class DoctorWorkingHistoryServlet extends HttpServlet {
             ArrayList<Appointments> appointments = ad.getListAppointmentByDoctor(d.getId());
             Set<Integer> statusSet = new HashSet<>();
             Set<String> serviceSet = new HashSet<>();
-            for (Appointments a : appointments) {
-                int status = Integer.parseInt(a.getStatus());
-                statusSet.add(status);
-                serviceSet.add(a.getSt().getNametag());
+            if (appointments != null) {
+                for (Appointments a : appointments) {
+                    int status = Integer.parseInt(a.getStatus());
+                    statusSet.add(status);
+                    serviceSet.add(a.getSt().getNametag());
+                }
             }
             List<Integer> sortedStatusSet = new ArrayList<>(statusSet);
             Collections.sort(sortedStatusSet);
