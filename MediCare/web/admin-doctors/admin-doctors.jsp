@@ -117,23 +117,25 @@
                             </div>
                         </div>
                     </c:forEach>
+                    <!-- Phân trang :  -->
                     <div class="col-lg-12" style="display: flex ;flex-direction: row; justify-content: center">
                         <ul class="pagination"> 
-                            <li class="page-item"><a class="page-link" href="admin-doctor?isDelete=${requestScope.isDelete}&search=${requestScope.search}&branch=${requestScope.branch}&academicRank=${requestScope.academicRank}&index=${requestScope.previous}">Trước</a></li>
+                            <c:if test="${requestScope.index != 1}">
+                                <li class="page-item"><a class="page-link" href="admin-doctor?isDelete=${requestScope.isDelete}&search=${requestScope.search}&branch=${requestScope.branch}&academicRank=${requestScope.academicRank}&index=${requestScope.previous}">Trước</a></li>
+                                </c:if>    
                                 <c:forEach begin="1" end="${requestScope.endPage}" var="i">
+
+
                                 <li class="page-item"><a class="page-link" href="admin-doctor?isDelete=${requestScope.isDelete}&search=${requestScope.search}&branch=${requestScope.branch}&academicRank=${requestScope.academicRank}&index=${i}">${i}</a></li>
-                                </c:forEach>
-                            <li class="page-item"> <a class="page-link" href="admin-doctor?isDelete=${requestScope.isDelete}&search=${requestScope.search}&branch=${requestScope.branch}&academicRank=${requestScope.academicRank}&index=${requestScope.after}">Sau</a></li>
+
+                            </c:forEach>
+                            <c:if test="${requestScope.index != requestScope.endPage}">
+                                <li class="page-item"> <a class="page-link" href="admin-doctor?isDelete=${requestScope.isDelete}&search=${requestScope.search}&branch=${requestScope.branch}&academicRank=${requestScope.academicRank}&index=${requestScope.after}">Sau</a></li>
+                                </c:if>
+
                         </ul>
                     </div>
-                </div>
-                <!--                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="see-all">
-                                                <a class="see-all-btn" href="javascript:void(0);">Load More</a>
-                                            </div>
-                                        </div>
-                                    </div>-->
+                </div>         
             </div>                
         </div>
 
@@ -154,7 +156,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body text-center">
-                        
+
                         <h3>Bạn có chắc muốn xóa bác sĩ này không?</h3>
                         <div class="m-t-20">
                             <a href="admin-doctor" class="btn btn-white" data-dismiss="modal">Đóng</a>
@@ -171,7 +173,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body text-center">
-                      
+
                         <h3>Bạn có muốn khôi phục bác sĩ này không ?</h3>
                         <div class="m-t-20">
                             <a href="admin-doctor" class="btn btn-white" data-dismiss="modal">Đóng</a>
