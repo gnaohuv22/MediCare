@@ -250,6 +250,9 @@ public class AdminDoctorController extends HttpServlet {
             } else {
                 request.setAttribute("email", email);
             }
+            salary = salary.replace(".", "");
+           
+            System.out.println("Salary after replace: " + salary);
             if (!validateSalary(salary)) {
                 request.setAttribute("SalaryError", "Lương phải là số và lớn hơn 0");
                 bool = false;
@@ -277,7 +280,7 @@ public class AdminDoctorController extends HttpServlet {
             //-----------------------Xử lý ảnh bằng Base64-----------------------------------------------------------------------------------------------
             boolean fileCheck = Base64Encoding.isFileValid(filePart);
             if (filePart.getSubmittedFileName().equals("")) {
-                imageFileName = DEFAULT_PIC;
+                imageFileName =  "data:image/png;base64, " +DEFAULT_PIC;
             } else if (fileCheck == true) {
                 imageFileName = Base64Encoding.convertImageToBase64(filePart);
             } else {
@@ -313,7 +316,7 @@ public class AdminDoctorController extends HttpServlet {
                     String encPass = PasswordEncryption.encryptPassword(password, salt);
                     CertificateDoctorDAO CDDao = new CertificateDoctorDAO();
                     System.out.println("Default pic : " + imageFileName);
-                    imageFileName = "data:image/png;base64, " + imageFileName;
+                    
                     Doctor doctor = new Doctor(id, email, displayName, branch, phone, academicRank, "1", salary, workplace, imageFileName, status, encPass, birthDate, gender, "0");
                     dao.addDoctor(doctor);
                     for (String c : certificates) {
@@ -416,6 +419,8 @@ public class AdminDoctorController extends HttpServlet {
                     workplace = "Nha Trang";
                     break;
             }
+            salary = salary.replace(".", ""); 
+            System.out.println("Salary after replace: " + salary);
             if (!validateSalary(salary)) {
                 request.setAttribute("SalaryError", "Lương phải là số và lớn hơn 0");
                 bool = false;
@@ -440,10 +445,8 @@ public class AdminDoctorController extends HttpServlet {
                 for (CertificateDoctor ClearCd : ClearListCd) {
                     cdDao.deleteCertificateForDoctor(ClearCd);
                 }
-                if (imageFileName.startsWith("data:image/png;base64,")) {
-                    imageFileName = imageFileName.replace("data:image/png;base64,", "");
-                }
-                imageFileName = "data:image/png;base64, " + imageFileName;
+
+                
                 System.out.println("ImageFileName before adding to db : " + imageFileName);
                 Doctor doctor = new Doctor(id, email, displayName, branch, phone, academicRank, certId, salary, workplace, imageFileName, status, birthDate, gender, isDelete);
                 doc.updateDoctor(doctor);
@@ -511,8 +514,7 @@ public class AdminDoctorController extends HttpServlet {
 
     public static boolean validateSalary(String salary) {
         try {
-            String cleanedSalary = salary.replace(".", "");
-            double number = Double.parseDouble(cleanedSalary);
+            Long number = Long.parseLong(salary);
             if (number > 0) {
                 return true;
             }
