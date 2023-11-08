@@ -311,17 +311,17 @@ public class DoctorDAO extends DBContext {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Doctor d = new Doctor(rs.getString(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        String.valueOf(rs.getInt(4)),
-                        String.valueOf(rs.getString(5)),
-                        String.valueOf(rs.getInt(6)),
-                        String.valueOf(rs.getInt(7)),
-                        String.valueOf(rs.getFloat(8)),
-                        String.valueOf(rs.getString(9)),
-                        rs.getString(10),
-                        String.valueOf(rs.getInt(11))
+                Doctor d = new Doctor(rs.getString("id"),
+                        rs.getString("email"),
+                        rs.getString("displayName"),
+                        String.valueOf(rs.getInt("branchId")),
+                        String.valueOf(rs.getString("phone")),
+                        String.valueOf(rs.getInt("ARId")),
+                        String.valueOf(rs.getInt("CVId")),
+                        String.valueOf(rs.getFloat("salary")),
+                        String.valueOf(rs.getString("workplace")),
+                        rs.getString("profilePicture"),
+                        String.valueOf(rs.getInt("status"))
                 );
                 return d;
             }
