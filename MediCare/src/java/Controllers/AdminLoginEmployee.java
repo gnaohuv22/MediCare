@@ -19,7 +19,7 @@ import DAL.EmployeeDAO;
 import DAL.SubLevelMenuDAO;
 
 
-//@WebServlet(name = "LoginEmployeeServlet", urlPatterns = {"/admin-login-employee"})
+
 public class AdminLoginEmployee extends HttpServlet {
     private final String EMPLOYEE_LOGIN="admin-screen/admin-login.jsp";
     private final String EMPLOYEE_HOME_PAGE="admin-home-page";

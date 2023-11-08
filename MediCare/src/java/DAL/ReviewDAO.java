@@ -236,16 +236,19 @@ public class ReviewDAO extends DBContext {
             ps.setString(1, doctorId);
 
             ResultSet rs = ps.executeQuery();
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 
             while (rs.next()) {
                 Timestamp ts = rs.getTimestamp("plannedAt");
                 String plannedAt = format.format(ts);
+                
+                ts = rs.getTimestamp("ReviewTime");
+                String createdAt = format.format(ts);
                 list.add(new Reviews(
                         String.valueOf(rs.getInt("reviewID")),
                         String.valueOf(rs.getFloat("ReviewRating")),
                         rs.getString("reviewContent"),
-                        String.valueOf(rs.getDate("ReviewTime")),
+                        createdAt,
                         new Appointments(
                                 plannedAt,
                                 rs.getString("symptoms"),

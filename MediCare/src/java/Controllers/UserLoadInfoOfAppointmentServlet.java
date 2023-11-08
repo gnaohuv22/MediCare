@@ -228,7 +228,7 @@ public class UserLoadInfoOfAppointmentServlet extends HttpServlet {
                     + "                <div class=\"col-md-12 mt-3 text-center btn-booking\">\n"
                     + "                    <!--<button type=\"submit\" class=\"btn btn-primary\">Tiếp tục</button>-->\n"
                     + "                    <div id=\"step-3-to-2\" class=\"btn btn-primary\" onclick=\"handleSubmit(this)\">Quay lại</div>\n"
-                    + "                    <div id=\"submit\" class=\"btn btn-primary\" onclick=\"handleSubmit(this)\">Xác nhận đặt hẹn</div>\n"
+                    + "                    <div id=\"submit\" class=\"btn btn-primary\" onclick=\"handleSubmit(this)\">Đặt hẹn</div>\n"
 //                    + "                    <button id=\"submit\" type=\"submit\" class=\"btn btn-primary\" onclick=\"handleSubmit(this)\">Xác nhận đặt hẹn</button>\n"
                     + "                </div>\n");
         }

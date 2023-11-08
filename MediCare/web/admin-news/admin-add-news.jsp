@@ -34,7 +34,7 @@
                     <c:set var="error" value="${REGISTER_ERROR}"></c:set>
                         <div class="row">
                             <div class="col-lg-8 offset-lg-2">
-                                <form action="${pageContext.request.contextPath}/admin-list-news" method="POST"> 
+                                <form action="${pageContext.request.contextPath}/admin-list-news" method="POST" enctype="multipart/form-data"> 
                                 <c:if test="${add_news}">
                                     <input type="hidden" name="add-news" value="true">
                                     <c:set var="news" value="${ADD_NEWS}"/>
@@ -78,8 +78,8 @@
 
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label>Ảnh</label>
-                                            <input class="form-control" type="text" name="coverImage" value="${news.coverImage}" >
+                                            <label>Ảnh</label> 
+                                            <input name="coverImage" type="file" accept="image/*" multiple="false" class="form-control">
                                         </div>
                                         <p class="error-notice">${error.getCoverImageError()}</p>
                                     </div>

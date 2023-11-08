@@ -23,6 +23,22 @@ public class Doctor {
         this.displayName = displayName;
     }
 
+    public Doctor(String id, String email, String displayName, String branchId, String phone, String ARId, String CVId, String salary, String workplace, String profilePicture, String status) {
+        this.id = id;
+        this.email = email;
+        this.displayName = displayName;
+        this.branchId = branchId;
+        this.phone = phone;
+        this.ARId = ARId;
+        this.CVId = CVId;
+        this.salary = salary;
+        this.workplace = workplace;
+        this.profilePicture = profilePicture;
+        this.status = status;
+    }
+    
+    
+
     public Doctor(String id) {
         this.id = id;
     }

@@ -1547,6 +1547,34 @@ button {
     border: 1px solid #E0ECDE;
 }
 
+.filter-button:disabled {
+    color: #E0ECDE;
+    background-color: gray;
+    border: 1px solid #E0ECDE;
+    cursor: default;
+}
+
+.filter-button2 {
+    padding: 10px 10px 10px 10px;
+    color: #2C6975;
+    background-color: #E0ECDE;
+    border: 1px solid #2C6975;
+    border-radius: 10px;
+}
+
+.filter-button2:hover {
+    color: #E0ECDE;
+    background-color: #2C6975;
+    border: 1px solid #E0ECDE;
+}
+
+.filter-button2:disabled {
+    color: #E0ECDE;
+    background-color: gray;
+    border: 1px solid #E0ECDE;
+    cursor: default;
+}
+
 .date-type {
     padding: 10px 60px 10px 60px;
     border-radius: 10px;

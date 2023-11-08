@@ -687,6 +687,9 @@ public class AdminManageScheduleDoctor extends HttpServlet {
         String action = request.getParameter("action");
         String branchId = request.getParameter("branchId");
         String monthSelect = request.getParameter("monthSelect");
+        String eventName = request.getParameter("eventName");
+        String fromDate = request.getParameter("fromDate");
+        String toDate = request.getParameter("toDate");
         PrintWriter out = response.getWriter();
         BranchDAO bd = new BranchDAO();
         ArrayList<Branch> branches = bd.getAllBranches();
@@ -744,6 +747,18 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                 }
                 case "save-add-event": {
                     System.out.println("ACTION: save-add-event");
+                    // isDelete = 1 -> Nghi le:
+                    if (sdd.setDayOffForDoctorByEvent(fromDate, toDate)) {
+                        System.out.println("Set day off from " + fromDate + " to" + toDate + " success!");
+                    } else {
+                        System.out.println("Set day off from " + fromDate + " to" + toDate + " success!");
+                    }
+                    
+                    System.out.println("Event-name: " + eventName);
+                    System.out.println("From-date: " + fromDate);
+                    System.out.println("To-date: " + toDate);
+                    // add holiday to Database:
+                    
                     break;
                 }
 
