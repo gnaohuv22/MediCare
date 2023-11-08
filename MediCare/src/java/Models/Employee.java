@@ -9,13 +9,14 @@ package Models;
  * @author hoang
  */
 public class Employee {
+
     private String id, email, password;
     Branch branch;
     String name, birthDate, gender, address, workplace;
     Province province;
     String phone, ethnic;
     EmployeeRole employeeRole;
-    String createAt,createBy,modifyAt,modifyBy;
+    String createAt, createBy, modifyAt, modifyBy;
     String isDelete;
 
     public Employee() {
@@ -92,6 +93,7 @@ public class Employee {
         this.modifyBy = modifyBy;
         this.isDelete = isDelete;
     }
+
     public String getId() {
         return id;
     }
@@ -235,5 +237,10 @@ public class Employee {
     public void setIsDelete(String isDelete) {
         this.isDelete = isDelete;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Employee{" + "id=" + id + ", email=" + email + ", password=" + password + ", branch=" + branch + ", name=" + name + ", birthDate=" + birthDate + ", gender=" + gender + ", address=" + address + ", workplace=" + workplace + ", province=" + province + ", phone=" + phone + ", ethnic=" + ethnic + ", employeeRole=" + employeeRole + ", createAt=" + createAt + ", createBy=" + createBy + ", modifyAt=" + modifyAt + ", modifyBy=" + modifyBy + ", isDelete=" + isDelete + '}';
+    }
+
 }

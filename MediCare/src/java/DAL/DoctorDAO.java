@@ -13,10 +13,26 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import Models.Department;
 import Models.Doctor;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.FuzzyQuery;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.WildcardQuery;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.RAMDirectory;
 
 /**
  *
@@ -950,6 +966,66 @@ public class DoctorDAO extends DBContext {
             System.out.println("getAllDoctorAvailable: " + e);
         }
         return list;
+    }
+    
+    public  ArrayList<Doctor> searchDoctorFuzzy(String searchTerm) throws IOException {
+        ArrayList<Doctor> doctorList = new ArrayList<Doctor>();
+        doctorList = new DoctorDAO().getAllDoctors();
+        for (Doctor doctor : doctorList) {
+            System.out.println(doctor.getDisplayName());
+        }
+
+        StandardAnalyzer analyzer = new StandardAnalyzer();
+        Directory index = new RAMDirectory();
+        IndexWriterConfig config = new IndexWriterConfig(analyzer);
+        IndexWriter writer = new IndexWriter(index, config);
+
+        // Thêm tất cả tên bác sĩ vào chỉ mục
+        for (Doctor doctor : doctorList) {
+            Document doc = new Document();
+            doc.add(new org.apache.lucene.document.StringField("name", doctor.getDisplayName(), org.apache.lucene.document.Field.Store.YES));
+            writer.addDocument(doc);
+        }
+
+        writer.close();
+
+        // Tạo danh sách result chứa các tên phù hợp với pattern
+//        String searchTerm = "Liêm";
+        int maxEdits = 2; // Số thay đổi tối đa cho phép
+        FuzzyQuery fuzzyQuery = new FuzzyQuery(new Term("name", searchTerm), maxEdits);
+        WildcardQuery wildcardQuery = new WildcardQuery(new Term("name", "*"+searchTerm + "*"));
+
+        BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
+        queryBuilder.add(fuzzyQuery, BooleanClause.Occur.SHOULD);
+        queryBuilder.add(wildcardQuery, BooleanClause.Occur.SHOULD);
+
+        IndexSearcher searcher = new IndexSearcher(DirectoryReader.open(index));
+        TopDocs docs = searcher.search(queryBuilder.build(), 10);
+
+        ArrayList<String> resultList = new ArrayList<String>();
+        for (ScoreDoc scoreDoc : docs.scoreDocs) {
+            Document doc = searcher.doc(scoreDoc.doc);
+            String name = doc.get("name");
+            if (!resultList.contains(name)) {
+                resultList.add(name);
+            }
+        }
+
+        // Lọc ra danh sách bác sĩ có displayName thuộc danh sách resultList
+        ArrayList<Doctor> searchResults = new ArrayList<Doctor>();
+        for (Doctor doctor : doctorList) {
+            if (resultList.contains(doctor.getDisplayName())) {
+                searchResults.add(doctor);
+            }
+        }
+
+        // In kết quả
+        System.out.println("Search Results:");
+        for (Doctor doctor : searchResults) {
+            System.out.println("Doctor ID: " + doctor.getId());
+            System.out.println("Doctor Name: " + doctor.getDisplayName());
+        }
+        return searchResults;
     }
 
     public static void main(String[] args) {
