@@ -52,6 +52,10 @@
         <servlet-name>DoctorReviewServlet</servlet-name>
         <servlet-class>Controllers.DoctorReviewServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DoctorWorkingHistoryServlet</servlet-name>
+        <servlet-class>Controllers.DoctorWorkingHistoryServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserLoginServlet</servlet-name>
         <url-pattern>/user-login</url-pattern>
@@ -276,7 +280,7 @@
         <servlet-name>AdminForgotPassword</servlet-name>
         <url-pattern>/admin-forgot-password</url-pattern>
     </servlet-mapping>
-        <servlet>
+    <servlet>
         <servlet-name>AdminProfile</servlet-name>
         <servlet-class>Controllers.AdminProfile</servlet-class>
     </servlet>
@@ -339,9 +343,13 @@
         <servlet-name>AdminManageCanceledAppointmentsServlet</servlet-name>
         <url-pattern>/admin-manage-canceled-appointments</url-pattern>
     </servlet-mapping>
-    <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
-    </session-config>
+        <servlet-mapping>
+            <servlet-name>DoctorWorkingHistoryServlet</servlet-name>
+            <url-pattern>/appointment-history</url-pattern>
+        </servlet-mapping>
+        <session-config>
+            <session-timeout>
+                30
+            </session-timeout>
+        </session-config>
 </web-app>
