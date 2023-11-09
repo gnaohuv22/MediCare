@@ -47,7 +47,7 @@
                                     <div class="profile-item-pics ">
                                         <c:choose>
                                             <c:when test="${fp.getProfilePicture() != null && fn:length(fp.getProfilePicture()) > 0}">
-                                                <img class="profile-pics" src="${pageContext.request.contextPath}/assets/client/images/profile/${fp.getProfilePicture()}" alt="client-img"/>
+                                                <img class="profile-pics" src="${fp.getProfilePicture()}" alt="client-img"/>
                                             </c:when>
                                             <c:otherwise>
                                                 <img class="profile-pics" src="https://www.svgrepo.com/show/497407/profile-circle.svg" alt="client-img"/> 
