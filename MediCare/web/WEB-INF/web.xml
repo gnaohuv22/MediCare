@@ -204,7 +204,7 @@
         <servlet-name>DoctorScheduleServlet</servlet-name>
         <url-pattern>/schedule</url-pattern>
     </servlet-mapping>
-<!--    <servlet>
+    <servlet>
         <servlet-name>AdminDoctorController</servlet-name>
         <servlet-class>Controllers.AdminDoctorController</servlet-class>
     </servlet>
@@ -291,7 +291,7 @@
     <servlet-mapping>
         <servlet-name>AdminProfile</servlet-name>
         <url-pattern>/admin-edit-profile</url-pattern>
-    </servlet-mapping>-->
+    </servlet-mapping>
     <servlet>
         <servlet-name>UserRegisterGoogleHandler</servlet-name>
         <servlet-class>Controllers.UserRegisterGoogleHandler</servlet-class>

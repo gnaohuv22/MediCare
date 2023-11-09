@@ -5134,6 +5134,10 @@ span.name-each-family-profile {
 .step3-add-event {
     border-top: 1px solid #ccc;
 }
+
+#confirm-OTP-Form .button-container{
+    background-color: green;
+}
 /*Tu Binh Code: Css for Screen Manage Schedule For Doctor - end*/
 
 
