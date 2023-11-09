@@ -528,14 +528,6 @@ public class FamilyProfileDAO extends DBContext {
         return null;
     }
 
-    public static void main(String[] args) {
-        FamilyProfileDAO fpd = new FamilyProfileDAO();
-        String idByEmail = "";
-        FamilyProfile p = fpd.getPatientInfoById("59");
-        System.out.println(p);
-
-    }
-
     public boolean deleteFamilyProfileByID(String profileId) {
         String sql = "update FamilyProfile set isDelete = 1 where profileId = ?";
         try {
@@ -547,7 +539,19 @@ public class FamilyProfileDAO extends DBContext {
             System.out.println("getPatientInfoById: " + e);
         }
         return false;
-        
+
+    }
+
+    public static void main(String[] args) {
+        FamilyProfileDAO fpd = new FamilyProfileDAO();
+//        String idByEmail = "";
+//        FamilyProfile p = fpd.getPatientInfoById("59");
+//        System.out.println(p);
+        ArrayList<FamilyProfile> list = (ArrayList<FamilyProfile>) fpd.getFamilyProfileListByUserOwnerIdForBooking("1");
+        for (FamilyProfile familyProfile : list) {
+            System.out.println(familyProfile);
+        }
+
     }
 
 }

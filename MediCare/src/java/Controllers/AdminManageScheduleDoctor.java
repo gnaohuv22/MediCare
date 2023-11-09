@@ -1036,10 +1036,10 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                 + "                                <input id=\"fromDate\" class=\"form-control\" type=\"date\">\n"
                 + "                                <span>Kết thúc vào <span class=\"text-danger\">*</span></span>\n"
                 + "                                <input id=\"fromDate\" class=\"form-control\" type=\"date\">\n"
-                + "<div class=\"btn btn-primary\" onclick=\"saveAddEvent()\">Thêm ngày lễ</div>"
-                + "                            </div>\n");
+                + "<div class=\"btn btn-primary\" onclick=\"saveAddEvent()\">Thêm ngày lễ</div>");
+        out.println("<div><div class=\"btn btn-primary\" onclick=\"closeScheduleOfDoctorForm()\">Hủy</div>"
+                + "                            </div></div>\n");
         out.println("</div></div>");
-        out.println("<div class=\"btn btn-primary\" onclick=\"closeScheduleOfDoctorForm()\">Hủy</div>");
         out.println("</div>\n");
     }
 
