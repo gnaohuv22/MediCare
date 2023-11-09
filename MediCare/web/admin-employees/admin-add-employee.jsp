@@ -119,7 +119,7 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label>Điện thoại </label><h6 style="color: #D7D7D7">Số điện thoại có 10 chữ số</h6>
+                                        <label>Điện thoại </label><h6 style="color: #999">Số điện thoại có 10 chữ số</h6>
                                         <input class="form-control" type="text" name="phone" placeholder="Ví dụ: 0989123456" value="${emp.phone}" ><p class="error-notice">${error.getPhoneError()}</p>
                                     </div>
                                 </div>

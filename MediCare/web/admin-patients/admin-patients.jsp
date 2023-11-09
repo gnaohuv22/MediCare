@@ -73,6 +73,8 @@
                                 <div class="form-group form-focus">
                                     <input type="radio" name="searchGender" id="searchGender0" value="0" <c:if test="${searchGender eq '0'}">checked="checked"</c:if>/>Nam
                                     <input type="radio" name="searchGender" id="searchGender1" value="1" <c:if test="${searchGender eq '1'}">checked="checked"</c:if>/>Nữ
+                                    <input type="radio" name="searchGender" id="searchGender1" value="" <c:if test="${searchGender eq ''}">checked="checked"</c:if>/>Tất cả
+                                    
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-md-3">
@@ -139,7 +141,7 @@
                                             <tr name="display-table-tr">
                                                 <!--<td><img width="28" height="28" src="../assets/admin/img/user.jpg" class="rounded-circle m-r-5" alt=""> Linda Carpenter</td>-->
                                                 <td>${list.getId()}</td>
-                                                <td><img style="max-width:100px;max-height: 200px" src="${list.getProfilePicture()}"></td>
+                                                <td><img style="width:80px; height: 80px; object-fit: cover; border-radius: 50%" src="${list.getProfilePicture()}"></td>
                                                 <td>${list.getEmail()}</td>
                                                 <!--<td>${list.getPassword()}</td>-->
                                                 <td>${list.getName()}</td>

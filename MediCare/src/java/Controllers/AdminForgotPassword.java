@@ -7,6 +7,7 @@ package Controllers;
 
 import DAL.AdminEmailContext;
 import DAL.EmployeeDAO;
+import Models.Employee;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -54,17 +55,17 @@ public class AdminForgotPassword extends HttpServlet {
             request.setAttribute("MESSAGE","Nhập email để sử dụng quên mật khẩu");
             request.getRequestDispatcher(LOGIN_PAGE).forward(request, response);
         }
-        String checkId = eDao.getEmployeeIdByEmail(email);
-        if (checkId==null){
+        Employee emp = eDao.getEmployeeByEmail(email);
+        if (emp==null){
             request.setAttribute("MESSAGE","Tài khoản không tồn tại");
             request.getRequestDispatcher(LOGIN_PAGE).forward(request, response);
         }else{
         String password = ""+generator.nextInt(9)+generator.nextInt(9)+generator.nextInt(9)+generator.nextInt(9)+generator.nextInt(9)+generator.nextInt(9);
         byte[] salt = PasswordEncryption.generateSalt();
         String encryptedPassword = PasswordEncryption.encryptPassword(password, salt);
-        if(eDao.setEmployeePasswordById(checkId,encryptedPassword)){
+        if(eDao.setEmployeePasswordById(emp.getId(),encryptedPassword)){
             request.setAttribute("MESSAGE","Thành công! Hãy kiểm tra email để lấy mật khẩu mới");
-            AdminEmailContext.sendEmailForgotPassword(email,password);
+            AdminEmailContext.sendEmailForgotPassword(emp.getEmail(),password,emp.getName());
             request.getRequestDispatcher(LOGIN_PAGE).forward(request, response);
         }else{
             request.setAttribute("MESSAGE","Thất bại! Có vẻ có lỗi gì đó xảy ra! Hãy liên hệ với bộ phận hỗ trợ");

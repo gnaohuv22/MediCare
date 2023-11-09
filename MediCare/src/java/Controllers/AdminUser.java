@@ -170,8 +170,8 @@ public class AdminUser extends HttpServlet {
                 String searchBirthDate = request.getParameter("searchBirthDate");
                 request.setAttribute("searchBirthDate", searchBirthDate);
                 String searchGender = request.getParameter("searchGender");
-                request.setAttribute("searchGender", searchGender);
                 if (searchGender==null) searchGender="";
+                request.setAttribute("searchGender", searchGender);
                 String searchAddress = request.getParameter("searchAddress");
                 request.setAttribute("searchAddress", searchAddress);
                 String searchProvince = request.getParameter("searchProvince");

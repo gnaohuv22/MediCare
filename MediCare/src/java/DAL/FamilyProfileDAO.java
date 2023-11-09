@@ -110,7 +110,8 @@ public class FamilyProfileDAO extends DBContext {
     }
 
     public List<FamilyProfile> getFamilyProfileListByUserOwnerIdForBooking(String idByEmail) {
-        String SQL = "SELECT * FROM [FamilyProfile] where ownerid=? AND relationId IS NOT NULL ORDER BY relationId";
+        String SQL = "SELECT * FROM [FamilyProfile] where ownerid=? AND relationId IS NOT NULL AND (isDelete = 0 OR isDelete IS NULL)\n"
+                + "ORDER BY relationId";
         ArrayList<FamilyProfile> list = new ArrayList<>();
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, String.valueOf(idByEmail));
@@ -138,9 +139,9 @@ public class FamilyProfileDAO extends DBContext {
                         rs.getString(11),
                         rs.getString(12),
                         String.valueOf(rs.getDate(13)),
-                        String.valueOf(rs.getInt(14)),
+                        String.valueOf(rs.getInt("relationId") + ""),
                         rs.getString(15),
-                        rd.getRelationshipByRelationshipId(String.valueOf(rs.getInt(14))));
+                        rd.getRelationshipByRelationshipId(String.valueOf(rs.getInt("relationId"))));
                 System.out.println(fp.toString());
                 list.add(fp);
             }
@@ -547,7 +548,8 @@ public class FamilyProfileDAO extends DBContext {
 //        String idByEmail = "";
 //        FamilyProfile p = fpd.getPatientInfoById("59");
 //        System.out.println(p);
-        ArrayList<FamilyProfile> list = (ArrayList<FamilyProfile>) fpd.getFamilyProfileListByUserOwnerIdForBooking("1");
+
+        ArrayList<FamilyProfile> list = (ArrayList<FamilyProfile>) fpd.getAllPatients();
         for (FamilyProfile familyProfile : list) {
             System.out.println(familyProfile);
         }

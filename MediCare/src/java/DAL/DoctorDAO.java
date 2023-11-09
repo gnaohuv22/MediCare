@@ -7,6 +7,7 @@ package DAL;
 import Models.Certificate;
 import Models.CertificateDoctor;
 import Controllers.PasswordEncryption;
+import Models.AcademicRank;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -400,7 +401,7 @@ public class DoctorDAO extends DBContext {
                 d.setPhone(rs.getString("phone"));
                 d.setARId(String.valueOf(rs.getInt("ARId")));
                 d.setCVId(String.valueOf(rs.getInt("CVId")));
-                d.setSalary(String.valueOf(rs.getFloat("salary")));
+                d.setSalary(String.valueOf((int) rs.getFloat("salary")));
                 d.setWorkHistory(rs.getString("workplace"));
                 d.setProfilePicture(rs.getString("profilePicture"));
                 d.setStatus(String.valueOf(rs.getInt("status")));
@@ -440,7 +441,6 @@ public class DoctorDAO extends DBContext {
         }
         return null;
     }
-     
 
     //display doctor deleted + null + active
 //method của Tu Binh
@@ -696,9 +696,14 @@ public class DoctorDAO extends DBContext {
         return null;
     }
 
-
     public Doctor getDoctorByEmail(String email) {
-        String SQL = "SELECT id, email, displayName, branchId, phone, ARId, CVId, salary, workplace, profilePicture, status FROM [Doctor] WHERE email = ?";
+        String SQL = "SELECT d.id, d.email, d.displayName, b.name AS BranchName, d.phone, ar.name AS ARName, c.Certificates, cv.introduce, cv.workHistory, cv.startYear, d.birthDate, d.gender, d.status, d.workplace, d.profilePicture, d.status \n"
+                + "FROM [Doctor] d\n"
+                + "LEFT JOIN [AcademicRank] ar ON ar.id = d.ARId\n"
+                + "LEFT JOIN [Branch] b ON b.id = d.branchId\n"
+                + "LEFT JOIN [CurriculumVitae] cv ON cv.id = d.CVId\n"
+                + "FULL JOIN [DoctorCertificates] c on c.DoctorId = d.Id\n"
+                + "WHERE email = ?";
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
@@ -708,14 +713,19 @@ public class DoctorDAO extends DBContext {
                         rs.getString("id"),
                         rs.getString("email"),
                         rs.getString("displayName"),
-                        String.valueOf(rs.getInt("branchId")),
                         String.valueOf(rs.getString("phone")),
-                        String.valueOf(rs.getInt("ARId")),
-                        String.valueOf(rs.getInt("CVId")),
-                        String.valueOf(rs.getFloat("salary")),
                         String.valueOf(rs.getString("workplace")),
+                        DoctorDAO.concatenateNames(rs.getString("Certificates")),
+                        String.valueOf(rs.getString("branchName")),
+                        String.valueOf(rs.getString("ARName")),
+                        String.valueOf(rs.getString("introduce")),
+                        String.valueOf(rs.getString("workHistory")),
+                        String.valueOf(rs.getInt("startYear")),
+                        String.valueOf(rs.getDate("birthDate")),
+                        String.valueOf(rs.getString("gender")),
+                        String.valueOf(rs.getInt("status")),
                         rs.getString("profilePicture"),
-                        String.valueOf(rs.getInt("status"))
+                        new AcademicRank()
                 );
                 return d;
             }
@@ -967,8 +977,8 @@ public class DoctorDAO extends DBContext {
         }
         return list;
     }
-    
-    public  ArrayList<Doctor> searchDoctorFuzzy(String searchTerm) throws IOException {
+
+    public ArrayList<Doctor> searchDoctorFuzzy(String searchTerm) throws IOException {
         ArrayList<Doctor> doctorList = new ArrayList<Doctor>();
         doctorList = new DoctorDAO().getAllDoctors();
         for (Doctor doctor : doctorList) {
@@ -993,7 +1003,7 @@ public class DoctorDAO extends DBContext {
 //        String searchTerm = "Liêm";
         int maxEdits = 2; // Số thay đổi tối đa cho phép
         FuzzyQuery fuzzyQuery = new FuzzyQuery(new Term("name", searchTerm), maxEdits);
-        WildcardQuery wildcardQuery = new WildcardQuery(new Term("name", "*"+searchTerm + "*"));
+        WildcardQuery wildcardQuery = new WildcardQuery(new Term("name", "*" + searchTerm + "*"));
 
         BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
         queryBuilder.add(fuzzyQuery, BooleanClause.Occur.SHOULD);
@@ -1043,9 +1053,8 @@ public class DoctorDAO extends DBContext {
 //        for (Doctor d : paging) {
 //            System.out.println(d);
 //        }
-           String id = dd.autoGenerateID();
-           System.out.println("ID : " + id);
-           
+        String id = dd.autoGenerateID();
+        System.out.println("ID : " + id);
 
     }
 }

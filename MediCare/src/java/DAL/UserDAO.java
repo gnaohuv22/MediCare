@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import Models.User;
 import java.sql.Date;
 import Models.Province;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -464,6 +466,7 @@ public class UserDAO extends DBContext {
 
     public ArrayList<User> getListUser(int offset, int fetch) {
         ArrayList<User> list = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String SQL = "SELECT [User].id[uId],email,password, [User].name[uName],birthDate,gender,address,provinceId,[identity],medicalId,ethnic,phone,profilePicture "
                 + " , Province.name[pName]"
                 + " FROM [User]"
@@ -482,7 +485,7 @@ public class UserDAO extends DBContext {
                 String email = rs.getString("email");
                 String password = rs.getString("password");
                 String uName = rs.getString("uName");
-                String birthDate = rs.getString("birthDate");
+                String birthDate = rs.getDate("birthDate") != null ? format.format(rs.getDate("birthDate")) : "-";
                 String gender = rs.getString("gender");
                 String address = rs.getString("address");
                 String provinceId = rs.getString("provinceId");
@@ -497,13 +500,14 @@ public class UserDAO extends DBContext {
                 list.add(user);
             }
         } catch (Exception e) {
-            System.out.println("getListUser" + e.getMessage());
+            System.out.println("getListUser: " + e.getMessage());
         }
         return list;
     }
 
     public ArrayList<User> getMoreListUser(int offset, int fetch) {
         ArrayList<User> list = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String SQL = "SELECT [User].id[uId],email,password, [User].name[uName],birthDate,gender,address,provinceId,[identity],medicalId,ethnic,phone,profilePicture, createdAt, createBy, modifyAt, modifyBy "
                 + " , Province.name[pName]"
                 + " FROM [User]"
@@ -522,7 +526,7 @@ public class UserDAO extends DBContext {
                 String email = rs.getString("email");
                 String password = rs.getString("password");
                 String uName = rs.getString("uName");
-                String birthDate = rs.getString("birthDate");
+                String birthDate = rs.getDate("birthDate") != null ? format.format(rs.getDate("birthDate")) : "-";
                 String gender = rs.getString("gender");
                 String address = rs.getString("address");
                 String provinceId = rs.getString("provinceId");
@@ -531,9 +535,23 @@ public class UserDAO extends DBContext {
                 String ethnic = rs.getString("ethnic");
                 String phone = rs.getString("phone");
                 String profilePicture = rs.getString("profilePicture");
-                String createdAt = rs.getString("createdAt");
+//                String createdAt = rs.getString("createdAt");
+                Timestamp ts = rs.getTimestamp("createdAt");
+                String createdAt;
+                if (ts!=null){
+                    createdAt = format.format(ts);
+                }else{
+                    createdAt = "";
+                }
                 String createBy = rs.getString("createBy");
-                String modifyAt = rs.getString("modifyAt");
+//                String modifyAt = rs.getString("modifyAt");
+                ts = rs.getTimestamp("modifyAt");
+                String modifyAt;
+                if (ts!=null){
+                    modifyAt = format.format(ts);
+                }else{
+                    modifyAt = "";
+                }
                 String modifyBy = rs.getString("modifyBy");
                 String pName = rs.getString("pName");
                 Province province = new Province(provinceId, pName);
@@ -548,6 +566,7 @@ public class UserDAO extends DBContext {
 
     public ArrayList<User> searchListUser(User user,int offset, int fetch) {
         ArrayList<User> list = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String SQL = "SELECT [User].id[uId],email,password, [User].name[uName],birthDate,gender,address,provinceId,[identity],medicalId,ethnic,phone,profilePicture "
                 + " , Province.name[pName]"
                 + " FROM [User]"
@@ -605,7 +624,7 @@ public class UserDAO extends DBContext {
                 String email = rs.getString("email");
                 String password = rs.getString("password");
                 String uName = rs.getString("uName");
-                String birthDate = rs.getString("birthDate");
+                String birthDate = format.format(rs.getDate("birthDate"));
                 String gender = rs.getString("gender");
                 String address = rs.getString("address");
                 String provinceId = rs.getString("provinceId");
@@ -626,6 +645,7 @@ public class UserDAO extends DBContext {
     }
     public ArrayList<User> searchMoreListUser(User user,int offset, int fetch) {
         ArrayList<User> list = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String SQL = "SELECT [User].id[uId],email,password, [User].name[uName],birthDate,gender,address,provinceId,[identity],medicalId,ethnic,phone,profilePicture,createdAt,createBy,modifyAt,modifyBy "
                 + " , Province.name[pName]"
                 + " FROM [User]"
@@ -683,7 +703,7 @@ public class UserDAO extends DBContext {
                 String email = rs.getString("email");
                 String password = rs.getString("password");
                 String uName = rs.getString("uName");
-                String birthDate = rs.getString("birthDate");
+                String birthDate = format.format(rs.getDate("birthDate"));
                 String gender = rs.getString("gender");
                 String address = rs.getString("address");
                 String provinceId = rs.getString("provinceId");
@@ -692,9 +712,23 @@ public class UserDAO extends DBContext {
                 String ethnic = rs.getString("ethnic");
                 String phone = rs.getString("phone");
                 String profilePicture = rs.getString("profilePicture");
-                String createdAt = rs.getString("createdAt");
+//                String createdAt = rs.getString("createdAt");
+                Timestamp ts = rs.getTimestamp("createdAt");
+                String createdAt;
+                if (ts!=null){
+                    createdAt = format.format(ts);
+                }else{
+                    createdAt = "";
+                }
                 String createBy = rs.getString("createBy");
-                String modifyAt = rs.getString("modifyAt");
+//                String modifyAt = rs.getString("modifyAt");
+                ts = rs.getTimestamp("modifyAt");
+                String modifyAt;
+                if (ts!=null){
+                    modifyAt = format.format(ts);
+                }else{
+                    modifyAt = "";
+                }
                 String modifyBy = rs.getString("modifyBy");
                 String pName = rs.getString("pName");
                 Province province = new Province(provinceId, pName);

@@ -101,7 +101,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Số CCCD</label>
-                                            <h6 style="color: #D7D7D7">CCCD có 10 chữ số</h6>
+                                            <h6 style="color: #999">CCCD có 10 chữ số</h6>
                                             <input class="form-control" type="text" name="identity" placeholder="Ví dụ: 0123456789" value="${user.identity}" >
                                         </div>
                                         <p class="error-notice">${error.getIdentityError()}</p>
@@ -109,7 +109,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Số BHYT</label>
-                                            <h6 style="color: #D7D7D7">BHYT có 12 chữ số</h6>
+                                            <h6 style="color: #999">BHYT có 12 chữ số</h6>
                                             <input class="form-control" type="text" name="medicalId" placeholder="Ví dụ: 012345678910" value="${user.medicalId}" >
                                         </div>
                                         <p class="error-notice">${error.getMedicalIdError()}</p>
@@ -123,7 +123,7 @@
                                     </div> 
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label>Số điện thoại</label><h6 style="color: #D7D7D7">Số điện thoại có 10 chữ số</h6>
+                                            <label>Số điện thoại</label><h6 style="color: #999">Số điện thoại có 10 chữ số</h6>
                                             <input class="form-control" type="text" name="phone" placeholder="Ví dụ: 0989123456" value="${user.phone}" >
                                         </div>
                                         <p class="error-notice">${error.getPhoneError()}</p>

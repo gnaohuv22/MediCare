@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import java.io.InputStream;
+import java.util.Base64;
+import org.apache.commons.io.IOUtils;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -104,8 +107,8 @@ public class AdminNews extends HttpServlet {
             int recordCount = newsdao.countAllNews();
             int pageCount = (int) Math.ceil(recordCount * 1.0 / recordsPerPage);
             List<News> newsList = newsdao.getNewsByThai();
-             request.setAttribute("newsList", newsList);
-             newsList.get(1).getSlug();
+            request.setAttribute("newsList", newsList);
+            newsList.get(1).getSlug();
             request.setAttribute("pageCount", pageCount);
             request.setAttribute("currentPage", page);
             request.setAttribute("TITLE_NEWS", titleList);
@@ -127,7 +130,7 @@ public class AdminNews extends HttpServlet {
                     request.setAttribute("add_news", true);
                     request.getRequestDispatcher(ADD_NEWS).forward(request, response);
                 } else {
-                   News getNews = newsdao.getNewsById(id);
+                    News getNews = newsdao.getNewsById(id);
                     request.setAttribute("edit_news", true);
                     request.setAttribute("EDIT_NEWS", getNews);
                     request.getRequestDispatcher(ADD_NEWS).forward(request, response);
@@ -184,24 +187,26 @@ public class AdminNews extends HttpServlet {
             if (request.getParameter("edit-news") != null) {
                 throw new AdminException.RedirecUrlException();
             }
+            //add 
             RemoveAccent ra = new RemoveAccent();
             request.setAttribute("add_news", true);
             String id = null;
-            String title = null;
+            String title = request.getParameter("title");
+            System.out.println("Title of news in Add : " + title);
             String content = null;
             String newsCategoryId = null;
-            String coverImage = null;
             String subtitle = null;
             NewsDAO newsdao = new NewsDAO();
             NewsCategoryDAO ncdao = new NewsCategoryDAO();
             request.setAttribute("ALL_NEWSCATEGORY", ncdao.getAllNewsCategory());
             boolean error = false;
             RegisterError msg = new RegisterError();
-              Part filePart = request.getPart("coverImage");
-        System.out.println("filePart value at add : " + filePart);
-        String imageFileName = "";
-        Base64Encoding base = new Base64Encoding();
-          
+            //----------File Handle 
+//            Part filePart = request.getPart("coverImage");
+//            System.out.println("filePart value at add : " + filePart);
+            String coverImage = "";
+//            Base64Encoding base = new Base64Encoding();
+
             try {
                 id = newsdao.generateId();
                 //generate id if duplicate
@@ -214,9 +219,9 @@ public class AdminNews extends HttpServlet {
             }
             try {
                 title = request.getParameter("title");
-                request.setAttribute("title", title);
+//                request.setAttribute("title", title);
                 //check empty string
-                if (title.trim().isEmpty()) {
+                if (title != null && title.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
             } catch (AdminException.EmptyStringException e) {
@@ -225,7 +230,6 @@ public class AdminNews extends HttpServlet {
             }
             try {
                 content = request.getParameter("content");
-                request.setAttribute("content", content);
                 //check empty string
                 if (content.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
@@ -236,7 +240,7 @@ public class AdminNews extends HttpServlet {
             }
             newsCategoryId = request.getParameter("newsCategoryId");
             request.setAttribute("newsCategoryId", newsCategoryId);
-            try {
+             try {
                 coverImage = request.getParameter("coverImage");
                 request.setAttribute("coverImage", coverImage);
                 //check empty string
@@ -247,9 +251,9 @@ public class AdminNews extends HttpServlet {
                 error = true;
                 msg.setCoverImageError(e.getMessage());
             }
+
             try {
                 subtitle = request.getParameter("subtitle");
-                request.setAttribute("subtitle", subtitle);
                 //check empty string
                 if (subtitle.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
@@ -258,6 +262,17 @@ public class AdminNews extends HttpServlet {
                 error = true;
                 msg.setSubtitleError(e.getMessage());
             }
+            //----------File Handle 
+//            boolean fileCheck = base.isFileValid(filePart);
+//            if (filePart.getSubmittedFileName().equals("")) {
+//                coverImage = "";
+//            } else if (fileCheck == true) {
+//                coverImage = base.convertImageToBase64(filePart);
+//            } else {
+//                request.setAttribute("profilePictureError", "Ảnh phải có định dạng .PNG hoặc .JPG và không được có kích thước vượt quá 50kb, chọn ảnh khác");
+//                error = true;
+//            }
+
             //validate
             if (error) {
                 request.setAttribute("MESSAGE", "Không đăng kí được!");
@@ -265,23 +280,25 @@ public class AdminNews extends HttpServlet {
                 request.getRequestDispatcher(ADD_NEWS).forward(request, response);
             } else {
                 String slug = ra.removeAccent(title);
-                System.out.println("slug : " + slug);    
+                System.out.println("slug : " + slug);
                 NewsCategory newsCategory = new NewsCategory(newsCategoryId, "");
-                News news = new News(id, title, content,checkEmp.getEmail(),newsCategory, "", "", "0", coverImage, subtitle, slug);
+                News news = new News(id, title, content, checkEmp.getEmail(), newsCategory, coverImage, "", "0", "", subtitle, slug);
                 newsdao.addNews(news);
                 //add news
                 request.setAttribute("MESSAGE", "Đăng kí thành công!");
                 request.getRequestDispatcher(ADD_NEWS).forward(request, response);
-                }
+            }
 
         } catch (AdminException.RedirecUrlException e) {
+            //edit
+
             request.setAttribute("edit_news", true);
+            NewsDAO newsDao = new NewsDAO();
             String id = request.getParameter("id");
             String author;
             String title = null;
             String content = null;
             String newsCategoryId;
-            String coverImage = null;
             String subtitle = null;
             boolean error = false;
             NewsDAO newsdao = new NewsDAO();
@@ -291,6 +308,12 @@ public class AdminNews extends HttpServlet {
             request.setAttribute("id", id);
             request.setAttribute("edit", 1);
             News getNews = newsdao.getNewsById(id);
+            //----------File Handle 
+//            Part filePart = request.getPart("coverImage");
+//            System.out.println("filePart value at add : " + filePart);
+            String coverImage = "";
+//            Base64Encoding base = new Base64Encoding();
+
             try {
                 author = getNews.getAuthor();
                 request.setAttribute("author", author);
@@ -326,16 +349,26 @@ public class AdminNews extends HttpServlet {
             }
             newsCategoryId = request.getParameter("newsCategoryId");
             request.setAttribute("newsCategoryId", newsCategoryId);
-            try {
+            //----------File Handle 
+//            boolean fileCheck = base.isFileValid(filePart);
+//            if (filePart.getSubmittedFileName().equals("")) {
+//                coverImage = newsDao.getNewsById(id).getCoverImage();
+//            } else if (fileCheck == true) {
+//                coverImage = base.convertImageToBase64(filePart);
+//            } else {
+//                request.setAttribute("profilePictureError", "Ảnh phải có định dạng .PNG hoặc .JPG và không được có kích thước vượt quá 50kb, chọn ảnh khác");
+//                error = true;
+//            }
+               try {
                 coverImage = request.getParameter("coverImage");
                 request.setAttribute("coverImage", coverImage);
                 //check empty string
                 if (coverImage.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
-            } catch (AdminException.EmptyStringException ex) {
+            } catch (AdminException.EmptyStringException ep) {
                 error = true;
-                msg.setCoverImageError(ex.getMessage());
+                msg.setCoverImageError(ep.getMessage());
             }
             try {
                 subtitle = request.getParameter("subtitle");
@@ -356,7 +389,7 @@ public class AdminNews extends HttpServlet {
                 request.getRequestDispatcher(ADD_NEWS).forward(request, response);
             } else {
                 NewsCategory newCategory = new NewsCategory(newsCategoryId, "");
-                News news = new News(id, title, content, getNews.getAuthor(), newCategory, "", "", "", coverImage, subtitle);
+                News news = new News(id, title, content, getNews.getAuthor(), newCategory, coverImage, "", "", "", subtitle);
                 //return massage
                 if (newsdao.setNewsById(news)) {
                     request.setAttribute("EDIT_NEWS", news);
