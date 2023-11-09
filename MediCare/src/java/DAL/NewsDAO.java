@@ -20,15 +20,16 @@ public class NewsDAO extends DBContext {
 
     public ArrayList<News> getListNews(int offset, int fetch) {
         ArrayList<News> list = new ArrayList<>();
-        String SQL = "SELECT [News].[id][newsId],[title],[content],[author],[categoryId],[createdAt],[lastModified],[viewCount],[coverImage], [subtitle],[slug],\n"
-                + "                         [NewsCategory].name[cName],type,[href]\n"
-                + "                         FROM [News]   \n"
-                + "                         LEFT JOIN [NewsCategory] on [News].categoryId = [NewsCategory].id  \n"
-                + "                         GROUP BY [News].[id],[title],[content],[author],[categoryId],[createdAt],[lastModified],[viewCount],type,[coverImage], [subtitle],[slug],\n"
-                + "                         [NewsCategory].name,[href]   \n"
-                + "                         HAVING [News].id IS NOT NULL AND type IS NULL \n"
-                + "                         ORDER BY COUNT([News].id) DESC \n"
-                + "                         OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        String SQL = "SELECT [News].[id][newsId],[title],[content],[author],[categoryId],[createdAt],[lastModified],[viewCount],[coverImage], [subtitle],[slug], \n"
+                + "                                         [NewsCategory].name[cName],type,[href] \n"
+                + "                                         FROM [News]    \n"
+                + "                                         LEFT JOIN [NewsCategory] on [News].categoryId = [NewsCategory].id   \n"
+                + "                                         GROUP BY [News].[id],[title],[content],[author],[categoryId],[createdAt],[lastModified],[viewCount],type,[coverImage], [subtitle],[slug], \n"
+                + "                                         [NewsCategory].name,[href]    \n"
+                + "                                         HAVING [News].id IS NOT NULL AND type IS NULL  \n"
+                + "                                         ORDER BY createdAt DESC  \n"
+                + "                                         OFFSET ? ROWS FETCH NEXT ? ROWS ONLY\n"
+                + "										 ";
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
             pstm.setInt(1, offset);
             pstm.setInt(2, fetch);
@@ -39,7 +40,7 @@ public class NewsDAO extends DBContext {
                 String content = rs.getString("content");
                 String author = rs.getString("author");
                 String categoryId = rs.getString("categoryId");
-                
+
                 SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
                 Timestamp ts = rs.getTimestamp("createdAt");
                 String createdAt = format.format(ts);
@@ -308,7 +309,6 @@ public class NewsDAO extends DBContext {
             pstmt.setString(7, news.getCoverImage());
             pstmt.setString(8, news.getSubtitle());
             pstmt.setString(9, news.getSlug());
-
 
             // Execute the query
             pstmt.executeUpdate();

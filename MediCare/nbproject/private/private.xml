@@ -3,24 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/E:/Learn/Semester_5/swp391/Html-to-jsp/medicalserviceproject/MediCare/web/admin-profile/admin-profile.jsp</file>
-            <file>file:/E:/Learn/Semester_5/swp391/Html-to-jsp/medicalserviceproject/MediCare/src/java/Controllers/AdminForgotPassword.java</file>
-            <file>file:/E:/Learn/Semester_5/swp391/Html-to-jsp/medicalserviceproject/MediCare/src/java/DAL/AdminEmailContext.java</file>
-            <file>file:/E:/Learn/Semester_5/swp391/Html-to-jsp/medicalserviceproject/MediCare/web/admin-profile/admin-edit-profile.jsp</file>
-            <file>file:/E:/Learn/Semester_5/swp391/Html-to-jsp/medicalserviceproject/MediCare/web/WEB-INF/web.xml</file>
-=======
-            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/web/doctor-appointment-history.jsp</file>
-            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/src/java/DAL/ReviewDAO.java</file>
-            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/src/java/DAL/AppointmentsDAO.java</file>
             <file>file:/E:/Test_commit/medicalserviceproject/MediCare/web/assets/doctor/css/style.css</file>
-            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/src/java/Controllers/UserLogoutController.java</file>
-            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/src/java/DAL/NewsCategoryDAO.java</file>
-            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/web/doctor-header.jsp</file>
-            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/src/java/Controllers/DoctorWorkingHistoryServlet.java</file>
-            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/web/doctor-review.jsp</file>
-            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/src/java/Controllers/DoctorHomeServlet.java</file>
->>>>>>> 39f0a6960a966426ba365f75ee9d2ee02665a186
+            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/src/java/Controllers/DoctorViewProfileServlet.java</file>
+            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/src/java/Controllers/DoctorProfileToPDFServlet.java</file>
+            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/web/doctor-profile.jsp</file>
+            <file>file:/E:/Test_commit/medicalserviceproject/MediCare/web/doctor-view-profile.jsp</file>
         </group>
     </open-files>
 </project-private>

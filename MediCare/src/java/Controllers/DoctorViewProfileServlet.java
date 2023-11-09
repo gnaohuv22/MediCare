@@ -64,6 +64,7 @@ public class DoctorViewProfileServlet extends HttpServlet {
             ArrayList<ResearchPapers> papers = rpd.getResearchPapersOfDoctorByDoctorId(doctorId);
             ArrayList<RatingStar> ratingstars = rsd.getRatingStarInfoByDoctorId(doctorId);
             double overallRating_raw = rsd.overallRating(ratingstars);
+            System.out.println("overallRating_raw: "+ overallRating_raw);
             DecimalFormat df = new DecimalFormat("#.#"); // Định dạng để chỉ hiển thị 1 số sau dấu thập phân
             String overallRating = df.format(overallRating_raw);
 
@@ -78,7 +79,7 @@ public class DoctorViewProfileServlet extends HttpServlet {
             request.setAttribute("ratingstars", ratingstars);
             request.setAttribute("overallRating", overallRating);
 
-            request.getRequestDispatcher("doctor-profile.jsp").forward(request, response);
+            request.getRequestDispatcher("doctor-view-profile.jsp").forward(request, response);
         }
     }
 

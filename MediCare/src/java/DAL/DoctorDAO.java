@@ -16,6 +16,7 @@ import Models.Department;
 import Models.Doctor;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -668,7 +669,6 @@ public class DoctorDAO extends DBContext {
         String SQL = "SELECT email, password FROM [Doctor] WHERE email = ?";
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
             pstm.setString(1, email);
-            byte[] salt = PasswordEncryption.generateSalt();
             ResultSet rs = pstm.executeQuery();
             if (rs.next()) {
                 //get that doctor
@@ -707,6 +707,7 @@ public class DoctorDAO extends DBContext {
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
             while (rs.next()) {
                 Doctor d = new Doctor(
@@ -721,7 +722,7 @@ public class DoctorDAO extends DBContext {
                         String.valueOf(rs.getString("introduce")),
                         String.valueOf(rs.getString("workHistory")),
                         String.valueOf(rs.getInt("startYear")),
-                        String.valueOf(rs.getDate("birthDate")),
+                        format.format(rs.getDate("birthDate")),
                         String.valueOf(rs.getString("gender")),
                         String.valueOf(rs.getInt("status")),
                         rs.getString("profilePicture"),
