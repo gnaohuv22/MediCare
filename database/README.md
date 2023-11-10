@@ -2,6 +2,10 @@
 
 =================================================================
 
+### v4
+- This script modified too many times in the past so that I cannot describe it here now.
+- Update to match with RDS documentation.
+
 ### v3.4.1
 
 - Remove attribute userId and doctorId from Billing History

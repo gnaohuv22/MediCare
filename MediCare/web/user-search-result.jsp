@@ -5,8 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-
 <head>
     <!-- basic -->
     <meta charset="utf-8" />
@@ -21,7 +21,14 @@
     <title>Kết quả tìm kiếm cho "${pattern}" | MediCare</title>
 </head>
 <body>
-    <%@include file="user-header.jsp" %>
+    <c:choose>
+        <c:when test="${doctorLoggedIn}">
+            <%@include file="doctor-header.jsp" %>
+        </c:when>
+        <c:otherwise>
+            <%@include file="user-header.jsp" %>
+        </c:otherwise>
+    </c:choose>
 
     <div class="branch-profile-header">
         <img src="${pageContext.request.contextPath}/assets/client/images/branch-img.jpg" alt="branch-img" class="branch-image" />
@@ -34,25 +41,37 @@
             <c:forEach var="doctor" items="${doctors}">
                 <div class="search-doctor-block">
                     <div class="doctor-img">
-                        <img src="${pageContext.request.contextPath}/assets/client/images/doctor-img.png" width="100" height="100" alt="${doctor.getDisplayName()}">
+                        <img src="${doctor.key.getProfilePicture()}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%" alt="${doctor.key.getDisplayName()}">
                         <div class="doctor-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i><br>
-                            demo ver
+                            <c:set var="rating" value="${doctor.value}"></c:set>
+                            <c:forEach begin="1" end="${rating}">
+                                <i class="fas fa-star"></i>
+                            </c:forEach>
+                            <c:set var="intRating" value="${Math.floor(rating)}"></c:set>
+                            <c:choose>
+                                <c:when test="${rating gt intRating}">
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <c:forEach begin="1" end="${5 - intRating - 1}">
+                                        <i class="fas fa-star fa-star-grey"></i>
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:forEach begin="1" end="${5 - intRating}">
+                                        <i class="fas fa-star fa-star-grey"></i>
+                                    </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
 
                     </div>
                     <div class="search-doctor-information">
-                        <span class="search-doctor-name">${doctor.getDisplayName()}</span><br>
-                        <span class="search-doctor-branch-name">${doctor.getBranchName()}</span><br>
-                        <span class="search-doctor-intro">${doctor.getCertificates()}</span><br>
-                        <span class="search-doctor-intro">${doctor.getARName()}</span><br>
-                        <span class="search-doctor-introduce" data-doctor-id="${doctor.getId()}">${doctor.getIntroduce()}</span>
+                        <span class="search-doctor-name">${doctor.key.getDisplayName()}</span><br>
+                        <span class="search-doctor-branch-name">${doctor.key.getBranchName()}</span><br>
+                        <span class="search-doctor-intro">${doctor.key.getCertificates()}</span><br>
+                        <span class="search-doctor-intro">${doctor.key.getARName()}</span><br>
+                        <span class="search-doctor-introduce" data-doctor-id="${doctor.key.getId()}">${doctor.key.getIntroduce()}</span>
                         <button class="search-find-more">
-                            <a href="${pageContext.request.contextPath}/user-doctor-detail?doctorId=${doctor.getId()}">Tìm hiểu thêm</a>
+                            <a href="${pageContext.request.contextPath}/user-doctor-detail?doctorId=${doctor.key.getId()}">Tìm hiểu thêm</a>
                         </button>
                     </div>
                 </div>

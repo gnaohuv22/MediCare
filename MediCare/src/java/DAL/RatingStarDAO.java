@@ -52,6 +52,7 @@ public class RatingStarDAO extends DBContext {
                 sum1 += (Integer.parseInt(r.getId()) * Integer.parseInt(r.getQuantity()));
                 sum2 += (5 * Integer.parseInt(r.getQuantity()));
             }
+            if (sum2 == 0) return 0;
             return (double) sum1 * 5 / sum2;
         }
         return 0;

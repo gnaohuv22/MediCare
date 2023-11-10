@@ -75,7 +75,7 @@ public class UserLoginGoogleHandler extends HttpServlet {
                         System.out.println("Login fail!");
                         String error = "Email này chưa được đăng ký. Hãy đăng ký và thử lại.";
                         request.setAttribute("error", error);
-                        session.setAttribute("loginValue", "false");
+                        session.removeAttribute("loginValue");
                         request.getRequestDispatcher("user-login.jsp").forward(request, response);
                     } else {
                         session.setAttribute("doctorLoggedIn", "true");

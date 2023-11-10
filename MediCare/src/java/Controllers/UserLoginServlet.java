@@ -90,6 +90,8 @@ public class UserLoginServlet extends HttpServlet {
         DoctorDAO dd = new DoctorDAO();
 
         HttpSession session = request.getSession();
+        System.out.println("loginValue: " + session.getAttribute("loginValue"));
+        System.out.println("doctorLoggedIn: " + session.getAttribute("doctorLoggedIn"));
 
 //        String loginValue = "";
         session.setAttribute("email", email);

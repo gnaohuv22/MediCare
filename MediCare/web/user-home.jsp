@@ -151,56 +151,6 @@
             </div>
         </div>
         <!-- news section end -->
-        <!-- contact section start -->
-        <div class="contact_section layout_padding">
-            <div class="container">
-                <h1 class="contact_taital">Đặt khám ngay bây giờ</h1>
-                <div class="news_section_2">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="icon_main">
-                                <div class="icon_7"><img src="${pageContext.request.contextPath}/assets/client/images/icon-7.png" /></div>
-                                <h4 class="diabetes_text">Đội ngũ y bác sĩ nhiệt tình</h4>
-                            </div>
-                            <div class="icon_main">
-                                <div class="icon_7"><img src="${pageContext.request.contextPath}/assets/client/images/icon-5.png" /></div>
-                                <h4 class="diabetes_text">Năng lực chuyên môn cao</h4>
-                            </div>
-                            <div class="icon_main">
-                                <div class="icon_7"><img src="${pageContext.request.contextPath}/assets/client/images/icon-6.png" /></div>
-                                <h4 class="diabetes_text">Tiếp nhận bệnh nhân nhanh như chớp</h4>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="contact_box">
-                                <h1 class="book_text">Đặt lịch</h1>
-                                <input
-                                    type="text"
-                                    class="Email_text"
-                                    placeholder="Email"
-                                    name="Email"
-                                    />
-                                <input
-                                    type="text"
-                                    class="Email_text"
-                                    placeholder="Tên"
-                                    name="Name"
-                                    />
-                                <textarea
-                                    class="massage-bt"
-                                    placeholder="Tin nhắn"
-                                    rows="5"
-                                    id="comment"
-                                    name="Message"
-                                    ></textarea>
-                                <div class="send_bt"><a href="#">GỬI</a></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- contact section end -->
         <!-- client section start -->
         <div class="client_section layout_padding">
             <div id="my_slider" class="carousel slide" data-ride="carousel" data-interval="5000">
