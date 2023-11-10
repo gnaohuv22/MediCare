@@ -1623,16 +1623,16 @@ button {
 .container .doctor-profile {
     padding-top: 15%;
     padding-bottom: 10%;
-}/*
+}
 
-.doctor-profile p {
+/*.doctor-profile p {
     font-size: 16px;
 }
 
 .profile-title {
     padding-bottom: 5%;
     color: #2C6975;
-    font-weight: bolder;
+    font-weight: 900;
     font-size: 28px;
 }
 
@@ -1641,7 +1641,7 @@ button {
     height: 200px; 
     object-fit: cover;
     border-radius: 50%;
-    margin: 20px;
+    margin-bottom: 20px;
     border: 10px solid #2C6975;
 }
 

@@ -70,13 +70,12 @@ public class DoctorViewProfileServlet extends HttpServlet {
 
             request.setAttribute("servicesOfdoctor", services);
             request.setAttribute("reviews", reviews);
-            request.setAttribute("numberOfReviews", numberOfReviews);
-            request.setAttribute("numberOfRatings", numberOfRatings);
+            request.setAttribute("numberOfReviews", String.valueOf(numberOfReviews));
+            request.setAttribute("numberOfRatings", String.valueOf(numberOfRatings));
             request.setAttribute("experiences", experiences);
             request.setAttribute("awards", awards);
             request.setAttribute("education", education);
             request.setAttribute("papers", papers);
-            request.setAttribute("ratingstars", ratingstars);
             request.setAttribute("overallRating", overallRating);
 
             request.getRequestDispatcher("doctor-view-profile.jsp").forward(request, response);
