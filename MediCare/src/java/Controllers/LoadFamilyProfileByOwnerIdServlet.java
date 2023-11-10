@@ -5,9 +5,11 @@
 package Controllers;
 
 import DAL.AppointmentDAO;
+import DAL.BillingHistoryDAO;
 import DAL.FamilyProfileDAO;
 import DAL.UserDAO;
 import Models.Appointments;
+import Models.BillingHistory;
 import Models.FamilyProfile;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  *
  * @author phuon
@@ -44,7 +47,8 @@ public class LoadFamilyProfileByOwnerIdServlet extends HttpServlet {
         HttpSession session = request.getSession();
         UserDAO uDAO = new UserDAO();
         AppointmentDAO aDAO = new AppointmentDAO();
-
+        BillingHistoryDAO bhDAO = new BillingHistoryDAO();
+        
         String id;
         String method = request.getParameter("method");
         switch (method) {
@@ -71,16 +75,27 @@ public class LoadFamilyProfileByOwnerIdServlet extends HttpServlet {
                     out.println(generateAppointmentHtml(a));
                 }
                 break;
+            case "payment":
+                if (request.getParameter("id") == null || request.getParameter("id").isEmpty()) {
+                    id = String.valueOf(1);
+                } else {
+                    id = String.valueOf(request.getParameter("id"));
+                }
+                BillingHistory bh = bhDAO.getListBillingHistoryById(id);
+                try ( PrintWriter out = response.getWriter()) {
+                    out.println(generateBillingHistoryHtml(bh));
+                }
+                break;
             default:
                 throw new AssertionError();
         }
-
+        
     }
-
+    
     private String generateProfileHtml(FamilyProfile fp) {
         String html = "<div class=\"profile-display-header\">\n"
                 + "                        <div class=\"profile-display-pics \">\n"
-                + (fp.getProfilePicture() == null || fp.getProfilePicture().isEmpty() ? "<img src=\"https://www.svgrepo.com/show/497407/profile-circle.svg\" width=\"50px\" height=\"50px\" alt=\"client-img\"/> \n" : "<img class='profile-pics' src='/MediCare/assets/client/images/profile/" + fp.getProfilePicture() + "' alt='client-img'/>")
+                + (fp.getProfilePicture() == null || fp.getProfilePicture().isEmpty() ? "<img src=\"https://www.svgrepo.com/show/497407/profile-circle.svg\" width=\"50px\" height=\"50px\" alt=\"client-img\"/> \n" : "<img class='profile-pics' src='" + fp.getProfilePicture() + "' alt='client-img'/>")
                 + "                        </div>\n"
                 + "                        <div class=\"profile-display-info\">\n"
                 + "                            <h2>" + (fp.getName() != null ? fp.getName() : "--") + "</h2>\n"
@@ -109,14 +124,14 @@ public class LoadFamilyProfileByOwnerIdServlet extends HttpServlet {
                 + "                    </div>";
         return html;
     }
-
+    
     private String generateAppointmentHtml(Appointments a) throws ParseException {
-        String[] dt=a.getPlannedAt().split(" ");
+        String[] dt = a.getPlannedAt().split(" ");
         String date = dt[0];
         
         SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
         Date as = formatter1.parse(date);
-
+        
         SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
         String output = formatter2.format(as);
         
@@ -141,6 +156,47 @@ public class LoadFamilyProfileByOwnerIdServlet extends HttpServlet {
                 + "                            <span>Ngày sinh:</span><span id=\"display-dob\">" + (a.getFp().getBirthDate() != null ? a.getFp().getBirthDate() : "--") + "</span>\n"
                 + "                            <span>Giới tính:</span><span id=\"display-gender\">" + (a.getFp().getGender() != null ? a.getFp().getGender() : "--") + "</span>\n"
                 + "                            <span>Địa chỉ:</span><span id=\"display-address\">" + (a.getFp().getAddress() != null ? a.getFp().getAddress() : "Chưa cập nhật") + "</span>\n"
+                + "                        </div>\n"
+                + "                    </div>";
+        return html;
+    }
+    
+    private String generateBillingHistoryHtml(BillingHistory bh) throws ParseException {
+        String[] dt = bh.getAppointment().getPlannedAt().split(" ");
+        String planDate = dt[0];
+        
+        SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+        Date as = formatter1.parse(planDate);
+        
+        SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
+        String outputPlanDate = formatter2.format(as);
+        
+        String html = "<div class=\"profile-display-header\">\n"
+                + "                        <div class=\"profile-display-pics \">\n"
+                + (bh.getAppointment().getFp().getProfilePicture() == null || bh.getAppointment().getFp().getProfilePicture().isEmpty() ? "<img src=\"https://www.svgrepo.com/show/497407/profile-circle.svg\" width=\"50px\" height=\"50px\" alt=\"client-img\"/> \n" : "<img class='profile-pics' src='" + bh.getAppointment().getFp().getProfilePicture() + "' alt='client-img'/>")
+                + "                        </div>\n"
+                + "                        <div class=\"profile-display-info\">\n"
+                + "                            <h2>" + (bh.getAppointment().getFp().getName() != null ? bh.getAppointment().getFp().getName() : "--") + "</h2>\n"
+                + "                        </div>\n"
+                + "                    </div>\n"
+                + "                    <div class=\"profile-display-body\">\n"
+                + "                        <h3>Thông tin thanh toán</h3>\n"
+                + "                        <div class=\"profile-display-addition\">\n"
+                + "                            <span>Mã thanh toán:</span><span id=\"payment-id\">" + bh.getId() + "</span>\n"
+                + "                            <span>Ngày thanh toán:</span><span id=\"planned-date\">" + outputPlanDate + "</span>\n"
+                + "                            <span>Tổng tiền:</span><span id=\"planned-date\">" + bh.getTotalCash() + "K</span>\n"
+                + "                        </div>\n"
+                + "                    <div class=\"profile-display-body\">\n"
+                + "                        <h3>Thông tin cuộc hẹn</h3>\n"
+                + "                        <div class=\"profile-display-addition\">\n"
+                + "                            <span>Mã phiếu khám:</span><span id=\"appointment-id\">" + bh.getAppointment().getId() + "</span>\n"
+                + "                            <span>Ngày khám:</span><span id=\"planned-date\">" + outputPlanDate + "</span>\n"
+                + "                        </div>\n"
+                + "                        <h3>Thông tin bệnh nhân</h3>\n"
+                + "                        <div class=\"profile-display-basic\">\n"
+                + "                            <span>Họ và tên:</span><span id=\"display-name\">" + (bh.getAppointment().getFp().getName() != null ? bh.getAppointment().getFp().getName() : "--") + "</span>\n"
+                + "                            <span>Điện thoại:</span><span id=\"display-phone\">" + (bh.getAppointment().getFp().getPhone() != null ? bh.getAppointment().getFp().getPhone() : "--") + "</span>\n"
+                + "                            <span>Email:</span><span id=\"display-email\">" + (bh.getAppointment().getFp().getEmail() != null ? bh.getAppointment().getFp().getEmail() : "Chưa cập nhật") + "</span>\n"
                 + "                        </div>\n"
                 + "                    </div>";
         return html;

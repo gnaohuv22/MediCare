@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,8 +19,16 @@
         <jsp:include page="user-head.jsp"/>
     </head>
     <body>
-        <%@include file="user-header.jsp" %>
-    </div>
+        <c:choose>
+            <c:when test="${doctorLoggedIn}">
+                <%@include file="doctor-header.jsp" %>
+            </c:when>
+            <c:otherwise>
+                <%@include file="user-header.jsp" %>
+            </div>
+        </c:otherwise>
+    </c:choose>
+
 
     <!-- display news section -->
     <div class="display-news">

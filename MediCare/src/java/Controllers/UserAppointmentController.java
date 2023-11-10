@@ -98,14 +98,13 @@ public class UserAppointmentController extends HttpServlet {
             String method = request.getParameter("method");
             switch(method){
                 case "search":
-                    if(aDAO.getListAppointmentsByPatientName(search,ownerId)!=null){
-                        aList = aDAO.getListAppointmentsByPatientName(search,ownerId);
-                        
+                    aList = aDAO.getListAppointmentsByPatientName(search,ownerId);
+                    if(!aList.isEmpty()){
                         request.setAttribute("aList", aList);
                         request.getRequestDispatcher("user-appointment.jsp").forward(request, response);
                     }  
-                    else if(aDAO.getListAppointmentsByPhone(search)!=null){
-                        aList = aDAO.getListAppointmentsByPhone(search);
+                    else {
+                        aList = aDAO.getListAppointmentsByPhone(search,ownerId);
                         
                         request.setAttribute("aList", aList);
                         request.getRequestDispatcher("user-appointment.jsp").forward(request, response);

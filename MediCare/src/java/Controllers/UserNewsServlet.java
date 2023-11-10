@@ -48,12 +48,6 @@ public class UserNewsServlet extends HttpServlet {
             if (pathParts.length > 1) {
                 String categorySlug = pathParts[1];
                 NewsCategory nc = ncd.getCategoryBySlug(categorySlug);
-//                for (Integer i : parentIds) {
-//                    if (nc.getParentId().equals(String.valueOf(i))) {
-//                        response.sendError(HttpServletResponse.SC_NOT_FOUND);
-//                        return;
-//                    }
-//                }
                 if (nc != null) {
                     breadcrumbs.add(new Breadcrumb("news/" + categorySlug, nc.getName()));
                     ArrayList<News> news = nd.getListNewsByCategory(Integer.parseInt(nc.getId()));

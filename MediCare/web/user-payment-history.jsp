@@ -36,25 +36,26 @@
                 </div>
                 <div class="search-box">
                     <form action="" method="post" class="search-bar">
-                        <input placeholder="Tên bệnh nhân, số điện thoại, mã cuộc hẹn" type="search" name="search-profile" id="search-profile">
+                        <input placeholder="Tên bệnh nhân, số điện thoại, email" type="search" name="search-payment" id="search-profile">
+                        <input type="hidden" name="method" value="search"/>
                     </form>
                     <div class="profile-list">
                         <ul>
-                            <c:forEach items="${requestScope.fpList}" var="fp">
-                                <li class="profile-item" onclick="loadProfile(${fp.getProfileId()})" id="${fp.getProfileId()}">
-
+                            <c:forEach items="${requestScope.bhList}" var="bh">
+                                <li class="profile-item" onclick="loadProfile(${bh.getId()})" id="${bh.getId()}">
                                     <div class="profile-item-info">
-                                        <h3>${fp.getName()}</h3>
-                                        <span>${fp.getBirthDate()}</span>
+                                        <h3>${bh.getAppointment().getFp().getName()}</h3>
+                                        <span>${bh.getCreatedAt()}</span><br>
+                                        <span>Tổng: ${bh.getTotalCash()}K</span>
                                     </div>
                                 </li>   
                             </c:forEach>
                         </ul>
                     </div>
                 </div>
-                <c:set value="${requestScope.currentfp}" var="current"/>
+                <c:set value="" var="current"/>
                 <div class="profile-display" id="profile-display">
-
+                    
                 </div>
             </div>
         </main>                       
@@ -69,7 +70,7 @@
 
             function loadProfile(id) {
                 $.ajax({
-                    url: "/MediCare/load-profile?id=" + id,
+                    url: "/MediCare/load-html?id=" + id + "&method=payment",
                     type: "GET",
                     success: function (data) {
                         var box = document.getElementById("profile-display");

@@ -4,6 +4,10 @@
  */
 package Controllers;
 
+import DAL.BillingHistoryDAO;
+import DAL.UserDAO;
+import Models.Appointments;
+import Models.BillingHistory;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,6 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  *
@@ -35,7 +40,7 @@ public class UserPaymentHistoryServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserPaymentHistoryServlet</title>");            
+            out.println("<title>Servlet UserPaymentHistoryServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet UserPaymentHistoryServlet at " + request.getContextPath() + "</h1>");
@@ -57,10 +62,17 @@ public class UserPaymentHistoryServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+
+        UserDAO uDAO = new UserDAO();
+        String ownerId = uDAO.getIdByEmail(String.valueOf(session.getAttribute("email")));
+
+        BillingHistoryDAO bhDAO = new BillingHistoryDAO();
+        List<BillingHistory> bhList = bhDAO.getListBillingHistoryByOwnerId(ownerId);
         if (session.getAttribute("email") == null) {
             response.sendRedirect("user-login");
         } else {
-//            request.getRequestDispatcher("user-payment-history.jsp").forward(request, response);
+            request.setAttribute("bhList", bhList);
+            request.getRequestDispatcher("user-payment-history.jsp").forward(request, response);
         }
     }
 
@@ -75,7 +87,43 @@ public class UserPaymentHistoryServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        BillingHistoryDAO bhDAO = new BillingHistoryDAO();
+        HttpSession session = request.getSession();
+        UserDAO uDAO = new UserDAO();
+
+        String search;
+        search = request.getParameter("search-payment");
+
+        String ownerId = uDAO.getIdByEmail(String.valueOf(session.getAttribute("email")));
+
+        if (session.getAttribute("email") == null) {
+            response.sendRedirect("user-login");
+        } else {
+            String method = request.getParameter("method");
+            switch (method) {
+                case "search":
+                    List<BillingHistory> bhListName = bhDAO.getListBillingHistoryByOwnerIdAndName(search, ownerId);
+                    List<BillingHistory> bhListPhone = bhDAO.getListBillingHistoryByOwnerIdAndPhone(search, ownerId);
+                    List<BillingHistory> bhListEmail = bhDAO.getListBillingHistoryByOwnerIdAndEmail(search, ownerId);
+                    if (!(bhListName.isEmpty())) {
+
+                        request.setAttribute("bhList", bhListName);
+                        request.getRequestDispatcher("user-payment-history.jsp").forward(request, response);
+                    } else if (!(bhListPhone.isEmpty())) {
+
+                        request.setAttribute("bhList", bhListPhone);
+                        request.getRequestDispatcher("user-payment-history.jsp").forward(request, response);
+
+                    } else {
+
+                        request.setAttribute("bhList", bhListEmail);
+                        request.getRequestDispatcher("user-payment-history.jsp").forward(request, response);
+                    }
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+        }
     }
 
     /**

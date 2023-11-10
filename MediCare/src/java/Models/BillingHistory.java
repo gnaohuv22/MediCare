@@ -10,8 +10,10 @@ package Models;
  */
 public class BillingHistory {
     private String id, appointmentId, totalCash, createdAt;
+    Appointments appointment;
 
     public BillingHistory() {
+        appointment = new Appointments();
     }
 
     public BillingHistory(String id, String appointmentId, String totalCash, String createdAt) {
@@ -19,6 +21,14 @@ public class BillingHistory {
         this.appointmentId = appointmentId;
         this.totalCash = totalCash;
         this.createdAt = createdAt;
+    }
+
+    public Appointments getAppointment() {
+        return appointment;
+    }
+
+    public void setAppointment(Appointments appointment) {
+        this.appointment = appointment;
     }
     
     public String getId() {

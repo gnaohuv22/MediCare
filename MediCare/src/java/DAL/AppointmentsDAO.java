@@ -524,6 +524,10 @@ public class AppointmentsDAO extends DBContext {
                 st.setString(9, symptoms);
                 st.setInt(10, Integer.parseInt(profileId));
                 st.execute();
+                emailPatient = emailPatient.trim();
+
+                AdminEmailContext.sendVerificationCodeToEmail(emailPatient, "User book success");
+                AdminEmailContext.sendVerificationCodeToEmail(new DoctorDAO().getDoctorById(doctorId).getEmail(), "You have new appointment!");
                 return true;
             } catch (SQLException | NumberFormatException e) {
                 System.out.println("AppointmentsDAO.addNewAppointment - TH3: " + e);
@@ -581,6 +585,10 @@ public class AppointmentsDAO extends DBContext {
                 st.setString(8, symptoms);
                 st.setInt(9, Integer.parseInt(profileId));
                 st.execute();
+                emailPatient = emailPatient.trim();
+
+                AdminEmailContext.sendVerificationCodeToEmail(emailPatient, "User book success");
+                AdminEmailContext.sendVerificationCodeToEmail(new DoctorDAO().getDoctorById(doctorId).getEmail(), "You have new appointment!");
                 return true;
             } catch (SQLException | NumberFormatException e) {
                 System.out.println("AppointmentsDAO.addNewAppointment - TH6: " + e);
@@ -801,7 +809,7 @@ public class AppointmentsDAO extends DBContext {
         }
         return list.isEmpty() ? list : null;
     }
-    
+
     public ArrayList<Appointments> getListAppointmentByDoctor(String doctorId) {
         String SQL = "SELECT a.id, a.plannedAt, a.status, a.branchId, a.createdAt, a.symptoms, st.id AS 'ServiceID', st.nametag AS 'ServiceName', fp.profileId AS 'ProfileID', fp.email AS 'Email', fp.name AS 'ProfileName', fp.birthDate AS 'DoB', fp.gender AS 'Gender', fp.address AS 'Address', fp.[identity] AS 'IdentityNumber', fp.medicalId AS 'MedicalID', fp.ethnic AS 'Ethnic', fp.phone AS 'PhoneNumber', fp.profilePicture AS 'ProfilePicture' FROM [Appointments] a\n"
                 + "LEFT JOIN [ServiceTag] st ON st.id = a.serviceId\n"
@@ -1018,7 +1026,64 @@ public class AppointmentsDAO extends DBContext {
 
     }
 
-    public ArrayList<Appointments> getListAppointmentsByPhone(String search) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public ArrayList<Appointments> getListAppointmentsByPhone(String search, String ownerId) {
+        ArrayList<Appointments> list = new ArrayList<>();
+        String SQL = "SELECT a.id,a.status,a.plannedAt,d.displayName,d.profilePicture,fp.profileId,fp.name,\n"
+                + "fp.birthDate,fp.phone,fp.gender,fp.address FROM Appointments a\n"
+                + "JOIN Doctor d ON a.doctorId = d.id\n"
+                + "JOIN ServiceTag st ON a.serviceId = st.id\n"
+                + "JOIN FamilyProfile fp ON a.profileId = fp.profileId\n"
+                + "WHERE fp.ownerId = ?\n"
+                + "ORDER BY a.status ASC";
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setString(1, ownerId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String gender = "Nam";
+                if (rs.getInt("gender") == 1) {
+                    gender = "Nữ";
+                }
+                int i = rs.getInt("status");
+                String status = "Chờ xác nhận";
+                switch (i) {
+                    case 1:
+                        status = "Ðang chờ khám";
+                        break;
+                    case 2:
+                        status = "Ðã khám xong";
+                        break;
+                    case 3:
+                        status = "Ðã huỷ";
+                        break;
+                    default:
+                        break;
+                }
+                Appointments a = new Appointments();
+                a.setId(rs.getString("id"));
+                a.setStatus(status);
+                a.setPlannedAt(rs.getString("plannedAt"));
+                System.out.println("displayName " + rs.getString("displayName"));
+                a.getDoctor().setDisplayName(rs.getString("displayName"));
+                a.getDoctor().setProfilePicture(rs.getString("profilePicture"));
+                a.getFp().setName(rs.getString("name"));
+                a.getFp().setBirthDate(rs.getString("birthDate"));
+                a.getFp().setPhone(rs.getString("phone"));
+                a.getFp().setGender(gender);
+                a.getFp().setAddress(rs.getString("address"));
+                list.add(a);
+            }
+            Iterator<Appointments> iterator = list.iterator();
+            while (iterator.hasNext()) {
+                Appointments a = iterator.next();
+                if (!a.getFp().getPhone().toLowerCase().contains(search.toLowerCase())) {
+                    iterator.remove();
+                }
+            }
+            return list;
+        } catch (SQLException e) {
+            System.out.println("AppointmentsDAO.getListAppointments: " + e.getMessage());
+        }
+        return null;
+
     }
 }

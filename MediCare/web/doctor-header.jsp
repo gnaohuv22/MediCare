@@ -90,7 +90,7 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item list-parent">
                         <a class="nav-link" href="${pageContext.request.contextPath}/view-profile">
-                            <img src="${sessionScope.d.getProfilePicture()}" width="40px" height="40px" style="border-radius: 50%" alt="alt"/>
+                            <img src="${sessionScope.d.getProfilePicture()}" style="border-radius: 50%; object-fit: cover; width: 40px; height: 40px" alt="alt"/>
                             <span>${sessionScope.d.getDisplayName()}</span>
                             <img src="https://www.svgrepo.com/show/495005/arrow-down.svg" width="10px" height="10px" alt="alt"/>
                         </a>

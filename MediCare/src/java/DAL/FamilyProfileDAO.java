@@ -63,7 +63,7 @@ public class FamilyProfileDAO extends DBContext {
     }
 
     public List<FamilyProfile> getFamilyProfileListByUserOwnerId(String idByEmail) {
-        String SQL = "SELECT * FROM [FamilyProfile] where ownerid=? and isDelete is null ORDER BY relationId ASC";
+        String SQL = "SELECT * FROM [FamilyProfile] where ownerid=? and isDelete is null or isDelete = 0 ORDER BY relationId ASC";
         ArrayList<FamilyProfile> list = new ArrayList<>();
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, idByEmail);
@@ -82,13 +82,11 @@ public class FamilyProfileDAO extends DBContext {
                 DateTimeFormatter writeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 String formattedDate = writeFormatter.format(date);
 
-                String[] names = rs.getString(3).split(" ");
-                String lastName = names[names.length - 1];
                 FamilyProfile fp = new FamilyProfile(
                         String.valueOf(rs.getInt("profileId")),
                         rs.getString("email"),
                         //                        rs.getString(3),
-                        lastName,
+                        rs.getString("name"),
                         formattedDate,
                         gender,
                         rs.getString("address"),
@@ -217,13 +215,12 @@ public class FamilyProfileDAO extends DBContext {
                 DateTimeFormatter writeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 String formattedDate = writeFormatter.format(date);
 
-                String[] names = rs.getString(3).split(" ");
-                String lastName = names[names.length - 1];
+
                 FamilyProfile fp = new FamilyProfile(
                         String.valueOf(rs.getInt(1)),
                         rs.getString(2),
                         //                        rs.getString(3),
-                        lastName,
+                        rs.getString("name"),
                         formattedDate,
                         gender,
                         rs.getString(6),

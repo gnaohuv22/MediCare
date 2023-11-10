@@ -22,7 +22,7 @@ public class Base64Encoding {
         try {
             if (!filePart.getSubmittedFileName().equals("")) {
                 if (filePart.getSubmittedFileName().toLowerCase().endsWith(".jpg") || filePart.getSubmittedFileName().toLowerCase().endsWith(".png")) {
-                    if (filePart.getSize() < 50 * 1024) {
+                    if (filePart.getSize() < 5000 * 1024) {
                         InputStream imgStr = filePart.getInputStream();
                         byte[] fileContent = IOUtils.toByteArray(imgStr);
                         imageFileName = Base64.getEncoder().encodeToString(fileContent);
@@ -31,7 +31,6 @@ public class Base64Encoding {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
         }
         return imageFileName;
     }
@@ -39,12 +38,11 @@ public class Base64Encoding {
     public static boolean isFileValid(Part filePart) {
         if (!filePart.getSubmittedFileName().equals("")) {
             if (filePart.getSubmittedFileName().toLowerCase().endsWith(".jpg") || filePart.getSubmittedFileName().toLowerCase().endsWith(".png")) {
-                if (filePart.getSize() < 50 * 1024) {
+                if (filePart.getSize() < 5000 * 1024) {
                     return true;
                 }
             }
             // Tất cả các kiểm tra đều hợp lệ
-
         }
         return false;
     }
