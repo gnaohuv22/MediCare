@@ -300,13 +300,13 @@
                 } else {
                     console.log("eventName.value = " + eventName.value);
                 }
-                if (fromDate == "Invalid Date") {
+                if (fromDate === "Invalid Date") {
                     console.log("fromDate.value is invalid");
                 } else {
                     console.log("fromDate.value = " + fromDate);
                 }
 
-                if (eventName.value === "" || fromDate == "Invalid Date" || toDate == "Invalid Date") {
+                if (eventName.value === "" || fromDate === "" || toDate === "" || fromDate === "Invalid Date" || toDate === "Invalid Date" || fromDate === null || toDate === null) {
                     error.innerHTML = "Vui lòng điền tất cả thông tin bắt buộc!";
                 }
 
@@ -316,7 +316,7 @@
                 }
 
 
-                if (eventName.value !== "" && fromDate !== "Invalid Date" && toDate !== "Invalid Date" && fromDate <= toDate) {
+                if (eventName.value !== "" && !(fromDate === "" || toDate === "" || fromDate === "Invalid Date" || toDate === "Invalid Date" || fromDate === null || toDate === null) && fromDate <= toDate) {
                     $.ajax({
                         url: "/MediCare/admin-manage-schedule-doctor",
                         data: {
@@ -337,8 +337,8 @@
                             if (status === "success") {
                                 alert(msg);
                                 setTimeout(function () {
-                                        window.location.href = "admin-manage-schedule-doctor";
-                                    }, 500);
+                                    window.location.href = "admin-manage-schedule-doctor";
+                                }, 500);
                             } else {
                                 if (confirm(msg)) {
                                     eventName.value = "";
@@ -602,6 +602,91 @@
 
                     }
                 });
+            }
+
+            function onClickChooseDoctor(event) {
+                console.log("Event choose doctor: " + event);
+                var doctorId = event.getAttribute('data-doctorId');
+                console.log("Attribute - doctorId: " + doctorId);
+                var textChooseDoctor = document.getElementById("text-doctor-add-leave");
+                console.log(textChooseDoctor.innerHTML);
+                textChooseDoctor.innerHTML = "Bạn đang thêm lịch cho bác sĩ " + doctorId;
+                console.log(textChooseDoctor.innerHTML);
+                textChooseDoctor.setAttribute("check-choose-doctor", "true");
+            }
+
+            function saveAddLeave() {
+                console.log("Event - save add leave:");
+                var fromDate = document.getElementById("fromDate").value;
+                console.log("from date: " + fromDate);
+                var toDate = document.getElementById("toDate").value;
+                console.log("to date: " + toDate);
+                var modal = document.getElementById("scheduleDoctorForm");
+                var textChooseDoctor = document.getElementById("text-doctor-add-leave");
+                var checkChooseDoctor = textChooseDoctor.getAttribute("check-choose-doctor");
+                var error = document.getElementById("error-save-add-appointment");
+                console.log("check-choose-doctor: " + checkChooseDoctor);
+                console.log("error: " + error.innerHTML);
+//                modal.style.display = "block";
+
+                // Close the modal if the user clicks outside of it
+                window.onclick = function (event) {
+                    if (event.target === modal) {
+                        modal.style.display = "none";
+                    }
+                };
+if (checkChooseDoctor === null) {
+    
+}
+                if (eventName.value === "" || fromDate == "Invalid Date" || toDate == "Invalid Date") {
+                    error.innerHTML = "Vui lòng điền tất cả thông tin bắt buộc!";
+                }
+
+                // Check if fromDate is less than or equal to toDate
+                if (fromDate > toDate) {
+                    error.innerHTML = "Ngày bắt đầu phải nhỏ hơn hoặc bằng ngày kết thúc";
+                }
+
+
+                if (fromDate !== "Invalid Date" && toDate !== "Invalid Date" && fromDate <= toDate) {
+//                    $.ajax({
+//                        url: "/MediCare/admin-manage-schedule-doctor",
+//                        data: {
+//                            fromDate: fromDate, // Chuyển đổi thành chuỗi ngày hợp lệ
+//                            toDate: toDate, // Chuyển đổi thành chuỗi ngày hợp lệ
+//                            action: "save-add-leave"
+//                        },
+//                        cache: false,
+//                        type: "POST",
+//                        dataType: "json", // Ensure the response is treated as JSON
+//                        success: function (response) {
+//                            console.log("json - response:", response);
+//                            var status = response.status;
+//                            var msg = response.message;
+//                            console.log("status: " + status);
+//                            if (status === "success") {
+//                                alert(msg);
+//                                setTimeout(function () {
+//                                        window.location.href = "admin-manage-schedule-doctor";
+//                                    }, 500);
+//                            } else {
+//                                if (confirm(msg)) {
+//                                    eventName.value = "";
+//                                    document.getElementById("fromDate").value = "";
+//                                    document.getElementById("toDate").value = "";
+//                                } else {
+//                                    setTimeout(function () {
+//                                        window.location.href = "admin-manage-schedule-doctor";
+//                                    }, 500);
+//                                }
+//                            }
+//                            console.log("success");
+//                        },
+//                        error: function (xhr) {
+//                            console.log("Error: " + xhr);
+//                        }
+//                    });
+                }
             }
         </script>
     </body>

@@ -702,6 +702,8 @@ public class AdminManageScheduleDoctor extends HttpServlet {
         ArrayList<Branch> branches = bd.getAllBranches();
         ArrayList<String> lastestMonthSchedule = new ArrayList<>();
         HolidayDAO hd = new HolidayDAO();
+        DoctorDAO dd = new DoctorDAO();
+        ArrayList<Doctor> doctors = dd.getAllDoctors();
         if (branchId != null) {
             lastestMonthSchedule = sdd.getLastestScheduleByBranchId(branchId);
         } else {
@@ -805,7 +807,9 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                 }
                 case "add-leave": {
                     System.out.println("ACTION: add-leave");
-                    ajaxFunctionAddLeave(out, null, branchId);
+                    ajaxFunctionAddLeave(out, doctors, branchId);
+//                    String searchPattern = request.getParameter("searchPattern");
+//                    ArrayList<Doctor> doctorList = dd.searchDoctorFuzzy(searchPattern);
                     break;
                 }
 
@@ -1007,37 +1011,40 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                 + "                    <h2 class=\"booking-header\">Thêm ngày nghỉ cho bác sĩ</h2>\n"
                 + "                    <div class=\"row add-event-info-input\">\n"
                 + "                        <!-- Cột 1 -->\n"
-                + "                        <div class=\"col-md-6\">\n"
-                + "                            <div class=\"form-group\"><label>Tìm kiếm bác sĩ qua tên</label>"
-                + "                                <input type=\"text\" id=\"searchPattern\" name=\"searchPattern\" class=\"form-control\">\n"
+                + "                        <div class=\"col-md-8\">\n"
+                + "                            <div class=\"form-group\">"
+                //                + "<label>Tìm kiếm bác sĩ qua tên</label>"
+                + "                                <input placeholder=\"Tìm kiếm bác sĩ qua tên\" type=\"text\" id=\"searchPattern\" name=\"searchPattern\" class=\"form-control\">\n"
                 + "                            </div>\n");
-        out.println(" <table border=\"1\">\n"
+        out.println(" <table class=\"search-doctor-table\" border=\"1\">\n"
                 + "        <tr>\n"
                 + "            <th>ID</th>\n"
                 + "            <th>Tên</th>\n"
                 + "            <th>Chi nhánh</th>\n"
-                + "            <th>Chuyên khoa</th>\n"
                 + "            <th>Email</th>\n"
                 + "        </tr>\n");
-        for (Doctor doctor : doctorList) {
+        for (Doctor d : doctorList) {
 
-            out.println("            <tr>\n"
-                    + "                <td>" + 2 + "</td>\n"
-                    + "                <td>" + 2 + "</td>\n"
-                    + "                <td>" + 2 + "</td>\n"
-                    + "                <td>" + 2 + "</td>\n"
-                    + "                <td>" + 2 + "</td>\n"
+            out.println("            <tr data-doctorId=\"" + d.getId() + "\" onclick=\"onClickChooseDoctor(this)\">\n"
+                    + "                <td>" + d.getId() + "</td>\n"
+                    + "                <td>" + d.getDisplayName() + "</td>\n"
+                    + "                <td>" + d.getBranchName() + "</td>\n"
+                    + "                <td>" + d.getEmail() + "</td>\n"
                     + "            </tr>\n");
         }
         out.println("    </table>");
         out.println("                        </div>\n"
-                + "<div class=\"form-group col-md-6\">\n"
+                + "<div class=\"form-group add-leave-part col-md-4\">\n"
+                + "                                <span id=\"text-doctor-add-leave\" class=\"text-danger\">Bạn đang thêm lịch cho bác sĩ </span><br>\n"
                 + "                                <span>Ngày bắt đầu <span class=\"text-danger\">*</span></span>\n"
                 + "                                <input id=\"fromDate\" class=\"form-control\" type=\"date\">\n"
                 + "                                <span>Kết thúc vào <span class=\"text-danger\">*</span></span>\n"
-                + "                                <input id=\"fromDate\" class=\"form-control\" type=\"date\">\n"
-                + "<div class=\"btn btn-primary\" onclick=\"saveAddEvent()\">Thêm ngày lễ</div>");
-        out.println("<div><div class=\"btn btn-primary\" onclick=\"closeScheduleOfDoctorForm()\">Hủy</div>"
+                + "                                <input id=\"toDate\" class=\"form-control\" type=\"date\">\n"
+                + "<p class=\"text-center\" id=\"error-save-add-appointment\">error</p>"
+        );
+        out.println("<div class=\"add-leave-btn-part\">"
+                + "<div class=\"btn btn-primary\" onclick=\"saveAddLeave()\">Thêm ngày lễ</div>"
+                + "<div class=\"btn btn-primary\" onclick=\"closeScheduleOfDoctorForm()\">Hủy</div>"
                 + "                            </div></div>\n");
         out.println("</div></div>");
         out.println("</div>\n");

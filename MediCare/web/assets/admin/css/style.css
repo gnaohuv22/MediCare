@@ -5138,6 +5138,43 @@ span.name-each-family-profile {
 #confirm-OTP-Form .button-container{
     background-color: green;
 }
+
+.add-leave-btn-part {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.add-leave-btn-part .btn {
+    margin: 10px;
+}
+.add-leave-btn-part div:first-child {
+    background-color: #1ead5b;
+}
+.add-leave-btn-part div:first-child:hover {
+    opacity: 0.7;
+    border: none;
+}
+.add-leave-btn-part div:last-child {
+    background-color: #888;
+    color: #fff;
+}
+.add-leave-btn-part div:last-child:hover {
+    opacity: 0.7;
+    border: none;
+}
+
+.add-leave-part {
+    border-left: 1px solid #ccc;
+}
+
+.search-doctor-table tr:hover{
+    background-color: #20c997;
+    cursor: pointer;
+    padding: 4px;
+}
+.search-doctor-table tr:first-child:hover{
+    background-color: #fff;
+}
 /*Tu Binh Code: Css for Screen Manage Schedule For Doctor - end*/
 
 
