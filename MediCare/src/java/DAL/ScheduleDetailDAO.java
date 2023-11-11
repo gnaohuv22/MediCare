@@ -589,12 +589,13 @@ public class ScheduleDetailDAO extends DBContext {
                 + "DECLARE @branchID INT = ?; \n"
                 + "\n"
                 + "UPDATE ScheduleDetail\n"
-                + "SET isDelete = 1 \n"
+                + "SET isDelete = 1\n"
                 + "WHERE ScheduleID IN (\n"
                 + "    SELECT DS.id\n"
-                + "    FROM DoctorSchedule DS\n"
-                + "    WHERE DS.WorkDate BETWEEN @startDate AND @endDate\n"
-                + ")";
+                + "    FROM DoctorSchedule DS JOIN Doctor AS D ON D.id = DS.DoctorID\n"
+                + "    WHERE (DS.WorkDate BETWEEN @startDate AND @endDate )\n"
+                + "	AND D.branchId = @branchID\n"
+                + ");";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, fromDate);
