@@ -931,7 +931,7 @@ public class DoctorDAO extends DBContext {
         String sql = "SELECT d.id, d.displayName FROM Doctor AS d\n"
                 + "JOIN DoctorService AS DS \n"
                 + "ON DS.doctorId = d.id\n"
-                + "WHERE d.branchId = ? AND DS.serviceId = ?";
+                + "WHERE d.branchId = ? AND DS.serviceId = ? AND d.isDelete = 0";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, Integer.parseInt(branchId));

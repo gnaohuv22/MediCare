@@ -297,30 +297,30 @@ public class ScheduleDetailDAO extends DBContext {
 
     public ArrayList<String> getDaysOfCurrentWeek() {
         ArrayList<String> list = new ArrayList<>();
-        String sql = "DECLARE @Today DATE = GETDATE();\n"
-                + "DECLARE @StartOfWeek DATE = DATEADD(DAY, 1 - DATEPART(WEEKDAY, @Today), @Today);\n"
-                + "IF DATEPART(WEEKDAY, @Today) = 1\n"
-                + "    SET @StartOfWeek = DATEADD(DAY, -6, @StartOfWeek);\n"
-                + "SELECT DATEADD(DAY, number, @StartOfWeek) AS WeekDay\n"
-                + "FROM master.dbo.spt_values\n"
-                + "WHERE type = 'P' AND number BETWEEN 1 AND 7;";
 //        String sql = "DECLARE @Today DATE = GETDATE();\n"
 //                + "DECLARE @StartOfWeek DATE = DATEADD(DAY, 1 - DATEPART(WEEKDAY, @Today), @Today);\n"
-//                + "\n"
 //                + "IF DATEPART(WEEKDAY, @Today) = 1\n"
 //                + "    SET @StartOfWeek = DATEADD(DAY, -6, @StartOfWeek);\n"
-//                + "\n"
-//                + "WITH Numbers AS (\n"
-//                + "    SELECT 1 AS Number\n"
-//                + "    UNION ALL\n"
-//                + "    SELECT Number + 1\n"
-//                + "    FROM Numbers\n"
-//                + "    WHERE Number < 7\n"
-//                + ")\n"
-//                + "\n"
-//                + "SELECT DATEADD(DAY, Number - 1, @StartOfWeek) AS WeekDay\n"
-//                + "FROM Numbers\n"
-//                + "OPTION (MAXRECURSION 0);";
+//                + "SELECT DATEADD(DAY, number, @StartOfWeek) AS WeekDay\n"
+//                + "FROM master.dbo.spt_values\n"
+//                + "WHERE type = 'P' AND number BETWEEN 1 AND 7;";
+        String sql = "DECLARE @Today DATE = GETDATE();\n"
+                + "DECLARE @StartOfWeek DATE = DATEADD(DAY, 1 - DATEPART(WEEKDAY, @Today), @Today);\n"
+                + "\n"
+                + "IF DATEPART(WEEKDAY, @Today) = 1\n"
+                + "    SET @StartOfWeek = DATEADD(DAY, -6, @StartOfWeek);\n"
+                + "\n"
+                + "WITH Numbers AS (\n"
+                + "    SELECT 1 AS Number\n"
+                + "    UNION ALL\n"
+                + "    SELECT Number + 1\n"
+                + "    FROM Numbers\n"
+                + "    WHERE Number < 7\n"
+                + ")\n"
+                + "\n"
+                + "SELECT DATEADD(DAY, Number - 1, @StartOfWeek) AS WeekDay\n"
+                + "FROM Numbers\n"
+                + "OPTION (MAXRECURSION 0);";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
@@ -620,6 +620,33 @@ public class ScheduleDetailDAO extends DBContext {
         for (String string : list) {
             System.out.println(string);
         }
+    }
+
+    public boolean setDayOffForDoctorByLeave(String doctorId, String fromDate, String toDate) {
+        String sql = "DECLARE @startDate DATE = ?;\n"
+                + "DECLARE @endDate DATE = ?;\n"
+                + "DECLARE @doctorId INT = ?;\n"
+                + "\n"
+                + "UPDATE ScheduleDetail\n"
+                + "SET isDelete = 1\n"
+                + "WHERE ScheduleID IN (\n"
+                + "    SELECT DS.id\n"
+                + "    FROM DoctorSchedule DS JOIN Doctor AS D ON D.id = DS.DoctorID\n"
+                + "    WHERE (DS.WorkDate BETWEEN @startDate AND @endDate)\n"
+                + "	AND D.id = @doctorId\n"
+                + ");";
+        
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, fromDate);
+            st.setString(2, toDate);
+            st.setString(3, doctorId);
+            st.execute();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("setDayOffForDoctorByLeave: " + e);
+        }
+        return false;
     }
 
 }

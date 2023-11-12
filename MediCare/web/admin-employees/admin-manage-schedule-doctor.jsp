@@ -607,12 +607,14 @@
             function onClickChooseDoctor(event) {
                 console.log("Event choose doctor: " + event);
                 var doctorId = event.getAttribute('data-doctorId');
+                var doctorName = event.getAttribute('data-doctorName');
                 console.log("Attribute - doctorId: " + doctorId);
                 var textChooseDoctor = document.getElementById("text-doctor-add-leave");
                 console.log(textChooseDoctor.innerHTML);
-                textChooseDoctor.innerHTML = "Bạn đang thêm lịch cho bác sĩ " + doctorId;
+                textChooseDoctor.innerHTML = "Bạn đang thêm ngày nghỉ cho bác sĩ " + doctorName;
                 console.log(textChooseDoctor.innerHTML);
                 textChooseDoctor.setAttribute("check-choose-doctor", "true");
+                textChooseDoctor.setAttribute("data-doctorName", doctorName);
             }
 
             function saveAddLeave() {
@@ -626,6 +628,9 @@
                 var checkChooseDoctor = textChooseDoctor.getAttribute("check-choose-doctor");
                 var error = document.getElementById("error-save-add-appointment");
                 console.log("check-choose-doctor: " + checkChooseDoctor);
+                var textChooseDoctor = document.getElementById("text-doctor-add-leave");
+                var doctorId = textChooseDoctor.getAttribute("data-doctorName");
+
                 console.log("error: " + error.innerHTML);
 //                modal.style.display = "block";
 
@@ -635,59 +640,91 @@
                         modal.style.display = "none";
                     }
                 };
-if (checkChooseDoctor === null) {
-    
-}
-                if (eventName.value === "" || fromDate == "Invalid Date" || toDate == "Invalid Date") {
-                    error.innerHTML = "Vui lòng điền tất cả thông tin bắt buộc!";
+                if (checkChooseDoctor === null || checkChooseDoctor === "") {
+                    error.innerHTML = "Vui lòng chọn 1 bác sĩ cụ thể!";
+
+                } else {
+                    error.innerHTML = "";
+                    if (fromDate === "" || toDate === "") {
+                        error.innerHTML = "Vui lòng điền tất cả thông tin bắt buộc!";
+                    } else {
+                        // Check if fromDate is less than or equal to toDate
+                        if (fromDate > toDate) {
+                            error.innerHTML = "Ngày bắt đầu phải nhỏ hơn hoặc bằng ngày kết thúc";
+                        } else {
+                            error.innerHTML = "";
+                        }
+                    }
                 }
 
-                // Check if fromDate is less than or equal to toDate
-                if (fromDate > toDate) {
-                    error.innerHTML = "Ngày bắt đầu phải nhỏ hơn hoặc bằng ngày kết thúc";
-                }
-
-
-                if (fromDate !== "Invalid Date" && toDate !== "Invalid Date" && fromDate <= toDate) {
-//                    $.ajax({
-//                        url: "/MediCare/admin-manage-schedule-doctor",
-//                        data: {
-//                            fromDate: fromDate, // Chuyển đổi thành chuỗi ngày hợp lệ
-//                            toDate: toDate, // Chuyển đổi thành chuỗi ngày hợp lệ
-//                            action: "save-add-leave"
-//                        },
-//                        cache: false,
-//                        type: "POST",
-//                        dataType: "json", // Ensure the response is treated as JSON
-//                        success: function (response) {
-//                            console.log("json - response:", response);
-//                            var status = response.status;
-//                            var msg = response.message;
-//                            console.log("status: " + status);
-//                            if (status === "success") {
-//                                alert(msg);
-//                                setTimeout(function () {
-//                                        window.location.href = "admin-manage-schedule-doctor";
-//                                    }, 500);
-//                            } else {
-//                                if (confirm(msg)) {
-//                                    eventName.value = "";
-//                                    document.getElementById("fromDate").value = "";
-//                                    document.getElementById("toDate").value = "";
-//                                } else {
-//                                    setTimeout(function () {
-//                                        window.location.href = "admin-manage-schedule-doctor";
-//                                    }, 500);
-//                                }
-//                            }
-//                            console.log("success");
-//                        },
-//                        error: function (xhr) {
-//                            console.log("Error: " + xhr);
-//                        }
-//                    });
+                if (fromDate !== "" && toDate !== "" && fromDate <= toDate && checkChooseDoctor !== "") {
+                    console.log("Enough condition!!");
+                    $.ajax({
+                        url: "/MediCare/admin-manage-schedule-doctor",
+                        data: {
+                            doctorId: doctorId,
+                            fromDate: fromDate, // Chuyển đổi thành chuỗi ngày hợp lệ
+                            toDate: toDate, // Chuyển đổi thành chuỗi ngày hợp lệ
+                            action: "save-add-leave"
+                        },
+                        cache: false,
+                        type: "POST",
+                        dataType: "json", // Ensure the response is treated as JSON
+                        success: function (response) {
+                            console.log("json - response:", response);
+                            var status = response.status;
+                            var msg = response.message;
+                            console.log("status: " + status);
+                            if (status === "success") {
+                                alert(msg);
+                                setTimeout(function () {
+                                    window.location.href = "admin-manage-schedule-doctor";
+                                }, 500);
+                            } else {
+                                if (confirm(msg)) {
+                                    eventName.value = "";
+                                    document.getElementById("fromDate").value = "";
+                                    document.getElementById("toDate").value = "";
+                                } else {
+                                    setTimeout(function () {
+                                        window.location.href = "admin-manage-schedule-doctor";
+                                    }, 500);
+                                }
+                            }
+                            console.log("success");
+                        },
+                        error: function (xhr) {
+                            console.log("Error: " + xhr);
+                        }
+                    });
                 }
             }
+
+            function oninputSearchDoctor(event) {
+                console.log("oninput - search - doctor:");
+                var searchPattern = event.value;
+                console.log("Search - pattern: " + searchPattern);
+                $.ajax({
+                    url: "/MediCare/admin-manage-schedule-doctor",
+                    data: {
+                        searchPattern: searchPattern,
+                        action: "search-doctor-oninput"
+                    },
+                    cache: false,
+                    type: "POST",
+//                        dataType: "json", // Ensure the response is treated as JSON
+                    success: function (response) {
+                        console.log("json - response:", response);
+                        document.getElementById("search-doctor-table").innerHTML = response;
+                        console.log("success");
+                    },
+                    error: function (xhr) {
+                        console.log("Error: " + xhr);
+                    }
+                });
+
+            }
+
         </script>
     </body>
 </html>

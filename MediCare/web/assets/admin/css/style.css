@@ -4773,6 +4773,7 @@ blockquote p {
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
     max-height: 80%;
     overflow-y: auto;
+    /*min-height: 80%;*/
 }
 
 .btn-booking .btn-primary {
@@ -5174,6 +5175,26 @@ span.name-each-family-profile {
 }
 .search-doctor-table tr:first-child:hover{
     background-color: #fff;
+}
+
+.add-event-info-input .search-part {
+    display: flex;
+    justify-content: center;
+}
+
+.add-event-info-input .search-part input {
+    border-radius: 7px;
+    width: 60%;
+}
+
+.search-doctor-table tr:first-child {
+    background-color: #138496;
+}
+
+#text-doctor-add-leave {
+    display: block;
+    font-size: 20px;
+    padding-bottom: 24px;
 }
 /*Tu Binh Code: Css for Screen Manage Schedule For Doctor - end*/
 
