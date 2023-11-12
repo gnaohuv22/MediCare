@@ -564,10 +564,6 @@ public class AdminEmployee extends HttpServlet {
             } catch (AdminException.EmptyStringException e) {
                 error = true;
                 msg.setIdError(e.getMessage());
-            } catch (NumberFormatException e) {
-                error = true;
-//                    msg.setIdError("The ID must be number");
-                msg.setIdError("ID phải là số");
             }
             try {
                 email = request.getParameter("email");
@@ -576,6 +572,8 @@ public class AdminEmployee extends HttpServlet {
                 if (email.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
+                if (email.length()>255)
+                    throw new AdminException.LengthException(1, 255);
                 String regexPattern = "/^([a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z]{2,})+)*$/";
                 //check email pattern
                 if (AdminException.EmailValidation.patternMatches(email, regexPattern)) {
@@ -596,6 +594,9 @@ public class AdminEmployee extends HttpServlet {
                 error = true;
                 msg.setEmailError(e.getMessage());
             } catch (AdminException.DuplicateException e) {
+                error = true;
+                msg.setEmailError(e.getMessage());
+            } catch (AdminException.LengthException e){
                 error = true;
                 msg.setEmailError(e.getMessage());
             } catch (Exception e) {
@@ -638,7 +639,13 @@ public class AdminEmployee extends HttpServlet {
                 if (name.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
+                if (name.length()>255){
+                    throw new AdminException.LengthException(1, 255);
+                }
             } catch (AdminException.EmptyStringException e) {
+                error = true;
+                msg.setNameError(e.getMessage());
+            }catch (AdminException.LengthException e){
                 error = true;
                 msg.setNameError(e.getMessage());
             }
@@ -676,7 +683,13 @@ public class AdminEmployee extends HttpServlet {
                 if (address.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
+                if (address.length()>255){
+                    throw new AdminException.LengthException(1, 255);
+                }
             } catch (AdminException.EmptyStringException e) {
+                error = true;
+                msg.setAddressError(e.getMessage());
+            }catch (AdminException.LengthException e) {
                 error = true;
                 msg.setAddressError(e.getMessage());
             }
@@ -687,7 +700,13 @@ public class AdminEmployee extends HttpServlet {
                 if (workplace.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
+                if (workplace.length()>255){
+                    throw new AdminException.LengthException(1, 255);
+                }
             } catch (AdminException.EmptyStringException e) {
+                error = true;
+                msg.setWorkplaceError(e.getMessage());
+            }catch (AdminException.LengthException e) {
                 error = true;
                 msg.setWorkplaceError(e.getMessage());
             }
@@ -719,7 +738,13 @@ public class AdminEmployee extends HttpServlet {
                 if (ethnic.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
+                if (ethnic.length()>255){
+                    throw new AdminException.LengthException(1, 255);
+                }
             } catch (AdminException.EmptyStringException e) {
+                error = true;
+                msg.setEthnicError(e.getMessage());
+            }catch (AdminException.LengthException e) {
                 error = true;
                 msg.setEthnicError(e.getMessage());
             }
@@ -815,6 +840,9 @@ public class AdminEmployee extends HttpServlet {
                         error = true;
                         msg.setEmailError(EmailValidation.getMessage("Không hợp lệ! ", "Thử theo mẫu: email@fpt.edu.vn"));
                     }
+                    if (email.length()>255){
+                        throw new AdminException.LengthException(1, 255);
+                    }
                     Models.Employee emp = edao.getEmployeeByEmail(email);
                     //check duplicate
                     if (emp != null) {
@@ -826,6 +854,9 @@ public class AdminEmployee extends HttpServlet {
                 } catch (AdminException.DuplicateException ex) {
                     error = true;
                     msg.setEmailError(ex.getMessage());
+                }catch (AdminException.LengthException ex) {
+                    error = true;
+                    msg.setEmailError(ex.getMessage());
                 }
             }
             password = request.getParameter("password");
@@ -835,7 +866,13 @@ public class AdminEmployee extends HttpServlet {
                 if (name.isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
+                if (name.length()>255){
+                    throw new AdminException.LengthException(1, 255);
+                }
             } catch (AdminException.EmptyStringException ex) {
+                error = true;
+                msg.setNameError(ex.getMessage());
+            }catch (AdminException.LengthException ex) {
                 error = true;
                 msg.setNameError(ex.getMessage());
             }
@@ -866,7 +903,13 @@ public class AdminEmployee extends HttpServlet {
                 if (address.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
+                if (address.length()>255){
+                    throw new AdminException.LengthException(1, 255);
+                }
             } catch (AdminException.EmptyStringException ex) {
+                error = true;
+                msg.setAddressError(ex.getMessage());
+            } catch (AdminException.LengthException ex) {
                 error = true;
                 msg.setAddressError(ex.getMessage());
             }
@@ -875,7 +918,13 @@ public class AdminEmployee extends HttpServlet {
                 if (workplace.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
+                if (workplace.length()>255){
+                    throw new AdminException.LengthException(1, 255);
+                }
             } catch (AdminException.EmptyStringException ex) {
+                error = true;
+                msg.setWorkplaceError(ex.getMessage());
+            } catch (AdminException.LengthException ex) {
                 error = true;
                 msg.setWorkplaceError(ex.getMessage());
             }
@@ -904,7 +953,13 @@ public class AdminEmployee extends HttpServlet {
                 if (ethnic.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
+                if (ethnic.length()>255){
+                    throw new AdminException.LengthException(1, 255);
+                }
             } catch (AdminException.EmptyStringException ex) {
+                error = true;
+                msg.setEthnicError(ex.getMessage());
+            } catch (AdminException.LengthException ex) {
                 error = true;
                 msg.setEthnicError(ex.getMessage());
             }

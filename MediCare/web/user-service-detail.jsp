@@ -57,7 +57,7 @@
                         <p class="department">Khoa: ${doctor.getDepartmentName()}</p>
                         <p class="branch">${doctor.getBranchName()}</p>
                         <div class="button-container">
-                            <button class="book-appointment"> <a class="book-appointment-url" href="doctor-detail?doctorId=${doctor.getId()}">Đặt khám</a></button>
+                            <button class="book-appointment"> <a class="book-appointment-url" href="user-doctor-detail?doctorId=${doctor.getId()}">Xem chi tiết</a></button>
                         </div>
                     </div>
                 </div>

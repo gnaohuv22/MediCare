@@ -566,14 +566,15 @@ public class UserDAO extends DBContext {
 
     public ArrayList<User> searchListUser(User user,int offset, int fetch) {
         ArrayList<User> list = new ArrayList<>();
+        if (user.getId().isEmpty()) user.setId("%");
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String SQL = "SELECT [User].id[uId],email,password, [User].name[uName],birthDate,gender,address,provinceId,[identity],medicalId,ethnic,phone,profilePicture "
                 + " , Province.name[pName]"
                 + " FROM [User]"
                 + " JOIN Province on [User].provinceId = Province.id"
-                + " WHERE [User].id like ? AND email like ? AND [User].name like ? "
-                + " AND birthDate like ? AND gender like ? AND address like ? AND provinceId like ? AND [identity] like ? "
-                + " AND medicalId like ? AND ethnic like ? AND phone like ? "
+                + " WHERE [User].id like ? AND email like ? AND [User].name COLLATE SQL_Latin1_General_CP1_CI_AI like ? "
+                + " AND birthDate like ? AND gender like ? AND address COLLATE SQL_Latin1_General_CP1_CI_AI like ? AND provinceId like ? AND [identity] like ? "
+                + " AND medicalId like ? AND ethnic COLLATE SQL_Latin1_General_CP1_CI_AI like ? AND phone like ? "
                 + " GROUP BY [User].id,email,password, [User].name,birthDate,gender,address,provinceId,[identity],medicalId,ethnic,phone,profilePicture "
                 + " , Province.name"
                 + " HAVING [User].id IS NOT NULL"
@@ -582,11 +583,11 @@ public class UserDAO extends DBContext {
         String SQL2 = "SELECT count(*) " +
                 " FROM [User]"
                 + " JOIN Province on [User].provinceId = Province.id"
-                + " WHERE [User].id like ? AND email like ? AND [User].name like ? "
-                + " AND birthDate like ? AND gender like ? AND address like ? AND provinceId like ? AND [identity] like ? "
-                + " AND medicalId like ? AND ethnic like ? AND phone like ? ";
+                + " WHERE [User].id like ? AND email like ? AND [User].name COLLATE SQL_Latin1_General_CP1_CI_AI like ? "
+                + " AND birthDate like ? AND gender like ? AND address COLLATE SQL_Latin1_General_CP1_CI_AI like ? AND provinceId like ? AND [identity] like ? "
+                + " AND medicalId like ? AND ethnic COLLATE SQL_Latin1_General_CP1_CI_AI like ? AND phone like ? ";
         try (PreparedStatement pstm = connection.prepareStatement(SQL2)){
-            pstm.setString(1, "%"+user.getId()+"%"); 
+            pstm.setString(1, user.getId()); 
             pstm.setString(2, "%"+user.getEmail()+"%"); 
             pstm.setNString(3, "%"+user.getName()+"%");
             pstm.setString(4, "%"+user.getBirthDate()+"%"); 
@@ -605,7 +606,7 @@ public class UserDAO extends DBContext {
             System.out.println("search user " + e.getMessage());
         }
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
-            pstm.setString(1, "%"+user.getId()+"%"); 
+            pstm.setString(1, user.getId()); 
             pstm.setString(2, "%"+user.getEmail()+"%"); 
             pstm.setNString(3, "%"+user.getName()+"%"); 
             pstm.setString(4, "%"+user.getBirthDate()+"%"); 
@@ -645,14 +646,15 @@ public class UserDAO extends DBContext {
     }
     public ArrayList<User> searchMoreListUser(User user,int offset, int fetch) {
         ArrayList<User> list = new ArrayList<>();
+        if (user.getId().isEmpty()) user.setId("%");
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String SQL = "SELECT [User].id[uId],email,password, [User].name[uName],birthDate,gender,address,provinceId,[identity],medicalId,ethnic,phone,profilePicture,createdAt,createBy,modifyAt,modifyBy "
                 + " , Province.name[pName]"
                 + " FROM [User]"
                 + " JOIN Province on [User].provinceId = Province.id"
-                + " WHERE [User].id like ? AND email like ? AND [User].name like ? "
-                + " AND birthDate like ? AND gender like ? AND address like ? AND provinceId like ? AND [identity] like ? "
-                + " AND medicalId like ? AND ethnic like ? AND phone like ? "
+                + " WHERE [User].id like ? AND email like ? AND [User].name COLLATE SQL_Latin1_General_CP1_CI_AI like ? "
+                + " AND birthDate like ? AND gender like ? AND address COLLATE SQL_Latin1_General_CP1_CI_AI like  ? AND provinceId like ? AND [identity] like ? "
+                + " AND medicalId like ? AND ethnic COLLATE SQL_Latin1_General_CP1_CI_AI like ? AND phone like ? "
                 + " GROUP BY [User].id,email,password, [User].name,birthDate,gender,address,provinceId,[identity],medicalId,ethnic,phone,profilePicture,createdAt,createBy,modifyAt,modifyBy "
                 + " , Province.name"
                 + " HAVING [User].id IS NOT NULL"
@@ -661,11 +663,11 @@ public class UserDAO extends DBContext {
         String SQL2 = "SELECT count(*) " +
                 " FROM [User]"
                 + " JOIN Province on [User].provinceId = Province.id"
-                + " WHERE [User].id like ? AND email like ? AND [User].name like ? "
-                + " AND birthDate like ? AND gender like ? AND address like ? AND provinceId like ? AND [identity] like ? "
-                + " AND medicalId like ? AND ethnic like ? AND phone like ? ";
+                + " WHERE [User].id like ? AND email like ? AND [User].name COLLATE SQL_Latin1_General_CP1_CI_AI like ? "
+                + " AND birthDate like ? AND gender like ? AND address COLLATE SQL_Latin1_General_CP1_CI_AI like  ? AND provinceId like ? AND [identity] like ? "
+                + " AND medicalId like ? AND ethnic COLLATE SQL_Latin1_General_CP1_CI_AI like ? AND phone like ? ";
         try (PreparedStatement pstm = connection.prepareStatement(SQL2)){
-            pstm.setString(1, "%"+user.getId()+"%"); 
+            pstm.setString(1, user.getId()); 
             pstm.setString(2, "%"+user.getEmail()+"%"); 
             pstm.setNString(3, "%"+user.getName()+"%"); 
             pstm.setString(4, "%"+user.getBirthDate()+"%"); 
@@ -684,7 +686,7 @@ public class UserDAO extends DBContext {
             System.out.println("search more user " + e.getMessage());
         }
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
-            pstm.setString(1, "%"+user.getId()+"%"); 
+            pstm.setString(1, user.getId()); 
             pstm.setString(2, "%"+user.getEmail()+"%"); 
             pstm.setNString(3, "%"+user.getName()+"%"); 
             pstm.setString(4, "%"+user.getBirthDate()+"%"); 

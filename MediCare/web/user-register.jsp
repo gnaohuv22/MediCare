@@ -29,7 +29,7 @@
             <div class="account-page account-page-register ">
                 <div class="account-center">
                     <div class="account-box">
-                        <h1 style="font-weight: bold">Register</h1>
+                        <h1 style="font-weight: bold">Đăng ký tài khoản</h1>
                         <form action="user-register" method="POST" class="form-signin">
                             <div class="account-logo">
                                 <a href="user-register"><img src="img/logo.png" alt=""></a>
@@ -44,46 +44,46 @@
 
                             </div>
                             <div class="form-group">
-                                <label>Password</label>
-                                <input type="password" id="password" name="password" maxlength="32" placeholder="Password" required class="form-control">
+                                <label>Mật khẩu</label>
+                                <input type="password" id="password" name="password" maxlength="32" placeholder="Mật khẩu" required class="form-control">
                             </div>
                             <div class="form-group">
-                                <label>Re-password</label>
-                                <input type="password" id="repassword" name="repassword" maxlength="32" placeholder="Password" required class="form-control">
+                                <label>Nhập lại mật khẩu</label>
+                                <input type="password" id="repassword" name="repassword" maxlength="32" placeholder="Mật khẩu" required class="form-control">
                             </div>
                             <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" id="name" name="name" ${name} maxlength="32" placeholder="Eg: Nguyen Van A" required class="form-control">
+                                <label>Tên</label>
+                                <input type="text" id="name" name="name" ${name} maxlength="32" placeholder="Ví dụ: Nguyen Van A" required class="form-control">
                             </div>
                             <div class="form-group">
-                                <label>Date of birth</label>
+                                <label>Ngày sinh</label>
                                 <input type="date" id="birthDate" name="birthDate" value="${requestScope.birthDate}" required class="form-control">
                             </div>
                             <div class="form-group">
-                                <label>Gender</label> <br>
+                                <label>Giới tính</label> <br>
                                 <input type="radio" id="gender" checked name="gender"> Male &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <input type="radio" id="gender" name="gender" ${gender.equals('1')?'checked':''} value="1"> Female
                             </div>
                             <div class="form-group">
-                                <label>Address</label>
-                                <input type="text" id="address" name="address" maxlength="255" placeholder="Eg: Thạch Thất - Hà Nội"  value="${address}" class="form-control">
+                                <label>Địa chỉ</label>
+                                <input type="text" id="address" name="address" maxlength="255" placeholder="Ví dụ: Thạch Thất - Hà Nội"  value="${address}" class="form-control">
                             </div>
                             <div class="form-group">
-                                <label>Phone</label>
-                                <input type="tel" id="phone" name="phone" placeholder="Eg: 0123456789"  value="${phone}" maxlength="10" pattern="[0-9]{10}" class="form-control">
-                            </div>
+                                <label>Số điện thoại</label>
+                                <input type="tel" id="phone" name="phone" placeholder="Ví dụ: 0123456789"  value="${phone}" maxlength="10" pattern="[0-9]{10}" class="form-control">
+                            </diUv>
                             <div class="form-group text-center">
-                                <button type="submit" class="btn btn-primary account-btn" onclick="handleSubmit()">Register</button>
+                                <button type="submit" class="btn btn-primary account-btn" onclick="handleSubmit()">Đăng ký</button>
                             </div>
                             <div class="form-group text-center">
                                 <p style="color: red">${errorMessage}</p>
                             </div>
                             <div class="text-center register-link" style="text-decoration: underline">
-                                <a href="user-login" >I am already a member</a>
+                                <a href="user-login" >Tôi đã có tài khoản</a>
                             </div>
                             <div class="text-center register-link" style="text-decoration: underline">
                                 <!--<a href="user-register?value=1" >Register with Google Account</a>-->
-                                <a style="color: blue" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:9999/MediCare/user-register-google-handler&response_type=code&client_id=304835980690-njlmvsh5aa80tmn61q83410iutm5s1q9.apps.googleusercontent.com&approval_prompt=force">Register with Google</a>
+                                <a style="color: blue" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:9999/MediCare/user-register-google-handler&response_type=code&client_id=304835980690-njlmvsh5aa80tmn61q83410iutm5s1q9.apps.googleusercontent.com&approval_prompt=force">Đăng ký bằng tài khoản Google</a>
 
                             </div>
                         </form>

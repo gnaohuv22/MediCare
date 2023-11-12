@@ -812,6 +812,7 @@ public class DoctorDAO extends DBContext {
                         rs.getString("workplace"),
                         rs.getString("profilePicture"),
                         String.valueOf(rs.getString("status")),
+                        //                        String.valueOf(rs.getString("Certificates")),
                         DoctorDAO.concatenateNames(rs.getString("Certificates")),
                         rs.getString("branchName"),
                         rs.getString("ARName"),
@@ -870,7 +871,8 @@ public class DoctorDAO extends DBContext {
                         rs.getString(6),
                         rs.getString(7),
                         String.valueOf(rs.getInt(8)),
-                        DoctorDAO.concatenateNames(rs.getString(11)),
+                        //                        rs.getString(11),
+                        DoctorDAO.concatenateNames(rs.getString("Certificates")),
                         String.valueOf(rs.getString(9)),
                         rs.getString(10),
                         String.valueOf(rs.getInt(12)),
@@ -929,7 +931,7 @@ public class DoctorDAO extends DBContext {
         String sql = "SELECT d.id, d.displayName FROM Doctor AS d\n"
                 + "JOIN DoctorService AS DS \n"
                 + "ON DS.doctorId = d.id\n"
-                + "WHERE d.branchId = ? AND DS.serviceId = ?";
+                + "WHERE d.branchId = ? AND DS.serviceId = ? AND d.isDelete = 0";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, Integer.parseInt(branchId));

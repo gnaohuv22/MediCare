@@ -466,27 +466,28 @@ public class EmployeeDAO extends DBContext {
     //thu
     public ArrayList<Employee> searchEmployee(String keyId, String keyName, String keyRoleId, String keyBranchId, int offset, int fetch, String isDelete) {
         ArrayList<Employee> list = new ArrayList<>();
+        if (keyId.isEmpty()) keyId = "%";
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        String SQL = "SELECT Employee.id[eId], email, branchId, Employee.name[eName], birthDate, gender, address, workplace, provinceId, phone, ethnic, "
-                + "Branch.name[bName], Province.name[pName], EmployeeRole.role[erRole] "
-                + "FROM Employee "
-                + "join Branch on Employee.branchId=Branch.id "
-                + "join Province on Employee.provinceId=Province.id "
-                + "join EmployeeRole on Employee.roleId=EmployeeRole.id "
-                + "WHERE Employee.id like ? AND Employee.name like ? AND EmployeeRole.id like ? AND branchId like ? AND Employee.isDelete like ? "
-                + "GROUP BY Employee.id, email, branchId, Employee.name, birthDate, gender, address, workplace, provinceId, phone, ethnic, "
-                + "       Branch.name, Province.name, EmployeeRole.role "
-                + "	HAVING Employee.id IS NOT NULL"
-                + "       ORDER BY COUNT(Employee.id) DESC"
-                + "       OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        String SQL = "SELECT Employee.id[eId], email, branchId, Employee.name[eName], birthDate, gender, address, workplace, provinceId, phone, ethnic," +
+"                 Branch.name[bName], Province.name[pName], EmployeeRole.role[erRole] " +
+"                 FROM Employee " +
+"                 join Branch on Employee.branchId=Branch.id " +
+"                 join Province on Employee.provinceId=Province.id " +
+"                 join EmployeeRole on Employee.roleId=EmployeeRole.id " +
+"                 WHERE Employee.id like ? AND Employee.name COLLATE SQL_Latin1_General_CP1_CI_AI like ? AND EmployeeRole.id like ? AND branchId like ? AND Employee.isDelete like ? " +
+"                 GROUP BY Employee.id, email, branchId, Employee.name, birthDate, gender, address, workplace, provinceId, phone, ethnic, " +
+"                        Branch.name, Province.name, EmployeeRole.role " +
+"                 	HAVING Employee.id IS NOT NULL" +
+"                        ORDER BY COUNT(Employee.id) DESC" +
+"                        OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         String SQL2 = "SELECT count(*) "
                 + "FROM Employee "
                 + "join Branch on Employee.branchId=Branch.id "
                 + "join Province on Employee.provinceId=Province.id "
                 + "join EmployeeRole on Employee.roleId=EmployeeRole.id "
-                + "WHERE Employee.id like ? AND Employee.name like ? AND EmployeeRole.id like ? AND branchId like ?  AND Employee.isDelete like ?";
+                + "WHERE Employee.id like ? AND Employee.name COLLATE SQL_Latin1_General_CP1_CI_AI like ? AND EmployeeRole.id like ? AND branchId like ?  AND Employee.isDelete like ?";
         try ( PreparedStatement pstm = connection.prepareStatement(SQL2)) {
-            pstm.setString(1, "%" + keyId + "%");
+            pstm.setString(1,keyId );
             pstm.setNString(2, "%" + keyName + "%");
             pstm.setString(3, "%" + keyRoleId + "%");
             pstm.setString(4, "%" + keyBranchId + "%");
@@ -499,7 +500,7 @@ public class EmployeeDAO extends DBContext {
             System.out.println("searchEmployee " + e.getMessage());
         }
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
-            pstm.setString(1, "%" + keyId + "%");
+            pstm.setString(1,keyId );
             pstm.setNString(2, "%" + keyName + "%");
             pstm.setString(3, "%" + keyRoleId + "%");
             pstm.setString(4, "%" + keyBranchId + "%");
@@ -511,7 +512,7 @@ public class EmployeeDAO extends DBContext {
                 String id = rs.getString("eId");
                 String email = rs.getString("email");
                 String branchId = rs.getString("branchId");
-                String name = rs.getString(5);
+                String name = rs.getString("eName");
                 String birthDate = format.format(rs.getDate("birthDate"));
                 String gender = rs.getString("gender");
                 String address = rs.getString("address");
@@ -541,6 +542,7 @@ public class EmployeeDAO extends DBContext {
     //thu
     public ArrayList<Employee> searchMoreEmployee(String keyId, String keyName, String keyRoleId, String keyBranchId, int offset, int fetch, String isDelete) {
         ArrayList<Employee> list = new ArrayList<>();
+        if (keyId.isEmpty()) keyId = "%";
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String SQL = "SELECT Employee.id[eId], email, branchId, Employee.name[eName], birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, createAt, CreateBy, modifyAt, modifyBy,"
                 + "        Branch.name[bName], Province.name[pName], EmployeeRole.role[erRole]  "
@@ -548,7 +550,7 @@ public class EmployeeDAO extends DBContext {
                 + "        join Branch on Employee.branchId=Branch.id  "
                 + "        join Province on Employee.provinceId=Province.id "
                 + "        join EmployeeRole on Employee.roleId=EmployeeRole.id "
-                + "        WHERE Employee.id like ? AND Employee.name like ? AND EmployeeRole.id like ? AND branchId like ? AND Employee.isDelete like ?"
+                + "        WHERE Employee.id like ? AND Employee.name COLLATE SQL_Latin1_General_CP1_CI_AI like ? AND EmployeeRole.id like ? AND branchId like ? AND Employee.isDelete like ?"
                 + "        GROUP BY Employee.id, email, branchId, Employee.name, birthDate, gender, address, workplace, provinceId, phone, ethnic, roleId, createAt, CreateBy, modifyAt, modifyBy,"
                 + "       Branch.name, Province.name, EmployeeRole.role  "
                 + "	HAVING Employee.id IS NOT NULL "
@@ -559,9 +561,9 @@ public class EmployeeDAO extends DBContext {
                 + "join Branch on Employee.branchId=Branch.id "
                 + "join Province on Employee.provinceId=Province.id "
                 + "join EmployeeRole on Employee.roleId=EmployeeRole.id "
-                + "WHERE Employee.id like ? AND Employee.name like ? AND EmployeeRole.id like ? AND branchId like ? AND Employee.isDelete like ?";
+                + "WHERE Employee.id like ? AND Employee.name COLLATE SQL_Latin1_General_CP1_CI_AI like ? AND EmployeeRole.id like ? AND branchId like ? AND Employee.isDelete like ?";
         try ( PreparedStatement pstm = connection.prepareStatement(SQL2)) {
-            pstm.setString(1, "%" + keyId + "%");
+            pstm.setString(1,  keyId );
             pstm.setNString(2, "%" + keyName + "%");
             pstm.setString(3, "%" + keyRoleId + "%");
             pstm.setString(4, "%" + keyBranchId + "%");
@@ -574,7 +576,7 @@ public class EmployeeDAO extends DBContext {
             System.out.println("searchMoreEmployee " + e.getMessage());
         }
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
-            pstm.setString(1, "%" + keyId + "%");
+            pstm.setString(1, keyId );
             pstm.setNString(2, "%" + keyName + "%");
             pstm.setString(3, "%" + keyRoleId + "%");
             pstm.setString(4, "%" + keyBranchId + "%");
@@ -586,7 +588,7 @@ public class EmployeeDAO extends DBContext {
                 String id = rs.getString("eId");
                 String email = rs.getString("email");
                 String branchId = rs.getString("branchId");
-                String name = rs.getString(5);
+                String name = rs.getString("eName");
                 String birthDate = format.format(rs.getDate("birthDate"));
                 String gender = rs.getString("gender");
                 String address = rs.getString("address");

@@ -11,6 +11,20 @@
     <head>
        <jsp:include page="../admin-general/admin-head.jsp" />
        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/admin/css/admin-display-table.css">
+       <style>
+            .search-button {
+                background-color: white;
+                border: 2px solid #009ce7;
+                color: #009ce7;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+            }
+        </style>
     </head>
     <body>
         <div class="main-wrapper">
@@ -23,6 +37,53 @@
                             <h4 class="page-title">Đánh giá</h4>
                         </div>
                     </div>
+                    <button class="search-button" id="open-search-form" onclick="openForm()">Lọc</button>
+                    <button class="search-button" id="close-search-form" style="display: none" onclick="closeForm()">Lọc</button>
+                    <form id="search-form" action="${pageContext.request.contextPath}/admin-list-review" style="display: none">
+                        <input type="hidden" name="search-review" value="true">
+                        <div class="row filter-row">
+                            <div class="col-sm-6 col-md-3">
+                                <div class="form-group form-focus">
+                                    <label class="focus-label">ID đánh giá</label>
+                                    <input type="text" class="form-control floating" placeholder="ID đánh giá" name="searchId" id="searchId" value="${searchId}">
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <div class="form-group form-focus select-focus">
+                                    <label class="focus-label">Người dùng</label>
+                                    <select class="select floating" name="searchUser" id="searchUser" style="min-width: 100%">
+                                        <option value="">Tất cả</option>
+                                        <c:forEach var="list" items="${ALL_USER}">
+                                            <option value="${list.getId()}" <c:if test="${list.getId() eq searchUser}">selected</c:if>>${list.getName()}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <div class="form-group form-focus select-focus">
+                                    <label class="focus-label">Bác sĩ</label>
+                                    <select class="select floating" name="searchDoctor" id="searchDoctor" style="min-width: 100%">
+                                        <option value="">Tất cả</option>
+                                        <c:forEach var="list" items="${ALL_DOCTOR}">
+                                            <option value="${list.getId()}" <c:if test="${list.getId() eq searchDoctor}">selected</c:if>>${list.getDisplayName()}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <div class="form-group form-focus select-focus">
+                                    <label class="focus-label">Sắp xếp</label>
+                                    <select class="select floating" name="searchOrderBy" id="searchOrderBy" style="min-width: 100%">
+                                        <option value="desc" <c:if test="${searchDoctor eq 'desc'}">selected</c:if>>Cao -> thấp</option>
+                                        <option value="" <c:if test="${searchDoctor eq ''}">selected</c:if>>Thấp -> cao</option>
+                                    </select>
+                                </div>
+                            </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <button class="btn btn-success btn-block"> Tìm kiếm </button>
+                                </div>
+                            </div>
+                        </form>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="table-responsive">
@@ -69,7 +130,7 @@
     <ul class="pagination justify-content-center">
         <c:if test="${currentPage != 1}">
             <li class="page-item">
-                <a class="page-link" href="admin-list-review?page=${currentPage - 1}"><<</a>
+                <a class="page-link" href="admin-list-review?page=${currentPage - 1}<c:if test="${search_review==1}">&search-review=true&searchId=${searchId}&searchUser=${searchUser}&searchDoctor=${searchDoctor}&searchOrderBy=${searchOrderBy}</c:if>"><<</a>
             </li>
         </c:if>
 
@@ -82,14 +143,14 @@
                 </c:when>
                 <c:otherwise>
                     <li class="page-item">
-                        <a class="page-link" href="admin-list-review?page=${i}">${i}</a>
+                        <a class="page-link" href="admin-list-review?page=${i}<c:if test="${search_review==1}">&search-review=true&searchId=${searchId}&searchUser=${searchUser}&searchDoctor=${searchDoctor}&searchOrderBy=${searchOrderBy}</c:if>">${i}</a>
                     </li>
                 </c:otherwise>
             </c:choose>
         </c:forEach>
         <c:if test="${currentPage lt pageCount}">
             <li class="page-item">
-                <a class="page-link" href="admin-list-review?page=${currentPage + 1}">>></a>
+                <a class="page-link" href="admin-list-review?page=${currentPage + 1}<c:if test="${search_review==1}">&search-review=true&searchId=${searchId}&searchUser=${searchUser}&searchDoctor=${searchDoctor}&searchOrderBy=${searchOrderBy}</c:if>">>></a>
             </li>
         </c:if>
     </ul>
@@ -99,6 +160,24 @@
             </div>
         </div>
         <div class="sidebar-overlay" data-reff=""></div>
+        <script>
+            function openForm() {
+                var openButton = document.getElementById("open-search-form");
+                var closeButton = document.getElementById("close-search-form");
+                var form = document.getElementById("search-form");
+                openButton.style.display = "none";
+                closeButton.style.display = "block";
+                form.style.display = "block";
+            }
+            function closeForm() {
+                var openButton = document.getElementById("open-search-form");
+                var closeButton = document.getElementById("close-search-form");
+                var form = document.getElementById("search-form");
+                openButton.style.display = "block";
+                closeButton.style.display = "none";
+                form.style.display = "none";
+            }
+        </script>
         <script src="${pageContext.request.contextPath}/assets/admin/js/jquery-3.2.1.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/admin/js/popper.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/admin/js/bootstrap.min.js"></script>

@@ -45,15 +45,15 @@
         <div class="doctor-profile-bottom">
             <ul class="tab-components nav-tabs tab-content list-inline">
                 <li class="tab-component active">
-                    <a href="#detail-info">Detail Info</a>
+                    <a href="#detail-info">Thông tin chi tiết</a>
                 </li>   
                 <li class="tab-component">
-                    <a href="#review">Review</a>
+                    <a href="#review">Nhận xét và đánh giá</a>
                 </li>
                 <li  class="tab-component">
-                    <a href="#images">Images</a>
+                    <a href="#images">Ảnh bác sĩ</a>
                 </li>
-                <li class="tab-component booking-tab"><a class="redirect" href="user-book-appointment">Booking</a></li>
+                <li class="tab-component booking-tab"><a class="redirect" href="user-book-appointment">Đặt khám</a></li>
             </ul>
         </div>
         <!--profile field of a doctor start-->

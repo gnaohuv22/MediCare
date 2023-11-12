@@ -77,7 +77,7 @@ public class ReviewDAO extends DBContext {
                 + " GROUP BY Reviews.id, Reviews.userId, doctorId, appointmentId, rating, reviewContent, Reviews.createdAt,"
                 + " [User].name, Doctor.displayName"
                 + " HAVING Reviews.id IS NOT NULL"
-                + " ORDER BY COUNT(Reviews.id) DESC"
+                + " ORDER BY Reviews.rating DESC"
                 + " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;";
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
             pstm.setInt(1, offset);
@@ -113,33 +113,33 @@ public class ReviewDAO extends DBContext {
         return null;
     }
 
-    public ArrayList<Reviews> searchListReview(int offset, int fetch) {
+    public ArrayList<Reviews> searchListReview(Reviews keyReview,String orderBy, int offset, int fetch) {
         ArrayList<Reviews> list = new ArrayList<>();
-
-        String SQL = "SELECT Reviews.id[rId], Reviews.userId[rUserId], doctorId, appointmentId, rating, reviewContent, Reviews.createdAt,"
-                + " [User].name[uName], Doctor.displayName[dName]"
-                + " FROM Reviews"
-                + " JOIN [User] on userId = [User].id"
-                + " JOIN Doctor on doctorId = Doctor.id"
-                + " WHERE SELECT Reviews.id[rId] like ? AND Reviews.userId[rUserId] like ? AND doctorId like ? AND appointmentId like ? "
-                + " AND rating like ? AND reviewContent like ? AND Reviews.createdAt like ? "
-                + " AND [User].name[uName] like ? AND Doctor.displayName[dName] like ?"
-                + " GROUP BY Reviews.id, Reviews.userId, doctorId, appointmentId, rating, reviewContent, Reviews.createdAt,"
-                + " [User].name, Doctor.displayName"
-                + " HAVING Reviews.id IS NOT NULL"
-                + " ORDER BY COUNT(Reviews.id) DESC"
-                + " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;";
-        String SQL2 = "SELECT count(*) "
-                + " FROM Reviews"
-                + " JOIN [User] on userId = [User].id"
-                + " JOIN Doctor on doctorId = Doctor.id"
-                + " WHERE SELECT Reviews.id[rId] like ? AND Reviews.userId[rUserId] like ? AND doctorId like ? AND appointmentId like ? "
-                + " AND rating like ? AND reviewContent like ? AND Reviews.createdAt like ? "
-                + " AND [User].name[uName] like ? AND Doctor.displayName[dName] like ?";
+        if (keyReview.getId().isEmpty()) keyReview.setId("%");
+        String SQL = "SELECT Reviews.id[rId], Reviews.userId[rUserId], doctorId, appointmentId, rating, reviewContent, Reviews.createdAt," +
+"                  [User].name[uName], Doctor.displayName[dName]" +
+"                  FROM Reviews" +
+"                  JOIN [User] on userId = [User].id" +
+"                  JOIN Doctor on doctorId = Doctor.id" +
+"                  WHERE Reviews.id like ? AND Reviews.userId like ? AND doctorId like ? AND appointmentId like ? " +
+"                  AND rating like ? AND reviewContent like ? AND Reviews.createdAt like ? " +
+"                  AND [User].name like ? AND Doctor.displayName like ?" +
+"                  GROUP BY Reviews.id, Reviews.userId, doctorId, appointmentId, rating, reviewContent, Reviews.createdAt," +
+"                  [User].name, Doctor.displayName" +
+"                  HAVING Reviews.id IS NOT NULL" +
+"                  ORDER BY rating " + orderBy +
+"                  OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        String SQL2 = "SELECT count(*) " +
+"                  FROM Reviews" +
+"                  JOIN [User] on userId = [User].id" +
+"                  JOIN Doctor on doctorId = Doctor.id" +
+"                  WHERE Reviews.id like ? AND Reviews.userId like ? AND doctorId like ? AND appointmentId like ? " +
+"                  AND rating like ? AND reviewContent like ? AND Reviews.createdAt like ? " +
+"                  AND [User].name like ? AND Doctor.displayName like ?";
         try ( PreparedStatement pstm = connection.prepareStatement(SQL2)) {
-            pstm.setString(1, "%%");
-            pstm.setString(2, "%%");
-            pstm.setString(3, "%%");
+            pstm.setString(1, keyReview.getId());
+            pstm.setString(2, "%"+keyReview.getUserId()+"%");
+            pstm.setString(3, "%"+keyReview.getDoctorId()+"%");
             pstm.setString(4, "%%");
             pstm.setString(5, "%%");
             pstm.setString(6, "%%");
@@ -154,9 +154,9 @@ public class ReviewDAO extends DBContext {
             System.out.println("search review " + e.getMessage());
         }
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
-            pstm.setString(1, "%%");
-            pstm.setString(2, "%%");
-            pstm.setString(3, "%%");
+            pstm.setString(1, keyReview.getId());
+            pstm.setString(2, "%"+keyReview.getUserId()+"%");
+            pstm.setString(3, "%"+keyReview.getDoctorId()+"%");
             pstm.setString(4, "%%");
             pstm.setString(5, "%%");
             pstm.setString(6, "%%");
@@ -232,12 +232,12 @@ public class ReviewDAO extends DBContext {
     }
 
     public ArrayList<Reviews> getReviewsByDoctorId(String doctorId) {
-        String SQL = "SELECT fp.name AS profileName, fp.profilePicture, fp.email AS profileEmail, fp.gender AS profileGender, a.plannedAt, a.status, a.symptoms, st.id AS ServiceID, st.nametag AS ServiceName, r.id as reviewID, r.rating AS ReviewRating, r.reviewContent, r.createdAt AS ReviewTime FROM [Reviews] r\n"
-                + "LEFT JOIN [Appointments] a ON a.id = r.appointmentId\n"
-                + "LEFT JOIN [FamilyProfile] fp ON fp.profileId = a.profileId\n"
-                + "LEFT JOIN [ServiceTag] st ON st.id = a.serviceId\n"
-                + "WHERE r.doctorId = ?\n"
-                + "ORDER BY ReviewTime DESC\n";
+        String SQL = "SELECT fp.name AS profileName, fp.profilePicture, fp.email AS profileEmail, fp.gender AS profileGender, a.plannedAt, a.status, a.symptoms, st.id AS ServiceID, st.nametag AS ServiceName, r.id as reviewID, r.rating AS ReviewRating, r.reviewContent, r.createdAt AS ReviewTime FROM [Reviews] r"
+                + "LEFT JOIN [Appointments] a ON a.id = r.appointmentId"
+                + "LEFT JOIN [FamilyProfile] fp ON fp.profileId = a.profileId"
+                + "LEFT JOIN [ServiceTag] st ON st.id = a.serviceId"
+                + "WHERE r.doctorId = ?"
+                + "ORDER BY ReviewTime DESC";
 
         ArrayList<Reviews> list = new ArrayList<>();
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
@@ -276,5 +276,43 @@ public class ReviewDAO extends DBContext {
         }
         return list;
     }
-
+    public ArrayList<User> getAllUserReview() {
+        String SQL = "SELECT Reviews.userId[rUserId], [User].name[uName]" +
+                    " FROM Reviews" +
+                    " JOIN [User] on userId = [User].id" +
+                    " GROUP BY Reviews.userId, [User].name";
+        ArrayList<User> list = new ArrayList<>();
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String userId = rs.getString("rUserId");
+                String userName = rs.getNString("uName");
+                User user = new User(userId,"",userName);
+                list.add(user);
+            }
+        } catch (SQLException e) {
+            System.out.println("ReviewsDAO, getAllUserReview: " + e.getMessage());
+        }
+        return list;
+    }
+    public ArrayList<Doctor> getAllDoctorReview() {
+        String SQL = "SELECT Reviews.doctorId[doctorId], Doctor.displayName[doctorName]" +
+                    " FROM Reviews" +
+                    " JOIN Doctor on doctorId = Doctor.id" +
+                    " GROUP BY Reviews.doctorId, Doctor.displayName";
+        ArrayList<Doctor> list = new ArrayList<>();
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String doctorId = rs.getString("doctorId");
+                String doctorName = rs.getNString("doctorName");
+                Doctor doc = new Doctor(doctorId,doctorName);
+                list.add(doc);
+            }
+        } catch (SQLException e) {
+            System.out.println("ReviewsDAO, getAllDoctorReview: " + e.getMessage());
+        }
+        return list;
+    }
+    
 }

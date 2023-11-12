@@ -702,6 +702,8 @@ public class AdminManageScheduleDoctor extends HttpServlet {
         ArrayList<Branch> branches = bd.getAllBranches();
         ArrayList<String> lastestMonthSchedule = new ArrayList<>();
         HolidayDAO hd = new HolidayDAO();
+        DoctorDAO dd = new DoctorDAO();
+        ArrayList<Doctor> doctors = dd.getAllDoctors();
         if (branchId != null) {
             lastestMonthSchedule = sdd.getLastestScheduleByBranchId(branchId);
         } else {
@@ -805,10 +807,30 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                 }
                 case "add-leave": {
                     System.out.println("ACTION: add-leave");
-                    ajaxFunctionAddLeave(out, null, branchId);
+                    ajaxFunctionAddLeave(out, doctors, branchId);
                     break;
                 }
-
+                case "search-doctor-oninput": {
+                    System.out.println("ACTION: search-doctor-oninput");
+                    String searchPattern = request.getParameter("searchPattern");
+                    ArrayList<Doctor> doctorList;
+                    if (!searchPattern.trim().equals("")) {
+                        doctorList = dd.searchDoctorFuzzy(searchPattern);
+                    } else {
+                        doctorList = doctors;
+                    }
+                    ajaxFunctionReloadSearchResult(out, doctorList, searchPattern);
+                    break;
+                }
+                case "save-add-leave": {
+                    System.out.println("ACTION: save-add-leave");
+                    if (sdd.setDayOffForDoctorByLeave(doctorId, fromDate, toDate)) {
+                        System.out.println("Add leave success!");
+                    } else {
+                        System.out.println("Add leave fail!");
+                    }
+                    break;
+                }
                 default:
                     throw new AssertionError();
             }
@@ -1007,37 +1029,40 @@ public class AdminManageScheduleDoctor extends HttpServlet {
                 + "                    <h2 class=\"booking-header\">Thêm ngày nghỉ cho bác sĩ</h2>\n"
                 + "                    <div class=\"row add-event-info-input\">\n"
                 + "                        <!-- Cột 1 -->\n"
-                + "                        <div class=\"col-md-6\">\n"
-                + "                            <div class=\"form-group\"><label>Tìm kiếm bác sĩ qua tên</label>"
-                + "                                <input type=\"text\" id=\"searchPattern\" name=\"searchPattern\" class=\"form-control\">\n"
+                + "                        <div class=\"col-md-8 table-responsive\">\n"
+                + "                            <div class=\"form-group search-part\">"
+                //                + "<label>Tìm kiếm bác sĩ qua tên</label>"
+                + "<input oninput=\"oninputSearchDoctor(this)\" placeholder=\"Tìm kiếm bác sĩ qua tên\" type=\"text\" id=\"searchPattern\" name=\"searchPattern\" class=\"form-control\">"
                 + "                            </div>\n");
-        out.println(" <table border=\"1\">\n"
+        out.println(" <table id=\"search-doctor-table\" class=\"search-doctor-table table table-bordered\">\n"
                 + "        <tr>\n"
                 + "            <th>ID</th>\n"
                 + "            <th>Tên</th>\n"
                 + "            <th>Chi nhánh</th>\n"
-                + "            <th>Chuyên khoa</th>\n"
                 + "            <th>Email</th>\n"
                 + "        </tr>\n");
-        for (Doctor doctor : doctorList) {
+        for (Doctor d : doctorList) {
 
-            out.println("            <tr>\n"
-                    + "                <td>" + 2 + "</td>\n"
-                    + "                <td>" + 2 + "</td>\n"
-                    + "                <td>" + 2 + "</td>\n"
-                    + "                <td>" + 2 + "</td>\n"
-                    + "                <td>" + 2 + "</td>\n"
+            out.println("            <tr data-doctorId=\"" + d.getId() + "\" data-doctorName=\"" + d.getDisplayName() + "\" onclick=\"onClickChooseDoctor(this)\">\n"
+                    + "                <td>" + d.getId() + "</td>\n"
+                    + "                <td>" + d.getDisplayName() + "</td>\n"
+                    + "                <td>" + d.getBranchName() + "</td>\n"
+                    + "                <td>" + d.getEmail() + "</td>\n"
                     + "            </tr>\n");
         }
         out.println("    </table>");
         out.println("                        </div>\n"
-                + "<div class=\"form-group col-md-6\">\n"
+                + "<div class=\"form-group add-leave-part col-md-4\">\n"
+                + "                                <span id=\"text-doctor-add-leave\" class=\"text-success\"></span><br>\n"
                 + "                                <span>Ngày bắt đầu <span class=\"text-danger\">*</span></span>\n"
-                + "                                <input id=\"fromDate\" class=\"form-control\" type=\"date\">\n"
-                + "                                <span>Kết thúc vào <span class=\"text-danger\">*</span></span>\n"
-                + "                                <input id=\"fromDate\" class=\"form-control\" type=\"date\">\n"
-                + "<div class=\"btn btn-primary\" onclick=\"saveAddEvent()\">Thêm ngày lễ</div>");
-        out.println("<div><div class=\"btn btn-primary\" onclick=\"closeScheduleOfDoctorForm()\">Hủy</div>"
+                + "                                <input id=\"fromDate\" class=\"form-control\" type=\"date\" min=\""+new ScheduleDetailDAO().getCurrentDate()+"\">\n"
+                + "                                <span>Kết thúc vào <span class=\"text-danger\" min=\""+new ScheduleDetailDAO().getCurrentDate()+"\">*</span></span>\n"
+                + "                                <input id=\"toDate\" class=\"form-control\" type=\"date\">\n"
+                + "<p class=\"text-center\" id=\"error-save-add-appointment\"></p>"
+        );
+        out.println("<div class=\"add-leave-btn-part\">"
+                + "<div class=\"btn btn-primary\" onclick=\"saveAddLeave()\">Thêm ngày lễ</div>"
+                + "<div class=\"btn btn-primary\" onclick=\"closeScheduleOfDoctorForm()\">Hủy</div>"
                 + "                            </div></div>\n");
         out.println("</div></div>");
         out.println("</div>\n");
@@ -1052,5 +1077,27 @@ public class AdminManageScheduleDoctor extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private void ajaxFunctionReloadSearchResult(PrintWriter out, ArrayList<Doctor> doctorList, String searchPattern) {
+        if (doctorList.size() == 0) {
+            out.println("<p class=\"text-danger text-center\">Hệ thống không tồn tại bác sĩ có tên " + "\"" + searchPattern + "\"</p>");
+        } else {
+            out.println("        <tr>\n"
+                    + "            <th>ID</th>\n"
+                    + "            <th>Tên</th>\n"
+                    + "            <th>Chi nhánh</th>\n"
+                    + "            <th>Email</th>\n"
+                    + "        </tr>\n");
+            for (Doctor d : doctorList) {
+
+                out.println("            <tr data-doctorId=\"" + d.getId() + "\" data-doctorName=\"" + d.getDisplayName() + "\" onclick=\"onClickChooseDoctor(this)\">\n"
+                        + "                <td>" + d.getId() + "</td>\n"
+                        + "                <td>" + d.getDisplayName() + "</td>\n"
+                        + "                <td>" + d.getBranchName() + "</td>\n"
+                        + "                <td>" + d.getEmail() + "</td>\n"
+                        + "            </tr>\n");
+            }
+        }
+    }
 
 }

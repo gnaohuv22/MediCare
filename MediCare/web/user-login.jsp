@@ -28,7 +28,7 @@
             <div class="account-page">
                 <div class="account-center">
                     <div class="account-box">
-                        <h1 style="font-weight: bold">Login</h1>
+                        <h1 style="font-weight: bold">Đăng nhập</h1>
                         <form action="user-login" method="POST" class="form-signin">
                             <div class="account-logo">
                                 <a href="login"><img src="img/logo.png" alt=""></a>
@@ -38,23 +38,23 @@
                                 <input type="text" autofocus="" value="${sessionScope.email}" name="email" maxlength="32" placeholder="example@example.com" class="form-control">
                             </div>
                             <div class="form-group">
-                                <label>Password</label>
-                                <input type="password" name="password" maxlength="32" placeholder="Password" class="form-control">
+                                <label>Mật khẩu</label>
+                                <input type="password" name="password" maxlength="32" placeholder="Mật khẩu" class="form-control">
                             </div>
                             <div class="form-group text-center">
                                 <p style="color: red">${error}</p>
                             </div>
                             <div class="form-group text-right">
-                                <a href="${pageContext.request.contextPath}/#">Forgot your password?</a>
+                                <a href="${pageContext.request.contextPath}/#">Quên mật khẩu?</a>
                             </div>
                             <div class="form-group text-center">
-                                <button type="submit" class="btn btn-primary account-btn">Login</button>
+                                <button type="submit" class="btn btn-primary account-btn">Đăng nhập</button>
                             </div>
                             <div class="text-center bottom-login">
-                                <a style="color: blue" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:9999/MediCare/user-login-google-handler&response_type=code&client_id=304835980690-njlmvsh5aa80tmn61q83410iutm5s1q9.apps.googleusercontent.com&approval_prompt=force">Login with Google</a>
+                                <a style="color: blue" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:9999/MediCare/user-login-google-handler&response_type=code&client_id=304835980690-njlmvsh5aa80tmn61q83410iutm5s1q9.apps.googleusercontent.com&approval_prompt=force">Đăng nhập với Google</a>
                             </div>
                             <div class="text-center register-link">
-                                Don’t have an account? <a href="${pageContext.request.contextPath}/user-register" style="color: red">Register Now</a>
+                                Bạn chưa có tài khoản? <a href="${pageContext.request.contextPath}/user-register" style="color: red">Đăng ký ngay bây giờ</a>
                             </div>
                         </form>
                     </div>
