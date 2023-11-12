@@ -109,8 +109,8 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Số BHYT</label>
-                                            <h6 style="color: #999">BHYT có 12 chữ số</h6>
-                                            <input class="form-control" type="text" name="medicalId" placeholder="Ví dụ: 012345678910" value="${user.medicalId}" >
+                                            <h6 style="color: #999">BHYT có 10 chữ số</h6>
+                                            <input class="form-control" type="text" name="medicalId" placeholder="Ví dụ: 0123456789" value="${user.medicalId}" >
                                         </div>
                                         <p class="error-notice">${error.getMedicalIdError()}</p>
                                     </div>

@@ -432,10 +432,10 @@ public class AdminUser extends HttpServlet {
                     throw new AdminException.EmptyStringException();
                 }
                 //check length of medicalId
-                if (medicalId.trim().length() != 12) {
-                    throw new AdminException.LackLengthException(12);
+                if (medicalId.trim().length() != 10) {
+                    throw new AdminException.LackLengthException(10);
                 }
-                String pattern = "^\\d{12}$";
+                String pattern = "^\\d{10}$";
                 //check if medicalId is number
                 if (!medicalId.matches(pattern)) {
                     throw new NumberFormatException();
@@ -649,10 +649,10 @@ public class AdminUser extends HttpServlet {
                 if (medicalId.isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
-                if (medicalId.length()!=12){
-                    throw new AdminException.LackLengthException(12);
+                if (medicalId.length()!=10){
+                    throw new AdminException.LackLengthException(10);
                 }
-                String pattern = "^\\d{12}$";
+                String pattern = "^\\d{10}$";
                 //check if medicalId is number
                 if (!medicalId.matches(pattern)) {
                     throw new NumberFormatException();
