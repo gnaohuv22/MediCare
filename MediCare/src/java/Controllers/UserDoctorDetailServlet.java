@@ -26,6 +26,7 @@ import Models.RatingStar;
 import Models.ResearchPapers;
 import Models.Reviews;
 import Models.ServiceTag;
+import jakarta.servlet.http.HttpSession;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -74,6 +75,9 @@ public class UserDoctorDetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String doctorId = request.getParameter("doctorId");
+        HttpSession session = request.getSession();
+        session.removeAttribute("numberOfRatings");
+        session.removeAttribute("overallRating");
 
         DoctorDAO dd = new DoctorDAO();
         Doctor d = dd.getDoctorByDoctorId(doctorId);

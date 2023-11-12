@@ -45,7 +45,7 @@ public class DoctorViewProfileServlet extends HttpServlet {
         } else {
             Doctor d = (Doctor) session.getAttribute("d");
             String doctorId = d.getId();
-            
+
             ServiceTagDAO std = new ServiceTagDAO();
             ReviewsDAO rvd = new ReviewsDAO();
             ExperienceDAO ed = new ExperienceDAO();
@@ -53,10 +53,9 @@ public class DoctorViewProfileServlet extends HttpServlet {
             EducationDAO edd = new EducationDAO();
             ResearchPapersDAO rpd = new ResearchPapersDAO();
             RatingStarDAO rsd = new RatingStarDAO();
-            
+
             ArrayList<ServiceTag> services = std.getServiceTagsByDoctorId(doctorId);
             ArrayList<Reviews> reviews = rvd.getReviewsByDoctorId(doctorId);
-            int numberOfReviews = rvd.numberOfReviews(doctorId);
             int numberOfRatings = rvd.numberOfRatings(doctorId);
             ArrayList<Experience> experiences = ed.getExperiencesOfDoctorByDoctorId(doctorId);
             ArrayList<Awards> awards = awd.getAwardsOfDoctorByDoctorId(doctorId);
@@ -64,19 +63,21 @@ public class DoctorViewProfileServlet extends HttpServlet {
             ArrayList<ResearchPapers> papers = rpd.getResearchPapersOfDoctorByDoctorId(doctorId);
             ArrayList<RatingStar> ratingstars = rsd.getRatingStarInfoByDoctorId(doctorId);
             double overallRating_raw = rsd.overallRating(ratingstars);
-            System.out.println("overallRating_raw: "+ overallRating_raw);
+            System.out.println("overallRating_raw: " + overallRating_raw);
             DecimalFormat df = new DecimalFormat("#.#"); // Định dạng để chỉ hiển thị 1 số sau dấu thập phân
             String overallRating = df.format(overallRating_raw);
 
             request.setAttribute("servicesOfdoctor", services);
             request.setAttribute("reviews", reviews);
-            request.setAttribute("numberOfReviews", String.valueOf(numberOfReviews));
-            request.setAttribute("numberOfRatings", String.valueOf(numberOfRatings));
             request.setAttribute("experiences", experiences);
             request.setAttribute("awards", awards);
             request.setAttribute("education", education);
             request.setAttribute("papers", papers);
-            request.setAttribute("overallRating", overallRating);
+//            request.setAttribute("numberOfRatings", numberOfRatings);
+//            request.setAttribute("overallRating", overallRating);
+
+            session.setAttribute("numberOfRatings", numberOfRatings);
+            session.setAttribute("overallRating", overallRating);
 
             request.getRequestDispatcher("doctor-view-profile.jsp").forward(request, response);
         }

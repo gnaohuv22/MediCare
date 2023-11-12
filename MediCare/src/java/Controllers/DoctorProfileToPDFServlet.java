@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletResponseWrapper;
+import jakarta.servlet.http.HttpSession;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
@@ -32,6 +33,7 @@ public class DoctorProfileToPDFServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/pdf");
+//        HttpSession session = request.getSession();
 
         try {
             //Get HTML string from JSP file
@@ -97,6 +99,8 @@ public class DoctorProfileToPDFServlet extends HttpServlet {
                 sos.write(pdfBytes);
                 sos.flush();
             }
+//            session.removeAttribute("numberOfRatings");
+//            session.removeAttribute("overallRating");
         } catch (ServletException | IOException e) {
             System.out.println("DoctorProfileToPDFServlet: " + e.getMessage());
         }
