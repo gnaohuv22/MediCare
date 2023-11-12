@@ -228,7 +228,7 @@
         <servlet-name>AdminHomePage</servlet-name>
         <url-pattern>/admin-home-page</url-pattern>
     </servlet-mapping>
-    <!--    <servlet>
+        <servlet>
                     <servlet-name>AdminEmployee</servlet-name>
                     <servlet-class>Controllers.AdminEmployee</servlet-class>
                 </servlet>
@@ -355,7 +355,7 @@
                     <servlet-name>DoctorViewProfileServlet</servlet-name>
                     <url-pattern>/view-profile</url-pattern>
                 </servlet-mapping>
-    -->            
+                
     <servlet-mapping>
         <servlet-name>AdminLoginEmployee</servlet-name>
         <url-pattern>/admin-login</url-pattern>
