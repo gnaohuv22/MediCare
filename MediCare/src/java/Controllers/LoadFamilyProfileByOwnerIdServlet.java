@@ -157,6 +157,7 @@ public class LoadFamilyProfileByOwnerIdServlet extends HttpServlet {
                 + "                            <span>Giới tính:</span><span id=\"display-gender\">" + (a.getFp().getGender() != null ? a.getFp().getGender() : "--") + "</span>\n"
                 + "                            <span>Địa chỉ:</span><span id=\"display-address\">" + (a.getFp().getAddress() != null ? a.getFp().getAddress() : "Chưa cập nhật") + "</span>\n"
                 + "                        </div>\n"
+                               + (a.getStatus().equals("0") ? "<button id=\"deleteProfileButton\" onclick=\"openCancelAppointmentForm()\">Hủy cuộc hẹn</button>\n" : "")
                 + "                    </div>";
         return html;
     }

@@ -96,7 +96,7 @@
         <servlet-name>UserBranchDetailServlet</servlet-name>
         <url-pattern>/user-branch-detail</url-pattern>
     </servlet-mapping>
-<!--            <servlet>
+    <!--            <servlet>
         <servlet-name>AdminNews</servlet-name>
         <servlet-class>Controllers.AdminNews</servlet-class>
     </servlet>
@@ -204,7 +204,7 @@
         <servlet-name>DoctorScheduleServlet</servlet-name>
         <url-pattern>/schedule</url-pattern>
     </servlet-mapping>
-<!--    <servlet>
+    <servlet>
         <servlet-name>AdminDoctorController</servlet-name>
         <servlet-class>Controllers.AdminDoctorController</servlet-class>
     </servlet>
@@ -216,10 +216,6 @@
         <servlet-name>AdminLoginEmployee</servlet-name>
         <servlet-class>Controllers.AdminLoginEmployee</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>AdminLoginEmployee</servlet-name>
-        <url-pattern>/admin-login-employee</url-pattern>
-    </servlet-mapping>
     <servlet>
         <servlet-name>AdminHomePage</servlet-name>
         <servlet-class>Controllers.AdminHomePage</servlet-class>
@@ -228,7 +224,7 @@
         <servlet-name>AdminHomePage</servlet-name>
         <url-pattern>/admin-home-page</url-pattern>
     </servlet-mapping>
-    <servlet>
+    <!--    <servlet>
         <servlet-name>AdminEmployee</servlet-name>
         <servlet-class>Controllers.AdminEmployee</servlet-class>
     </servlet>
@@ -301,7 +297,7 @@
         <url-pattern>/user-register-google-handler</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
-        <welcome-file>admin-screen/admin-login.jsp</welcome-file>
+        <welcome-file>user-home</welcome-file>
     </welcome-file-list>
     <servlet-mapping>
         <servlet-name>DoctorReviewServlet</servlet-name>
@@ -354,6 +350,10 @@
     <servlet-mapping>
         <servlet-name>DoctorViewProfileServlet</servlet-name>
         <url-pattern>/view-profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminLoginEmployee</servlet-name>
+        <url-pattern>/admin-login</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

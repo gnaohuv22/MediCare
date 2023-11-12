@@ -729,6 +729,9 @@ public class AppointmentsDAO extends DBContext {
                         status = "Ðã khám xong";
                         break;
                     case 3:
+                        status = "Đã thanh toán";
+                        break;
+                    case 4:
                         status = "Ðã huỷ";
                         break;
                     default:
@@ -984,6 +987,9 @@ public class AppointmentsDAO extends DBContext {
                         status = "Ðã khám xong";
                         break;
                     case 3:
+                        status = "Đã thanh toán";
+                        break;
+                    case 4:
                         status = "Ðã huỷ";
                         break;
                     default:
@@ -1045,6 +1051,9 @@ public class AppointmentsDAO extends DBContext {
                         status = "Ðã khám xong";
                         break;
                     case 3:
+                        status = "Đã thanh toán";
+                        break;
+                    case 4:
                         status = "Ðã huỷ";
                         break;
                     default:
@@ -1077,5 +1086,19 @@ public class AppointmentsDAO extends DBContext {
         }
         return null;
 
+    }
+
+    public boolean cancelAppointmentById(String id) {
+        String SQL = "UPDATE Appointments\n"
+                + "SET status = 4\n"
+                + "WHERE id = ?";
+        try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setInt(1, Integer.parseInt(id));
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("cancelAppointmentById: " + e.getMessage());
+        }
+        return false;
     }
 }

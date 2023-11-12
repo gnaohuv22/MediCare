@@ -57,6 +57,19 @@
                 <div class="profile-display" id="profile-display">
 
                 </div>
+                <div id="deleteForm" class="form-popup">
+                    <form action="user-appointment" class="form-container" method="post">
+                        <div class="form-group">
+                            <p>Bạn có chắc chắn muốn hủy cuộc hẹn này?</p>
+                        </div>
+                        <input type="hidden" name="appointmentId" id="appointmentId" value="">
+                        <input type="hidden" name="method" id="method" value="cancel">
+                        <div class="form-buttons">
+                            <button type="button" id="delete-close-button" onclick="closeCancelAppointmentForm()">Đóng</button>
+                            <button class="button-container" id="delete-submit-button" type="submit">Chắc chắn</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </main>                       
         <jsp:include page="user-footer.jsp"/>
@@ -83,6 +96,24 @@
 
                     }
                 });
+            }
+
+            function openCancelAppointmentForm() {
+                var modal = document.getElementById("deleteForm");
+                modal.style.display = "block";
+                document.getElementById("method").value = "cancel";
+                document.getElementById("appointmentId").value = document.getElementById("appointment-id").textContent;
+                // Close the modal if the user clicks outside of it
+                window.onclick = function (event) {
+                    if (event.target === modal) {
+                        modal.style.display = "none";
+                        document.getElementById("method").value = "cancel";
+                    }
+                };
+            }
+            function closeCancelAppointmentForm() {
+                var modal = document.getElementById("deleteForm");
+                modal.style.display = "none";
             }
 
 // Get the span element

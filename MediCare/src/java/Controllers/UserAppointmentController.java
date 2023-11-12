@@ -5,20 +5,14 @@
 package Controllers;
 
 import DAL.AppointmentsDAO;
-import DAL.FamilyProfileDAO;
-import DAL.RelationshipDAO;
 import DAL.UserDAO;
 import Models.Appointments;
-import Models.FamilyProfile;
-import Models.Relationship;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -87,8 +81,9 @@ public class UserAppointmentController extends HttpServlet {
 
         String search;
         search = request.getParameter("search-appointment");
-
+        
         String ownerId = uDAO.getIdByEmail(String.valueOf(session.getAttribute("email")));
+        String id = request.getParameter("appointmentId");
 
 
         if (session.getAttribute("email") == null){
@@ -109,6 +104,13 @@ public class UserAppointmentController extends HttpServlet {
                         request.setAttribute("aList", aList);
                         request.getRequestDispatcher("user-appointment.jsp").forward(request, response);
                         
+                    }
+                    break;
+                case "cancel":
+                    if(aDAO.cancelAppointmentById(id)){
+                        aList = aDAO.getListAppointmentsByOwnerId(ownerId);
+                        request.setAttribute("aList", aList);
+                        request.getRequestDispatcher("user-appointment.jsp").forward(request, response);
                     }
                     break;
                 default:
