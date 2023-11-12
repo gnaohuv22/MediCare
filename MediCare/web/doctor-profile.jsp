@@ -13,7 +13,7 @@
             }
 
             .profile-title {
-                padding-bottom: 5%;
+                padding-bottom: 30px;
                 color: #2C6975;
                 font-weight: 900;
                 font-size: 28px;
@@ -104,8 +104,8 @@
                                     <p>${d.certificates}</p>
 
                                     <h3><i class="fa-solid fa-magnifying-glass"></i> Đánh giá</h3>
-                                    <p>Số lượng đánh giá: ${numberOfReviews}</p>
-                                    <p>Đánh giá trung bình: ${overallRating} / 5</p>
+                                    <p>Số lượng đánh giá: ${sessionScope.numberOfRatings}</p>
+                                    <p>Đánh giá trung bình: ${sessionScope.overallRating} / 5</p>
                                     <div class="profile-rating">
                                         <p>
                                             <c:set var="rating" value="${overallRating}"></c:set>

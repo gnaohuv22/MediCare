@@ -32,6 +32,7 @@ public class DoctorProfileToPDFServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/pdf");
+//        HttpSession session = request.getSession();
 
         try {
             //Get HTML string from JSP file
@@ -97,6 +98,8 @@ public class DoctorProfileToPDFServlet extends HttpServlet {
                 sos.write(pdfBytes);
                 sos.flush();
             }
+//            session.removeAttribute("numberOfRatings");
+//            session.removeAttribute("overallRating");
         } catch (ServletException | IOException e) {
             System.out.println("DoctorProfileToPDFServlet: " + e.getMessage());
         }
