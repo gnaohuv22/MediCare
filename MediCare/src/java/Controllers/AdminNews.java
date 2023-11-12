@@ -240,17 +240,12 @@ public class AdminNews extends HttpServlet {
             }
             newsCategoryId = request.getParameter("newsCategoryId");
             request.setAttribute("newsCategoryId", newsCategoryId);
-             try {
+             
                 coverImage = request.getParameter("coverImage");
                 request.setAttribute("coverImage", coverImage);
                 //check empty string
-                if (coverImage.trim().isEmpty()) {
-                    throw new AdminException.EmptyStringException();
-                }
-            } catch (AdminException.EmptyStringException e) {
-                error = true;
-                msg.setCoverImageError(e.getMessage());
-            }
+               
+           
 
             try {
                 subtitle = request.getParameter("subtitle");

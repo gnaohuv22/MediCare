@@ -524,6 +524,10 @@ public class AppointmentsDAO extends DBContext {
                 st.setString(9, symptoms);
                 st.setInt(10, Integer.parseInt(profileId));
                 st.execute();
+                emailPatient = emailPatient.trim();
+
+                AdminEmailContext.sendVerificationCodeToEmail(emailPatient, "User book success");
+                AdminEmailContext.sendVerificationCodeToEmail(new DoctorDAO().getDoctorById(doctorId).getEmail(), "You have new appointment!");
                 return true;
             } catch (SQLException | NumberFormatException e) {
                 System.out.println("AppointmentsDAO.addNewAppointment - TH3: " + e);
@@ -581,6 +585,10 @@ public class AppointmentsDAO extends DBContext {
                 st.setString(8, symptoms);
                 st.setInt(9, Integer.parseInt(profileId));
                 st.execute();
+                emailPatient = emailPatient.trim();
+
+                AdminEmailContext.sendVerificationCodeToEmail(emailPatient, "User book success");
+                AdminEmailContext.sendVerificationCodeToEmail(new DoctorDAO().getDoctorById(doctorId).getEmail(), "You have new appointment!");
                 return true;
             } catch (SQLException | NumberFormatException e) {
                 System.out.println("AppointmentsDAO.addNewAppointment - TH6: " + e);
@@ -804,7 +812,7 @@ public class AppointmentsDAO extends DBContext {
         }
         return list.isEmpty() ? list : null;
     }
-    
+
     public ArrayList<Appointments> getListAppointmentByDoctor(String doctorId) {
         String SQL = "SELECT a.id, a.plannedAt, a.status, a.branchId, a.createdAt, a.symptoms, st.id AS 'ServiceID', st.nametag AS 'ServiceName', fp.profileId AS 'ProfileID', fp.email AS 'Email', fp.name AS 'ProfileName', fp.birthDate AS 'DoB', fp.gender AS 'Gender', fp.address AS 'Address', fp.[identity] AS 'IdentityNumber', fp.medicalId AS 'MedicalID', fp.ethnic AS 'Ethnic', fp.phone AS 'PhoneNumber', fp.profilePicture AS 'ProfilePicture' FROM [Appointments] a\n"
                 + "LEFT JOIN [ServiceTag] st ON st.id = a.serviceId\n"
@@ -1025,7 +1033,7 @@ public class AppointmentsDAO extends DBContext {
     }
 
     public ArrayList<Appointments> getListAppointmentsByPhone(String search, String ownerId) {
-                ArrayList<Appointments> list = new ArrayList<>();
+        ArrayList<Appointments> list = new ArrayList<>();
         String SQL = "SELECT a.id,a.status,a.plannedAt,d.displayName,d.profilePicture,fp.profileId,fp.name,\n"
                 + "fp.birthDate,fp.phone,fp.gender,fp.address FROM Appointments a\n"
                 + "JOIN Doctor d ON a.doctorId = d.id\n"

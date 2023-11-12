@@ -16,6 +16,7 @@ import Models.Department;
 import Models.Doctor;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -668,7 +669,6 @@ public class DoctorDAO extends DBContext {
         String SQL = "SELECT email, password FROM [Doctor] WHERE email = ?";
         try ( PreparedStatement pstm = connection.prepareStatement(SQL)) {
             pstm.setString(1, email);
-            byte[] salt = PasswordEncryption.generateSalt();
             ResultSet rs = pstm.executeQuery();
             if (rs.next()) {
                 //get that doctor
@@ -707,6 +707,7 @@ public class DoctorDAO extends DBContext {
         try ( PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
             while (rs.next()) {
                 Doctor d = new Doctor(
@@ -721,7 +722,7 @@ public class DoctorDAO extends DBContext {
                         String.valueOf(rs.getString("introduce")),
                         String.valueOf(rs.getString("workHistory")),
                         String.valueOf(rs.getInt("startYear")),
-                        String.valueOf(rs.getDate("birthDate")),
+                        format.format(rs.getDate("birthDate")),
                         String.valueOf(rs.getString("gender")),
                         String.valueOf(rs.getInt("status")),
                         rs.getString("profilePicture"),
@@ -811,7 +812,8 @@ public class DoctorDAO extends DBContext {
                         rs.getString("workplace"),
                         rs.getString("profilePicture"),
                         String.valueOf(rs.getString("status")),
-                        String.valueOf(rs.getString("Certificates")),
+                        //                        String.valueOf(rs.getString("Certificates")),
+                        DoctorDAO.concatenateNames(rs.getString("Certificates")),
                         rs.getString("branchName"),
                         rs.getString("ARName"),
                         String.valueOf(rs.getString("DepartmentId")),
@@ -869,7 +871,8 @@ public class DoctorDAO extends DBContext {
                         rs.getString(6),
                         rs.getString(7),
                         String.valueOf(rs.getInt(8)),
-                        rs.getString(11),
+                        //                        rs.getString(11),
+                        DoctorDAO.concatenateNames(rs.getString("Certificates")),
                         String.valueOf(rs.getString(9)),
                         rs.getString(10),
                         String.valueOf(rs.getInt(12)),
@@ -928,7 +931,7 @@ public class DoctorDAO extends DBContext {
         String sql = "SELECT d.id, d.displayName FROM Doctor AS d\n"
                 + "JOIN DoctorService AS DS \n"
                 + "ON DS.doctorId = d.id\n"
-                + "WHERE d.branchId = ? AND DS.serviceId = ?";
+                + "WHERE d.branchId = ? AND DS.serviceId = ? AND d.isDelete = 0";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, Integer.parseInt(branchId));

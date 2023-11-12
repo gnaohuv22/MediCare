@@ -448,6 +448,10 @@ button {
     flex-direction: column;
 }
 
+.doctor-rating {
+    margin-top: 10px;
+}
+
 /* Style cho thông tin bác sĩ */
 .doctor-information {
     flex-grow: 1; /* Để phần thông tin bác sĩ mở rộng để lấp đầy khoảng trống còn lại */
@@ -1435,9 +1439,11 @@ ul .tab-component a:hover {
     display: inline-flex;
 }
 
-.fa-star {
+.fa-star,
+.fa-star-half-alt{
     color: #f2ae1c;
 }
+
 .fa-star-grey {
     color: #ccc;
 }

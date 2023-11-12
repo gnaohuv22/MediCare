@@ -302,6 +302,9 @@ public class AdminUser extends HttpServlet {
                 if (email.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
+                if (email.length()>255){
+                    throw new AdminException.LengthException(1, 255);
+                }
                 String regexPattern = "/^([a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z]{2,})+)*$/";
                 if (AdminException.EmailValidation.patternMatches(email, regexPattern)) {
                     error = true;
@@ -316,6 +319,9 @@ public class AdminUser extends HttpServlet {
                 error = true;
                 msg.setEmailError(e.getMessage());
             } catch (AdminException.DuplicateException e) {
+                error = true;
+                msg.setEmailError(e.getMessage());
+            } catch (AdminException.LengthException e) {
                 error = true;
                 msg.setEmailError(e.getMessage());
             }
@@ -338,7 +344,13 @@ public class AdminUser extends HttpServlet {
                 if (name.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
+                if (name.length()>255){
+                    throw new AdminException.LengthException(1, 255);
+                }
             } catch (AdminException.EmptyStringException e) {
+                error = true;
+                msg.setNameError(e.getMessage());
+            } catch (AdminException.LengthException e) {
                 error = true;
                 msg.setNameError(e.getMessage());
             }
@@ -375,7 +387,13 @@ public class AdminUser extends HttpServlet {
                 if (address.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
+                if (address.length()>255){
+                    throw new AdminException.LengthException(1, 255);
+                }
             } catch (AdminException.EmptyStringException e) {
+                error = true;
+                msg.setAddressError(e.getMessage());
+            } catch (AdminException.LengthException e) {
                 error = true;
                 msg.setAddressError(e.getMessage());
             }
@@ -388,9 +406,13 @@ public class AdminUser extends HttpServlet {
                 if (identity.isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
-                Long.parseLong(identity);
                 if (identity.trim().length() != 12) {
                     throw new AdminException.LackLengthException(12);
+                }
+                String pattern = "^\\d{12}$";
+                //check if identity is number
+                if (!identity.matches(pattern)) {
+                    throw new NumberFormatException();
                 }
             } catch (AdminException.EmptyStringException e) {
                 error = true;
@@ -409,11 +431,22 @@ public class AdminUser extends HttpServlet {
                 if (medicalId.isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
-                Long.parseLong(medicalId);
+                //check length of medicalId
+                if (medicalId.trim().length() != 10) {
+                    throw new AdminException.LackLengthException(10);
+                }
+                String pattern = "^\\d{10}$";
+                //check if medicalId is number
+                if (!medicalId.matches(pattern)) {
+                    throw new NumberFormatException();
+                }
             } catch (NumberFormatException e) {
                 error = true;
                 msg.setMedicalIdError("Số BHYT phải là số");
             } catch (AdminException.EmptyStringException e) {
+                error = true;
+                msg.setMedicalIdError(e.getMessage());
+            }catch (AdminException.LackLengthException e){
                 error = true;
                 msg.setMedicalIdError(e.getMessage());
             }
@@ -424,14 +457,19 @@ public class AdminUser extends HttpServlet {
                 if (ethnic.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
+                if (ethnic.length()>255){
+                    throw new AdminException.LengthException(1, 255);
+                }
             } catch (AdminException.EmptyStringException e) {
+                error = true;
+                msg.setEthnicError(e.getMessage());
+            } catch (AdminException.LengthException e) {
                 error = true;
                 msg.setEthnicError(e.getMessage());
             }
             try {
                 phone = request.getParameter("phone");
                 request.setAttribute("phone", phone);
-                Long.parseLong(phone);
                 //check length of phone
                 if (phone.trim().length() != 10) {
                     throw new AdminException.LackLengthException(10);
@@ -529,7 +567,13 @@ public class AdminUser extends HttpServlet {
                 if (name.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
+                if (name.length()>255){
+                    throw new AdminException.LengthException(1, 255);
+                }
             } catch (AdminException.EmptyStringException ex) {
+                error = true;
+                msg.setNameError(ex.getMessage());
+            } catch (AdminException.LengthException ex) {
                 error = true;
                 msg.setNameError(ex.getMessage());
             }
@@ -563,7 +607,13 @@ public class AdminUser extends HttpServlet {
                 if (address.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
+                if (address.length()>255){
+                    throw new AdminException.LengthException(1, 255);
+                }
             } catch (AdminException.EmptyStringException ex) {
+                error = true;
+                msg.setAddressError(ex.getMessage());
+            } catch (AdminException.LengthException ex) {
                 error = true;
                 msg.setAddressError(ex.getMessage());
             }
@@ -575,9 +625,13 @@ public class AdminUser extends HttpServlet {
                 if (identity.isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
-                Long.parseLong(identity);
                 if (identity.trim().length() != 12) {
                     throw new AdminException.LackLengthException(12);
+                }
+                String pattern = "^\\d{12}$";
+                //check if identity is number
+                if (!identity.matches(pattern)) {
+                    throw new NumberFormatException();
                 }
             } catch (AdminException.EmptyStringException ex) {
                 error = true;
@@ -595,7 +649,14 @@ public class AdminUser extends HttpServlet {
                 if (medicalId.isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
-                Long.parseLong(medicalId);
+                if (medicalId.length()!=10){
+                    throw new AdminException.LackLengthException(10);
+                }
+                String pattern = "^\\d{10}$";
+                //check if medicalId is number
+                if (!medicalId.matches(pattern)) {
+                    throw new NumberFormatException();
+                }
             } catch (NumberFormatException ex) {
                 error = true;
                 msg.setMedicalIdError("Số BHYT phải là số");
@@ -603,18 +664,23 @@ public class AdminUser extends HttpServlet {
             } catch (AdminException.EmptyStringException ex) {
                 error = true;
                 msg.setMedicalIdError(ex.getMessage());
+            }catch(AdminException.LackLengthException ex){
+                error = true;
+                msg.setMedicalIdError(ex.getMessage());
             }
-//                catch(AdminException.LackLengthException ex){
-//                    error = true;
-//                    msg.setPhoneError(ex.getMessage());
-//                }
             try {
                 ethnic = request.getParameter("ethnic");
 //                    request.setAttribute("ethnic", ethnic);
                 if (ethnic.trim().isEmpty()) {
                     throw new AdminException.EmptyStringException();
                 }
+                if (ethnic.length()>255){
+                    throw new AdminException.LengthException(1, 255);
+                }
             } catch (AdminException.EmptyStringException ex) {
+                error = true;
+                msg.setEthnicError(ex.getMessage());
+            } catch (AdminException.LengthException ex) {
                 error = true;
                 msg.setEthnicError(ex.getMessage());
             }

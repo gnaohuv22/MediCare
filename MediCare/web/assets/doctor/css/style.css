@@ -66,9 +66,8 @@ h6 {
     font-weight: normal;
     position: relative;
     padding: 0 0 10px 0;
-    font-weight: normal;
     line-height: normal;
-    color: #111111;
+    color: #2C6975;
     margin: 0
 }
 
@@ -1618,3 +1617,57 @@ button {
 .appointment-infor1 p {
     color: gray;
 }
+
+/*------------------------- Style for doctor-profile.jsp -------------------------*/
+
+.container .doctor-profile {
+    padding-top: 15%;
+    padding-bottom: 10%;
+}
+
+/*.doctor-profile p {
+    font-size: 16px;
+}
+
+.profile-title {
+    padding-bottom: 5%;
+    color: #2C6975;
+    font-weight: 900;
+    font-size: 28px;
+}
+
+.profile-picture {
+    width: 200px; 
+    height: 200px; 
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    border: 10px solid #2C6975;
+}
+
+.profile-name {
+    font-weight: bold;
+    color: #2C6975;
+}
+
+.profile-information {
+    color: #2C6975;
+}
+
+.more-information h3,
+.more-information p {
+    color: #2C6975;
+}
+
+.more-information h3 {
+    font-weight: bold;
+}
+
+.profile-specific h3,
+.profile-specific p {
+    color: #2C6975;
+}
+
+.profile-specific h3 {
+    font-weight: bold;
+}*/

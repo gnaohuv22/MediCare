@@ -144,20 +144,26 @@
 
                 // Function to update the appointments
                 function updateAppointments() {
+                    var startDate = new Date($('#startDate').val());
+                    var endDate = new Date($('#endDate').val());
+
                     var checkedStatusBoxes = $('input[name="status"]:checked');
                     var checkedServiceBoxes = $('input[name="service"]:checked');
 
                     // Filter the appointments based on the checkboxes
                     var filteredAppointments = $('.appointment-section').filter(function () {
+                        var appointmentDate = new Date($(this).attr('data-date'));
                         var appointmentStatus = $(this).attr('data-status');
                         var appointmentService = $(this).attr('data-service');
+                        
+                        var matchDate = (appointmentDate >= startDate && appointmentDate <= endDate);
                         var matchStatus = checkedStatusBoxes.length === 0 || Array.from(checkedStatusBoxes).some(function (checkbox) {
                             return checkbox.value === appointmentStatus;
                         });
                         var matchService = checkedServiceBoxes.length === 0 || Array.from(checkedServiceBoxes).some(function (checkbox) {
                             return checkbox.value === appointmentService;
                         });
-                        return matchStatus && matchService;
+                        return matchStatus && matchService && matchDate;
                     });
 
                     // Update the total number of pages
@@ -246,21 +252,6 @@
                 });
 
                 $('#submitDate').click(function () {
-                    var startDate = new Date($('#startDate').val());
-                    var endDate = new Date($('#endDate').val());
-
-                    // Filter the appointments based on the date
-                    var filteredAppointments = $('.appointment-section').filter(function () {
-                        var appointmentDate = new Date($(this).attr('data-date'));
-                        return appointmentDate >= startDate && appointmentDate <= endDate;
-                    });
-
-                    // Hide all appointments
-                    $('.appointment-section').hide();
-
-                    // Show the filtered appointments
-                    filteredAppointments.show();
-
                     // Reset the current page to 1
                     currentPage = 1;
 
@@ -331,7 +322,7 @@
             });
         </script>
 
-        <!-- This script reformat the date of createdAt -->
+        <!-- This script reformat the date of plannedAt -->
         <script>
             function formatDate(dateString)
             {

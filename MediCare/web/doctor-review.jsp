@@ -134,6 +134,9 @@
 
                 // Function to update the reviews
                 function updateReviews() {
+                    var startDate = new Date($('#startDate').val());
+                    var endDate = new Date($('#endDate').val());
+
                     var checkedRatingBoxes = $('input[name="rating"]:checked');
                     var checkedServiceBoxes = $('input[name="service"]:checked');
 
@@ -141,6 +144,9 @@
                     var filteredReviews = $('.review-section').filter(function () {
                         var reviewRating = parseFloat($(this).attr('data-rating'));
                         var reviewService = $(this).attr('data-service');
+                        var reviewDate = new Date($(this).attr('data-date'));
+
+                        var matchDate = (reviewDate >= startDate && reviewDate <= endDate);
                         var matchRating = checkedRatingBoxes.length === 0 || Array.from(checkedRatingBoxes).some(function (checkbox) {
                             var rating = parseFloat(checkbox.value);
                             return rating <= reviewRating && reviewRating < rating + 1;
@@ -148,7 +154,7 @@
                         var matchService = checkedServiceBoxes.length === 0 || Array.from(checkedServiceBoxes).some(function (checkbox) {
                             return checkbox.value === reviewService;
                         });
-                        return matchRating && matchService;
+                        return matchRating && matchService && matchDate;
                     });
 
                     // Update the total number of pages

@@ -6,7 +6,9 @@ package Controllers;
 
 import DAL.ReviewDAO;
 import DAL.SubLevelMenuDAO;
+import Models.Doctor;
 import Models.Reviews;
+import Models.User;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -75,7 +77,7 @@ public class AdminReview extends HttpServlet {
             request.getRequestDispatcher(NEED_EMPLOYEE).forward(request, response);
         } else {
             try {
-                if (request.getParameter("delete-news") != null) {
+                if (request.getParameter("search-review") != null || request.getParameter("delete-news") != null) {
                     throw new AdminException.RedirecUrlException();
                 }
                 //get list review
@@ -95,16 +97,62 @@ public class AdminReview extends HttpServlet {
                 }
                 int recordCount = rdao.countAllReview();
                 int pageCount = (int) Math.ceil(recordCount * 1.0 / recordsPerPage);
+                ArrayList<User> allUser = rdao.getAllUserReview();
+                ArrayList<Doctor> allDoctor = rdao.getAllDoctorReview();
+                request.setAttribute("ALL_USER", allUser);
+                request.setAttribute("ALL_DOCTOR", allDoctor);
                 request.setAttribute("pageCount", pageCount);
                 request.setAttribute("currentPage", page);
                 request.setAttribute("TITLE_REVIEWS", titleList);
                 session.setAttribute("ALL_REVIEW", list);
                 request.getRequestDispatcher(STATISTIC_REVIEW).forward(request, response);
             } catch (AdminException.RedirecUrlException e) {
-                ReviewDAO dao = new ReviewDAO();
-                String id = request.getParameter("id");
-                dao.deleteReview(id);
-                request.getRequestDispatcher(REVIEW_PAGE).forward(request, response);
+                try {
+                    //search review
+                    if (request.getParameter("delete-news") != null) {
+                        throw new AdminException.RedirecUrlException();
+                    }
+                    SubLevelMenuDAO slmDao = new SubLevelMenuDAO();
+                    ReviewDAO rdao = new ReviewDAO();
+                    String searchId = request.getParameter("searchId");
+                    request.setAttribute("searchId", searchId);
+                    String searchUser = request.getParameter("searchUser");
+                    request.setAttribute("searchUser", searchUser);
+                    String searchDoctor = request.getParameter("searchDoctor");
+                    request.setAttribute("searchDoctor", searchDoctor);
+                    String searchOrderBy = request.getParameter("searchOrderBy");
+                    request.setAttribute("searchOrderBy", searchOrderBy);
+                    Reviews review = new Reviews( searchId,  searchUser,  searchDoctor, "", "","","");
+                    int page = 1;
+                    final int recordsPerPage = 5;
+                    //set start page =1
+                    if (request.getParameter("page") != null) {
+                        page = Integer.parseInt(request.getParameter("page"));
+                    }
+                    ArrayList<Reviews> list = rdao.searchListReview(review,searchOrderBy,(page - 1) * recordsPerPage, recordsPerPage);
+                    ArrayList<String> titleList = slmDao.getTitleTable("titleTableReviews");
+                    //insert <th></th>
+                    for (int i = 0; i < titleList.size(); i++) {
+                        titleList.set(i, "<th>" + titleList.get(i) + "</th>");
+                    }
+                    int recordCount = rdao.getNumberRecord();
+                    int pageCount = (int) Math.ceil(recordCount * 1.0 / recordsPerPage);
+                    ArrayList<User> allUser = rdao.getAllUserReview();
+                    ArrayList<Doctor> allDoctor = rdao.getAllDoctorReview();
+                    request.setAttribute("search_review", 1);
+                    request.setAttribute("ALL_USER", allUser);
+                    request.setAttribute("ALL_DOCTOR", allDoctor);
+                    request.setAttribute("pageCount", pageCount);
+                    request.setAttribute("currentPage", page);
+                    request.setAttribute("TITLE_REVIEWS", titleList);
+                    session.setAttribute("ALL_REVIEW", list);
+                    request.getRequestDispatcher(STATISTIC_REVIEW).forward(request, response);
+                } catch (AdminException.RedirecUrlException e2) {
+                    ReviewDAO dao = new ReviewDAO();
+                    String id = request.getParameter("id");
+                    dao.deleteReview(id);
+                    request.getRequestDispatcher(REVIEW_PAGE).forward(request, response);
+                }
             }
         }
     }
