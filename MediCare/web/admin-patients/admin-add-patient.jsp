@@ -101,7 +101,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>Số CCCD</label>
-                                            <h6 style="color: #999">CCCD có 10 chữ số</h6>
+                                            <h6 style="color: #999">CCCD có 12 chữ số</h6>
                                             <input class="form-control" type="text" name="identity" placeholder="Ví dụ: 0123456789" value="${user.identity}" >
                                         </div>
                                         <p class="error-notice">${error.getIdentityError()}</p>
