@@ -7,10 +7,10 @@
 
 
 <!-- Javascript files-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/doctor/js/popper.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/doctor/js/bootstrap.bundle.min.js"></script>
 <!-- Add jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/doctor/js/plugin.js"></script>
 <!-- sidebar -->
 <script src="${pageContext.request.contextPath}/assets/doctor/js/jquery.mCustomScrollbar.concat.min.js"></script>

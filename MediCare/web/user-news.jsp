@@ -40,7 +40,7 @@
                     <div class="row">
                         <div class="col-md-6 text-left">
                             <p>
-                                <i class="fas fa-user"></i> Author: ${n.getAuthor()}
+                                <i class="fas fa-user"></i> Tác giả: ${n.getAuthor()}
                             </p>
                         </div>
                         <div class="col-md-6 text-right">
@@ -99,7 +99,7 @@
                                         <div class="card-body">
                                             <h5 class="card-title">${news.getTitle()}</h5>
                                             <div class=" d-flex flex-column justify-content-center align-items-center">
-                                                <a href="${pageContext.request.contextPath}/news/${top.getHref()}/${news.getCategory().getHref()}/${news.getSlug()}" class="btn btn-primary btn-read-more">Read More</a>
+                                                <a href="${pageContext.request.contextPath}/news/${top.getHref()}/${news.getCategory().getHref()}/${news.getSlug()}" class="btn btn-primary btn-read-more">Đọc thêm</a>
                                             </div>
                                         </div>
                                     </div>
@@ -126,9 +126,8 @@
     </div>
     <!-- display news section -->
     <%@include file="user-footer.jsp" %>
-    <button id="back-to-top" title="Back to top">↑</button>
+    <button id="back-to-top" title="Trở về đầu trang">↑</button>
     <!-- Javascript files-->
-    <%@include file="user-script.jsp" %>
     <script>
         $(window).on('load', function () {
             // Get all images from news content
@@ -142,16 +141,18 @@
             });
 
             // Initialize Fancybox
-            $('[data-fancybox="gallery"]').fancybox({
-                buttons: [
-                    "zoom",
-                    "fullScreen",
-                    "download",
-                    "thumbs",
-                    "close"
-                ],
-                loop: true
-            });
+            if (!$.fancybox.getInstance()) {
+                $('[data-fancybox="gallery"]').fancybox({
+                    buttons: [
+                        "zoom",
+                        "fullScreen",
+                        "download",
+                        "thumbs",
+                        "close"
+                    ],
+                    loop: true
+                });
+            }
             console.log('Fancybox initialized');
         });
     </script>

@@ -6,17 +6,17 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!-- Javascript files-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/doctor/js/popper.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/doctor/js/bootstrap.bundle.min.js"></script>
 <!-- Add jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/doctor/js/plugin.js"></script>
 <!-- sidebar -->
 <script src="${pageContext.request.contextPath}/assets/doctor/js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/doctor/js/custom.js"></script>
 <!-- javascript -->
-<script src="${pageContext.request.contextPath}/assets/doctor/js/owl.carousel.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+<!--<script src="${pageContext.request.contextPath}/assets/doctor/js/owl.carousel.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.js" integrity="sha512-j7/1CJweOskkQiS5RD9W8zhEG9D9vpgByNGxPIqkO5KrXrwyDAroM9aQ9w8J7oRqwxGyz429hPVk/zR6IOMtSA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     $(document).ready(function () {
         $(window).scroll(function () {
